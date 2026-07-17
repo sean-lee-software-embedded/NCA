@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NCA-AIIO 週末衝刺完整教材</title>
+<style>
+@page { size: A4; margin: 12mm 13mm 14mm; }
+:root{
+  --ink:#182230; --muted:#586474; --line:#d9e0e7; --paper:#fff;
+  --soft:#f3f6f8; --accent:#5b7f20; --accent2:#76b900; --navy:#18324a;
+  --warn:#fff6df; --danger:#fff0f0; --good:#edf8e6;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#e9edf1;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;line-height:1.62}
+main{max-width:960px;margin:0 auto;background:var(--paper);padding:42px 58px 64px;box-shadow:0 2px 18px #0002}
+h1,h2,h3,h4{line-height:1.25;color:var(--navy);margin:1.05em 0 .48em}
+h1{font-size:2.35rem} h2{font-size:1.65rem;border-bottom:3px solid var(--accent2);padding-bottom:.25em}
+h3{font-size:1.24rem} h4{font-size:1.04rem}
+p{margin:.45em 0 .85em}
+a{color:#23608e;word-break:break-word}
+small,.muted{color:var(--muted)}
+.cover{min-height:88vh;display:flex;flex-direction:column;justify-content:center;border-top:14px solid var(--accent2)}
+.cover .kicker{font-weight:800;letter-spacing:.1em;color:var(--accent)}
+.cover h1{font-size:3.05rem;margin:.25em 0}
+.cover .sub{font-size:1.25rem;color:var(--muted);max-width:720px}
+.cover .meta{margin-top:3rem;border-left:5px solid var(--accent2);padding-left:1rem}
+.toc{columns:2;column-gap:2rem}
+.toc a{display:block;padding:.18rem 0;text-decoration:none;border-bottom:1px dotted #ccd4dc}
+.chapter{break-before:page;page-break-before:always}
+.no-break{break-inside:avoid;page-break-inside:avoid}
+.card{border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:12px 0;background:#fff}
+.key{border-left:5px solid var(--accent2);background:var(--good)}
+.warn{border-left:5px solid #e5a000;background:var(--warn)}
+.trap{border-left:5px solid #d64a4a;background:var(--danger)}
+.exam{border-left:5px solid #386d9a;background:#edf5fb}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+table{width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:.94rem;break-inside:avoid}
+th,td{border:1px solid var(--line);padding:7px 9px;vertical-align:top}
+th{background:var(--navy);color:#fff;text-align:left}
+tr:nth-child(even) td{background:#f8fafb}
+code,pre{font-family:Consolas,monospace}
+pre{background:#17212b;color:#edf3f7;border-radius:8px;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.diagram{border:1px solid var(--line);background:#f8fafb;border-radius:10px;padding:14px;text-align:center;margin:12px 0;break-inside:avoid}
+.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-weight:700}
+.flow span{border:1px solid #b7c2cc;background:#fff;border-radius:8px;padding:8px 12px}
+.flow b{color:var(--accent)}
+.badge{display:inline-block;background:var(--navy);color:#fff;padding:2px 8px;border-radius:999px;font-size:.78rem;margin-right:5px}
+.q{margin:14px 0;padding:12px 14px;border:1px solid var(--line);border-radius:8px;break-inside:avoid}
+.q strong{color:var(--navy)}
+.answer{background:#f3f7fa;padding:8px 10px;border-radius:6px;margin-top:8px}
+.checklist li{margin:.26em 0}
+.footer-note{margin-top:2rem;font-size:.86rem;color:var(--muted);border-top:1px solid var(--line);padding-top:1rem}
+@media print{
+ body{background:#fff}
+ main{max-width:none;margin:0;padding:0;box-shadow:none}
+ a{color:inherit;text-decoration:none}
+ .screen-only{display:none}
+ h2,h3{break-after:avoid}
+ .card,.q,.diagram,table{break-inside:avoid}
+}
+@media(max-width:720px){
+ main{padding:24px 20px}
+ .grid2,.grid3{grid-template-columns:1fr}
+ .toc{columns:1}
+ .cover h1{font-size:2.25rem}
+}
+</style>
+</head>
+<body><main>
+
+<section class="cover">
+  <div class="kicker">NVIDIA CERTIFICATION PREP</div>
+  <h1>NCA-AIIO 週末衝刺完整教材</h1>
+  <div class="sub">NVIDIA-Certified Associate: AI Infrastructure and Operations<br>
+  不超過 100 頁的考試導向重點整理｜適合 BMC、OpenBMC、Redfish、Linux／Firmware 背景</div>
+  <div class="meta">
+    <b>建議使用方式：</b>週六讀 Part I–III，週日讀 Part IV–VI，最後完成 50 題模擬測驗。<br>
+    <b>版本日期：</b>2026-07-16　｜　<b>閱讀時間：</b>約 12–15 小時
+  </div>
+</section>
+
+<section class="chapter" id="how">
+<h2>如何使用本教材</h2>
+<div class="grid2">
+<div class="card key"><h3>考試目標</h3>
+<p>建立 AI 基礎、GPU/CPU、NVIDIA 軟體堆疊、AI 伺服器、網路、儲存、電力散熱、Kubernetes 與監控的整體觀念。</p></div>
+<div class="card warn"><h3>學習界線</h3>
+<p>Associate 等級重視「辨認角色、選擇合適元件、理解 trade-off」。通常不要求撰寫 CUDA kernel、部署大型 Kubernetes cluster 或進行深度效能調校。</p></div>
+</div>
+<p>NCA-AIIO 官方頁目前列出：Associate 等級、50 題、60 分鐘、考試費 US$125。正式規格可能更新，報名前應再次確認官方頁。</p>
+<div class="card exam"><b>答題節奏：</b>平均每題 72 秒。先完成定義題與直接配對題，情境題標記後再回頭。遇到兩個看似合理選項時，選「最直接解決題目目標」的元件。</div>
+
+<h3>週末時間表</h3>
+<table>
+<tr><th>時段</th><th>內容</th><th>成果</th></tr>
+<tr><td>週六 09:00–12:00</td><td>Ch.1–3：AI/ML、Training/Inference、CPU/GPU</td><td>能畫出 AI 工作流程並說明 GPU 價值</td></tr>
+<tr><td>週六 13:00–17:00</td><td>Ch.4–7：CUDA 生態、TensorRT、NVIDIA 平台</td><td>能完成軟硬體元件配對</td></tr>
+<tr><td>週六 20:00–21:30</td><td>快速複習＋章末題</td><td>錯題清單</td></tr>
+<tr><td>週日 09:00–12:00</td><td>Ch.8–10：網路、儲存、Power/Cooling</td><td>能找出 cluster bottleneck</td></tr>
+<tr><td>週日 13:00–16:00</td><td>Ch.11–13：Kubernetes、GPU Operator、Monitoring</td><td>能區分 BMC 與 in-band operations</td></tr>
+<tr><td>週日 16:15–18:00</td><td>50 題模擬考＋訂正</td><td>80% 以上再安排正式考試</td></tr>
+</table>
+
+<h3>目錄</h3>
+<div class="toc">
+<a href="#c1">1. AI、ML、DL 與 GenAI</a>
+<a href="#c2">2. Training、Inference 與模型生命週期</a>
+<a href="#c3">3. CPU、GPU 與加速運算</a>
+<a href="#c4">4. NVIDIA 軟體堆疊</a>
+<a href="#c5">5. TensorRT 與推論最佳化</a>
+<a href="#c6">6. GPU 架構與記憶體</a>
+<a href="#c7">7. DGX、HGX、MGX、DPU</a>
+<a href="#c8">8. AI Networking</a>
+<a href="#c9">9. AI Storage</a>
+<a href="#c10">10. Data Center Power & Cooling</a>
+<a href="#c11">11. Kubernetes 與 GPU Operator</a>
+<a href="#c12">12. AI Operations、Monitoring、MLOps</a>
+<a href="#c13">13. BMC／Redfish 與 AI Infrastructure</a>
+<a href="#c14">14. 情境題解法與常見陷阱</a>
+<a href="#exam">15. 50 題模擬考</a>
+<a href="#cheat">16. 最終速查表</a>
+<a href="#refs">推薦閱讀與來源</a>
+</div>
+</section>
+
+<section class="chapter" id="c1">
+<h2>1. AI、Machine Learning、Deep Learning 與 GenAI</h2>
+<div class="diagram"><div class="flow"><span>Artificial Intelligence</span><b>⊃</b><span>Machine Learning</span><b>⊃</b><span>Deep Learning</span><b>⊃</b><span>Generative AI / LLM</span></div></div>
+<table>
+<tr><th>名詞</th><th>一句話</th><th>典型例子</th></tr>
+<tr><td>AI</td><td>讓系統執行通常需要人類智慧的任務，是最大範圍。</td><td>規則式專家系統、機器學習、機器人</td></tr>
+<tr><td>ML</td><td>從資料學習 pattern，而不是把所有規則人工寫死。</td><td>詐欺偵測、推薦、預測維護</td></tr>
+<tr><td>DL</td><td>使用多層 neural network 的 ML。</td><td>影像辨識、語音、Transformer</td></tr>
+<tr><td>GenAI</td><td>生成新內容，而非只做分類或預測。</td><td>文字、圖片、程式碼、音訊</td></tr>
+<tr><td>LLM</td><td>以大量資料訓練、處理 token sequence 的大型語言模型。</td><td>摘要、問答、翻譯、程式碼生成</td></tr>
+</table>
+<h3>ML 三種類型</h3>
+<div class="grid3">
+<div class="card"><b>Supervised</b><br>有 label。分類與回歸。</div>
+<div class="card"><b>Unsupervised</b><br>無 label。分群、找 pattern。</div>
+<div class="card"><b>Reinforcement</b><br>透過 reward 學習策略。</div>
+</div>
+<h3>核心詞彙</h3>
+<table>
+<tr><th>詞彙</th><th>意義</th></tr>
+<tr><td>Dataset</td><td>供模型訓練、驗證或測試的資料集合。</td></tr>
+<tr><td>Feature</td><td>模型用來判斷的輸入特徵。</td></tr>
+<tr><td>Label</td><td>supervised learning 的正確答案。</td></tr>
+<tr><td>Parameter / Weight</td><td>training 過程中被調整的模型內部數值。</td></tr>
+<tr><td>Hyperparameter</td><td>訓練前或訓練過程設定，例如 learning rate、batch size。</td></tr>
+<tr><td>Generalization</td><td>模型在沒看過的新資料上仍表現良好。</td></tr>
+<tr><td>Overfitting</td><td>訓練資料表現很好，但真實資料表現差。</td></tr>
+</table>
+<div class="card trap"><b>陷阱：</b>AI 不等於 ML；ML 不等於 DL；LLM 也不等於 ChatGPT。LLM 是模型類型，ChatGPT 是應用／服務。</div>
+<div class="q"><strong>Check 1：</strong>沒有 label、希望把客戶自動分群，應使用哪一類 ML？<div class="answer">答案：Unsupervised learning。</div></div>
+</section>
+
+<section class="chapter" id="c2">
+<h2>2. Training、Inference 與模型生命週期</h2>
+<div class="diagram"><div class="flow"><span>Data</span><b>→</b><span>Training</span><b>→</b><span>Trained Model</span><b>→</b><span>Inference</span><b>→</b><span>Prediction / Content</span></div></div>
+<table>
+<tr><th>比較</th><th>Training</th><th>Inference</th></tr>
+<tr><td>目的</td><td>學習／更新 weights</td><td>使用固定 weights 產生結果</td></tr>
+<tr><td>主要計算</td><td>Forward + loss + backward + update</td><td>通常只有 forward pass</td></tr>
+<tr><td>常見需求</td><td>大量 GPU、資料、網路與 checkpoint</td><td>低 latency、高 throughput、availability、成本效率</td></tr>
+<tr><td>精度</td><td>常需保留足夠精度以維持收斂</td><td>更常使用 FP16、FP8、INT8 等最佳化</td></tr>
+<tr><td>規模</td><td>常為 multi-GPU / multi-node</td><td>可從 edge、單 GPU 到大型服務</td></tr>
+</table>
+<h3>Training loop</h3>
+<pre>Input batch → Forward pass → Loss → Backpropagation → Optimizer updates weights → Repeat</pre>
+<h3>Inference pipeline</h3>
+<pre>Request → Preprocess → Queue/Batch → Model runtime → GPU → Postprocess → Response</pre>
+<h3>重要效能指標</h3>
+<table>
+<tr><th>指標</th><th>意義</th><th>常見 trade-off</th></tr>
+<tr><td>Latency</td><td>單一 request 完成時間</td><td>batch 等待越久，latency 可能越高</td></tr>
+<tr><td>Throughput</td><td>每秒完成多少 samples/requests/tokens</td><td>大 batch 常提高 throughput</td></tr>
+<tr><td>TTFT</td><td>LLM time to first token</td><td>影響使用者感受</td></tr>
+<tr><td>Tokens/s</td><td>LLM 持續產生 token 的速度</td><td>受模型、GPU、memory bandwidth 影響</td></tr>
+<tr><td>Utilization</td><td>GPU 實際忙碌比例</td><td>低 utilization 不一定是 GPU 問題</td></tr>
+</table>
+<div class="card key"><b>考試判斷：</b>題目提到「更新 weights、backpropagation、checkpoint」通常是 training；提到「production request、latency、serving、quantization」通常是 inference。</div>
+<div class="q"><strong>Check 2：</strong>某即時語音服務要降低每個 request 的回應時間，最直接關注哪個指標？<div class="answer">答案：Latency。</div></div>
+</section>
+
+<section class="chapter" id="c3">
+<h2>3. CPU、GPU 與 Accelerated Computing</h2>
+<table>
+<tr><th>比較</th><th>CPU</th><th>GPU</th></tr>
+<tr><td>設計取向</td><td>少量強核心、複雜控制、低單執行緒延遲</td><td>大量平行運算單元、高吞吐</td></tr>
+<tr><td>擅長</td><td>OS、I/O、branch-heavy、general purpose</td><td>matrix/vector、相似操作、大量資料平行</td></tr>
+<tr><td>記憶體</td><td>大容量 DDR、較低頻寬</td><td>HBM/GDDR，高頻寬但容量較有限</td></tr>
+<tr><td>AI 角色</td><td>資料載入、控制、排程、network stack</td><td>training 與 inference compute</td></tr>
+</table>
+<div class="diagram"><div class="flow"><span>CPU：協調與控制</span><b>＋</b><span>GPU：大量平行計算</span><b>＝</b><span>Accelerated System</span></div></div>
+<h3>為什麼 GPU 適合 AI？</h3>
+<p>神經網路大量執行矩陣乘法、卷積、attention 等可平行化數值運算。GPU 可讓大量 thread 對不同資料元素執行相似指令，並利用高 memory bandwidth 餵資料。</p>
+<h3>Amdahl's Law 的直覺</h3>
+<p>只有可平行的部分能被 GPU 大幅加速。若 preprocessing、I/O 或 serial code 佔比高，整體 speedup 仍受限制。</p>
+<div class="card trap"><b>陷阱：</b>「GPU 永遠比 CPU 快」是錯的。小工作、分支很多、資料傳輸成本過高、無法平行化時，CPU 可能更適合。</div>
+<div class="q"><strong>Check 3：</strong>一個 workload 具有大量互不相依的矩陣運算，哪種處理器更合適？<div class="answer">答案：GPU，因為它針對高吞吐平行運算。</div></div>
+</section>
+
+<section class="chapter" id="c4">
+<h2>4. NVIDIA 軟體堆疊：必考角色配對</h2>
+<div class="diagram"><div class="flow"><span>Framework / App</span><b>→</b><span>CUDA-X Libraries</span><b>→</b><span>CUDA Runtime / Driver</span><b>→</b><span>NVIDIA GPU</span></div></div>
+<table>
+<tr><th>元件</th><th>主要角色</th><th>看到什麼關鍵字就選它</th></tr>
+<tr><td>CUDA</td><td>NVIDIA GPU 平行運算平台與 programming model</td><td>general GPU acceleration、kernel、runtime</td></tr>
+<tr><td>cuDNN</td><td>深度神經網路 primitives 的高效能 library</td><td>convolution、activation、deep learning library</td></tr>
+<tr><td>NCCL</td><td>GPU 間 collective communication</td><td>AllReduce、Broadcast、multi-GPU training</td></tr>
+<tr><td>TensorRT</td><td>訓練後模型的 inference optimization/runtime</td><td>low latency、high throughput、quantization、fusion</td></tr>
+<tr><td>TensorRT-LLM</td><td>LLM inference 最佳化工具與 runtime 元件</td><td>LLM serving、KV cache、token generation</td></tr>
+<tr><td>Triton Inference Server</td><td>模型 serving、batching、版本與多 framework backend</td><td>deploy/serve model、HTTP/gRPC、dynamic batching</td></tr>
+<tr><td>NGC</td><td>GPU-optimized containers、models、Helm charts 等 catalog</td><td>prebuilt container/model registry</td></tr>
+<tr><td>DCGM</td><td>Data Center GPU Manager：health、diagnostics、telemetry</td><td>GPU health、ECC、temperature、power、metrics</td></tr>
+<tr><td>DCGM Exporter</td><td>把 DCGM metrics 暴露給 Prometheus</td><td>Prometheus GPU metrics</td></tr>
+<tr><td>CUDA Toolkit</td><td>compiler、libraries、debug/profiling tools</td><td>nvcc、development toolkit</td></tr>
+</table>
+<h3>Framework 與加速 library</h3>
+<p>PyTorch/TensorFlow 是 ML framework；它們可以呼叫 CUDA/cuDNN 等底層元件。不要把 framework、library、driver、hardware 混成同一層。</p>
+<div class="card exam"><b>快速配對：</b><br>
+Inference optimization → TensorRT<br>
+Model serving → Triton<br>
+Multi-GPU collective → NCCL<br>
+GPU monitoring → DCGM<br>
+Kubernetes 自動管理 GPU stack → GPU Operator<br>
+GPU optimized containers/models → NGC</div>
+<div class="q"><strong>Check 4：</strong>分散式 training 中要高效執行 AllReduce，最適合哪個 library？<div class="answer">答案：NCCL。</div></div>
+</section>
+
+<section class="chapter" id="c5">
+<h2>5. TensorRT 與推論最佳化</h2>
+<p>TensorRT 接收已訓練模型，針對 NVIDIA GPU 建立最佳化的 inference engine/runtime 執行路徑。它不是 training framework。</p>
+<div class="diagram"><div class="flow"><span>PyTorch / TensorFlow / ONNX</span><b>→</b><span>TensorRT Build & Optimize</span><b>→</b><span>Engine</span><b>→</b><span>GPU Inference</span></div></div>
+<h3>常見最佳化</h3>
+<table>
+<tr><th>技術</th><th>作用</th><th>注意</th></tr>
+<tr><td>Layer / Tensor Fusion</td><td>合併操作，減少 memory movement 與 kernel launch</td><td>不一定所有 graph 都可融合</td></tr>
+<tr><td>Kernel Auto-tuning</td><td>為目標硬體與 shape 選擇高效 kernel</td><td>建置 engine 可能需要時間</td></tr>
+<tr><td>Quantization</td><td>使用較低精度，降低 memory 與提高吞吐</td><td>需評估 accuracy</td></tr>
+<tr><td>Memory Optimization</td><td>重用 buffer、規劃 tensor memory</td><td>模型 shape 與 concurrency 會影響需求</td></tr>
+<tr><td>Dynamic Shapes</td><td>支援不同輸入尺寸</td><td>需定義 optimization profiles</td></tr>
+</table>
+<h3>Precision</h3>
+<p>FP32 通常精度較高、資源較多；FP16/BF16/FP8/INT8 可降低 memory footprint 並提高效能。精度越低不代表一定越好，必須符合模型 accuracy 與硬體支援。</p>
+<h3>TensorRT vs Triton</h3>
+<table>
+<tr><th>TensorRT</th><th>Triton Inference Server</th></tr>
+<tr><td>最佳化和執行模型</td><td>管理與提供模型服務</td></tr>
+<tr><td>engine、kernel、precision</td><td>request、batching、concurrency、model repository</td></tr>
+<tr><td>可被 Triton backend 使用</td><td>可同時服務 TensorRT、PyTorch、ONNX 等 backend</td></tr>
+</table>
+<div class="q"><strong>Check 5：</strong>需求是透過 HTTP/gRPC 對外服務多個模型版本，應優先選什麼？<div class="answer">答案：Triton Inference Server；TensorRT 可作為其中一種最佳化 backend。</div></div>
+</section>
+
+<section class="chapter" id="c6">
+<h2>6. GPU 架構與記憶體</h2>
+<h3>基本執行階層</h3>
+<div class="diagram"><div class="flow"><span>Grid</span><b>→</b><span>Thread Blocks</span><b>→</b><span>Warps</span><b>→</b><span>Threads</span></div></div>
+<table>
+<tr><th>名詞</th><th>重點</th></tr>
+<tr><td>SM</td><td>Streaming Multiprocessor，GPU 的主要執行單元群組。</td></tr>
+<tr><td>CUDA Core</td><td>執行一般 FP/INT 運算的核心單元。</td></tr>
+<tr><td>Tensor Core</td><td>針對 matrix multiply-accumulate 的加速單元，對 AI 很重要。</td></tr>
+<tr><td>Warp</td><td>一組一起排程的 threads；分支差異會降低效率。</td></tr>
+<tr><td>HBM</td><td>高頻寬 GPU memory，適合大型模型與高資料吞吐。</td></tr>
+</table>
+<h3>Memory hierarchy</h3>
+<table>
+<tr><th>層級</th><th>特性</th></tr>
+<tr><td>Registers</td><td>每個 thread 使用，速度最快、容量小。</td></tr>
+<tr><td>Shared Memory / L1</td><td>block 內共享，低 latency，可減少 global memory 存取。</td></tr>
+<tr><td>L2 Cache</td><td>GPU 跨 SM 共用 cache。</td></tr>
+<tr><td>HBM / Global Memory</td><td>容量大、頻寬高，但 latency 高於 on-chip memory。</td></tr>
+<tr><td>Host Memory / Storage</td><td>更遠；資料搬移可能成 bottleneck。</td></tr>
+</table>
+<h3>Compute-bound vs Memory-bound</h3>
+<p>Compute-bound：運算單元已飽和；Memory-bound：GPU 等資料，memory bandwidth 或資料存取成為限制。增加 FLOPS 不一定能解決 memory-bound workload。</p>
+<div class="card key"><b>AI 常見限制：</b>模型大小受 GPU memory capacity 影響；運算速度常受 memory bandwidth、interconnect、batch size 與 precision 影響。</div>
+<div class="q"><strong>Check 6：</strong>GPU compute utilization 不高，但 memory bandwidth 已接近滿載，這較像哪一類 bottleneck？<div class="answer">答案：Memory-bound。</div></div>
+</section>
+
+<section class="chapter" id="c7">
+<h2>7. DGX、HGX、MGX、NVLink、NVSwitch 與 DPU</h2>
+<table>
+<tr><th>平台／元件</th><th>定位</th><th>直覺理解</th></tr>
+<tr><td>DGX</td><td>NVIDIA 完整 AI 系統</td><td>整機產品：compute、network、software、support 組合</td></tr>
+<tr><td>HGX</td><td>高密度多 GPU baseboard/reference platform</td><td>由 OEM/ODM 整合成伺服器</td></tr>
+<tr><td>MGX</td><td>模組化 server architecture</td><td>讓廠商以共同架構配置不同 CPU/GPU/DPU</td></tr>
+<tr><td>NVLink</td><td>高頻寬 GPU/CPU-GPU 互連技術</td><td>比一般 PCIe 更適合大量加速器資料交換</td></tr>
+<tr><td>NVSwitch</td><td>讓多顆 GPU 透過 NVLink 高頻寬互連</td><td>GPU fabric switch</td></tr>
+<tr><td>BlueField DPU</td><td>基礎設施處理器，offload network/storage/security</td><td>讓 CPU 更專注 application，隔離 infrastructure services</td></tr>
+<tr><td>DOCA</td><td>BlueField DPU 軟體開發框架／SDK 生態</td><td>DPU software platform</td></tr>
+</table>
+<h3>PCIe、NVLink 的角色</h3>
+<p>PCIe 是通用 I/O interconnect，連接 CPU、GPU、NIC、NVMe；NVLink 聚焦高頻寬 accelerator communication。它們可同時存在，並非只能二選一。</p>
+<h3>DPU 的價值</h3>
+<ul class="checklist">
+<li>Network packet processing 與 virtual switching offload</li>
+<li>Storage services 與 data path acceleration</li>
+<li>Security、encryption、zero-trust isolation</li>
+<li>將 infrastructure control plane 與 tenant/application 隔離</li>
+</ul>
+<div class="card trap"><b>陷阱：</b>DPU 不是用來取代 GPU 做模型 training。DPU 處理 infrastructure data path；GPU 處理 accelerated compute。</div>
+<div class="q"><strong>Check 7：</strong>OEM 想用 NVIDIA 多 GPU baseboard 整合自己的 server，最貼近哪個平台？<div class="answer">答案：HGX。</div></div>
+</section>
+
+<section class="chapter" id="c8">
+<h2>8. AI Networking：Ethernet、InfiniBand、RDMA、RoCE</h2>
+<table>
+<tr><th>技術</th><th>用途／特色</th></tr>
+<tr><td>Ethernet</td><td>廣泛、成熟、與既有 data center 相容；AI cluster 可使用高速 Ethernet。</td></tr>
+<tr><td>InfiniBand</td><td>高吞吐、低 latency、成熟 RDMA 與 HPC/AI fabric 能力。</td></tr>
+<tr><td>RDMA</td><td>讓一台主機直接存取另一台主機 memory，降低 CPU involvement 與 copy。</td></tr>
+<tr><td>RoCE</td><td>在 Ethernet 上提供 RDMA；通常需要良好 lossless/congestion 設計。</td></tr>
+<tr><td>GPUDirect RDMA</td><td>NIC 與 GPU memory 更直接交換資料，降低 host staging overhead。</td></tr>
+<tr><td>NCCL</td><td>在可用 interconnect 上提供 GPU collective operations。</td></tr>
+</table>
+<h3>Collective communication</h3>
+<table>
+<tr><th>Operation</th><th>意義</th></tr>
+<tr><td>Broadcast</td><td>一個 rank 的資料傳給所有 ranks。</td></tr>
+<tr><td>Reduce</td><td>多個 ranks 的資料聚合到一個 rank。</td></tr>
+<tr><td>AllReduce</td><td>聚合後讓所有 ranks 都取得結果；分散式 training 常見。</td></tr>
+<tr><td>AllGather</td><td>每個 rank 收集所有 ranks 的資料。</td></tr>
+<tr><td>ReduceScatter</td><td>先 reduce，再把結果分片給各 rank。</td></tr>
+</table>
+<h3>為什麼 network 會限制 training？</h3>
+<p>資料平行 training 中，各 GPU 必須同步 gradients。當 GPU 計算越快、node 越多，communication overhead 越容易成為 scaling bottleneck。</p>
+<div class="card exam"><b>題目線索：</b>低 latency、HPC、native fabric → InfiniBand；既有 Ethernet、希望 RDMA → RoCE；multi-GPU gradients → NCCL/AllReduce；繞過 CPU copy → GPUDirect RDMA。</div>
+<div class="q"><strong>Check 8：</strong>分散式 training 每一步需要所有 GPU 取得合併後 gradient，對應哪個 collective？<div class="answer">答案：AllReduce。</div></div>
+</section>
+
+<section class="chapter" id="c9">
+<h2>9. AI Storage：Dataset、Checkpoint 與 Feeding the GPU</h2>
+<div class="diagram"><div class="flow"><span>Persistent Storage</span><b>→</b><span>Network / Data Fabric</span><b>→</b><span>Host Memory</span><b>→</b><span>GPU Memory</span><b>→</b><span>Compute</span></div></div>
+<h3>Training 與 Inference 的儲存需求</h3>
+<table>
+<tr><th>面向</th><th>Training</th><th>Inference</th></tr>
+<tr><td>主要資料</td><td>大型 dataset、checkpoint、logs</td><td>model weights、artifacts、input/output、cache</td></tr>
+<tr><td>I/O 模式</td><td>大量 parallel reads、periodic large writes</td><td>快速 model loading、scale-out、多版本</td></tr>
+<tr><td>失敗恢復</td><td>checkpoint/restart 非常重要</td><td>model replica、availability、快速重啟</td></tr>
+<tr><td>常見瓶頸</td><td>metadata、small files、aggregate throughput</td><td>cold start、concurrent loading、capacity</td></tr>
+</table>
+<h3>Storage 類型</h3>
+<table>
+<tr><th>類型</th><th>適合情境</th></tr>
+<tr><td>Local NVMe</td><td>低 latency cache/scratch；但 node-local、持久性與共享要另外設計。</td></tr>
+<tr><td>Parallel File System</td><td>大量 clients 與高 aggregate throughput，例如大型 training。</td></tr>
+<tr><td>Object Storage</td><td>大量非結構化資料、容量與 durability；常搭配 caching/data pipeline。</td></tr>
+<tr><td>NFS</td><td>簡單共享、較小規模；大型並行 workload 需確認效能。</td></tr>
+</table>
+<h3>GPU starvation</h3>
+<p>GPU utilization 低可能是 storage throughput 不足、data loader 太慢、network congestion、CPU preprocessing 或小檔 metadata overhead，而不是 GPU 故障。</p>
+<div class="card key"><b>規劃原則：</b>Compute、network、storage 要一起 scale。只增加 GPU，資料供應能力不變，投資報酬率會快速下降。</div>
+<div class="q"><strong>Check 9：</strong>多 GPU training 時 GPU 經常等待下一批資料，第一步應檢查哪些層？<div class="answer">答案：Storage throughput、data pipeline、network、CPU preprocessing 與 data loader。</div></div>
+</section>
+
+<section class="chapter" id="c10">
+<h2>10. Data Center Power、Cooling 與 Facility</h2>
+<h3>為什麼 AI rack 特別困難？</h3>
+<ul class="checklist">
+<li>GPU 數量與單顆功耗高，rack power density 大幅提升。</li>
+<li>持續高負載使平均功耗接近峰值，不能只看 nameplate。</li>
+<li>電力、PDU、UPS、busway、冷卻與網路必須共同規劃。</li>
+<li>高溫、降頻、電力限制會直接影響 training time 與 throughput。</li>
+</ul>
+<h3>Air cooling vs Liquid cooling</h3>
+<table>
+<tr><th>項目</th><th>Air Cooling</th><th>Liquid Cooling</th></tr>
+<tr><td>優點</td><td>成熟、維護習慣普遍</td><td>高熱密度效率較佳、可降低風扇需求</td></tr>
+<tr><td>限制</td><td>高密度 rack 可能受限</td><td>CDU、管路、漏液偵測、facility 改造</td></tr>
+<tr><td>監控</td><td>inlet/outlet temp、fan、airflow</td><td>flow、pressure、supply/return temp、leak</td></tr>
+</table>
+<h3>Power metrics</h3>
+<table>
+<tr><th>指標</th><th>意義</th></tr>
+<tr><td>Power draw</td><td>即時／平均功耗。</td></tr>
+<tr><td>Power cap</td><td>限制元件或系統功耗，通常以效能換電力／散熱裕度。</td></tr>
+<tr><td>PUE</td><td>Facility total energy ÷ IT equipment energy；越接近 1 越有效率。</td></tr>
+<tr><td>Thermal throttling</td><td>溫度超過門檻時降低 clock，以保護硬體。</td></tr>
+</table>
+<div class="card trap"><b>陷阱：</b>Power capping 不等於關機。它是控制功耗與效能的手段；若 thermal/power emergency 才可能觸發更嚴格保護。</div>
+<div class="q"><strong>Check 10：</strong>GPU 溫度升高且 clock 自動下降，最可能是哪種現象？<div class="answer">答案：Thermal throttling。</div></div>
+</section>
+
+<section class="chapter" id="c11">
+<h2>11. Kubernetes 與 NVIDIA GPU Operator</h2>
+<h3>Kubernetes 基本物件</h3>
+<table>
+<tr><th>物件</th><th>用途</th></tr>
+<tr><td>Node</td><td>執行 workload 的主機。</td></tr>
+<tr><td>Pod</td><td>Kubernetes 最小部署單位，可包含一個或多個 containers。</td></tr>
+<tr><td>Deployment</td><td>維持 replica、rolling update 等。</td></tr>
+<tr><td>DaemonSet</td><td>通常讓每個符合條件的 node 執行一個 Pod，適合 node agent。</td></tr>
+<tr><td>Service</td><td>為 Pods 提供穩定網路入口。</td></tr>
+<tr><td>Operator</td><td>把 domain knowledge 寫入 controller，持續調整 actual state。</td></tr>
+</table>
+<h3>GPU Operator 管理什麼？</h3>
+<div class="diagram"><div class="flow"><span>GPU Operator</span><b>→</b><span>Driver</span><b>＋</b><span>Container Toolkit</span><b>＋</b><span>Device Plugin</span><b>＋</b><span>DCGM Exporter</span></div></div>
+<ul class="checklist">
+<li>NVIDIA Driver lifecycle（依部署模式可能使用 host preinstalled driver）</li>
+<li>NVIDIA Container Toolkit：container 存取 GPU</li>
+<li>Kubernetes Device Plugin：向 scheduler 暴露 GPU resource</li>
+<li>GPU Feature Discovery / Node labels</li>
+<li>DCGM Exporter：Prometheus metrics</li>
+<li>MIG Manager 等進階元件</li>
+</ul>
+<h3>Device Plugin</h3>
+<pre>resources:
+  limits:
+    nvidia.com/gpu: 1</pre>
+<p>Device Plugin 讓 Kubernetes 辨識並分配 GPU。它不是 GPU driver，也不是 monitoring system。</p>
+<h3>MIG</h3>
+<p>Multi-Instance GPU 可把支援的 GPU 分割為具隔離資源的 instances，提高多租戶與小型 workload 利用率。MIG 不等於 time slicing；前者提供硬體層級資源分割，後者是時間共享。</p>
+<div class="card key"><b>Operator 核心：</b>宣告 desired state，controller 持續觀察 actual state 並修正，不只是一次性安裝 script。</div>
+<div class="q"><strong>Check 11：</strong>希望自動一致地在大量 Kubernetes GPU nodes 部署 driver、device plugin 與 monitoring 元件，最適合什麼？<div class="answer">答案：NVIDIA GPU Operator。</div></div>
+</section>
+
+<section class="chapter" id="c12">
+<h2>12. AI Operations、Monitoring、Scheduling 與 MLOps</h2>
+<h3>Operations 的四個循環</h3>
+<div class="diagram"><div class="flow"><span>Provision</span><b>→</b><span>Deploy</span><b>→</b><span>Observe</span><b>→</b><span>Optimize / Repair</span></div></div>
+<h3>監控層級</h3>
+<table>
+<tr><th>層級</th><th>常見指標</th><th>工具例子</th></tr>
+<tr><td>Facility</td><td>rack power、cooling、PUE</td><td>DCIM/BMS</td></tr>
+<tr><td>Hardware/OOB</td><td>power、fans、temperature、PSU、FRU</td><td>BMC、Redfish、IPMI</td></tr>
+<tr><td>GPU in-band</td><td>utilization、memory、ECC、XID、power、clock</td><td>DCGM、nvidia-smi</td></tr>
+<tr><td>Cluster</td><td>node readiness、GPU allocation、job queue</td><td>Kubernetes、scheduler</td></tr>
+<tr><td>Application</td><td>latency、throughput、errors、accuracy</td><td>Triton metrics、APM</td></tr>
+</table>
+<h3>Scheduling</h3>
+<ul class="checklist">
+<li>Bin packing：提高資源利用率。</li>
+<li>Gang scheduling：分散式 job 所需多個資源同時就緒才啟動。</li>
+<li>Topology awareness：把需要密集 communication 的 GPU 放在較佳拓撲。</li>
+<li>Queue / priority / quota：公平性與重要任務優先。</li>
+</ul>
+<h3>MLOps</h3>
+<p>MLOps 把資料、模型與 deployment lifecycle 系統化：data/version control、training pipeline、validation、model registry、deployment、monitoring、drift、rollback。它不只是 DevOps 換名字，因為還必須管理資料與模型品質。</p>
+<h3>Fault domains 與 availability</h3>
+<p>設計 replica、node/rack/fabric fault domain、checkpoint、rolling upgrade、health checks，避免單一元件失效讓整個 AI service 中斷。</p>
+<div class="q"><strong>Check 12：</strong>模型 latency 正常但 accuracy 隨時間下降，最應關注哪類問題？<div class="answer">答案：Data/model drift 與模型品質監控，而不只是 GPU health。</div></div>
+</section>
+
+<section class="chapter" id="c13">
+<h2>13. BMC／Redfish 與 AI Infrastructure：你的優勢章</h2>
+<table>
+<tr><th>你熟悉的領域</th><th>AI Infrastructure 對應</th></tr>
+<tr><td>Sensor / Telemetry</td><td>GPU/CPU temperature、power、fans、PSU、liquid cooling telemetry</td></tr>
+<tr><td>Redfish</td><td>Inventory、health、firmware、power、thermal、event、telemetry</td></tr>
+<tr><td>Firmware update</td><td>BMC、BIOS、CPLD、NIC/DPU、GPU-related firmware lifecycle</td></tr>
+<tr><td>Power capping</td><td>rack power budget、GPU performance/power trade-off</td></tr>
+<tr><td>SEL / Event</td><td>hardware fault、thermal/power event、predictive maintenance</td></tr>
+<tr><td>NCSI / Network</td><td>OOB management path 與 data network 分離</td></tr>
+</table>
+<h3>OOB 與 in-band 的邊界</h3>
+<div class="grid2">
+<div class="card"><b>BMC / Redfish（OOB）</b><br>Host OS 壞掉仍可能管理；硬體 inventory、power、thermal、firmware、event。</div>
+<div class="card"><b>DCGM / Kubernetes（in-band）</b><br>依賴 host OS/cluster；GPU runtime health、utilization、jobs、containers、application。</div>
+</div>
+<h3>完整可觀測性</h3>
+<pre>Facility → Rack/PDU → BMC/Redfish → Host OS → DCGM → Kubernetes → AI Application</pre>
+<p>真正的 root cause analysis 要跨層。例如 application latency 升高，可能是 GPU throttling、network congestion、storage starvation、scheduler contention 或模型本身改變。</p>
+<h3>面試表達</h3>
+<div class="card key">「我原本管理的是一般 server 的 power、thermal、sensor、firmware 與 Redfish lifecycle；AI server 將同樣的管理面擴大到高功耗 GPU、DPU、高速 fabric 和液冷，並需要與 DCGM/Kubernetes 的 in-band telemetry 關聯。」</div>
+<div class="q"><strong>Check 13：</strong>Host OS kernel panic 後仍需要遠端 power cycle，應依賴哪一層？<div class="answer">答案：BMC/OOB management，而不是 GPU Operator。</div></div>
+</section>
+
+<section class="chapter" id="c14">
+<h2>14. 情境題解法與常見陷阱</h2>
+<h3>四步解題法</h3>
+<ol>
+<li><b>找目標：</b>是效能、部署、監控、硬體管理、網路還是儲存？</li>
+<li><b>找層級：</b>Model、runtime、node、cluster、OOB、facility？</li>
+<li><b>找關鍵字：</b>AllReduce、serving、Prometheus、firmware、latency 等。</li>
+<li><b>排除越界選項：</b>不要用 monitoring 工具解 deployment；不要用 BMC 解 model drift。</li>
+</ol>
+<table>
+<tr><th>題目需求</th><th>最直接答案</th><th>常見誤選</th></tr>
+<tr><td>Inference graph/precision 最佳化</td><td>TensorRT</td><td>Triton、NCCL</td></tr>
+<tr><td>對外服務與管理多模型</td><td>Triton</td><td>TensorRT</td></tr>
+<tr><td>GPU metrics 給 Prometheus</td><td>DCGM Exporter</td><td>GPU Operator（它可部署 exporter，但不是 metrics source 本身）</td></tr>
+<tr><td>K8s GPU stack lifecycle</td><td>GPU Operator</td><td>DCGM</td></tr>
+<tr><td>硬體 OOB power/thermal</td><td>BMC/Redfish</td><td>Kubernetes</td></tr>
+<tr><td>Multi-GPU collective</td><td>NCCL</td><td>CUDA Driver</td></tr>
+<tr><td>GPU 直接高效 network data path</td><td>GPUDirect RDMA</td><td>NFS</td></tr>
+<tr><td>模型 accuracy 隨時間下降</td><td>Drift / MLOps monitoring</td><td>只看 GPU utilization</td></tr>
+</table>
+<h3>十個高頻陷阱</h3>
+<ol>
+<li>TensorRT 是 inference，不是 training。</li>
+<li>Triton 是 serving，不是 GPU driver。</li>
+<li>NCCL 是 collective communication，不是 network hardware。</li>
+<li>GPU Operator 管 software lifecycle，不取代 BMC。</li>
+<li>DCGM 是 GPU management/telemetry，不是整個 application APM。</li>
+<li>低 GPU utilization 不代表 GPU 故障。</li>
+<li>InfiniBand 與 Ethernet 都可用於 AI；依需求選擇。</li>
+<li>GPU memory capacity 與 bandwidth 是不同限制。</li>
+<li>Power cap 會影響 performance，但未必造成 shutdown。</li>
+<li>MIG 是 partition；不是把多張 GPU 合成一張。</li>
+</ol>
+</section>
+
+<section class="chapter" id="exam">
+<h2>15. 50 題模擬考</h2>
+<p><b>作答方式：</b>設定 60 分鐘，不查資料。每題單選。完成後使用後方答案表訂正。</p>
+<div id="questions">
+<div class="q"><strong>1. 哪個敘述最正確？</strong><br>A. Deep learning 是 AI 的上位集合<br>B. ML 是 AI 的子集合<br>C. 所有 AI 都會從資料學習<br>D. LLM 等於聊天應用</div>
+<div class="q"><strong>2. Training 與 inference 的主要差異是？</strong><br>A. Inference 會更新 weights<br>B. Training 通常包含 backpropagation<br>C. Training 不需要資料<br>D. Inference 一定只用 CPU</div>
+<div class="q"><strong>3. 即時服務最直接關心哪個指標？</strong><br>A. Latency<br>B. Checkpoint size<br>C. Epoch count<br>D. Training loss</div>
+<div class="q"><strong>4. 哪個 workload 最適合 GPU？</strong><br>A. 大量可平行矩陣運算<br>B. 高度序列化且分支密集<br>C. 只執行單一小型 shell command<br>D. BIOS setup</div>
+<div class="q"><strong>5. 哪個元件負責一般 NVIDIA GPU computing platform？</strong><br>A. CUDA<br>B. NCCL<br>C. Redfish<br>D. NFS</div>
+<div class="q"><strong>6. 哪個 library 用於 multi-GPU AllReduce？</strong><br>A. cuDNN<br>B. NCCL<br>C. TensorRT<br>D. DCGM</div>
+<div class="q"><strong>7. 哪個元件主要做 inference optimization？</strong><br>A. TensorRT<br>B. Triton<br>C. GPU Operator<br>D. BMC</div>
+<div class="q"><strong>8. 哪個元件主要對外提供模型 serving？</strong><br>A. Triton Inference Server<br>B. NVSwitch<br>C. DCGM<br>D. CUDA Driver</div>
+<div class="q"><strong>9. 哪個服務提供 GPU-optimized containers/models catalog？</strong><br>A. NGC<br>B. NFS<br>C. MIG<br>D. BMC</div>
+<div class="q"><strong>10. 哪個元件最直接提供 GPU health/telemetry？</strong><br>A. DCGM<br>B. Triton<br>C. TensorRT<br>D. Helm</div>
+<div class="q"><strong>11. 量化的主要好處是？</strong><br>A. 一定提高 accuracy<br>B. 降低 memory/提高 throughput 的可能性<br>C. 讓模型重新 training<br>D. 取代 network</div>
+<div class="q"><strong>12. FP16 相較 FP32 通常如何？</strong><br>A. 使用更多 memory<br>B. 可能有較高 throughput與較低 memory<br>C. 一定完全無精度差異<br>D. 只能在 CPU 執行</div>
+<div class="q"><strong>13. TensorRT layer fusion 的目的？</strong><br>A. 增加 network hops<br>B. 減少中間操作與 memory movement<br>C. 產生 training labels<br>D. 管理 Kubernetes</div>
+<div class="q"><strong>14. GPU 中專門加速 matrix operation 的單元？</strong><br>A. Tensor Core<br>B. BMC<br>C. NIC PHY<br>D. PCH</div>
+<div class="q"><strong>15. 模型太大無法放入單張 GPU，首先反映哪個限制？</strong><br>A. GPU memory capacity<br>B. PUE<br>C. DNS<br>D. Label quality</div>
+<div class="q"><strong>16. NVLink 的主要角色？</strong><br>A. 高頻寬 accelerator interconnect<br>B. Object storage protocol<br>C. K8s scheduler<br>D. Model registry</div>
+<div class="q"><strong>17. NVSwitch 的主要角色？</strong><br>A. 多 GPU NVLink fabric switching<br>B. CPU cache<br>C. Power supply<br>D. File system</div>
+<div class="q"><strong>18. OEM/ODM 要整合 NVIDIA 多 GPU baseboard，較接近？</strong><br>A. HGX<br>B. Triton<br>C. DCGM<br>D. MLOps</div>
+<div class="q"><strong>19. 完整 NVIDIA AI system 產品定位較接近？</strong><br>A. DGX<br>B. NCCL<br>C. RoCE<br>D. CUDA Core</div>
+<div class="q"><strong>20. BlueField DPU 主要做什麼？</strong><br>A. 模型 matrix training<br>B. Network/storage/security offload<br>C. 取代 HBM<br>D. 產生 labels</div>
+<div class="q"><strong>21. DOCA 與哪個硬體關係最密切？</strong><br>A. BlueField DPU<br>B. BMC EEPROM<br>C. CPU fan<br>D. SATA HDD</div>
+<div class="q"><strong>22. RDMA 的核心價值？</strong><br>A. 增加人工 copy<br>B. 低 CPU involvement 的 remote memory access<br>C. 只支援 Wi-Fi<br>D. 模型量化</div>
+<div class="q"><strong>23. 在 Ethernet 上實現 RDMA 通常稱為？</strong><br>A. RoCE<br>B. NFS<br>C. MIG<br>D. PUE</div>
+<div class="q"><strong>24. GPU 與 NIC 直接高效交換資料的技術？</strong><br>A. GPUDirect RDMA<br>B. SEL<br>C. DHCP<br>D. RAID 1</div>
+<div class="q"><strong>25. 分散式 training 同步 gradients 常使用？</strong><br>A. AllReduce<br>B. Broadcast only<br>C. DNS<br>D. REST PATCH</div>
+<div class="q"><strong>26. GPU 等待 dataset 導致低 utilization，最可能是哪類問題？</strong><br>A. Data pipeline/storage bottleneck<br>B. 一定是 GPU core 壞掉<br>C. 只有 accuracy 問題<br>D. 證書過期</div>
+<div class="q"><strong>27. Training storage 特別需要？</strong><br>A. Parallel throughput與checkpoint<br>B. 只需單一小檔案<br>C. 不需 durability<br>D. 只需 BIOS flash</div>
+<div class="q"><strong>28. Inference scale-out 時大量 instances 同時載入模型，需關注？</strong><br>A. Model loading/cold start<br>B. Training label<br>C. BIOS password<br>D. Fan color</div>
+<div class="q"><strong>29. 只增加 GPU、storage 不擴充，可能造成？</strong><br>A. GPU starvation<br>B. 一定線性加速<br>C. PUE 變 1<br>D. 無任何影響</div>
+<div class="q"><strong>30. PUE 的定義是？</strong><br>A. IT energy / facility energy<br>B. Facility total energy / IT equipment energy<br>C. GPU power / CPU power<br>D. Latency / throughput</div>
+<div class="q"><strong>31. 溫度過高造成 clock 下降稱為？</strong><br>A. Thermal throttling<br>B. Model drift<br>C. Quantization<br>D. AllGather</div>
+<div class="q"><strong>32. Power capping 通常代表？</strong><br>A. 限制功耗並可能犧牲效能<br>B. 一定立即關機<br>C. 增加模型參數<br>D. 更換 label</div>
+<div class="q"><strong>33. Kubernetes 最小部署單位？</strong><br>A. Pod<br>B. Rack<br>C. GPU core<br>D. Checkpoint</div>
+<div class="q"><strong>34. 每個 node 執行一個 agent 常用？</strong><br>A. DaemonSet<br>B. Service only<br>C. Dataset<br>D. Tensor Core</div>
+<div class="q"><strong>35. GPU Operator 的主要價值？</strong><br>A. 自動管理 K8s GPU software stack lifecycle<br>B. 取代所有 BMC<br>C. 訓練 LLM<br>D. 提供 object storage</div>
+<div class="q"><strong>36. K8s Device Plugin 的角色？</strong><br>A. 把 GPU resource 暴露給 scheduler<br>B. 提供液冷<br>C. 最佳化 ONNX graph<br>D. 管理 PSU</div>
+<div class="q"><strong>37. NVIDIA Container Toolkit 的角色？</strong><br>A. 讓 container 存取 NVIDIA GPU<br>B. 建立 labels<br>C. 更換 firmware<br>D. 提供 RDMA switch</div>
+<div class="q"><strong>38. DCGM Exporter 通常搭配？</strong><br>A. Prometheus<br>B. BIOS<br>C. SAS HDD<br>D. Email only</div>
+<div class="q"><strong>39. MIG 的主要目的？</strong><br>A. 把支援 GPU 分割為隔離 instances<br>B. 將多張 GPU 合為一張<br>C. 取代 NVLink<br>D. 只監控 temperature</div>
+<div class="q"><strong>40. Gang scheduling 適合？</strong><br>A. 需要多個資源同時到位的 distributed job<br>B. 單一文字檔<br>C. BIOS boot menu<br>D. Redfish schema</div>
+<div class="q"><strong>41. Topology-aware scheduling 的好處？</strong><br>A. 改善需要密集通訊的 workload placement<br>B. 增加模型 overfitting<br>C. 刪除 checkpoint<br>D. 取代 cooling</div>
+<div class="q"><strong>42. MLOps 額外管理什麼？</strong><br>A. 資料與模型 lifecycle<br>B. 只有 rack power<br>C. 只有 GPU fan<br>D. 只有 DNS</div>
+<div class="q"><strong>43. 模型 accuracy 隨 production data 改變而下降，可能是？</strong><br>A. Model/data drift<br>B. NVLink 一定斷線<br>C. PUE 太低<br>D. GPU Operator 未安裝</div>
+<div class="q"><strong>44. Host OS 當機仍需遠端 power cycle，使用？</strong><br>A. BMC/Redfish OOB<br>B. Triton<br>C. TensorRT<br>D. PyTorch</div>
+<div class="q"><strong>45. 哪個層級最適合管理 PSU、fan、FRU？</strong><br>A. BMC/OOB<br>B. Model registry<br>C. NCCL<br>D. Triton</div>
+<div class="q"><strong>46. GPU utilization、ECC、power 指標最適合從？</strong><br>A. DCGM<br>B. SAS ML article<br>C. NFS export only<br>D. K8s Service</div>
+<div class="q"><strong>47. Application latency 變差但 GPU health 正常，下一步？</strong><br>A. 檢查 network/storage/scheduler/application<br>B. 立即換 GPU<br>C. 只看 SEL<br>D. 忽略</div>
+<div class="q"><strong>48. CPU 與 GPU 的關係？</strong><br>A. 通常協作，CPU 控制、GPU 加速<br>B. GPU 永遠完全取代 CPU<br>C. CPU 只能做 training<br>D. GPU 只負責 OS</div>
+<div class="q"><strong>49. 哪個敘述正確？</strong><br>A. Memory bandwidth 與 capacity 是同一件事<br>B. 低 utilization 一定是硬體故障<br>C. AI infrastructure 要共同考慮 compute/network/storage/power/cooling<br>D. TensorRT 管理 PSU</div>
+<div class="q"><strong>50. 正式考試前最合理的 readiness 標準？</strong><br>A. 只背縮寫<br>B. 模擬考穩定 80% 以上並能解釋錯題<br>C. 只看影片不做題<br>D. 只讀 CPU vs GPU</div>
+</div>
+<h3>答案與重點</h3>
+<table>
+<tr><th>題號</th><th>答案</th><th>主題</th><th>題號</th><th>答案</th><th>主題</th></tr>
+<tr><td>1</td><td><b>B</b></td><td>AI/ML</td><td>26</td><td><b>A</b></td><td>Storage</td></tr>
+<tr><td>2</td><td><b>B</b></td><td>Training</td><td>27</td><td><b>A</b></td><td>Checkpoint</td></tr>
+<tr><td>3</td><td><b>A</b></td><td>Metrics</td><td>28</td><td><b>A</b></td><td>Cold start</td></tr>
+<tr><td>4</td><td><b>A</b></td><td>CPU/GPU</td><td>29</td><td><b>A</b></td><td>Scaling</td></tr>
+<tr><td>5</td><td><b>A</b></td><td>CUDA</td><td>30</td><td><b>B</b></td><td>PUE</td></tr>
+<tr><td>6</td><td><b>B</b></td><td>NCCL</td><td>31</td><td><b>A</b></td><td>Thermal</td></tr>
+<tr><td>7</td><td><b>A</b></td><td>TensorRT</td><td>32</td><td><b>A</b></td><td>Power cap</td></tr>
+<tr><td>8</td><td><b>A</b></td><td>Triton</td><td>33</td><td><b>A</b></td><td>Pod</td></tr>
+<tr><td>9</td><td><b>A</b></td><td>NGC</td><td>34</td><td><b>A</b></td><td>DaemonSet</td></tr>
+<tr><td>10</td><td><b>A</b></td><td>DCGM</td><td>35</td><td><b>A</b></td><td>GPU Operator</td></tr>
+<tr><td>11</td><td><b>B</b></td><td>Quantization</td><td>36</td><td><b>A</b></td><td>Device Plugin</td></tr>
+<tr><td>12</td><td><b>B</b></td><td>Precision</td><td>37</td><td><b>A</b></td><td>Container Toolkit</td></tr>
+<tr><td>13</td><td><b>B</b></td><td>Fusion</td><td>38</td><td><b>A</b></td><td>Monitoring</td></tr>
+<tr><td>14</td><td><b>A</b></td><td>Tensor Core</td><td>39</td><td><b>A</b></td><td>MIG</td></tr>
+<tr><td>15</td><td><b>A</b></td><td>Memory</td><td>40</td><td><b>A</b></td><td>Scheduling</td></tr>
+<tr><td>16</td><td><b>A</b></td><td>NVLink</td><td>41</td><td><b>A</b></td><td>Topology</td></tr>
+<tr><td>17</td><td><b>A</b></td><td>NVSwitch</td><td>42</td><td><b>A</b></td><td>MLOps</td></tr>
+<tr><td>18</td><td><b>A</b></td><td>HGX</td><td>43</td><td><b>A</b></td><td>Drift</td></tr>
+<tr><td>19</td><td><b>A</b></td><td>DGX</td><td>44</td><td><b>A</b></td><td>OOB</td></tr>
+<tr><td>20</td><td><b>B</b></td><td>DPU</td><td>45</td><td><b>A</b></td><td>BMC</td></tr>
+<tr><td>21</td><td><b>A</b></td><td>DOCA</td><td>46</td><td><b>A</b></td><td>DCGM</td></tr>
+<tr><td>22</td><td><b>B</b></td><td>RDMA</td><td>47</td><td><b>A</b></td><td>Troubleshooting</td></tr>
+<tr><td>23</td><td><b>A</b></td><td>RoCE</td><td>48</td><td><b>A</b></td><td>CPU/GPU</td></tr>
+<tr><td>24</td><td><b>A</b></td><td>GPUDirect</td><td>49</td><td><b>C</b></td><td>Architecture</td></tr>
+<tr><td>25</td><td><b>A</b></td><td>AllReduce</td><td>50</td><td><b>B</b></td><td>Readiness</td></tr>
+</table>
+<script>
+</script>
+
+<div class="card exam"><b>評分：</b>45–50：可安排考試；40–44：補錯題後可考；35–39：再複習薄弱章；低於 35：建議重新完成週末流程。</div>
+</section>
+
+<section class="chapter" id="cheat">
+<h2>16. 最終速查表</h2>
+<h3>一句話配對</h3>
+<table>
+<tr><th>需求</th><th>答案</th></tr>
+<tr><td>GPU parallel computing platform</td><td>CUDA</td></tr>
+<tr><td>Deep learning primitives</td><td>cuDNN</td></tr>
+<tr><td>Multi-GPU collectives</td><td>NCCL</td></tr>
+<tr><td>Inference optimization/runtime</td><td>TensorRT</td></tr>
+<tr><td>LLM inference optimization</td><td>TensorRT-LLM</td></tr>
+<tr><td>Model serving</td><td>Triton Inference Server</td></tr>
+<tr><td>GPU containers/models catalog</td><td>NGC</td></tr>
+<tr><td>GPU health/telemetry</td><td>DCGM</td></tr>
+<tr><td>Prometheus GPU metrics</td><td>DCGM Exporter</td></tr>
+<tr><td>K8s GPU stack lifecycle</td><td>GPU Operator</td></tr>
+<tr><td>K8s exposes GPU resources</td><td>Device Plugin</td></tr>
+<tr><td>Container accesses GPU</td><td>NVIDIA Container Toolkit</td></tr>
+<tr><td>GPU partitioning</td><td>MIG</td></tr>
+<tr><td>High-bandwidth GPU interconnect</td><td>NVLink / NVSwitch</td></tr>
+<tr><td>Infrastructure offload</td><td>BlueField DPU / DOCA</td></tr>
+<tr><td>OOB hardware management</td><td>BMC / Redfish</td></tr>
+</table>
+<h3>最後 30 分鐘背誦</h3>
+<ol>
+<li>Training 更新 weights；Inference 使用 weights。</li>
+<li>Latency 是一次多久；Throughput 是一秒多少。</li>
+<li>GPU 擅長平行數值運算；CPU 擅長控制與 general-purpose。</li>
+<li>TensorRT 最佳化；Triton 提供服務。</li>
+<li>NCCL 做 AllReduce；RDMA 降低 CPU/copy overhead。</li>
+<li>Storage 太慢會讓 GPU starvation。</li>
+<li>GPU Operator 管 K8s software；BMC 管 OOB hardware。</li>
+<li>DCGM 看 GPU；Prometheus 收 metrics；Grafana 顯示。</li>
+<li>MIG 是 GPU partition，不是 aggregation。</li>
+<li>任何 AI cluster 都要同時看 compute、network、storage、power、cooling。</li>
+</ol>
+</section>
+
+<section class="chapter" id="refs">
+<h2>推薦閱讀與來源</h2>
+<p>以下為教材主要參考入口。網站內容與產品版本可能更新，正式考試以前請以 NVIDIA 官方認證頁與 Study Guide 為準。</p>
+<ol>
+<li><a href="https://www.nvidia.com/en-us/learn/certification/ai-infrastructure-operations-associate/">NVIDIA NCA-AIIO Certification</a></li>
+<li><a href="https://www.nvidia.com/en-us/training/academy/self-paced-courses/">NVIDIA Self-Paced AI Infrastructure Courses</a></li>
+<li><a href="https://developer.nvidia.com/tensorrt">NVIDIA TensorRT</a></li>
+<li><a href="https://docs.nvidia.com/deeplearning/tensorrt/latest/">TensorRT Documentation</a></li>
+<li><a href="https://developer.nvidia.com/blog/nvidia-gpu-operator-simplifying-gpu-management-in-kubernetes/">NVIDIA GPU Operator: Simplifying GPU Management in Kubernetes</a></li>
+<li><a href="https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/">Tips on Scaling Storage for AI Training and Inferencing</a></li>
+<li><a href="https://www.ibm.com/think/topics/machine-learning">IBM: What Is Machine Learning?</a></li>
+<li><a href="https://www.sas.com/zh_tw/insights/analytics/machine-learning.html">SAS: Machine Learning</a></li>
+<li><a href="https://blogs.nvidia.com/blog/what-are-large-language-models-used-for/">NVIDIA: What Are Large Language Models Used For?</a></li>
+<li><a href="https://blogs.nvidia.com/blog/whats-the-difference-between-a-cpu-and-a-gpu/">NVIDIA: CPU vs GPU</a></li>
+</ol>
+<div class="footer-note">
+本教材為獨立整理的考試準備材料，不是 NVIDIA 官方教材，也不包含或重現正式考題。產品名稱與商標歸各自所有者。
+</div>
+</section>
+
+</main></body></html>
