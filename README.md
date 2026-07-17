@@ -4,7 +4,7 @@ Traditional Chinese study notes for the **NVIDIA-Certified Associate: AI Infrast
 
 ## Study guide
 
-Open [`NCA_AIIO_Weekend_Complete_Guide.html`](NCA_AIIO_Weekend_Complete_Guide.html) in a web browser. The guide is self-contained and can also be printed to PDF using the browser's print function.
+Read the guide on [GitHub Pages](https://sean-lee-software-embedded.github.io/NCA/), or open [`index.html`](index.html) locally in a web browser. The guide is self-contained and can also be printed to PDF using the browser's print function.
 
 ## Topics
 
