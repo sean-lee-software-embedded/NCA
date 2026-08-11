@@ -1,10 +1,29 @@
-# NCA-AIIO Weekend Study Guide
+# NCA Certification Study Hub
 
-Traditional Chinese study notes for the **NVIDIA-Certified Associate: AI Infrastructure and Operations (NCA-AIIO)** certification.
+Traditional Chinese study resources for NVIDIA associate-level certifications. The current content focuses on **NVIDIA-Certified Associate: AI Infrastructure and Operations (NCA-AIIO)**.
 
 ## Study guide
 
-Read the guide on [GitHub Pages](https://sean-lee-software-embedded.github.io/NCA/), or open [`index.html`](index.html) locally in a web browser. The guide is self-contained and can also be printed to PDF using the browser's print function.
+Visit the [GitHub Pages site](https://sean-lee-software-embedded.github.io/NCA/), or open [`index.html`](index.html) locally. The full printable guide is at [`aiio/index.html`](aiio/index.html).
+
+## Site structure
+
+```text
+NCA/
+├── index.html                 # Certification hub
+├── aiio/
+│   ├── index.html             # Full NCA-AIIO guide
+│   ├── weekend/
+│   │   ├── index.html         # Weekend sprint and downloads
+│   │   └── materials/         # Versioned HTML and DOCX source materials
+│   ├── tutorial/index.html    # Technical topic index
+│   ├── readings/index.html    # Suggested readings
+│   └── mock/index.html        # Mock exam entry
+├── ads/index.html             # Future NCA-ADS track
+└── assets/
+    ├── css/site.css
+    └── images/
+```
 
 ## Topics
 

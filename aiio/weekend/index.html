@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NCA-AIIO 一週末衝刺讀書計畫，兩天完成核心教材、複習與模擬考。">
+  <title>NCA-AIIO 一週末衝刺｜NCA Study Hub</title>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="site">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="NCA-AIIO 導覽">
+      <a class="brand" href="../../"><span class="brand-mark">NCA</span>AIIO</a>
+      <ul class="nav-links">
+        <li><a href="../">完整教材</a></li>
+        <li><a href="./" aria-current="page">週末衝刺</a></li>
+        <li><a href="../tutorial/">技術專題</a></li>
+        <li><a href="../readings/">延伸閱讀</a></li>
+        <li><a href="../mock/">模擬考</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Weekend Sprint</p>
+      <h1>一週末衝刺</h1>
+      <p class="page-hero__lead">用兩天建立完整觀念地圖。先掌握元件角色與情境判斷，再用模擬題找出需要補強的章節。</p>
+      <div class="actions">
+        <a class="button" href="../#how">打開完整教材</a>
+        <a class="button" href="../mock/">前往模擬考</a>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="schedule-title">
+      <div class="section-heading">
+        <h2 id="schedule-title">兩日讀書計畫</h2>
+        <p>每完成一個時段，就用該章的 Check 題確認概念。</p>
+      </div>
+      <ol class="timeline">
+        <li><time>週六 09:00–12:00</time><p><strong>AI 基礎與加速運算</strong><br>Ch. 1–3：AI / ML / DL、Training / Inference、CPU 與 GPU。</p></li>
+        <li><time>週六 13:00–17:00</time><p><strong>NVIDIA 軟硬體堆疊</strong><br>Ch. 4–7：CUDA、NCCL、TensorRT、GPU 架構與 NVIDIA 平台。</p></li>
+        <li><time>週六 20:00–21:30</time><p><strong>第一輪複習</strong><br>不重讀全文，只整理答錯的 Check 題與容易混淆的元件配對。</p></li>
+        <li><time>週日 09:00–12:00</time><p><strong>資料中心基礎設施</strong><br>Ch. 8–10：網路、儲存、電力與散熱。</p></li>
+        <li><time>週日 13:00–16:00</time><p><strong>部署與維運</strong><br>Ch. 11–14：Kubernetes、GPU Operator、Monitoring、BMC 與情境題。</p></li>
+        <li><time>週日 16:15–18:00</time><p><strong>50 題模擬考</strong><br>限時作答、訂正錯題，再回完整教材補讀對應章節。</p></li>
+      </ol>
+      <div class="notice"><p><strong>答題原則：</strong>先完成定義題與直接配對題；情境題先找題目真正要改善的指標，再選最直接負責的元件。</p></div>
+
+      <div class="section-heading">
+        <p class="eyebrow">Study Materials</p>
+        <h2 id="materials-title">教材版本與下載</h2>
+        <p>三份原始素材已集中保存；需要快速查閱時建議使用 v2，離線閱讀或列印可下載 Word 版。</p>
+      </div>
+      <div class="card-grid card-grid--three" aria-labelledby="materials-title">
+        <article class="content-card">
+          <span class="tag">Recommended</span>
+          <h3>完整教材 HTML v2</h3>
+          <p>在 v1 基礎上加入 NVIDIA AI Software Stack tutorial，涵蓋 CUDA、cuDNN、NCCL、TensorRT、Triton、NGC 與 DCGM。</p>
+          <div class="actions">
+            <a class="button" href="materials/complete-guide-v2.html">線上閱讀</a>
+            <a href="materials/complete-guide-v2.html" download>下載 HTML</a>
+          </div>
+        </article>
+        <article class="content-card">
+          <span class="tag tag--muted">Original</span>
+          <h3>完整教材 HTML v1</h3>
+          <p>2026-07-16 的原始週末衝刺版本；已將原本的 Windows 本機目錄連結修正為可部署的頁內錨點。</p>
+          <div class="actions">
+            <a class="button" href="materials/complete-guide-v1.html">線上閱讀</a>
+            <a href="materials/complete-guide-v1.html" download>下載 HTML</a>
+          </div>
+        </article>
+        <article class="content-card">
+          <span class="tag">Offline</span>
+          <h3>週末衝刺教材 DOCX</h3>
+          <p>2026-08 Word 版本，適合離線註記、編輯與列印；保留原始文件格式與內容。</p>
+          <div class="actions">
+            <a class="button" href="materials/weekend-guide-2026-08.docx" download>下載 DOCX</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · 一週末衝刺</p><p><a href="../../">回認證首頁</a></p></div></footer>
+</body>
+</html>

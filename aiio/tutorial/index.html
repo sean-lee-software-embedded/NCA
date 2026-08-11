@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NCA-AIIO 技術專題索引，快速複習 CUDA、NCCL、TensorRT、Kubernetes 與 GPU 維運。">
+  <title>NCA-AIIO 技術專題｜NCA Study Hub</title>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body class="site">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="NCA-AIIO 導覽">
+      <a class="brand" href="../../"><span class="brand-mark">NCA</span>AIIO</a>
+      <ul class="nav-links">
+        <li><a href="../">完整教材</a></li>
+        <li><a href="../weekend/">週末衝刺</a></li>
+        <li><a href="./" aria-current="page">技術專題</a></li>
+        <li><a href="../readings/">延伸閱讀</a></li>
+        <li><a href="../mock/">模擬考</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Technical Tutorials</p>
+      <h1>技術專題索引</h1>
+      <p class="page-hero__lead">依技術名詞直接進入完整教材的對應章節，適合考前查漏補缺。</p>
+    </section>
+
+    <section class="page-section" aria-labelledby="topics-title">
+      <div class="section-heading"><h2 id="topics-title">核心主題</h2><p>先理解每個元件負責什麼，再記它與上下游元件的關係。</p></div>
+      <div class="topic-list">
+        <article class="topic-row"><h3>CUDA 與 CUDA-X</h3><p>GPU 平行運算平台、runtime、driver 與加速函式庫的分層。</p><a href="../#c4">閱讀 Ch. 4 →</a></article>
+        <article class="topic-row"><h3>NCCL</h3><p>多 GPU collective communication，以及 AllReduce 的典型用途。</p><a href="../#c4">閱讀 Ch. 4 →</a></article>
+        <article class="topic-row"><h3>TensorRT / Triton</h3><p>區分模型推論最佳化與 production model serving。</p><a href="../#c5">閱讀 Ch. 5 →</a></article>
+        <article class="topic-row"><h3>GPU 架構與記憶體</h3><p>Tensor Core、HBM、NVLink、PCIe、MIG 的角色與限制。</p><a href="../#c6">閱讀 Ch. 6 →</a></article>
+        <article class="topic-row"><h3>DGX / HGX / MGX / DPU</h3><p>系統、平台與基礎設施處理器的定位。</p><a href="../#c7">閱讀 Ch. 7 →</a></article>
+        <article class="topic-row"><h3>InfiniBand / Ethernet</h3><p>AI fabric、RDMA、latency、bandwidth 與 scale-out。</p><a href="../#c8">閱讀 Ch. 8 →</a></article>
+        <article class="topic-row"><h3>Kubernetes / GPU Operator</h3><p>GPU 資源排程，以及 Kubernetes 上的 NVIDIA software stack。</p><a href="../#c11">閱讀 Ch. 11 →</a></article>
+        <article class="topic-row"><h3>DCGM / Monitoring</h3><p>GPU telemetry、Prometheus、Grafana 與問題定位。</p><a href="../#c12">閱讀 Ch. 12 →</a></article>
+        <article class="topic-row"><h3>BMC / Redfish</h3><p>Out-of-band 管理與 AI 基礎設施維運的交界。</p><a href="../#c13">閱讀 Ch. 13 →</a></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · 技術專題</p><p><a href="../../">回認證首頁</a></p></div></footer>
+</body>
+</html>
