@@ -655,7 +655,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>CPU 專為低延遲、複雜控制流（分支預測、大快取）設計；GPU 專為高吞吐量 SIMT (Single Instruction Multiple Threads) 平行陣列運算設計。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">2. <span class="badge badge-nv">Q2 [Domain 1]</span> 在深度學習模型訓練 (Training) 中，為何需要保存前向傳播的中間激活值 (Activations)？</div>
             <ul class="q-options">
@@ -667,7 +667,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>訓練階段的反向傳播需要根據鏈式法則 (Chain Rule) 計算梯度，此過程必須使用前向傳播保存的中間激活值。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">3. <span class="badge badge-nv">Q3 [Domain 1]</span> 關於 BF16 (Bfloat16) 與 FP16 精度格式的對比，下列何者正確？</div>
             <ul class="q-options">
@@ -679,7 +679,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>BF16 採用 1 Sign + 8 Exponent + 7 Mantissa，指數位與 FP32 一致（8-bit），因此具備與 FP32 相同的動態範圍，非常適合深度學習訓練。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">4. <span class="badge badge-nv">Q4 [Domain 1]</span> NVIDIA Hopper 架構引入的 FP8 精度中，E4M3 與 E5M2 的主要適用場景為何？</div>
             <ul class="q-options">
@@ -691,7 +691,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>E4M3 擁有 4-bit Mantissa (精度高)，適合權重與激活；E5M2 擁有 5-bit Exponent (動態範圍大)，適合梯度。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">5. <span class="badge badge-nv">Q5 [Domain 1]</span> 下列哪一項不是模型推理 (Inference) 的典型效能指標？</div>
             <ul class="q-options">
@@ -703,7 +703,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>反向傳播步驟（Steps Per Second）屬於模型訓練 (Training) 的指標，推理階段不執行反向傳播。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">6. <span class="badge badge-nv">Q6 [Domain 1]</span> 深度學習矩陣乘法運算 (GEMM) 在 GPU 上最主要由下列哪一個硬體單元加速？</div>
             <ul class="q-options">
@@ -715,7 +715,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>NVIDIA Tensor Cores 是專為矩陣乘加運算 (D = A * B + C) 設計的硬體加速單元。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">7. <span class="badge badge-nv">Q7 [Domain 1]</span> 對於 Transformer 模型，在推理階段顯存佔用 (VRAM) 的主要來源不包含下列何者？</div>
             <ul class="q-options">
@@ -727,7 +727,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>推理階段不會計算或儲存梯度 (Gradients)。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">8. <span class="badge badge-nv">Q8 [Domain 1]</span> 為何在 GPU 上執行 INT8 推理時通常需要進行 Calibration (校正)？</div>
             <ul class="q-options">
@@ -739,7 +739,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Calibration 透過輸入少量代表性數據，觀察數據動態範圍，計算動態門檻 (Entropy Calibration) 以將 FP32 對應至 INT8。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">9. <span class="badge badge-nv">Q9 [Domain 1]</span> 當 GPU 顯存頻寬成為瓶頸 (Memory-Bandwidth Bound) 時，下列哪種優化手段最有效？</div>
             <ul class="q-options">
@@ -751,7 +751,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>量化減少資料傳輸體積，Kernel Fusion 減少 Global Memory 讀寫次數，能直接緩解顯存頻寬瓶頸。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">10. <span class="badge badge-nv">Q10 [Domain 1]</span> 在分散式訓練中，Data Parallelism (資料平行) 的核心運作機制為何？</div>
             <ul class="q-options">
@@ -763,7 +763,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Data Parallelism 在每張 GPU 複製完整模型，分發不同微批次數據，並在反向傳播後透過 All-Reduce 聚合梯度。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">11. <span class="badge badge-nv">Q11 [Domain 2]</span> NVIDIA TensorRT 中的 Layer Fusion (層融合) 主要解決什麼效能問題？</div>
             <ul class="q-options">
@@ -775,7 +775,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>層融合將多個運算（如 Conv+Bias+ReLU）合併在單一 Kernel 中，中間結果留在 Register/Shared Memory，顯著減少 Global Memory 讀寫。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">12. <span class="badge badge-nv">Q12 [Domain 2]</span> 使用 trtexec 建立 TensorRT Engine 時， `--fp16` 與 `--int8` 標籤同時指定代表什麼意義？</div>
             <ul class="q-options">
@@ -787,7 +787,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>TensorRT Builder 會針對每個 Layer 測試 FP16 與 INT8 效能，選擇總延遲最低的混合精度（Mixed Precision）組合。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">13. <span class="badge badge-nv">Q13 [Domain 2]</span> 在 TensorRT Python API 中，動態形狀 (Dynamic Shapes) 需要透過哪一個物件進行配置？</div>
             <ul class="q-options">
@@ -799,7 +799,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b> Optimization Profile 用於定義動態 Tensor 的 Min、Opt (Optimal) 與 Max Shapes。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">14. <span class="badge badge-nv">Q14 [Domain 2]</span> TensorRT 編譯生成的 Engine 檔案 (.engine / .plan) 是否具備跨 GPU 平台的攜帶性？</div>
             <ul class="q-options">
@@ -811,7 +811,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>TensorRT Engine 包含特定硬體的 Kernel 最佳化代碼，不具備跨不同硬體架構（如 A100 -> H100）的攜帶性。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">15. <span class="badge badge-nv">Q15 [Domain 2]</span> Quantization-Aware Training (QAT) 與 Post-Training Quantization (PTQ) 的主要差異為何？</div>
             <ul class="q-options">
@@ -823,7 +823,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>QAT 在微調/訓練期間插入 Fake Quantization 節點讓模型適應誤差，精確度保留優於純事後轉換的 PTQ。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">16. <span class="badge badge-nv">Q16 [Domain 2]</span> trtexec 命令列中 `--calib=` 參數的作用為何？</div>
             <ul class="q-options">
@@ -835,7 +835,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>`--calib=` 用於指定或儲存 INT8 Calibration 過程產生的快取檔案。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">17. <span class="badge badge-nv">Q17 [Domain 2]</span> TensorRT 中的 Workspace Memory (工作區記憶體) 主要用途是什麼？</div>
             <ul class="q-options">
@@ -847,7 +847,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Workspace 是 Builder/Runtime 分配給 Kernel 執行複雜中間運算的暫存顯存池。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">18. <span class="badge badge-nv">Q18 [Domain 2]</span> 在 TensorRT C++ API 中，執行推理時負責管理 Tensor 記憶體綁定 (Bindings) 的物件是？</div>
             <ul class="q-options">
@@ -859,7 +859,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>`IExecutionContext` 代表執行推理時的上下文，負責管理綁定緩衝區（Buffers）與執行 `enqueueV3`。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">19. <span class="badge badge-nv">Q19 [Domain 2]</span> 針對 ONNX 模型中的算子（Operators），若 TensorRT 原生不支援，工程師應如何處理？</div>
             <ul class="q-options">
@@ -871,7 +871,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>TensorRT 提供了 `IPluginV2` 介面，允許開發者針對不支援的算子編寫自訂 Custom Plugin。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">20. <span class="badge badge-nv">Q20 [Domain 2]</span> 在 TensorRT 推理優化中，何謂 Dynamic Range (動態範圍)？</div>
             <ul class="q-options">
@@ -883,7 +883,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Dynamic Range 定義了 Tensor 值的範圍，是 INT8 量化中計算 Scaling Factor 的基礎。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">21. <span class="badge badge-nv">Q21 [Domain 3]</span> 在大型 AI 集群訓練中，導致 GPU 發生「算力飢餓 (GPU Starvation)」的主要原因為何？</div>
             <ul class="q-options">
@@ -895,7 +895,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>當儲存 I/O 速度低於 GPU 計算速度時，GPU 必須等待資料載入，造成算力閒置（Starvation）。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">22. <span class="badge badge-nv">Q22 [Domain 3]</span> GPUDirect Storage (GDS) 技術的核心優勢是什麼？</div>
             <ul class="q-options">
@@ -907,7 +907,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>GDS 利用 PCIe/NVMe-oF 直接在儲存與 GPU 顯存間做 Direct Memory Access，降低延遲並釋放 CPU CPU 開銷。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">23. <span class="badge badge-nv">Q23 [Domain 3]</span> 針對大語言模型 (LLM) 預訓練，哪一種儲存架構最常被用作海量訓練集之儲存主幹？</div>
             <ul class="q-options">
@@ -919,7 +919,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b> Scale-out 分散式並行檔案系統支援 TB/s 級吞吐量與 RDMA 加速，能滿足千卡集群的大規模併發讀取。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">24. <span class="badge badge-nv">Q24 [Domain 3]</span> 傳統 Linux 檔案系統 I/O (POSIX standard) 在將數據送往 GPU 時需經過哪一個中間緩衝區？</div>
             <ul class="q-options">
@@ -931,7 +931,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>傳統 POSIX I/O 必須先將資料讀入 Kernel Page Cache / CPU Bounce Buffer，再透過 `cudaMemcpy` 複製至 GPU。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">25. <span class="badge badge-nv">Q25 [Domain 3]</span> 在 AI 儲存架構中，NVMe-oF 代表什麼技術？</div>
             <ul class="q-options">
@@ -943,7 +943,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>NVMe-oF 允許透過乙太網路/InfiniBand (RoCE / InfiniBand RDMA) 遠端存取 NVMe 區塊裝置，保持接近本地 SSD 的超低延遲。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">26. <span class="badge badge-nv">Q26 [Domain 3]</span> AI 訓練中的 Checkpoint (檢查點) 寫入操作屬於哪種 I/O 特性？</div>
             <ul class="q-options">
@@ -955,7 +955,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Checkpoint 需將數十到數百 GB 的模型權重狀態瞬間dump到硬碟，為典型的 Burst Sequential Write 負載。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">27. <span class="badge badge-nv">Q27 [Domain 3]</span> 關於 Local NVMe SSD 快取與遠端集中式儲存的配合，下列何者為最適實踐？</div>
             <ul class="q-options">
@@ -967,7 +967,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Tiered Storage 策略：利用本地超高速 NVMe 提供最小 Latency 數據讀取，配合遠端儲存存放全量數據。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">28. <span class="badge badge-nv">Q28 [Domain 3]</span> GPUDirect Storage (GDS) 在 Linux 系統中需要安裝哪一個驅動組件以支援 Direct I/O？</div>
             <ul class="q-options">
@@ -979,7 +979,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>GDS 依賴 `nvidia-fs` Kernel Module 攔截 I/O 請求並建立 Direct DMA 通道。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">29. <span class="badge badge-nv">Q29 [Domain 4]</span> NVIDIA GPU Operator 在 Kubernetes 中採用何種設計模式 (Design Pattern)？</div>
             <ul class="q-options">
@@ -991,7 +991,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>GPU Operator 遵從 K8s Operator Pattern，利用 CRD 宣告式自動化管理 GPU 驅動與組件生命週期。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">30. <span class="badge badge-nv">Q30 [Domain 4]</span> 在 Kubernetes Pod YAML 中，如何正確向 API Server 請求 2 張 GPU？</div>
             <ul class="q-options">
@@ -1003,7 +1003,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>標準 K8s NVIDIA Device Plugin 註冊的資源名稱為 `nvidia.com/gpu`。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">31. <span class="badge badge-nv">Q31 [Domain 4]</span> NVIDIA GPU Operator 中的 DCGM Exporter 組件主要功能為何？</div>
             <ul class="q-options">
@@ -1015,7 +1015,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>DCGM Exporter 利用 Data Center GPU Manager API 收集 GPU 硬體 Metrics 並曝露給 Prometheus 監控。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">32. <span class="badge badge-nv">Q32 [Domain 4]</span> MIG (Multi-Instance GPU) 技術與傳統 Time-Slicing (時間分片) 的本質差異為何？</div>
             <ul class="q-options">
@@ -1027,7 +1027,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>MIG 提供硬體級隔離 (SRAM/VRAM/Core Partition)，防止單一 Pod 的故障或搶占影響其他 Pod；Time-Slicing 無顯存隔離。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">33. <span class="badge badge-nv">Q33 [Domain 4]</span> NVIDIA Container Toolkit (nvidia-container-runtime) 的作用是什麼？</div>
             <ul class="q-options">
@@ -1039,7 +1039,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Container Toolkit 修改容器 RunC 邏輯，在 Container Create 時自動 Hook 導入 GPU 驅動與設備檔 (`/dev/nvidia*`)。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">34. <span class="badge badge-nv">Q34 [Domain 4]</span> 在 K8s 中，若欲確保 AI 推理 Pod 僅被調度至帶有 NVIDIA H100 GPU 的節點，應使用何種機制？</div>
             <ul class="q-options">
@@ -1051,7 +1051,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Node Feature Discovery (NFD) 會自動為 GPU 節點打上記錄型號的 Label，搭配 NodeAffinity 即可精準調度。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">35. <span class="badge badge-nv">Q35 [Domain 4]</span> GPU Operator 中的 Node Feature Discovery (NFD) 主要負責什麼工作？</div>
             <ul class="q-options">
@@ -1063,7 +1063,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>NFD 負責偵測宿主機硬體能力（如 PCIe ID、GPU 架構），並轉換為 K8s Node Labels。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">36. <span class="badge badge-nv">Q36 [Domain 4]</span> 要在 A100 GPU 上啟用 MIG 模式，必須先在系統層級執行什麼指令？</div>
             <ul class="q-options">
@@ -1075,7 +1075,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>需透過 `nvidia-smi -g <gpu_id> -mig 1` 在 GPU 上啟用 MIG 功能。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">37. <span class="badge badge-nv">Q37 [Domain 4]</span> K8s 中，`nvidia.com/gpu` 資源是否支援浮點數 (如請求 `0.5` 張 GPU)？</div>
             <ul class="q-options">
@@ -1087,7 +1087,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>K8s 原生 Device Plugin 僅支援整數 (1, 2, 4...) 資源；若需共享 GPU 必須透過 MIG 或第三方 GPU 虛擬化/Time-slicing。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">38. <span class="badge badge-nv">Q38 [Domain 4]</span> 關於 Kubernetes 部署 Kubelet Device Plugin 運行的機制，下列何者正確？</div>
             <ul class="q-options">
@@ -1099,7 +1099,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Device Plugin 以 DaemonSet 在各節點執行，透過 Unix Domain Socket (gRPC) 與本地 Kubelet 通訊報告資源。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">39. <span class="badge badge-nv">Q39 [Domain 5]</span> 在 LLM 推理優化中，PagedAttention 技術主要解決了傳統 KV Cache 的什麼痛點？</div>
             <ul class="q-options">
@@ -1111,7 +1111,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>PagedAttention 將 KV Cache 劃分為固定頁面 (Pages)，比照作業系統虛擬記憶體分頁機制，將顯存浪費率降至接近 0%。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">40. <span class="badge badge-nv">Q40 [Domain 5]</span> TensorRT-LLM 中的 In-Flight Batching (或稱 Continuous Batching) 機制優勢為何？</div>
             <ul class="q-options">
@@ -1123,7 +1123,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>In-flight batching 在每個 Iteration 結束即時將已產出 EOS 的請求移出並加入新請求，避免傳統 Batching 的算力等待。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">41. <span class="badge badge-nv">Q41 [Domain 5]</span> 在企業生成式 AI 架構中，檢索增強生成 (RAG) 相較於 Fine-tuning (微調) 的核心優勢為？</div>
             <ul class="q-options">
@@ -1135,7 +1135,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>RAG 透過檢索即時補充資料至 Context，無需花費昂貴成本重訓/微調權重，並能精確提供出處依據。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">42. <span class="badge badge-nv">Q42 [Domain 5]</span> LoRA (Low-Rank Adaptation) 技術在 LLM 微調中的作用機制為何？</div>
             <ul class="q-options">
@@ -1147,7 +1147,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>LoRA 透過低秩分解（Low-Rank Matrix Decomposition），只需訓練原始參數量的 <1% 即可達到接近全量微調的效果。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">43. <span class="badge badge-nv">Q43 [Domain 5]</span> NVIDIA NeMo 框架的主要定位是什麼？</div>
             <ul class="q-options">
@@ -1159,7 +1159,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>NVIDIA NeMo 是企業級 LLM 生態系統，提供從模型 Pre-training、PEFT 微調到 Guardrails 安全對齊的全套工具。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">44. <span class="badge badge-nv">Q44 [Domain 5]</span> 在 LLM 推理的 Context Phase (Prefill Phase) 與 Generation Phase (Decode Phase)，其計算特性有何不同？</div>
             <ul class="q-options">
@@ -1171,7 +1171,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Prefill 階段一次性平行計算所有 Prompt Token (Compute-bound)；Decode 階段每生成 1 個 Token 需載入一次全量權重與 KV Cache (Memory-bound)。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">45. <span class="badge badge-nv">Q45 [Domain 5]</span> Tensor Parallelism (張量平行) 在部署超大模型 (如 70B+ LLM) 時的切分對象是？</div>
             <ul class="q-options">
@@ -1183,7 +1183,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Tensor Parallelism (例如 Megatron-LM) 將單一矩陣乘法運算切分至同一節點的多張 GPU (透過 NVLink 高速互聯)。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">46. <span class="badge badge-nv">Q46 [Domain 5]</span> 在 LLM 服務中，TTFT (Time to First Token) 指標主要由哪一個階段的效能決定？</div>
             <ul class="q-options">
@@ -1195,7 +1195,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>TTFT 代表從收到請求到產出第一個 Token 的時間，主要取決於 Prefill 階段處理輸入 Prompt 的速度。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">47. <span class="badge badge-nv">Q47 [Domain 5]</span> KV Cache 技術的作用是什麼？</div>
             <ul class="q-options">
@@ -1207,7 +1207,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>自回歸模型生成新 Token 時，前面 Token 的 Key/Value 是固定的，快取 KV 可以避免每步重複計算前文。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">48. <span class="badge badge-nv">Q48 [Domain 5]</span> AWQ (Activation-aware Weight Quantization) 量化演算法的核心優勢為何？</div>
             <ul class="q-options">
@@ -1219,7 +1219,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>AWQ 發現並非所有權重同等重要，透過保護對 Activation 影響顯著的關鍵權重，能在 INT4 量化下幾乎不損失準確度。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">49. <span class="badge badge-nv">Q49 [Domain 5]</span>  Pipeline Parallelism (流水線平行) 的主要切分策略為何？</div>
             <ul class="q-options">
@@ -1231,7 +1231,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Pipeline Parallelism 將深層網路按 Layer 區段切分（例如 1-16 層給 GPU0，17-32 層給 GPU1），適合跨節點大模型部署。</div>
             </details>
         </div>
-    
+
         <div class="q-card">
             <div class="q-title">50. <span class="badge badge-nv">Q50 [Domain 5]</span> 在使用 TensorRT-LLM 部署 LLM 服務時，關於 Speculative Decoding (投機解碼) 的敘述何者正確？</div>
             <ul class="q-options">
@@ -1243,7 +1243,7 @@ spec:
                 <div class="exp-text"><b>【深度解析】：</b>Speculative Decoding 用輕量 Draft Model 低成本生成候選 Tokens，大模型只需平行驗證 1 次，突破 Decode 階段 Memory-bound 瓶頸。</div>
             </details>
         </div>
-    
+
         </div>
     </section>
 
