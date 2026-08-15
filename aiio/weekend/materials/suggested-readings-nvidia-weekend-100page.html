@@ -1,488 +1,1238 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NVIDIA AI 推論證照週末速成教材</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #18202a;
-      --muted: #627084;
-      --line: #d9e0ea;
-      --paper: #f7f9fc;
-      --panel: #ffffff;
-      --green: #76b900;
-      --blue: #2563eb;
-      --amber: #b45309;
-      --violet: #6d28d9;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", Arial, sans-serif;
-      color: var(--ink);
-      background: var(--paper);
-      line-height: 1.55;
-    }
-    header {
-      min-height: 78vh;
-      padding: 56px min(7vw, 76px);
-      display: grid;
-      align-content: center;
-      gap: 24px;
-      background:
-        linear-gradient(110deg, rgba(15, 23, 42, .94), rgba(15, 23, 42, .72)),
-        radial-gradient(circle at 78% 24%, rgba(118, 185, 0, .38), transparent 34%),
-        linear-gradient(135deg, #0f172a, #1f2937);
-      color: white;
-    }
-    header h1 {
-      margin: 0;
-      max-width: 960px;
-      font-size: clamp(40px, 7vw, 88px);
-      line-height: 1.02;
-      letter-spacing: 0;
-    }
-    header p { max-width: 780px; margin: 0; color: #dce6f3; font-size: 20px; }
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      padding: 12px min(7vw, 76px);
-      border-bottom: 1px solid var(--line);
-      background: rgba(255, 255, 255, .94);
-      backdrop-filter: blur(10px);
-    }
-    nav a, button {
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: white;
-      color: var(--ink);
-      padding: 8px 12px;
-      font: inherit;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    nav a:hover, button:hover { border-color: var(--green); }
-    main { padding: 32px min(7vw, 76px) 72px; }
-    .toolbar {
-      display: grid;
-      grid-template-columns: minmax(220px, 1fr) auto;
-      gap: 12px;
-      margin-bottom: 20px;
-      align-items: center;
-    }
-    input {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 11px 12px;
-      font: inherit;
-      background: white;
-    }
-    .meta { color: var(--muted); font-size: 14px; }
-    .reader-page {
-      min-height: 620px;
-      margin: 0 0 22px;
-      padding: 34px;
-      border: 1px solid var(--line);
-      border-left: 8px solid var(--green);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: 0 12px 28px rgba(15, 23, 42, .07);
-      break-after: page;
-      page-break-after: always;
-    }
-    .reader-page:nth-child(4n+1) { border-left-color: var(--green); }
-    .reader-page:nth-child(4n+2) { border-left-color: var(--blue); }
-    .reader-page:nth-child(4n+3) { border-left-color: var(--amber); }
-    .reader-page:nth-child(4n+4) { border-left-color: var(--violet); }
-    .kicker { color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
-    h2 { margin: 8px 0 12px; font-size: clamp(26px, 4vw, 42px); line-height: 1.18; letter-spacing: 0; }
-    h3 { margin: 22px 0 8px; font-size: 20px; letter-spacing: 0; }
-    p { margin: 0 0 12px; }
-    ul, ol { padding-left: 24px; }
-    li { margin: 8px 0; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
-    .box { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fbfdff; }
-    .term { display: inline-block; margin: 3px 6px 3px 0; padding: 4px 8px; border-radius: 999px; background: #eef6df; color: #314600; font-size: 13px; font-weight: 700; }
-    .sources a { color: #1d4ed8; word-break: break-word; }
-    .quiz strong { color: #0f5132; }
-    footer { color: var(--muted); font-size: 13px; padding: 28px min(7vw, 76px); border-top: 1px solid var(--line); background: white; }
-    @media (max-width: 720px) {
-      header { min-height: 64vh; padding: 42px 22px; }
-      main, nav, footer { padding-left: 18px; padding-right: 18px; }
-      .toolbar { grid-template-columns: 1fr; }
-      .reader-page { min-height: auto; padding: 22px; }
-      .grid { grid-template-columns: 1fr; }
-    }
-    @media print {
-      nav, .toolbar { display: none; }
-      body { background: white; }
-      header { min-height: 100vh; }
-      .reader-page { min-height: 95vh; box-shadow: none; border-radius: 0; margin: 0; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="以原生 HTML 閱讀模式編排的 100 篇 AI、Machine Learning、Inference、GPU、TensorRT、LLM、AI Storage 與 Kubernetes GPU Operator 週末證照教材。">
+<title>NVIDIA AI 推論證照週末速成教材｜100 篇閱讀單元</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--green:#76b900;--green-hi:#bff230;--black:#000;--near:#111;--panel:#1a1a1a;--muted:#a7a7a7;--white:#fff;--line:#353535;--warn:#ef9100;--max:1260px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#080a08;color:var(--white);font-family:Inter,'Noto Sans TC',system-ui,sans-serif;line-height:1.6}
+a{color:inherit}button,input{font:inherit}.topbar{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);border-bottom:1px solid #292929}.top-inner{max-width:var(--max);margin:auto;height:64px;padding:0 24px;display:flex;align-items:center;gap:18px}.brand{text-decoration:none;color:#fff;font-weight:800;letter-spacing:-.02em;white-space:nowrap}.brand i{font-style:normal;color:var(--green)}.progress-shell{height:4px;background:#252525}#progress{display:block;height:100%;width:0;background:var(--green);transition:width .25s}.search{margin-left:auto;display:flex;align-items:center;border:1px solid #4b4b4b;background:#111;padding:8px 12px;min-width:280px}.search input{border:0;outline:0;background:transparent;color:#fff;width:100%}.print-btn{border:2px solid var(--green);background:transparent;color:#fff;padding:7px 11px;font-weight:700;cursor:pointer}.hero{background:radial-gradient(circle at 85% 20%,rgba(118,185,0,.18),transparent 35%),#000;border-bottom:1px solid var(--line)}.hero-inner{max-width:var(--max);margin:auto;padding:80px 24px 68px;display:grid;grid-template-columns:1.4fr .6fr;gap:48px}.eyebrow{color:var(--green);font-size:.78rem;font-weight:800;letter-spacing:.14em}h1{font-size:clamp(2.4rem,6vw,5.7rem);line-height:1.02;letter-spacing:-.055em;margin:12px 0 24px;max-width:900px}.hero p{color:#c2c2c2;font-size:1.08rem;max-width:720px}.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:#333;border:1px solid #333;align-self:end}.stat{background:#0c0c0c;padding:22px}.stat b{font-size:2.1rem;display:block;color:var(--green)}.stat span{font-size:.78rem;color:#aaa}.layout{max-width:var(--max);margin:auto;padding:42px 24px 90px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}.sidebar{position:sticky;top:92px;height:calc(100vh - 112px);overflow:auto}.sidebar h2{font-size:.78rem;color:#888;letter-spacing:.13em}.nav-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #292929;text-decoration:none;color:#ccc;font-size:.88rem}.nav-item:hover,.nav-item.active{color:var(--green)}.nav-item b{color:#777}.schedule{border:1px solid var(--line);padding:18px;margin-top:24px}.schedule strong{color:var(--green)}.schedule p{margin:.45rem 0;font-size:.78rem;color:#aaa}.reading-section{scroll-margin-top:88px;background:#f7f7f4;color:#111;margin-bottom:28px;padding:38px;min-height:620px;border-top:3px solid var(--green);box-shadow:0 10px 28px rgba(0,0,0,.24)}.page-head{display:flex;justify-content:space-between;border-bottom:1px solid #ccc;padding-bottom:11px}.page-no{font-weight:800;font-size:.75rem;letter-spacing:.12em}.section-tag{color:#487300;font-size:.75rem;font-weight:800}.reading-section h2{font-size:clamp(1.7rem,3vw,2.6rem);line-height:1.16;letter-spacing:-.035em;margin:28px 0}.lesson-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(230px,.65fr);gap:24px}.content-card{background:#fff;padding:24px;border:1px solid #ddd}.content-card h3{margin:0 0 12px;font-size:.8rem;text-transform:uppercase;letter-spacing:.12em}.content-card ul{margin:0;padding-left:1.25rem}.content-card li{margin:.55rem 0}.exam-card{background:#111;color:#fff;padding:24px;border-left:4px solid var(--green)}.exam-card span{color:var(--green);font-size:.7rem;font-weight:800;letter-spacing:.14em}.exam-card p{font-size:1.08rem;font-weight:700;line-height:1.5}details{margin-top:24px;border-top:1px solid #bbb;padding-top:16px}summary{cursor:pointer;font-weight:700}.complete{display:flex;align-items:center;gap:8px;margin-top:18px;color:#555;font-size:.84rem}.complete input{accent-color:var(--green);width:18px;height:18px}.sources{max-width:var(--max);margin:0 auto 90px;padding:0 24px}.sources .box{background:#000;border:1px solid var(--line);padding:34px}.sources h2{margin-top:0}.sources a{text-decoration-color:var(--green);text-decoration-thickness:2px;text-underline-offset:4px}.sources li{margin:.65rem 0;color:#bbb}.notice{border-left:4px solid var(--warn);padding:12px 16px;background:#211609;color:#f5d89a}.no-results{display:none;padding:30px;border:1px solid #555;color:#bbb}footer{border-top:1px solid #2c2c2c;background:#000;color:#777;padding:30px 24px;text-align:center;font-size:.8rem}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.nav-list{display:grid;grid-template-columns:repeat(2,1fr);gap:0 16px}.lesson-grid{grid-template-columns:1fr}.search{min-width:0}.brand span{display:none}}
+@media(max-width:620px){.top-inner{padding:0 14px}.print-btn{display:none}.hero-inner{padding:52px 18px}.layout{padding:26px 14px}.reading-section{padding:24px 18px;min-height:0}.search{width:100%}.nav-list{grid-template-columns:1fr}}
+@media print{.topbar,.sidebar,.hero,.complete,details,.sources,footer{display:none!important}body{background:#fff}.layout{display:block;padding:0;max-width:none}main{width:100%}.reading-section{box-shadow:none;margin:0;min-height:0;height:100vh;page-break-after:always;border-top:3px solid #76b900}}
+</style>
 </head>
 <body>
-  <header id="top">
-    <div class="kicker">Weekend certification bootcamp</div>
-    <h1>NVIDIA AI 推論證照週末速成教材</h1>
-    <p>依 9 篇推薦閱讀與 NVIDIA 教學主題整理成 100 頁原生 HTML 閱讀教材，適合週六建立觀念、週日複習題庫與部署情境。</p>
+<header class="topbar"><div class="top-inner"><a class="brand" href="../"><i>AI</i> CERT <span>WEEKEND LAB</span></a><label class="search" aria-label="搜尋教材"><input id="search" type="search" placeholder="搜尋 100 頁教材…"></label><button class="print-btn" onclick="window.print()">列印 / PDF</button></div><div class="progress-shell"><span id="progress"></span></div></header>
+<section class="hero"><div class="hero-inner"><div><div class="eyebrow">100-SECTION HTML READING COURSE</div><h1>AI Inference<br>& GPU 週末衝刺</h1><p>從 Machine Learning、Training vs. Inference、CPU/GPU，到 NVIDIA TensorRT、LLM、AI Storage 與 Kubernetes GPU Operator。兩天建立完整考試地圖。</p><div class="notice">來源註記：原清單中的 Medium 與 Run:ai 文章目前失效，因此僅保留主題概念，不假裝引用不可驗證的原文。</div></div><div class="stat-grid"><div class="stat"><b>100</b><span>閱讀單元</span></div><div class="stat"><b>2</b><span>週末天數</span></div><div class="stat"><b>9</b><span>原始閱讀主題</span></div><div class="stat"><b>11</b><span>已驗證來源</span></div></div></div></section>
+<div class="layout"><aside class="sidebar"><h2>CHAPTER INDEX</h2><nav class="nav-list"><a class="nav-item" href="#page-1" data-section="導讀"><span>導讀</span><b>10</b></a><a class="nav-item" href="#page-11" data-section="ML 基礎"><span>ML 基礎</span><b>12</b></a><a class="nav-item" href="#page-23" data-section="Training vs Inference"><span>Training vs Inference</span><b>13</b></a><a class="nav-item" href="#page-36" data-section="CPU / GPU"><span>CPU / GPU</span><b>12</b></a><a class="nav-item" href="#page-48" data-section="TensorRT / 推論最佳化"><span>TensorRT / 推論最佳化</span><b>14</b></a><a class="nav-item" href="#page-62" data-section="LLM 應用"><span>LLM 應用</span><b>12</b></a><a class="nav-item" href="#page-74" data-section="AI Storage"><span>AI Storage</span><b>11</b></a><a class="nav-item" href="#page-85" data-section="Kubernetes GPU"><span>Kubernetes GPU</span><b>10</b></a><a class="nav-item" href="#page-95" data-section="總複習"><span>總複習</span><b>5</b></a><a class="nav-item" href="#page-100" data-section="來源"><span>來源</span><b>1</b></a></nav><div class="schedule"><strong>週末節奏</strong><p>Saturday：ML → Training/Inference → CPU/GPU → TensorRT</p><p>Sunday：LLM → Storage → Kubernetes GPU → Mock Exam</p></div></aside><main id="lessons"><article class="reading-section" id="page-1" data-page="1" data-section="導讀" data-search="週末證照衝刺教材：ai / ml / inference / gpu infrastructure 導讀 目標：用兩天建立 ai infrastructure 與 inference 基礎 材料來源：9 份推薦閱讀 + nvidia 官方教學/文件 適合證照範圍：ai fundamentals、ml basics、gpu computing、mlops / kubernetes gpu 管理 把所有文章串成一條線：ml → 硬體 → 推論 → 部署 → 維運。">
+  <header class="page-head">
+    <span class="page-no">READING 001</span>
+    <span class="section-tag">導讀</span>
   </header>
-  <nav>
-    <a href="#study-plan">讀書節奏</a>
-    <a href="#reader-pages">100 頁閱讀教材</a>
-    <a href="#sources">參考文章</a>
-    <button type="button" onclick="window.print()">列印 / 轉 PDF</button>
-  </nav>
-  <main>
-    <section class="reader-page" id="study-plan">
-      <div class="kicker">Reading Guide</div>
-      <h2>週末讀書節奏</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>週六上午：基礎語言</h3>
-          <p>AI、ML、training、inference、CPU/GPU 差異。目標是看到題目時能先判斷它在問模型生命週期、硬體架構，還是部署問題。</p>
-        </div>
-        <div class="box">
-          <h3>週六下午：推論工程</h3>
-          <p>模型 serving、latency、throughput、batching、TensorRT、LLM serving。目標是把「模型會跑」和「產品能穩定服務」分開看。</p>
-        </div>
-        <div class="box">
-          <h3>週日上午：平台與維運</h3>
-          <p>storage、network、Kubernetes、GPU Operator、container runtime、monitoring。目標是理解 GPU 叢集不是只有 GPU。</p>
-        </div>
-        <div class="box">
-          <h3>週日下午：模擬考</h3>
-          <p>快速複習每頁底部問題，特別練習把名詞對到場景：訓練、推論、最佳化、擴展、維運。</p>
-        </div>
-      </div>
-    </section>
-    <section id="reader-pages"></section>
-    <section class="reader-page sources" id="sources">
-      <div class="kicker">Reference</div>
-      <h2>參考文章與官方入口</h2>
-      <ol>
-        <li><a href="https://developer.nvidia.com/tensorrt">NVIDIA TensorRT, NVIDIA Developer</a></li>
-        <li><a href="https://ai.plainenglish.io/deep-learning-training-vs-inference-do-you-know-the-difference-72e136a0a070">Deep Learning Training vs. Inference</a></li>
-        <li><a href="https://www.mirantis.com/blog/understanding-machine-learning-inference-a-guide/">Understanding Machine Learning Inference</a></li>
-        <li><a href="https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/">Tips on Scaling Storage for AI Training and Inferencing</a></li>
-        <li><a href="https://www.ibm.com/think/topics/machine-learning">What Is Machine Learning?, IBM</a></li>
-        <li><a href="https://www.sas.com/en_us/insights/analytics/machine-learning.html">Machine Learning: What It Is and Why It Matters, SAS</a></li>
-        <li><a href="https://blogs.nvidia.com/blog/what-are-large-language-models-used-for/">What Are Large Language Models Used For?, NVIDIA Blog</a></li>
-        <li><a href="https://developer.nvidia.com/blog/nvidia-gpu-operator-simplifying-gpu-management-in-kubernetes/">NVIDIA GPU Operator: Simplifying GPU Management in Kubernetes</a></li>
-        <li><a href="https://www.intel.com/content/www/us/en/products/docs/processors/cpu-vs-gpu.html">CPU vs. GPU: What's the Difference?, Intel</a></li>
-        <li><a href="https://docs.nvidia.com/deeplearning/tensorrt/">NVIDIA TensorRT Documentation</a></li>
-        <li><a href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/">NVIDIA GPU Operator Documentation</a></li>
-      </ol>
-    </section>
-  </main>
-  <footer>
-    HTML 教材版本：2026-08-15。內容定位為週末考前速讀與複習，不取代官方文件與實作練習。
-  </footer>
-  <script>
-    const modules = [
-      {
-        title: "AI、ML 與證照考點地圖",
-        source: "IBM / SAS ML overview",
-        terms: ["AI", "Machine Learning", "Model", "Pattern"],
-        bullets: [
-          "Machine Learning 是 AI 的子領域，重點是從資料學出規律，而不是把每個規則都寫死。",
-          "考題常把 AI、ML、Deep Learning 混在一起問；先判斷層級，再判斷場景。",
-          "模型不是魔法函式，而是由資料、演算法、訓練流程、評估方式共同產生的系統元件。"
-        ],
-        checkpoints: ["ML 和傳統 rule-based system 最大差異是什麼？", "為什麼資料品質會影響模型結果？", "AI、ML、DL 的範圍關係如何描述？"],
-        lab: "用一句話向非技術主管解釋：為什麼 ML 專案不是買 GPU 就會成功。"
-      },
-      {
-        title: "Training vs. Inference",
-        source: "AI TutorMaster / Run:ai",
-        terms: ["Training", "Inference", "Weights", "Prediction"],
-        bullets: [
-          "Training 是用資料調整權重；Inference 是用固定權重對新輸入產生輸出。",
-          "Training 通常重視長時間吞吐與大規模資料；Inference 通常重視低延遲、穩定性與成本。",
-          "考試遇到「模型參數是否更新」是很好的判斷線索：有更新偏 training，沒有更新偏 inference。"
-        ],
-        checkpoints: ["哪個階段會更新模型權重？", "推論服務為什麼會在意 latency？", "Batch size 在訓練和推論的取捨有何不同？"],
-        lab: "畫出從資料收集、訓練、評估、部署、監控到再訓練的生命週期。"
-      },
-      {
-        title: "CPU vs. GPU 的硬體直覺",
-        source: "Intel CPU vs GPU / NVIDIA tutorials",
-        terms: ["CPU", "GPU", "Parallelism", "Throughput"],
-        bullets: [
-          "CPU 核心少但控制能力強，適合序列流程、系統控制與低延遲分支邏輯。",
-          "GPU 核心多且擅長同質平行計算，適合矩陣乘法、向量運算、影像與深度學習工作負載。",
-          "AI 題目不是看到 GPU 就選 GPU；要先判斷工作是否能有效平行化。"
-        ],
-        checkpoints: ["CPU 適合哪些任務？", "GPU 為什麼適合神經網路？", "資料搬移為什麼會讓 GPU 閒置？"],
-        lab: "列出一個 CPU 較適合、GPU 較適合、CPU/GPU 混合較適合的場景。"
-      },
-      {
-        title: "Inference Serving 基本架構",
-        source: "Run:ai inference guide",
-        terms: ["Serving", "Endpoint", "Latency", "Autoscaling"],
-        bullets: [
-          "推論服務把模型包成可被產品呼叫的 endpoint，通常還需要前處理、後處理、監控與錯誤處理。",
-          "Production inference 的難點在穩定服務：尖峰流量、冷啟動、版本切換與資源隔離都會影響體驗。",
-          "常見考點包含 latency、throughput、batching、autoscaling、SLA 與資源配置。"
-        ],
-        checkpoints: ["模型檔案和 inference service 有什麼差異？", "為什麼 autoscaling 不是萬靈丹？", "SLA 會如何影響架構選擇？"],
-        lab: "設計一個圖片分類 API 的最小推論服務元件清單。"
-      },
-      {
-        title: "TensorRT 的角色",
-        source: "NVIDIA TensorRT",
-        terms: ["TensorRT", "Engine", "Optimization", "Precision"],
-        bullets: [
-          "TensorRT 是 NVIDIA 的深度學習推論最佳化 SDK，定位在已訓練模型的 deployment optimization。",
-          "它透過 graph optimization、kernel selection、precision calibration、engine build 等方式提升吞吐並降低延遲。",
-          "考題若出現 low latency inference、NVIDIA GPU deployment、optimized engine，通常與 TensorRT 有關。"
-        ],
-        checkpoints: ["TensorRT 是訓練工具還是推論工具？", "為什麼降低精度可能提升效能？", "Engine build 和 runtime serving 有什麼差異？"],
-        lab: "用流程圖描述 ONNX 模型進入 TensorRT 到部署的步驟。"
-      },
-      {
-        title: "LLM 用途與推論特性",
-        source: "NVIDIA LLM blog",
-        terms: ["LLM", "Transformer", "Token", "Prompt"],
-        bullets: [
-          "LLM 可用於摘要、翻譯、問答、內容生成、程式碼、資訊抽取與其他序列型任務。",
-          "LLM 推論和一般分類模型不同，常受 token 長度、KV cache、batching、streaming 與記憶體容量影響。",
-          "考題會把用途、限制與部署成本放在一起問；不要只記模型名稱，要理解 serving 行為。"
-        ],
-        checkpoints: ["LLM 為什麼常需要大量 GPU memory？", "Token length 會影響哪些成本？", "Streaming 回覆解決的是哪一類使用者體驗問題？"],
-        lab: "整理三個 LLM 商業應用，並標註每個應用最在意 latency、品質或成本哪一項。"
-      },
-      {
-        title: "Storage 與 Data Path",
-        source: "NVIDIA storage scaling blog",
-        terms: ["Storage", "I/O", "Bandwidth", "Data Pipeline"],
-        bullets: [
-          "AI 系統效能不只由 GPU 決定；資料讀取、網路、檔案系統與前處理都可能成為瓶頸。",
-          "Training 常需要大量資料連續餵入；Inference 則可能面對模型載入、向量資料、使用者資料與日誌寫入。",
-          "考題看到 GPU utilization 偏低時，要想到資料路徑、I/O、batching 與 pipeline 是否卡住。"
-        ],
-        checkpoints: ["GPU utilization 低一定是 GPU 太弱嗎？", "Training 和 inference 的儲存壓力有何不同？", "為什麼容量和頻寬要一起規劃？"],
-        lab: "替一個影像訓練任務列出 storage、network、GPU 三者的瓶頸檢查表。"
-      },
-      {
-        title: "Kubernetes 上的 GPU 管理",
-        source: "NVIDIA GPU Operator",
-        terms: ["Kubernetes", "GPU Operator", "Device Plugin", "Driver"],
-        bullets: [
-          "在 Kubernetes 上跑 GPU workload，需要 driver、container runtime、device plugin、monitoring 與升級生命週期。",
-          "GPU Operator 用 Operator pattern 自動部署與管理 NVIDIA GPU stack，降低人工安裝與版本不一致風險。",
-          "考試遇到 cluster lifecycle、GPU node 管理、自動化安裝，應想到 GPU Operator。"
-        ],
-        checkpoints: ["GPU Operator 管哪些元件？", "Device plugin 的角色是什麼？", "為什麼 driver 版本管理會影響叢集穩定性？"],
-        lab: "列出一台 Kubernetes GPU node 從裸機到可排程 workload 需要的元件。"
-      },
-      {
-        title: "效能指標與取捨",
-        source: "NVIDIA tutorials / inference guides",
-        terms: ["Latency", "Throughput", "Batching", "SLA"],
-        bullets: [
-          "Latency 是單次請求等待時間；throughput 是單位時間處理量；兩者常需要取捨。",
-          "Batching 可以提升吞吐，但可能增加等待時間；即時互動產品通常不能只追求最大 batch。",
-          "證照題常測你是否能根據需求選指標，而不是只追求最高 benchmark。"
-        ],
-        checkpoints: ["即時客服機器人最在意哪個指標？", "離線批次摘要最在意哪個指標？", "Batching 何時會傷害使用者體驗？"],
-        lab: "為三種應用設定主要指標：聊天、推薦排序、夜間批次轉錄。"
-      },
-      {
-        title: "精度、量化與模型最佳化",
-        source: "TensorRT documentation",
-        terms: ["FP32", "FP16", "INT8", "Quantization"],
-        bullets: [
-          "降低數值精度常能加速推論並降低記憶體使用，但可能帶來準確率影響。",
-          "FP16 通常是 NVIDIA GPU 推論常見加速選項；INT8 需要更謹慎的校準與驗證。",
-          "最佳化不是盲目壓縮，而是在準確率、延遲、吞吐、成本之間做工程取捨。"
-        ],
-        checkpoints: ["量化的主要好處是什麼？", "為什麼 INT8 需要校準？", "模型最佳化後要重新驗證哪些指標？"],
-        lab: "設計一張表格比較 FP32、FP16、INT8 的速度、記憶體與準確率風險。"
-      },
-      {
-        title: "模型部署生命週期",
-        source: "Run:ai / NVIDIA tutorials",
-        terms: ["Deployment", "Versioning", "Monitoring", "Rollback"],
-        bullets: [
-          "部署不是最後一步，而是持續循環：發布、監控、收集回饋、修正、再發布。",
-          "模型版本管理要能追蹤資料、權重、程式、設定與效能指標，否則問題發生時難以回溯。",
-          "Production 題目常把 canary、rollback、A/B test、drift monitoring 放在同一組選項。"
-        ],
-        checkpoints: ["模型 rollback 要準備哪些資訊？", "資料 drift 代表什麼？", "A/B test 和 canary deployment 差異在哪？"],
-        lab: "為一個 fraud detection 模型設計部署後監控項目。"
-      },
-      {
-        title: "安全、可靠性與成本",
-        source: "NVIDIA / SAS business context",
-        terms: ["Reliability", "Cost", "Governance", "Observability"],
-        bullets: [
-          "企業 AI 落地會同時看準確率、可靠性、可解釋性、資料治理與營運成本。",
-          "GPU 成本高，推論架構要避免閒置、過度配置與無法預測的尖峰浪費。",
-          "考題若問 production readiness，通常答案不會只包含模型精度。"
-        ],
-        checkpoints: ["為什麼 production AI 要 monitoring？", "成本最佳化可能和 latency 有何衝突？", "資料治理和模型部署有什麼關係？"],
-        lab: "列出一個企業導入 LLM 服務前的風險清單。"
-      },
-      {
-        title: "NVIDIA 軟體堆疊速覽",
-        source: "NVIDIA developer docs",
-        terms: ["CUDA", "cuDNN", "TensorRT", "Triton"],
-        bullets: [
-          "CUDA 是 NVIDIA GPU 平行運算基礎；cuDNN 提供深度學習常用最佳化 primitives。",
-          "TensorRT 聚焦模型推論最佳化；Triton Inference Server 則偏向多模型、多框架的 serving。",
-          "證照準備時要能分辨底層 compute library、模型最佳化工具、serving server 的角色。"
-        ],
-        checkpoints: ["CUDA 和 TensorRT 是同一層嗎？", "Serving server 解決什麼問題？", "為什麼軟體堆疊版本相容性重要？"],
-        lab: "畫出從 GPU driver 到 inference endpoint 的 NVIDIA 軟體層次。"
-      },
-      {
-        title: "容器化與 MLOps",
-        source: "GPU Operator / inference guides",
-        terms: ["Container", "Runtime", "Image", "CI/CD"],
-        bullets: [
-          "容器讓模型服務的環境更可重現，但 GPU 容器還需要 host driver 與 container runtime 正確協作。",
-          "MLOps 把模型開發、測試、部署、監控串成流程，降低人工操作造成的版本落差。",
-          "Kubernetes 題目常把排程、資源限制、node label、device plugin 與 operator 放在一起考。"
-        ],
-        checkpoints: ["容器是否包含 GPU driver？", "為什麼要設定 resource limits？", "MLOps 和傳統 DevOps 的差異在哪？"],
-        lab: "寫出一個 GPU inference container 上線前的 checklist。"
-      },
-      {
-        title: "資料、模型與業務價值",
-        source: "IBM / SAS",
-        terms: ["Use Case", "Dataset", "Metric", "Decision"],
-        bullets: [
-          "ML 專案成功不是因為模型新，而是因為它改善了決策、效率、風險或使用者體驗。",
-          "選 use case 時要確認資料可得、標註可行、評估指標明確、部署成本合理。",
-          "考題常用商業場景包裝技術概念，先找出真正的目標指標。"
-        ],
-        checkpoints: ["為什麼沒有好資料就難有好模型？", "技術指標和業務指標可能不同嗎？", "如何判斷 use case 是否適合 ML？"],
-        lab: "選一個製造業場景，定義資料來源、模型輸出與成功指標。"
-      },
-      {
-        title: "常見陷阱題",
-        source: "All readings",
-        terms: ["Exam Trap", "Bottleneck", "Lifecycle", "Tradeoff"],
-        bullets: [
-          "陷阱一：把 training 和 inference 混為一談，忽略是否更新權重。",
-          "陷阱二：看到效能問題只換更強 GPU，忘記 storage、network、preprocessing 與 batching。",
-          "陷阱三：只看 accuracy，忽略 latency、cost、monitoring、rollback 與維運。"
-        ],
-        checkpoints: ["哪個詞能快速分辨訓練和推論？", "效能瓶頸可能在哪些非 GPU 元件？", "Production readiness 包含哪些面向？"],
-        lab: "把本頁三個陷阱各寫一題選擇題，並標出正解。"
-      },
-      {
-        title: "週六晚間總複習",
-        source: "Weekend plan",
-        terms: ["Review", "Concept Map", "Flashcards", "Recall"],
-        bullets: [
-          "用概念圖連接 ML、training、inference、GPU、TensorRT、storage、Kubernetes。",
-          "不要只重讀文章；用閉卷方式寫出名詞定義，再回頭補洞。",
-          "把每個主題壓縮成一句考場提示，讓隔天能快速喚回完整觀念。"
-        ],
-        checkpoints: ["今天最容易混淆的三組名詞是什麼？", "哪些考點需要實作印象？", "哪一篇文章對你最陌生？"],
-        lab: "做 20 張 flashcards：正面名詞，背面定義、用途、常見陷阱。"
-      },
-      {
-        title: "週日模擬考策略",
-        source: "Weekend plan",
-        terms: ["Mock Exam", "Elimination", "Scenario", "Review"],
-        bullets: [
-          "先讀題目場景，再找關鍵詞：訓練、推論、延遲、吞吐、GPU 管理、資料瓶頸。",
-          "遇到多個看似正確的選項，優先選最直接解決題目限制的答案。",
-          "錯題不要只記答案，要寫下你當時誤判的線索。"
-        ],
-        checkpoints: ["你最常被哪類題目誤導？", "如何判斷題目在問工具、概念還是架構？", "錯題筆記要記什麼？"],
-        lab: "用本教材每頁問題做一次 60 分鐘閉卷測驗。"
-      },
-      {
-        title: "考前 30 分鐘快掃",
-        source: "All readings",
-        terms: ["Final Review", "Keywords", "Confidence", "Timing"],
-        bullets: [
-          "最後 30 分鐘只看關鍵詞、常見陷阱和自己錯題；不要再開新文章。",
-          "確認能快速說出 TensorRT、GPU Operator、training、inference、latency、throughput 的差異。",
-          "看到情境題先穩住，問自己：它真正要最佳化的是速度、成本、穩定、準確，還是維運？"
-        ],
-        checkpoints: ["六個核心名詞能否各用一句話說清楚？", "最該避免的粗心是什麼？", "題目限制條件通常藏在哪裡？"],
-        lab: "寫下 10 句自己的考場提醒，考前只看這 10 句。"
-      },
-      {
-        title: "延伸實作路線",
-        source: "NVIDIA docs",
-        terms: ["Hands-on", "ONNX", "TensorRT", "Kubernetes"],
-        bullets: [
-          "如果證照包含實作，優先補三件事：模型轉換、TensorRT engine、GPU container deployment。",
-          "實作時記錄每個錯誤訊息，因為版本、driver、runtime、framework 相容性常是考點來源。",
-          "完成速成後，下一步應補官方 tutorial 和小型 lab，建立真正的操作記憶。"
-        ],
-        checkpoints: ["ONNX 在部署流程中扮演什麼角色？", "為什麼實作能補強選擇題？", "GPU container 最常見的環境依賴有哪些？"],
-        lab: "安排三個 30 分鐘 lab：模型轉換、TensorRT 最佳化、Kubernetes GPU workload。"
-      }
-    ];
-
-    const readingSections = [
-      { label: "核心觀念", lead: "先抓住本章最可能出現在考題裡的核心觀念。", prompt: "用自己的話重述本頁三個重點。" },
-      { label: "考點導讀", lead: "把文章內容轉成考場會問的判斷線索。", prompt: "看到題目時，先圈出能判斷場景的關鍵字。" },
-      { label: "架構理解", lead: "用系統角度看元件、資料流、瓶頸與維運責任。", prompt: "畫一張最小架構圖，標出誰輸入、誰處理、誰監控。" },
-      { label: "閱讀自測", lead: "用小題目檢查自己是否真的能分辨相近概念。", prompt: "閉卷回答問題，再回本頁核對。" },
-      { label: "實作延伸", lead: "把觀念放回 production 或考試情境中使用。", prompt: "用 3 分鐘完成 lab，超時就先寫假設。" }
-    ];
-
-    const pages = [];
-    modules.forEach((module, moduleIndex) => {
-      readingSections.forEach((type, typeIndex) => {
-        const number = moduleIndex * readingSections.length + typeIndex + 1;
-        pages.push({ number, moduleIndex: moduleIndex + 1, module, type });
-      });
-    });
-
-    const container = document.querySelector("#reader-pages");
-    container.innerHTML = pages.map(({ number, moduleIndex, module, type }) => `
-      <article class="reader-page" id="page-${number}">
-        <div class="kicker">Reading Page ${String(number).padStart(3, "0")} / Module ${moduleIndex} / ${type.label}</div>
-        <h2>${module.title}</h2>
-        <p>${type.lead}</p>
-        <div>${module.terms.map(term => `<span class="term">${term}</span>`).join("")}</div>
-        <h3>本頁重點</h3>
-        <ul>${module.bullets.map(item => `<li>${item}</li>`).join("")}</ul>
-        <div class="grid">
-          <div class="box quiz">
-            <h3>考前自測</h3>
-            <ol>${module.checkpoints.map(q => `<li>${q}</li>`).join("")}</ol>
-          </div>
-          <div class="box">
-            <h3>週末任務</h3>
-            <p>${module.lab}</p>
-            <p><strong>本頁動作：</strong>${type.prompt}</p>
-            <p class="meta">來源線索：${module.source}</p>
-          </div>
-        </div>
-      </article>
-    `).join("");
-
-    const search = document.createElement("div");
-    search.className = "toolbar";
-    search.innerHTML = `
-      <input id="q" type="search" placeholder="搜尋：TensorRT、GPU Operator、latency、training..." />
-      <span class="meta">教材頁數：${pages.length} 頁</span>
-    `;
-    container.before(search);
-    document.querySelector("#q").addEventListener("input", event => {
-      const q = event.target.value.trim().toLowerCase();
-      document.querySelectorAll("#reader-pages .reader-page").forEach(page => {
-        page.hidden = q && !page.textContent.toLowerCase().includes(q);
-      });
-    });
-  </script>
-</body>
-</html>
+  <h2>週末證照衝刺教材：AI / ML / Inference / GPU Infrastructure</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>目標：用兩天建立 AI infrastructure 與 inference 基礎</li><li>材料來源：9 份推薦閱讀 + NVIDIA 官方教學/文件</li><li>適合證照範圍：AI fundamentals、ML basics、GPU computing、MLOps / Kubernetes GPU 管理</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>把所有文章串成一條線：ML → 硬體 → 推論 → 部署 → 維運。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="1"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-2" data-page="2" data-section="導讀" data-search="如何使用這 100 頁 導讀 第 1 輪：快速翻完，建立地圖 第 2 輪：逐章做頁末考點 第 3 輪：只看錯題與比較表 最後 2 小時：做 mock exam 並背關鍵定義 不要逐字背；把概念關係背熟。">
+  <header class="page-head">
+    <span class="page-no">READING 002</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>如何使用這 100 頁</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>第 1 輪：快速翻完，建立地圖</li><li>第 2 輪：逐章做頁末考點</li><li>第 3 輪：只看錯題與比較表</li><li>最後 2 小時：做 mock exam 並背關鍵定義</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>不要逐字背；把概念關係背熟。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="2"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-3" data-page="3" data-section="導讀" data-search="來源驗證狀態 導讀 7 份原清單文章可讀並已驗證連結 medium 原文目前被擋且 reader 顯示 404：不作為可引用原文 run:ai 原文目前 404：只保留主題，不作為可引用原文 另補 nvidia tensorrt / gpu operator 官方 docs 作為教學補充 考試準備要以可驗證官方來源為主。">
+  <header class="page-head">
+    <span class="page-no">READING 003</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>來源驗證狀態</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>7 份原清單文章可讀並已驗證連結</li><li>Medium 原文目前被擋且 reader 顯示 404：不作為可引用原文</li><li>Run:ai 原文目前 404：只保留主題，不作為可引用原文</li><li>另補 NVIDIA TensorRT / GPU Operator 官方 docs 作為教學補充</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考試準備要以可驗證官方來源為主。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="3"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-4" data-page="4" data-section="導讀" data-search="週末時間表：saturday 導讀 09:00–10:30：ml / ai / deep learning 基礎 10:45–12:00：training vs inference 13:00–15:00：cpu / gpu / memory hierarchy 15:15–17:30：tensorrt 與 inference optimization 晚上：複習比較表 + 20 題練習 第一天建立概念與硬體直覺。">
+  <header class="page-head">
+    <span class="page-no">READING 004</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>週末時間表：Saturday</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>09:00–10:30：ML / AI / Deep Learning 基礎</li><li>10:45–12:00：Training vs Inference</li><li>13:00–15:00：CPU / GPU / memory hierarchy</li><li>15:15–17:30：TensorRT 與 inference optimization</li><li>晚上：複習比較表 + 20 題練習</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>第一天建立概念與硬體直覺。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="4"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-5" data-page="5" data-section="導讀" data-search="週末時間表：sunday 導讀 09:00–10:30：llm 用途與 transformer 概念 10:45–12:00：ai storage scaling 13:00–15:00：kubernetes / gpu operator 15:15–16:30：整合題與情境題 16:30–18:00：mock exam + 錯題回補 第二天聚焦 production 與情境判斷。">
+  <header class="page-head">
+    <span class="page-no">READING 005</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>週末時間表：Sunday</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>09:00–10:30：LLM 用途與 transformer 概念</li><li>10:45–12:00：AI storage scaling</li><li>13:00–15:00：Kubernetes / GPU Operator</li><li>15:15–16:30：整合題與情境題</li><li>16:30–18:00：Mock exam + 錯題回補</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>第二天聚焦 production 與情境判斷。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="5"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-6" data-page="6" data-section="導讀" data-search="一張總地圖 導讀 machine learning：從資料學模式 training：用資料調整模型參數 inference：用訓練好的模型服務請求 gpu：平行運算加速 training / inference tensorrt：讓 inference 更快更省 gpu operator：讓 kubernetes 管 gpu 更自動化 每個名詞都要能放回系統位置。">
+  <header class="page-head">
+    <span class="page-no">READING 006</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>一張總地圖</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Machine Learning：從資料學模式</li><li>Training：用資料調整模型參數</li><li>Inference：用訓練好的模型服務請求</li><li>GPU：平行運算加速 training / inference</li><li>TensorRT：讓 inference 更快更省</li><li>GPU Operator：讓 Kubernetes 管 GPU 更自動化</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>每個名詞都要能放回系統位置。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="6"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-7" data-page="7" data-section="導讀" data-search="證照常考的 5 種題型 導讀 定義題：ml / ai / inference / gpu 比較題：training vs inference、cpu vs gpu 情境題：何時需要 tensorrt、何時 storage 是瓶頸 架構題：kubernetes gpu stack 元件 最佳化題：latency、throughput、quantization、batching 考題通常不是背產品名，而是問你何時用、為什麼用。">
+  <header class="page-head">
+    <span class="page-no">READING 007</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>證照常考的 5 種題型</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>定義題：ML / AI / inference / GPU</li><li>比較題：training vs inference、CPU vs GPU</li><li>情境題：何時需要 TensorRT、何時 storage 是瓶頸</li><li>架構題：Kubernetes GPU stack 元件</li><li>最佳化題：latency、throughput、quantization、batching</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考題通常不是背產品名，而是問你何時用、為什麼用。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="7"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-8" data-page="8" data-section="導讀" data-search="本教材的核心心法 導讀 先看 workload，再選硬體與工具 先分清 training 與 inference，再談 scaling gpu 不是萬靈丹：資料、storage、network、runtime 都會成瓶頸 production ai 是系統工程，不只是模型準確率 考試喜歡測你能否避免單點思維。">
+  <header class="page-head">
+    <span class="page-no">READING 008</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>本教材的核心心法</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>先看 workload，再選硬體與工具</li><li>先分清 training 與 inference，再談 scaling</li><li>GPU 不是萬靈丹：資料、storage、network、runtime 都會成瓶頸</li><li>Production AI 是系統工程，不只是模型準確率</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考試喜歡測你能否避免單點思維。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="8"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-9" data-page="9" data-section="導讀" data-search="關鍵詞速記表 導讀 ai：讓系統表現出智慧行為 ml：從資料學習模式的 ai 子集 deep learning：以深層神經網路為核心的 ml 子集 inference：對新輸入做預測/生成 generalization：模型對未見資料仍有效 先背最短定義，再補例子。">
+  <header class="page-head">
+    <span class="page-no">READING 009</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>關鍵詞速記表</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>AI：讓系統表現出智慧行為</li><li>ML：從資料學習模式的 AI 子集</li><li>Deep Learning：以深層神經網路為核心的 ML 子集</li><li>Inference：對新輸入做預測/生成</li><li>Generalization：模型對未見資料仍有效</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>先背最短定義，再補例子。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="9"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-10" data-page="10" data-section="導讀" data-search="閱讀順序建議 導讀 ibm / sas：建立 ml 基礎 intel：理解 cpu vs gpu nvidia llm：理解 llm 應用 nvidia tensorrt：理解推論最佳化 nvidia storage：理解資料供給 nvidia gpu operator：理解 production gpu 管理 由基礎到部署，比單篇孤立閱讀更有效。">
+  <header class="page-head">
+    <span class="page-no">READING 010</span>
+    <span class="section-tag">導讀</span>
+  </header>
+  <h2>閱讀順序建議</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>IBM / SAS：建立 ML 基礎</li><li>Intel：理解 CPU vs GPU</li><li>NVIDIA LLM：理解 LLM 應用</li><li>NVIDIA TensorRT：理解推論最佳化</li><li>NVIDIA Storage：理解資料供給</li><li>NVIDIA GPU Operator：理解 production GPU 管理</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>由基礎到部署，比單篇孤立閱讀更有效。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="10"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-11" data-page="11" data-section="ML 基礎" data-search="ai、ml、deep learning 的階層關係 ml 基礎 ai 是大集合；ml 是 ai 的子集；deep learning 是 ml 的子集 rule-based ai 可以不是 ml llm 屬於 deep learning 的重要應用 ai 不等於 ml；ml 不等於所有 ai。">
+  <header class="page-head">
+    <span class="page-no">READING 011</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>AI、ML、Deep Learning 的階層關係</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>AI 是大集合；ML 是 AI 的子集；Deep Learning 是 ML 的子集</li><li>Rule-based AI 可以不是 ML</li><li>LLM 屬於 deep learning 的重要應用</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>AI 不等於 ML；ML 不等於所有 AI。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="11"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-12" data-page="12" data-section="ML 基礎" data-search="machine learning 的核心定義 ml 基礎 ibm：ml 讓演算法從 training data 學習模式，對新資料做 inference sas：ml 自動化 analytical model building 重點：資料、模式、泛化、預測 ml 的考點是「從資料學習」而非手寫規則。">
+  <header class="page-head">
+    <span class="page-no">READING 012</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Machine Learning 的核心定義</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>IBM：ML 讓演算法從 training data 學習模式，對新資料做 inference</li><li>SAS：ML 自動化 analytical model building</li><li>重點：資料、模式、泛化、預測</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>ML 的考點是「從資料學習」而非手寫規則。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="12"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-13" data-page="13" data-section="ML 基礎" data-search="training data 與 patterns ml 基礎 模型不是記住單筆資料，而是學統計關係 資料分布與未來輸入越接近，泛化越可靠 偏差資料會導致偏差預測 資料品質會決定模型上限。">
+  <header class="page-head">
+    <span class="page-no">READING 013</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Training Data 與 Patterns</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>模型不是記住單筆資料，而是學統計關係</li><li>資料分布與未來輸入越接近，泛化越可靠</li><li>偏差資料會導致偏差預測</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>資料品質會決定模型上限。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="13"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-14" data-page="14" data-section="ML 基礎" data-search="generalization 為什麼重要 ml 基礎 訓練分數高不代表實際可用 真正目標是對未見資料有效 overfitting 是只記住訓練資料的典型問題 考試常用 overfitting 測 generalization。">
+  <header class="page-head">
+    <span class="page-no">READING 014</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Generalization 為什麼重要</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>訓練分數高不代表實際可用</li><li>真正目標是對未見資料有效</li><li>Overfitting 是只記住訓練資料的典型問題</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考試常用 overfitting 測 generalization。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="14"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-15" data-page="15" data-section="ML 基礎" data-search="supervised learning ml 基礎 有標籤資料：輸入 + 正確答案 常見任務：classification、regression 例：垃圾郵件分類、房價預測 有答案可學，就是 supervised。">
+  <header class="page-head">
+    <span class="page-no">READING 015</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Supervised Learning</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>有標籤資料：輸入 + 正確答案</li><li>常見任務：classification、regression</li><li>例：垃圾郵件分類、房價預測</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>有答案可學，就是 supervised。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="15"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-16" data-page="16" data-section="ML 基礎" data-search="unsupervised learning ml 基礎 資料沒有明確標籤 常見任務：clustering、dimensionality reduction 例：客群分群、異常模式探索 沒有答案，找結構。">
+  <header class="page-head">
+    <span class="page-no">READING 016</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Unsupervised Learning</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>資料沒有明確標籤</li><li>常見任務：clustering、dimensionality reduction</li><li>例：客群分群、異常模式探索</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>沒有答案，找結構。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="16"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-17" data-page="17" data-section="ML 基礎" data-search="reinforcement learning ml 基礎 agent 透過行動取得 reward 目標是學 policy 常見於遊戲、控制、機器人、rlhf 概念 不是學標籤，而是學策略。">
+  <header class="page-head">
+    <span class="page-no">READING 017</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Reinforcement Learning</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Agent 透過行動取得 reward</li><li>目標是學 policy</li><li>常見於遊戲、控制、機器人、RLHF 概念</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>不是學標籤，而是學策略。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="17"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-18" data-page="18" data-section="ML 基礎" data-search="模型生命週期 ml 基礎 資料收集 → 特徵/前處理 → 訓練 → 評估 → 部署 → 監控 → 再訓練 部署後資料漂移可能使模型退化 mlops 關心整個生命週期 考題會把 ml 放到 lifecycle 裡問。">
+  <header class="page-head">
+    <span class="page-no">READING 018</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>模型生命週期</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>資料收集 → 特徵/前處理 → 訓練 → 評估 → 部署 → 監控 → 再訓練</li><li>部署後資料漂移可能使模型退化</li><li>MLOps 關心整個生命週期</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考題會把 ML 放到 lifecycle 裡問。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="18"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-19" data-page="19" data-section="ML 基礎" data-search="model evaluation ml 基礎 分類：accuracy、precision、recall、f1 回歸：mae、mse、rmse 生成模型：品質、事實性、安全、latency、成本都重要 指標要對應任務。">
+  <header class="page-head">
+    <span class="page-no">READING 019</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>Model Evaluation</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>分類：accuracy、precision、recall、F1</li><li>回歸：MAE、MSE、RMSE</li><li>生成模型：品質、事實性、安全、latency、成本都重要</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>指標要對應任務。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="19"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-20" data-page="20" data-section="ML 基礎" data-search="ml vs 傳統程式 ml 基礎 傳統程式：人寫規則 + 資料 → 輸出 ml：資料 + 答案/目標 → 學出模型 inference：模型 + 新資料 → 輸出 ml 把規則藏在訓練出的參數裡。">
+  <header class="page-head">
+    <span class="page-no">READING 020</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>ML vs 傳統程式</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>傳統程式：人寫規則 + 資料 → 輸出</li><li>ML：資料 + 答案/目標 → 學出模型</li><li>Inference：模型 + 新資料 → 輸出</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>ML 把規則藏在訓練出的參數裡。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="20"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-21" data-page="21" data-section="ML 基礎" data-search="sas 的商業應用例子 ml 基礎 推薦系統：根據行為推薦商品 詐欺偵測：找異常交易 自駕車：感知與決策 社群分析：理解文字與情緒 ml 價值是自動化決策與模式發現。">
+  <header class="page-head">
+    <span class="page-no">READING 021</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>SAS 的商業應用例子</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>推薦系統：根據行為推薦商品</li><li>詐欺偵測：找異常交易</li><li>自駕車：感知與決策</li><li>社群分析：理解文字與情緒</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>ML 價值是自動化決策與模式發現。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="21"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-22" data-page="22" data-section="ML 基礎" data-search="本章考點整理 ml 基礎 ml 是 ai 子集 training 產生模型；inference 使用模型 generalization 是核心目標 不同任務使用不同演算法與評估指標 如果只能背一頁，背這頁。">
+  <header class="page-head">
+    <span class="page-no">READING 022</span>
+    <span class="section-tag">ML 基礎</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>ML 是 AI 子集</li><li>Training 產生模型；Inference 使用模型</li><li>Generalization 是核心目標</li><li>不同任務使用不同演算法與評估指標</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>如果只能背一頁，背這頁。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="22"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-23" data-page="23" data-section="Training vs Inference" data-search="training vs inference：一句話版 training vs inference training：讓模型學會 inference：讓模型回答 training 偏離線、大量計算；inference 偏線上、服務請求 先分階段，才知道 bottleneck 在哪。">
+  <header class="page-head">
+    <span class="page-no">READING 023</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Training vs Inference：一句話版</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Training：讓模型學會</li><li>Inference：讓模型回答</li><li>Training 偏離線、大量計算；Inference 偏線上、服務請求</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>先分階段，才知道 bottleneck 在哪。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="23"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-24" data-page="24" data-section="Training vs Inference" data-search="training 的工作負載特徵 training vs inference 大量資料反覆讀取 前向傳播 + 反向傳播 更新權重參數 常需要多 gpu / distributed training training 比 inference 多了反向傳播與權重更新。">
+  <header class="page-head">
+    <span class="page-no">READING 024</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Training 的工作負載特徵</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>大量資料反覆讀取</li><li>前向傳播 + 反向傳播</li><li>更新權重參數</li><li>常需要多 GPU / distributed training</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Training 比 inference 多了反向傳播與權重更新。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="24"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-25" data-page="25" data-section="Training vs Inference" data-search="inference 的工作負載特徵 training vs inference 模型參數通常固定 只做 forward pass 重視 latency、throughput、availability、成本 常需要服務化 api 與 autoscaling inference 是 production service 問題。">
+  <header class="page-head">
+    <span class="page-no">READING 025</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Inference 的工作負載特徵</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>模型參數通常固定</li><li>只做 forward pass</li><li>重視 latency、throughput、availability、成本</li><li>常需要服務化 API 與 autoscaling</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Inference 是 production service 問題。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="25"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-26" data-page="26" data-section="Training vs Inference" data-search="training 主要瓶頸 training vs inference gpu compute gpu memory data loading pipeline network / distributed synchronization checkpoint storage 訓練卡住不一定是 gpu 不夠，可能是資料餵不進去。">
+  <header class="page-head">
+    <span class="page-no">READING 026</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Training 主要瓶頸</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>GPU compute</li><li>GPU memory</li><li>data loading pipeline</li><li>network / distributed synchronization</li><li>checkpoint storage</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>訓練卡住不一定是 GPU 不夠，可能是資料餵不進去。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="26"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-27" data-page="27" data-section="Training vs Inference" data-search="inference 主要瓶頸 training vs inference 單請求 latency 併發與 queueing batch size 取捨 模型載入與 memory footprint token generation speed 推論最佳化通常是在速度、成本、品質之間取平衡。">
+  <header class="page-head">
+    <span class="page-no">READING 027</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Inference 主要瓶頸</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>單請求 latency</li><li>併發與 queueing</li><li>batch size 取捨</li><li>模型載入與 memory footprint</li><li>token generation speed</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>推論最佳化通常是在速度、成本、品質之間取平衡。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="27"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-28" data-page="28" data-section="Training vs Inference" data-search="latency vs throughput training vs inference latency：單一請求等待多久 throughput：單位時間處理多少請求 batching 可提高 throughput，但可能增加 latency 線上服務最常考 latency/throughput trade-off。">
+  <header class="page-head">
+    <span class="page-no">READING 028</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Latency vs Throughput</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Latency：單一請求等待多久</li><li>Throughput：單位時間處理多少請求</li><li>Batching 可提高 throughput，但可能增加 latency</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>線上服務最常考 latency/throughput trade-off。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="28"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-29" data-page="29" data-section="Training vs Inference" data-search="batch inference vs online inference training vs inference batch：大量資料一次處理，例如每日報表 online：即時請求，例如 chatbot batch 可容忍延遲；online 更重 sla 不同 inference 型態需要不同架構。">
+  <header class="page-head">
+    <span class="page-no">READING 029</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Batch Inference vs Online Inference</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Batch：大量資料一次處理，例如每日報表</li><li>Online：即時請求，例如 chatbot</li><li>Batch 可容忍延遲；online 更重 SLA</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>不同 inference 型態需要不同架構。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="29"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-30" data-page="30" data-section="Training vs Inference" data-search="model serving 基本元件 training vs inference api endpoint model runtime gpu / cpu resource pool request batching / queue monitoring / logging inference deployment 是完整系統。">
+  <header class="page-head">
+    <span class="page-no">READING 030</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Model Serving 基本元件</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>API endpoint</li><li>model runtime</li><li>GPU / CPU resource pool</li><li>request batching / queue</li><li>monitoring / logging</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Inference deployment 是完整系統。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="30"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-31" data-page="31" data-section="Training vs Inference" data-search="推論成本為何重要 training vs inference training 可能昂貴但週期性 inference 會隨每次使用持續產生成本 熱門應用的 inference cost 可能超過 training cost 商業化 ai 的長期成本常在 inference。">
+  <header class="page-head">
+    <span class="page-no">READING 031</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>推論成本為何重要</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Training 可能昂貴但週期性</li><li>Inference 會隨每次使用持續產生成本</li><li>熱門應用的 inference cost 可能超過 training cost</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>商業化 AI 的長期成本常在 inference。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="31"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-32" data-page="32" data-section="Training vs Inference" data-search="量化 quantization training vs inference 用較低 precision 表示權重或 activation 可降低 memory footprint、提高速度 需小心準確率下降 tensorrt 支援多種低精度最佳化 低精度是 inference 最常見最佳化之一。">
+  <header class="page-head">
+    <span class="page-no">READING 032</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>量化 Quantization</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>用較低 precision 表示權重或 activation</li><li>可降低 memory footprint、提高速度</li><li>需小心準確率下降</li><li>TensorRT 支援多種低精度最佳化</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>低精度是 inference 最常見最佳化之一。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="32"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-33" data-page="33" data-section="Training vs Inference" data-search="precision：fp32、fp16、int8 training vs inference fp32：精度高但較慢/耗記憶體 fp16/bf16：常用於 gpu 加速 int8/int4：更省但需校準或量化感知訓練 精度越低不代表一定好，要看準確率與硬體支援。">
+  <header class="page-head">
+    <span class="page-no">READING 033</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Precision：FP32、FP16、INT8</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>FP32：精度高但較慢/耗記憶體</li><li>FP16/BF16：常用於 GPU 加速</li><li>INT8/INT4：更省但需校準或量化感知訓練</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>精度越低不代表一定好，要看準確率與硬體支援。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="33"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-34" data-page="34" data-section="Training vs Inference" data-search="training/inference 比較表 training vs inference training：資料量大、時間長、更新參數、重 compute inference：請求導向、低延遲、固定參數、重服務品質 兩者都可能需要 gpu，但最佳化方向不同 考試很愛叫你選哪個階段。">
+  <header class="page-head">
+    <span class="page-no">READING 034</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>Training/Inference 比較表</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Training：資料量大、時間長、更新參數、重 compute</li><li>Inference：請求導向、低延遲、固定參數、重服務品質</li><li>兩者都可能需要 GPU，但最佳化方向不同</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考試很愛叫你選哪個階段。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="34"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-35" data-page="35" data-section="Training vs Inference" data-search="本章考點整理 training vs inference training 產生模型 inference 使用模型做預測/生成 inference 重視 latency/throughput/cost batching 和 quantization 是常見優化 看到「服務請求」通常就是 inference。">
+  <header class="page-head">
+    <span class="page-no">READING 035</span>
+    <span class="section-tag">Training vs Inference</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Training 產生模型</li><li>Inference 使用模型做預測/生成</li><li>Inference 重視 latency/throughput/cost</li><li>Batching 和 quantization 是常見優化</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>看到「服務請求」通常就是 inference。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="35"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-36" data-page="36" data-section="CPU / GPU" data-search="cpu vs gpu：核心差異 cpu / gpu cpu：較少但強大的核心，適合通用與低延遲任務 gpu：大量較小核心，適合高度平行任務 ai 矩陣運算天然適合 gpu cpu 負責控制與通用邏輯，gpu 負責大量平行計算。">
+  <header class="page-head">
+    <span class="page-no">READING 036</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>CPU vs GPU：核心差異</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>CPU：較少但強大的核心，適合通用與低延遲任務</li><li>GPU：大量較小核心，適合高度平行任務</li><li>AI 矩陣運算天然適合 GPU</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>CPU 負責控制與通用邏輯，GPU 負責大量平行計算。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="36"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-37" data-page="37" data-section="CPU / GPU" data-search="cpu 適合什麼 cpu / gpu os 與一般應用邏輯 資料庫與控制流程 分支多、序列化、低延遲任務 小型模型或低流量 inference 不是所有工作都該丟 gpu。">
+  <header class="page-head">
+    <span class="page-no">READING 037</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>CPU 適合什麼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>OS 與一般應用邏輯</li><li>資料庫與控制流程</li><li>分支多、序列化、低延遲任務</li><li>小型模型或低流量 inference</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>不是所有工作都該丟 GPU。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="37"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-38" data-page="38" data-section="CPU / GPU" data-search="gpu 適合什麼 cpu / gpu 矩陣乘法 圖形渲染與影像處理 大規模 deep learning training 高吞吐 inference 平行度高才是 gpu 優勢。">
+  <header class="page-head">
+    <span class="page-no">READING 038</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>GPU 適合什麼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>矩陣乘法</li><li>圖形渲染與影像處理</li><li>大規模 deep learning training</li><li>高吞吐 inference</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>平行度高才是 GPU 優勢。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="38"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-39" data-page="39" data-section="CPU / GPU" data-search="為什麼 deep learning 愛 gpu cpu / gpu 神經網路充滿 matrix multiplication 同一操作可套用在大量資料上 gpu cores 可同時處理許多計算 記憶體頻寬也很關鍵 ai workload 的形狀決定 gpu 價值。">
+  <header class="page-head">
+    <span class="page-no">READING 039</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>為什麼 Deep Learning 愛 GPU</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>神經網路充滿 matrix multiplication</li><li>同一操作可套用在大量資料上</li><li>GPU cores 可同時處理許多計算</li><li>記憶體頻寬也很關鍵</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>AI workload 的形狀決定 GPU 價值。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="39"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-40" data-page="40" data-section="CPU / GPU" data-search="cpu/gpu 協同 cpu / gpu cpu 接收請求與調度 gpu 執行 tensor computation 資料搬移過慢會吃掉加速收益 最佳系統要平衡 compute、memory、i/o cpu vs gpu 不是對立，而是分工。">
+  <header class="page-head">
+    <span class="page-no">READING 040</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>CPU/GPU 協同</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>CPU 接收請求與調度</li><li>GPU 執行 tensor computation</li><li>資料搬移過慢會吃掉加速收益</li><li>最佳系統要平衡 compute、memory、I/O</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>CPU vs GPU 不是對立，而是分工。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="40"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-41" data-page="41" data-section="CPU / GPU" data-search="npu 在哪裡 cpu / gpu npu 是針對 ai 工作負載的專用加速器 常見於 edge / client device 與 cpu/gpu 一起形成 heterogeneous computing 證照題可能問三者角色 ai pc 與 edge ai 越來越常提到 npu。">
+  <header class="page-head">
+    <span class="page-no">READING 041</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>NPU 在哪裡</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>NPU 是針對 AI 工作負載的專用加速器</li><li>常見於 edge / client device</li><li>與 CPU/GPU 一起形成 heterogeneous computing</li><li>證照題可能問三者角色</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>AI PC 與 edge AI 越來越常提到 NPU。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="41"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-42" data-page="42" data-section="CPU / GPU" data-search="gpu memory cpu / gpu 模型權重、activation、batch data 都佔 gpu memory memory 不足會限制 batch size 或模型大小 量化可降低記憶體需求 gpu 不只看算力，也看 memory。">
+  <header class="page-head">
+    <span class="page-no">READING 042</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>GPU Memory</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>模型權重、activation、batch data 都佔 GPU memory</li><li>Memory 不足會限制 batch size 或模型大小</li><li>量化可降低記憶體需求</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>GPU 不只看算力，也看 memory。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="42"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-43" data-page="43" data-section="CPU / GPU" data-search="memory bandwidth cpu / gpu 很多 ai 工作負載受 memory bandwidth 限制 資料搬不夠快，compute core 會閒置 storage → cpu memory → gpu memory 都要看 頻寬是隱形瓶頸。">
+  <header class="page-head">
+    <span class="page-no">READING 043</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>Memory Bandwidth</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>很多 AI 工作負載受 memory bandwidth 限制</li><li>資料搬不夠快，compute core 會閒置</li><li>Storage → CPU memory → GPU memory 都要看</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>頻寬是隱形瓶頸。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="43"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-44" data-page="44" data-section="CPU / GPU" data-search="pcie / nvlink 直覺 cpu / gpu cpu 與 gpu、gpu 與 gpu 之間需要資料通道 多 gpu 訓練特別依賴互連頻寬 推論也可能受模型切分與資料交換影響 多 gpu 不等於線性加速。">
+  <header class="page-head">
+    <span class="page-no">READING 044</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>PCIe / NVLink 直覺</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>CPU 與 GPU、GPU 與 GPU 之間需要資料通道</li><li>多 GPU 訓練特別依賴互連頻寬</li><li>推論也可能受模型切分與資料交換影響</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>多 GPU 不等於線性加速。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="44"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-45" data-page="45" data-section="CPU / GPU" data-search="gpu utilization cpu / gpu gpu 使用率低可能代表資料載入慢 也可能 batch 太小或 request 不足 monitoring 是判斷瓶頸的前提 不要只看 gpu 數量，要看 utilization。">
+  <header class="page-head">
+    <span class="page-no">READING 045</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>GPU Utilization</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>GPU 使用率低可能代表資料載入慢</li><li>也可能 batch 太小或 request 不足</li><li>Monitoring 是判斷瓶頸的前提</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>不要只看 GPU 數量，要看 utilization。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="45"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-46" data-page="46" data-section="CPU / GPU" data-search="硬體選型情境題 cpu / gpu 低流量、小模型：cpu 可能足夠 大模型、低延遲：gpu 或專用加速器 大量離線 batch：可用大 batch 提高吞吐 edge：功耗與封裝限制重要 選硬體要看 workload，不是看潮流。">
+  <header class="page-head">
+    <span class="page-no">READING 046</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>硬體選型情境題</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>低流量、小模型：CPU 可能足夠</li><li>大模型、低延遲：GPU 或專用加速器</li><li>大量離線 batch：可用大 batch 提高吞吐</li><li>Edge：功耗與封裝限制重要</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>選硬體要看 workload，不是看潮流。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="46"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-47" data-page="47" data-section="CPU / GPU" data-search="本章考點整理 cpu / gpu cpu：通用、低延遲、控制流程 gpu：平行、高吞吐、ai/圖形 ai 系統需要 cpu/gpu/storage/network 平衡 memory 與 bandwidth 常是關鍵瓶頸 硬體題的答案通常是「依任務而定」。">
+  <header class="page-head">
+    <span class="page-no">READING 047</span>
+    <span class="section-tag">CPU / GPU</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>CPU：通用、低延遲、控制流程</li><li>GPU：平行、高吞吐、AI/圖形</li><li>AI 系統需要 CPU/GPU/storage/network 平衡</li><li>Memory 與 bandwidth 常是關鍵瓶頸</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>硬體題的答案通常是「依任務而定」。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="47"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-48" data-page="48" data-section="TensorRT / 推論最佳化" data-search="tensorrt 是什麼 tensorrt / 推論最佳化 nvidia 的 high-performance deep learning inference 工具生態 包含 inference compiler、runtime、model optimization 目標：低 latency、高 throughput、低成本 tensorrt 是 inference 階段的最佳化工具。">
+  <header class="page-head">
+    <span class="page-no">READING 048</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT 是什麼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>NVIDIA 的 high-performance deep learning inference 工具生態</li><li>包含 inference compiler、runtime、model optimization</li><li>目標：低 latency、高 throughput、低成本</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>TensorRT 是 inference 階段的最佳化工具。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="48"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-49" data-page="49" data-section="TensorRT / 推論最佳化" data-search="tensorrt 在流程中的位置 tensorrt / 推論最佳化 訓練：pytorch / tensorflow 等框架 匯出模型：onnx 或框架支援格式 tensorrt：建置最佳化 engine 部署：runtime 執行 inference tensorrt 通常不是訓練工具，而是部署加速工具。">
+  <header class="page-head">
+    <span class="page-no">READING 049</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT 在流程中的位置</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>訓練：PyTorch / TensorFlow 等框架</li><li>匯出模型：ONNX 或框架支援格式</li><li>TensorRT：建置最佳化 engine</li><li>部署：runtime 執行 inference</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>TensorRT 通常不是訓練工具，而是部署加速工具。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="49"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-50" data-page="50" data-section="TensorRT / 推論最佳化" data-search="tensorrt 如何加速 tensorrt / 推論最佳化 layer fusion kernel auto-tuning precision calibration memory optimization graph optimization 把模型變成更適合 nvidia gpu 執行的形式。">
+  <header class="page-head">
+    <span class="page-no">READING 050</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT 如何加速</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Layer fusion</li><li>Kernel auto-tuning</li><li>Precision calibration</li><li>Memory optimization</li><li>Graph optimization</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>把模型變成更適合 NVIDIA GPU 執行的形式。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="50"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-51" data-page="51" data-section="TensorRT / 推論最佳化" data-search="layer fusion tensorrt / 推論最佳化 將多個連續運算合併 減少 memory read/write 降低 kernel launch overhead 提高 gpu 執行效率 少搬資料，通常就更快。">
+  <header class="page-head">
+    <span class="page-no">READING 051</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>Layer Fusion</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>將多個連續運算合併</li><li>減少 memory read/write</li><li>降低 kernel launch overhead</li><li>提高 GPU 執行效率</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>少搬資料，通常就更快。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="51"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-52" data-page="52" data-section="TensorRT / 推論最佳化" data-search="kernel selection / auto-tuning tensorrt / 推論最佳化 同一 operation 可能有多種 kernel 實作 tensorrt 會針對目標 gpu 找較佳策略 硬體不同，最佳 engine 可能不同 最佳化常與硬體綁定。">
+  <header class="page-head">
+    <span class="page-no">READING 052</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>Kernel Selection / Auto-tuning</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>同一 operation 可能有多種 kernel 實作</li><li>TensorRT 會針對目標 GPU 找較佳策略</li><li>硬體不同，最佳 engine 可能不同</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>最佳化常與硬體綁定。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="52"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-53" data-page="53" data-section="TensorRT / 推論最佳化" data-search="precision optimization tensorrt / 推論最佳化 fp32 → fp16 / int8 / fp8 等 降低 memory 與 compute 成本 需驗證 accuracy 是否可接受 新硬體支援會影響收益 速度提升不能犧牲不可接受的準確率。">
+  <header class="page-head">
+    <span class="page-no">READING 053</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>Precision Optimization</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>FP32 → FP16 / INT8 / FP8 等</li><li>降低 memory 與 compute 成本</li><li>需驗證 accuracy 是否可接受</li><li>新硬體支援會影響收益</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>速度提升不能犧牲不可接受的準確率。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="53"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-54" data-page="54" data-section="TensorRT / 推論最佳化" data-search="tensorrt engine tensorrt / 推論最佳化 engine 是針對特定模型與硬體最佳化後的執行計畫 通常不適合任意硬體通用搬移 部署前需在目標環境測試 考題可能問為何 engine 與硬體相關。">
+  <header class="page-head">
+    <span class="page-no">READING 054</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT Engine</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Engine 是針對特定模型與硬體最佳化後的執行計畫</li><li>通常不適合任意硬體通用搬移</li><li>部署前需在目標環境測試</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考題可能問為何 engine 與硬體相關。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="54"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-55" data-page="55" data-section="TensorRT / 推論最佳化" data-search="onnx 的角色 tensorrt / 推論最佳化 onnx 常作為模型交換格式 可把多框架模型帶到 tensorrt pipeline 但不是所有 operation 都一定支援 轉換失敗時要檢查 opset 與 plugin onnx 是橋，不是保證萬能。">
+  <header class="page-head">
+    <span class="page-no">READING 055</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>ONNX 的角色</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>ONNX 常作為模型交換格式</li><li>可把多框架模型帶到 TensorRT pipeline</li><li>但不是所有 operation 都一定支援</li><li>轉換失敗時要檢查 opset 與 plugin</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>ONNX 是橋，不是保證萬能。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="55"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-56" data-page="56" data-section="TensorRT / 推論最佳化" data-search="tensorrt-llm tensorrt / 推論最佳化 針對大型語言模型推論最佳化 關心 token throughput、latency、kv cache、batching 可協助降低 cost per token 適合 nvidia gpu 上的 llm serving llm 推論有自己的最佳化重點。">
+  <header class="page-head">
+    <span class="page-no">READING 056</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT-LLM</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>針對大型語言模型推論最佳化</li><li>關心 token throughput、latency、KV cache、batching</li><li>可協助降低 cost per token</li><li>適合 NVIDIA GPU 上的 LLM serving</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM 推論有自己的最佳化重點。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="56"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-57" data-page="57" data-section="TensorRT / 推論最佳化" data-search="cost per token tensorrt / 推論最佳化 llm 服務常以 token 為成本單位 throughput 提升可降低單 token 成本 batching、quantization、kv cache 都會影響成本 品質、速度、成本需平衡 llm production 會把工程指標轉成商業成本。">
+  <header class="page-head">
+    <span class="page-no">READING 057</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>Cost per Token</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>LLM 服務常以 token 為成本單位</li><li>Throughput 提升可降低單 token 成本</li><li>Batching、quantization、KV cache 都會影響成本</li><li>品質、速度、成本需平衡</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM production 會把工程指標轉成商業成本。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="57"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-58" data-page="58" data-section="TensorRT / 推論最佳化" data-search="何時使用 tensorrt tensorrt / 推論最佳化 模型部署在 nvidia gpu inference latency/throughput 是瓶頸 模型已訓練完成且架構相對穩定 願意做轉換、校準、驗證流程 不是訓練初期就急著 tensorrt。">
+  <header class="page-head">
+    <span class="page-no">READING 058</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>何時使用 TensorRT</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>模型部署在 NVIDIA GPU</li><li>Inference latency/throughput 是瓶頸</li><li>模型已訓練完成且架構相對穩定</li><li>願意做轉換、校準、驗證流程</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>不是訓練初期就急著 TensorRT。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="58"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-59" data-page="59" data-section="TensorRT / 推論最佳化" data-search="tensorrt 風險與限制 tensorrt / 推論最佳化 轉換相容性問題 低精度造成 accuracy regression engine 與硬體/driver/runtime 版本耦合 debug 較原始框架更複雜 最佳化引入新的驗證責任。">
+  <header class="page-head">
+    <span class="page-no">READING 059</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT 風險與限制</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>轉換相容性問題</li><li>低精度造成 accuracy regression</li><li>Engine 與硬體/driver/runtime 版本耦合</li><li>Debug 較原始框架更複雜</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>最佳化引入新的驗證責任。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="59"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-60" data-page="60" data-section="TensorRT / 推論最佳化" data-search="tensorrt quick start 應會什麼 tensorrt / 推論最佳化 理解模型匯出與 build engine 會區分 build time 與 runtime 會用 sample 或 trtexec 做 baseline 會比較優化前後 latency/throughput 考證照不一定實作，但要懂流程。">
+  <header class="page-head">
+    <span class="page-no">READING 060</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>TensorRT Quick Start 應會什麼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>理解模型匯出與 build engine</li><li>會區分 build time 與 runtime</li><li>會用 sample 或 trtexec 做 baseline</li><li>會比較優化前後 latency/throughput</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考證照不一定實作，但要懂流程。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="60"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-61" data-page="61" data-section="TensorRT / 推論最佳化" data-search="本章考點整理 tensorrt / 推論最佳化 tensorrt = nvidia inference optimization 核心手段：graph/layer/kernel/precision/memory optimization tensorrt-llm 針對 llm serving 優化後一定要驗證 accuracy 與 latency tensorrt 的關鍵字是 inference acceleration。">
+  <header class="page-head">
+    <span class="page-no">READING 061</span>
+    <span class="section-tag">TensorRT / 推論最佳化</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>TensorRT = NVIDIA inference optimization</li><li>核心手段：graph/layer/kernel/precision/memory optimization</li><li>TensorRT-LLM 針對 LLM serving</li><li>優化後一定要驗證 accuracy 與 latency</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>TensorRT 的關鍵字是 inference acceleration。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="61"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-62" data-page="62" data-section="LLM 應用" data-search="llm 是什麼 llm 應用 large language model 是大型深度學習模型 能辨識、摘要、翻譯、預測、生成文字或其他序列 常基於 transformer 架構 llm 是 deep learning 的代表性應用。">
+  <header class="page-head">
+    <span class="page-no">READING 062</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM 是什麼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Large Language Model 是大型深度學習模型</li><li>能辨識、摘要、翻譯、預測、生成文字或其他序列</li><li>常基於 transformer 架構</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM 是 deep learning 的代表性應用。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="62"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-63" data-page="63" data-section="LLM 應用" data-search="transformer 為何重要 llm 應用 擅長處理序列資料 可平行處理 token sequence attention 機制讓模型關注相關上下文 是現代 llm 的核心建築塊 考試通常只需掌握概念，不必推公式。">
+  <header class="page-head">
+    <span class="page-no">READING 063</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>Transformer 為何重要</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>擅長處理序列資料</li><li>可平行處理 token sequence</li><li>attention 機制讓模型關注相關上下文</li><li>是現代 LLM 的核心建築塊</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考試通常只需掌握概念，不必推公式。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="63"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-64" data-page="64" data-section="LLM 應用" data-search="llm 的資料觀 llm 應用 語言不只自然語言 程式碼也是語言 蛋白質/分子序列也可視為序列 llm 應用可跨文字、程式、生醫等領域 nvidia 文章強調語言概念可泛化。">
+  <header class="page-head">
+    <span class="page-no">READING 064</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM 的資料觀</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>語言不只自然語言</li><li>程式碼也是語言</li><li>蛋白質/分子序列也可視為序列</li><li>LLM 應用可跨文字、程式、生醫等領域</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>NVIDIA 文章強調語言概念可泛化。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="64"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-65" data-page="65" data-section="LLM 應用" data-search="llm 應用：nlp llm 應用 翻譯 摘要 聊天機器人 ai assistant 文件問答 最直觀的 llm 應用是自然語言處理。">
+  <header class="page-head">
+    <span class="page-no">READING 065</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM 應用：NLP</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>翻譯</li><li>摘要</li><li>聊天機器人</li><li>AI assistant</li><li>文件問答</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>最直觀的 LLM 應用是自然語言處理。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="65"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-66" data-page="66" data-section="LLM 應用" data-search="llm 應用：程式碼 llm 應用 code generation code completion bug explanation test generation 文件產生 code 是高度結構化語言。">
+  <header class="page-head">
+    <span class="page-no">READING 066</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM 應用：程式碼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Code generation</li><li>Code completion</li><li>Bug explanation</li><li>Test generation</li><li>文件產生</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Code 是高度結構化語言。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="66"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-67" data-page="67" data-section="LLM 應用" data-search="llm 應用：醫療與科學 llm 應用 生物分子序列分析 候選化合物探索 醫療文件處理 研究助理與知識檢索 llm 不只是聊天，也能輔助研究。">
+  <header class="page-head">
+    <span class="page-no">READING 067</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM 應用：醫療與科學</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>生物分子序列分析</li><li>候選化合物探索</li><li>醫療文件處理</li><li>研究助理與知識檢索</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM 不只是聊天，也能輔助研究。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="67"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-68" data-page="68" data-section="LLM 應用" data-search="fine-tuning vs prompt-tuning llm 應用 fine-tuning：調整模型參數以適配任務 prompt-tuning：透過提示或小量可學參數引導模型 兩者都用於客製化特定 use case 客製化不一定要從零訓練。">
+  <header class="page-head">
+    <span class="page-no">READING 068</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>Fine-tuning vs Prompt-tuning</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Fine-tuning：調整模型參數以適配任務</li><li>Prompt-tuning：透過提示或小量可學參數引導模型</li><li>兩者都用於客製化特定 use case</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>客製化不一定要從零訓練。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="68"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-69" data-page="69" data-section="LLM 應用" data-search="llm inference 的特殊點 llm 應用 自回歸生成：一個 token 接一個 token kv cache 對效能重要 context length 影響記憶體與成本 streaming 改善使用者感知延遲 llm 推論不是一次矩陣計算就結束。">
+  <header class="page-head">
+    <span class="page-no">READING 069</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM Inference 的特殊點</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>自回歸生成：一個 token 接一個 token</li><li>KV cache 對效能重要</li><li>Context length 影響記憶體與成本</li><li>Streaming 改善使用者感知延遲</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM 推論不是一次矩陣計算就結束。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="69"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-70" data-page="70" data-section="LLM 應用" data-search="prompt、context、token llm 應用 prompt：使用者/系統給模型的輸入 context：模型可參考的上下文視窗 token：模型處理文字的基本單位 token 數影響 latency 與成本 考 llm 成本時通常會提 token。">
+  <header class="page-head">
+    <span class="page-no">READING 070</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>Prompt、Context、Token</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Prompt：使用者/系統給模型的輸入</li><li>Context：模型可參考的上下文視窗</li><li>Token：模型處理文字的基本單位</li><li>Token 數影響 latency 與成本</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考 LLM 成本時通常會提 token。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="70"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-71" data-page="71" data-section="LLM 應用" data-search="rag 的位置 llm 應用 retrieval-augmented generation 先檢索再生成 可減少幻覺並導入外部知識 需要向量資料庫/搜尋系統 不是直接改模型參數 rag 是應用架構，不是模型訓練本身。">
+  <header class="page-head">
+    <span class="page-no">READING 071</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>RAG 的位置</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Retrieval-Augmented Generation 先檢索再生成</li><li>可減少幻覺並導入外部知識</li><li>需要向量資料庫/搜尋系統</li><li>不是直接改模型參數</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>RAG 是應用架構，不是模型訓練本身。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="71"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-72" data-page="72" data-section="LLM 應用" data-search="llm 風險 llm 應用 幻覺 資料外洩 偏見與安全 高 inference cost 延遲與可用性 llm production 需要安全與治理。">
+  <header class="page-head">
+    <span class="page-no">READING 072</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>LLM 風險</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>幻覺</li><li>資料外洩</li><li>偏見與安全</li><li>高 inference cost</li><li>延遲與可用性</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM production 需要安全與治理。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="72"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-73" data-page="73" data-section="LLM 應用" data-search="本章考點整理 llm 應用 llm 基於大量資料與 transformer 可處理文字、程式碼、分子等序列 inference cost 常用 token 衡量 fine-tuning、prompt-tuning、rag 是常見客製化方式 llm 考點會連到推論成本與應用場景。">
+  <header class="page-head">
+    <span class="page-no">READING 073</span>
+    <span class="section-tag">LLM 應用</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>LLM 基於大量資料與 transformer</li><li>可處理文字、程式碼、分子等序列</li><li>Inference cost 常用 token 衡量</li><li>Fine-tuning、prompt-tuning、RAG 是常見客製化方式</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>LLM 考點會連到推論成本與應用場景。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="73"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-74" data-page="74" data-section="AI Storage" data-search="ai storage 為何重要 ai storage nvidia 文章指出 storage 常被低估 gpu 再快，資料餵不進去也會閒置 training 與 inference 都依賴資料流 ai scaling 不只是買 gpu。">
+  <header class="page-head">
+    <span class="page-no">READING 074</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>AI Storage 為何重要</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>NVIDIA 文章指出 storage 常被低估</li><li>GPU 再快，資料餵不進去也會閒置</li><li>Training 與 inference 都依賴資料流</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>AI scaling 不只是買 GPU。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="74"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-75" data-page="75" data-section="AI Storage" data-search="ai 系統四元素 ai storage training model inferencing app data storage accelerated compute 四者缺一都可能形成瓶頸 這是 nvidia storage 文章的核心框架。">
+  <header class="page-head">
+    <span class="page-no">READING 075</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>AI 系統四元素</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Training model</li><li>Inferencing app</li><li>Data storage</li><li>Accelerated compute</li><li>四者缺一都可能形成瓶頸</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>這是 NVIDIA storage 文章的核心框架。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="75"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-76" data-page="76" data-section="AI Storage" data-search="storage hierarchy ai storage gpu memory：最快但容量有限 data fabric：連接 storage 與 gpu memory storage devices：容量大但相對慢 層級越高通常越快但越不可擴展 速度、容量、成本是三角取捨。">
+  <header class="page-head">
+    <span class="page-no">READING 076</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>Storage Hierarchy</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>GPU memory：最快但容量有限</li><li>Data fabric：連接 storage 與 GPU memory</li><li>Storage devices：容量大但相對慢</li><li>層級越高通常越快但越不可擴展</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>速度、容量、成本是三角取捨。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="76"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-77" data-page="77" data-section="AI Storage" data-search="training 的 storage pattern ai storage 大量讀取 training dataset 需要資料 shuffle / preprocessing checkpoint 寫入可能很大 多 gpu 時資料供給壓力更高 training storage 要看吞吐與容量。">
+  <header class="page-head">
+    <span class="page-no">READING 077</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>Training 的 Storage Pattern</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>大量讀取 training dataset</li><li>需要資料 shuffle / preprocessing</li><li>Checkpoint 寫入可能很大</li><li>多 GPU 時資料供給壓力更高</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Training storage 要看吞吐與容量。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="77"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-78" data-page="78" data-section="AI Storage" data-search="inference 的 storage pattern ai storage 模型權重載入 特徵或向量資料存取 輸入輸出日誌 低延遲資料查詢可能很重要 inference storage 常和 latency 有關。">
+  <header class="page-head">
+    <span class="page-no">READING 078</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>Inference 的 Storage Pattern</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>模型權重載入</li><li>特徵或向量資料存取</li><li>輸入輸出日誌</li><li>低延遲資料查詢可能很重要</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Inference storage 常和 latency 有關。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="78"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-79" data-page="79" data-section="AI Storage" data-search="poc 到 production 的落差 ai storage poc 常只處理單一時間點與小範圍資料 production 需要長期擴展與維運 資料量、模型版本、使用者流量都會增加 能跑 demo 不代表能 production scale。">
+  <header class="page-head">
+    <span class="page-no">READING 079</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>POC 到 Production 的落差</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>PoC 常只處理單一時間點與小範圍資料</li><li>Production 需要長期擴展與維運</li><li>資料量、模型版本、使用者流量都會增加</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>能跑 demo 不代表能 production scale。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="79"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-80" data-page="80" data-section="AI Storage" data-search="data fabric 的角色 ai storage 連接 storage devices 與 gpu memory 影響資料移動效率 可能包含 network、filesystem、protocol、cache 中間層設計差會拖累 gpu 資料路徑和 compute 一樣重要。">
+  <header class="page-head">
+    <span class="page-no">READING 080</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>Data Fabric 的角色</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>連接 storage devices 與 GPU memory</li><li>影響資料移動效率</li><li>可能包含 network、filesystem、protocol、cache</li><li>中間層設計差會拖累 GPU</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>資料路徑和 compute 一樣重要。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="80"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-81" data-page="81" data-section="AI Storage" data-search="容量 vs 效能 ai storage 容量不足：放不下資料/模型/checkpoint 效能不足：gpu 等資料 成本不足：無法長期擴張 需根據 workload 取捨 storage 題常問 bottleneck 類型。">
+  <header class="page-head">
+    <span class="page-no">READING 081</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>容量 vs 效能</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>容量不足：放不下資料/模型/checkpoint</li><li>效能不足：GPU 等資料</li><li>成本不足：無法長期擴張</li><li>需根據 workload 取捨</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Storage 題常問 bottleneck 類型。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="81"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-82" data-page="82" data-section="AI Storage" data-search="監控 storage ai storage 觀察 i/o throughput 觀察 latency 觀察 gpu utilization 是否被資料供給拖累 觀察 queue depth 與錯誤率 沒有 monitoring 就無法定位瓶頸。">
+  <header class="page-head">
+    <span class="page-no">READING 082</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>監控 Storage</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>觀察 I/O throughput</li><li>觀察 latency</li><li>觀察 GPU utilization 是否被資料供給拖累</li><li>觀察 queue depth 與錯誤率</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>沒有 monitoring 就無法定位瓶頸。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="82"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-83" data-page="83" data-section="AI Storage" data-search="storage 設計原則 ai storage 從 workload 需求反推 分離 hot / cold data 為 growth 預留容量與頻寬 與 compute scaling 同步規劃 ai infrastructure 要共同規劃 compute 與 storage。">
+  <header class="page-head">
+    <span class="page-no">READING 083</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>Storage 設計原則</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>從 workload 需求反推</li><li>分離 hot / cold data</li><li>為 growth 預留容量與頻寬</li><li>與 compute scaling 同步規劃</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>AI infrastructure 要共同規劃 compute 與 storage。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="83"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-84" data-page="84" data-section="AI Storage" data-search="本章考點整理 ai storage storage 是 ai 基礎設施核心 hierarchy：gpu memory / data fabric / devices training 重資料吞吐；inference 重服務延遲與模型存取 poc 設計常不足以支撐 production 看到 gpu utilization 低，要想到 storage/data pipeline。">
+  <header class="page-head">
+    <span class="page-no">READING 084</span>
+    <span class="section-tag">AI Storage</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Storage 是 AI 基礎設施核心</li><li>Hierarchy：GPU memory / data fabric / devices</li><li>Training 重資料吞吐；inference 重服務延遲與模型存取</li><li>PoC 設計常不足以支撐 production</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>看到 GPU utilization 低，要想到 storage/data pipeline。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="84"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-85" data-page="85" data-section="Kubernetes GPU" data-search="kubernetes 與 ai workloads kubernetes gpu kubernetes 管理容器化應用 ai workload 需要 gpu 等特殊硬體資源 production model serving 常跑在 cluster 上 k8s 是 ai production 常見底座。">
+  <header class="page-head">
+    <span class="page-no">READING 085</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>Kubernetes 與 AI Workloads</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Kubernetes 管理容器化應用</li><li>AI workload 需要 GPU 等特殊硬體資源</li><li>Production model serving 常跑在 cluster 上</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>K8s 是 AI production 常見底座。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="85"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-86" data-page="86" data-section="Kubernetes GPU" data-search="gpu 節點需要哪些元件 kubernetes gpu nvidia driver container runtime device plugin monitoring stack node labels / discovery gpu 不是插上去 kubernetes 就會自動懂。">
+  <header class="page-head">
+    <span class="page-no">READING 086</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>GPU 節點需要哪些元件</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>NVIDIA driver</li><li>Container runtime</li><li>Device plugin</li><li>Monitoring stack</li><li>Node labels / discovery</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>GPU 不是插上去 Kubernetes 就會自動懂。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="86"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-87" data-page="87" data-section="Kubernetes GPU" data-search="device plugin framework kubernetes gpu kubernetes 用 device plugin 暴露特殊硬體 gpu、nic、infiniband 等可透過 plugin 管理 scheduler 才能分配 gpu resource device plugin 是 k8s 看見 gpu 的關鍵。">
+  <header class="page-head">
+    <span class="page-no">READING 087</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>Device Plugin Framework</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Kubernetes 用 device plugin 暴露特殊硬體</li><li>GPU、NIC、InfiniBand 等可透過 plugin 管理</li><li>Scheduler 才能分配 GPU resource</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>device plugin 是 K8s 看見 GPU 的關鍵。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="87"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-88" data-page="88" data-section="Kubernetes GPU" data-search="operator pattern kubernetes gpu operator 把營運知識寫進 controller 透過 crd 定義資源 自動 reconcile 期望狀態與實際狀態 適合管理複雜基礎設施元件 operator = 自動化維運邏輯。">
+  <header class="page-head">
+    <span class="page-no">READING 088</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>Operator Pattern</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Operator 把營運知識寫進 controller</li><li>透過 CRD 定義資源</li><li>自動 reconcile 期望狀態與實際狀態</li><li>適合管理複雜基礎設施元件</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Operator = 自動化維運邏輯。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="88"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-89" data-page="89" data-section="Kubernetes GPU" data-search="nvidia gpu operator 是什麼 kubernetes gpu 自動化部署 gpu software stack 管理 driver、runtime、device plugin、monitoring 等 降低手動設定 gpu node 的複雜度 gpu operator 是 gpu cluster 的營運自動化工具。">
+  <header class="page-head">
+    <span class="page-no">READING 089</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>NVIDIA GPU Operator 是什麼</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>自動化部署 GPU software stack</li><li>管理 driver、runtime、device plugin、monitoring 等</li><li>降低手動設定 GPU node 的複雜度</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>GPU Operator 是 GPU cluster 的營運自動化工具。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="89"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-90" data-page="90" data-section="Kubernetes GPU" data-search="node feature discovery kubernetes gpu 用來辨識節點硬體能力 gpu operator 可依節點特徵部署對應元件 避免在非 gpu 節點上錯誤部署 nfd 幫 cluster 知道哪裡有 gpu。">
+  <header class="page-head">
+    <span class="page-no">READING 090</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>Node Feature Discovery</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>用來辨識節點硬體能力</li><li>GPU Operator 可依節點特徵部署對應元件</li><li>避免在非 GPU 節點上錯誤部署</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>NFD 幫 cluster 知道哪裡有 GPU。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="90"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-91" data-page="91" data-section="Kubernetes GPU" data-search="手動安裝 vs operator kubernetes gpu 手動：每個元件個別安裝與升級 operator：由 controller 自動維持狀態 大規模 cluster 中 operator 更可維護 但仍需理解底層元件 自動化不代表不用懂原理。">
+  <header class="page-head">
+    <span class="page-no">READING 091</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>手動安裝 vs Operator</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>手動：每個元件個別安裝與升級</li><li>Operator：由 controller 自動維持狀態</li><li>大規模 cluster 中 Operator 更可維護</li><li>但仍需理解底層元件</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>自動化不代表不用懂原理。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="91"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-92" data-page="92" data-section="Kubernetes GPU" data-search="monitoring 與可觀測性 kubernetes gpu gpu utilization memory usage temperature / health pod scheduling 與 failures inference latency / throughput production ai 必須可觀測。">
+  <header class="page-head">
+    <span class="page-no">READING 092</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>Monitoring 與可觀測性</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>GPU utilization</li><li>Memory usage</li><li>Temperature / health</li><li>Pod scheduling 與 failures</li><li>Inference latency / throughput</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>Production AI 必須可觀測。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="92"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-93" data-page="93" data-section="Kubernetes GPU" data-search="常見故障情境 kubernetes gpu pod 要求 gpu 但排不到 driver/runtime 版本不相容 gpu memory 不足 device plugin 沒正常註冊 resource node label / taint 設定錯誤 排錯要從 k8s resource 與 nvidia stack 兩邊看。">
+  <header class="page-head">
+    <span class="page-no">READING 093</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>常見故障情境</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Pod 要求 GPU 但排不到</li><li>Driver/runtime 版本不相容</li><li>GPU memory 不足</li><li>Device plugin 沒正常註冊 resource</li><li>Node label / taint 設定錯誤</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>排錯要從 K8s resource 與 NVIDIA stack 兩邊看。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="93"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-94" data-page="94" data-section="Kubernetes GPU" data-search="本章考點整理 kubernetes gpu k8s 需 device plugin 才能分配 gpu gpu node 需要 driver/runtime/plugin/monitoring gpu operator 用 operator pattern 自動化管理 nfd 幫助辨識 gpu 節點 gpu operator 的關鍵是簡化 kubernetes gpu 管理。">
+  <header class="page-head">
+    <span class="page-no">READING 094</span>
+    <span class="section-tag">Kubernetes GPU</span>
+  </header>
+  <h2>本章考點整理</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>K8s 需 device plugin 才能分配 GPU</li><li>GPU node 需要 driver/runtime/plugin/monitoring</li><li>GPU Operator 用 Operator pattern 自動化管理</li><li>NFD 幫助辨識 GPU 節點</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>GPU Operator 的關鍵是簡化 Kubernetes GPU 管理。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="94"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-95" data-page="95" data-section="總複習" data-search="總複習：10 個必背定義 總複習 ai、ml、deep learning training、inference、generalization cpu、gpu、tensorrt kubernetes device plugin、gpu operator 這 10 個名詞要能用一句話講清楚。">
+  <header class="page-head">
+    <span class="page-no">READING 095</span>
+    <span class="section-tag">總複習</span>
+  </header>
+  <h2>總複習：10 個必背定義</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>AI、ML、Deep Learning</li><li>Training、Inference、Generalization</li><li>CPU、GPU、TensorRT</li><li>Kubernetes Device Plugin、GPU Operator</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>這 10 個名詞要能用一句話講清楚。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="95"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-96" data-page="96" data-section="總複習" data-search="總複習：5 組必背比較 總複習 ai vs ml training vs inference cpu vs gpu latency vs throughput manual gpu setup vs gpu operator 比較題是最穩定的得分點。">
+  <header class="page-head">
+    <span class="page-no">READING 096</span>
+    <span class="section-tag">總複習</span>
+  </header>
+  <h2>總複習：5 組必背比較</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>AI vs ML</li><li>Training vs Inference</li><li>CPU vs GPU</li><li>Latency vs Throughput</li><li>Manual GPU setup vs GPU Operator</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>比較題是最穩定的得分點。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="96"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-97" data-page="97" data-section="總複習" data-search="mock exam：觀念題 總複習 q1：為何 training 比 inference 多反向傳播？ q2：為何 gpu 適合 deep learning？ q3：tensorrt 解決哪一階段的問題？ q4：storage 如何讓 gpu utilization 下降？ 答題時先指出階段，再指出瓶頸。">
+  <header class="page-head">
+    <span class="page-no">READING 097</span>
+    <span class="section-tag">總複習</span>
+  </header>
+  <h2>Mock Exam：觀念題</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>Q1：為何 training 比 inference 多反向傳播？</li><li>Q2：為何 GPU 適合 deep learning？</li><li>Q3：TensorRT 解決哪一階段的問題？</li><li>Q4：Storage 如何讓 GPU utilization 下降？</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>答題時先指出階段，再指出瓶頸。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="97"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-98" data-page="98" data-section="總複習" data-search="mock exam：情境題 總複習 情境 a：chatbot latency 太高 → 看 batching、模型大小、tensorrt/tensorrt-llm、gpu utilization 情境 b：多 gpu training 很慢 → 看 data pipeline、network、storage、synchronization 情境 c：k8s pod 無法使用 gpu → 看 device plugin、resource request、driver/runtime 情境題要從 symptoms 反推 stack layer。">
+  <header class="page-head">
+    <span class="page-no">READING 098</span>
+    <span class="section-tag">總複習</span>
+  </header>
+  <h2>Mock Exam：情境題</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>情境 A：chatbot latency 太高 → 看 batching、模型大小、TensorRT/TensorRT-LLM、GPU utilization</li><li>情境 B：多 GPU training 很慢 → 看 data pipeline、network、storage、synchronization</li><li>情境 C：K8s pod 無法使用 GPU → 看 device plugin、resource request、driver/runtime</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>情境題要從 symptoms 反推 stack layer。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="98"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-99" data-page="99" data-section="總複習" data-search="最後 2 小時衝刺清單 總複習 重看第 6、12、23、36、48、74、85、96 頁 把每章考點整理唸一次 做 mock exam，錯題回到來源章節 睡前只背比較表與關鍵定義 考前不要再開新坑，回到高頻考點。">
+  <header class="page-head">
+    <span class="page-no">READING 099</span>
+    <span class="section-tag">總複習</span>
+  </header>
+  <h2>最後 2 小時衝刺清單</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>重看第 6、12、23、36、48、74、85、96 頁</li><li>把每章考點整理唸一次</li><li>做 mock exam，錯題回到來源章節</li><li>睡前只背比較表與關鍵定義</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>考前不要再開新坑，回到高頻考點。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="99"><span>完成本頁</span></label>
+</article><article class="reading-section" id="page-100" data-page="100" data-section="來源" data-search="來源與延伸閱讀 來源 nvidia tensorrt: https://developer.nvidia.com/tensorrt nvidia storage for ai training and inferencing: https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/ ibm what is machine learning: https://www.ibm.com/think/topics/machine-learning sas machine learning: https://www.sas.com/en_us/insights/analytics/machine-learning.html 完整來源請見 markdown 版附錄。">
+  <header class="page-head">
+    <span class="page-no">READING 100</span>
+    <span class="section-tag">來源</span>
+  </header>
+  <h2>來源與延伸閱讀</h2>
+  <div class="lesson-grid">
+    <div class="content-card"><h3>重點</h3><ul><li>NVIDIA TensorRT: https://developer.nvidia.com/tensorrt</li><li>NVIDIA Storage for AI Training and Inferencing: https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/</li><li>IBM What Is Machine Learning: https://www.ibm.com/think/topics/machine-learning</li><li>SAS Machine Learning: https://www.sas.com/en_us/insights/analytics/machine-learning.html</li></ul></div>
+    <aside class="exam-card"><span>EXAM KEY</span><p>完整來源請見 Markdown 版附錄。</p></aside>
+  </div>
+  <details><summary>30 秒自測</summary><p>請不用看筆記，用自己的話說明這個概念在 AI 系統生命週期中的位置，以及它和 training、inference 或 deployment 的關係。</p></details>
+  <label class="complete"><input type="checkbox" data-check="100"><span>完成本頁</span></label>
+</article><div id="no-results" class="no-results">找不到符合的教材頁。</div></main></div>
+<section class="sources" id="sources"><div class="box"><h2>已驗證來源與 NVIDIA 延伸閱讀</h2><ol><li><a href="https://developer.nvidia.com/tensorrt" target="_blank" rel="noopener noreferrer">NVIDIA TensorRT</a></li><li><a href="https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/" target="_blank" rel="noopener noreferrer">NVIDIA：Scaling Storage for AI Training and Inferencing</a></li><li><a href="https://www.ibm.com/think/topics/machine-learning" target="_blank" rel="noopener noreferrer">IBM：What Is Machine Learning?</a></li><li><a href="https://www.sas.com/en_us/insights/analytics/machine-learning.html" target="_blank" rel="noopener noreferrer">SAS：Machine Learning</a></li><li><a href="https://blogs.nvidia.com/blog/what-are-large-language-models-used-for/" target="_blank" rel="noopener noreferrer">NVIDIA：What Are Large Language Models Used For?</a></li><li><a href="https://developer.nvidia.com/blog/nvidia-gpu-operator-simplifying-gpu-management-in-kubernetes/" target="_blank" rel="noopener noreferrer">NVIDIA GPU Operator Blog</a></li><li><a href="https://www.intel.com/content/www/us/en/products/docs/processors/cpu-vs-gpu.html" target="_blank" rel="noopener noreferrer">Intel：CPU vs. GPU</a></li><li><a href="https://docs.nvidia.com/deeplearning/tensorrt/latest/index.html" target="_blank" rel="noopener noreferrer">NVIDIA TensorRT Documentation</a></li><li><a href="https://docs.nvidia.com/deeplearning/tensorrt/latest/getting-started/quick-start-guide.html" target="_blank" rel="noopener noreferrer">NVIDIA TensorRT Quick Start</a></li><li><a href="https://developer.nvidia.com/blog/optimizing-inference-on-llms-with-tensorrt-llm-now-publicly-available/" target="_blank" rel="noopener noreferrer">NVIDIA TensorRT-LLM Blog</a></li><li><a href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html" target="_blank" rel="noopener noreferrer">NVIDIA GPU Operator Documentation</a></li></ol></div></section>
+<footer>AI / Inference / GPU Weekend Certification Guide · Static HTML · 2026</footer>
+<script>
+const pages=[...document.querySelectorAll('.reading-section')];
+const search=document.getElementById('search');
+const checks=[...document.querySelectorAll('[data-check]')];
+const key='ai-cert-weekend-progress-v1';
+let done=new Set(JSON.parse(localStorage.getItem(key)||'[]'));
+function renderProgress(){checks.forEach(c=>c.checked=done.has(Number(c.dataset.check)));document.getElementById('progress').style.width=`${done.size}%`;}
+checks.forEach(c=>c.addEventListener('change',()=>{const n=Number(c.dataset.check);c.checked?done.add(n):done.delete(n);localStorage.setItem(key,JSON.stringify([...done]));renderProgress();}));
+search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();let visible=0;pages.forEach(p=>{const show=!q||p.dataset.search.includes(q);p.hidden=!show;if(show)visible++;});document.getElementById('no-results').style.display=visible?'none':'block';});
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-item').forEach(a=>a.classList.toggle('active',a.dataset.section===e.target.dataset.section));}})},{rootMargin:'-25% 0px -65% 0px'});pages.forEach(p=>obs.observe(p));
+renderProgress();
+</script>
+</body></html>
