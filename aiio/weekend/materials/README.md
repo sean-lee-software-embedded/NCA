@@ -4,6 +4,8 @@ Source study materials retained in Git for browsing, download, and version histo
 
 | File | Description | Source label |
 | --- | --- | --- |
+| `hermes-nca-aiio-100-question-blueprint-mock.html` | 100 original four-choice mock questions aligned exactly to the official 38/40/22 blueprint, with weighted random 50-question mode, 60-minute timer, scoring, explanations, and progress storage. | Hermes independent 100-question mock bank |
+| `data/hermes-nca-aiio-100-original-questions.json` | Machine-readable source data for the 100 original questions, answers, explanations, objectives, domains, and source keys. | Hermes question-bank data |
 | `nca-aiio-pass-prep-100page-reading-mode.html` | Freshly generated NCA-AIIO pass-prep native HTML reader with 100 reading units across AI basics, GPU stack, TensorRT, GPU Operator, Kubernetes, storage, networking, monitoring, MLOps, and scenario-question strategy. | Fresh NCA-AIIO pass-prep reading edition |
 | `hermes-nca-aiio-cert-pass-100-unit-reader.html` | Independently rebuilt Hermes edition aligned exactly to the official NCA-AIIO blueprint: 38 Essential AI Knowledge units, 40 AI Infrastructure units, 22 AI Operations units, plus 50 original practice questions and a 60-minute timer. | Hermes independent HTML reading edition |
 | `suggested-readings-nvidia-weekend-100page.html` | Native long-form HTML reader with 100 unique study sections derived from the 9 suggested-reading topics plus verified NVIDIA tutorial references; includes search, progress tracking, print layout, and self-check prompts. This is not a PPTX conversion. | Standalone HTML reading edition |

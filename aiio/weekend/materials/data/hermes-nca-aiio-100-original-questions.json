@@ -1,0 +1,1826 @@
+[
+  {
+    "id": 1,
+    "question": "某團隊希望在同一套生態系中完成 GPU 驅動、加速函式庫與 AI 框架整合。下列何者最能描述 NVIDIA 軟體堆疊的價值？",
+    "choices": [
+      "以分層軟體將硬體能力提供給函式庫、框架與應用程式",
+      "只提供硬體監控介面，不支援 AI 框架",
+      "要求所有模型都改寫成組合語言",
+      "只適用於沒有 GPU 的伺服器"
+    ],
+    "answer": 0,
+    "explanation": "NVIDIA 軟體堆疊透過驅動、CUDA、加速函式庫、框架與應用層逐層銜接，使開發者能使用 GPU 加速能力，而不必直接控制底層硬體。",
+    "objective": "1.1",
+    "source_keys": [
+      "S11",
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 2,
+    "question": "在 NVIDIA 軟體堆疊中，CUDA 的主要角色為何？",
+    "choices": [
+      "取代所有資料庫管理系統",
+      "提供 GPU 平行運算的平台與程式設計模型",
+      "僅用來設計實體晶片外觀",
+      "專門管理終端使用者密碼"
+    ],
+    "answer": 1,
+    "explanation": "CUDA 是讓開發者利用 NVIDIA GPU 執行通用平行運算的平台與程式設計模型，也是許多加速函式庫和 AI 框架的基礎。",
+    "objective": "1.1",
+    "source_keys": [
+      "S11",
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 3,
+    "question": "資料科學家使用支援 GPU 的深度學習框架訓練模型時，通常如何取得底層加速？",
+    "choices": [
+      "框架完全繞過驅動程式直接修改晶片",
+      "必須先停用所有平行處理",
+      "框架透過 CUDA 與加速函式庫呼叫 GPU 能力",
+      "只能將資料轉成紙本後再輸入"
+    ],
+    "answer": 2,
+    "explanation": "深度學習框架通常透過 CUDA 及相關加速函式庫使用 GPU，讓使用者在較高抽象層開發，而不必手動管理每項硬體操作。",
+    "objective": "1.1",
+    "source_keys": [
+      "S11",
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 4,
+    "question": "若 GPU 驅動程式與上層 CUDA 元件版本不相容，最可能造成什麼結果？",
+    "choices": [
+      "模型準確率必然提高",
+      "訓練資料會自動完成標註",
+      "CPU 核心數會永久增加",
+      "應用程式可能無法正確存取 GPU 加速功能"
+    ],
+    "answer": 3,
+    "explanation": "驅動程式是上層軟體與 GPU 溝通的重要基礎；版本相容性問題可能使 CUDA 或框架無法初始化或正確使用 GPU。",
+    "objective": "1.1",
+    "source_keys": [
+      "S11",
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 5,
+    "question": "容器化 AI 工作負載時，採用 NVIDIA 容器相關元件的主要目的為何？",
+    "choices": [
+      "讓容器內應用程式能以一致方式使用主機的 NVIDIA GPU",
+      "把 GPU 永久轉換成 CPU",
+      "保證任何模型都達到百分之百準確率",
+      "免除所有驅動與相容性需求"
+    ],
+    "answer": 0,
+    "explanation": "NVIDIA 的容器支援可讓容器化應用存取主機 GPU，並提升環境封裝與部署一致性；它不會消除底層驅動及相容性要求。",
+    "objective": "1.1",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 6,
+    "question": "相較於推論，AI 模型訓練架構通常更重視下列哪項需求？",
+    "choices": [
+      "只接收單一固定輸入且永不更新權重",
+      "大量資料上的反向傳播與高吞吐平行運算",
+      "完全不需要儲存模型狀態",
+      "只追求最低螢幕解析度"
+    ],
+    "answer": 1,
+    "explanation": "訓練會重複進行前向與反向傳播、計算梯度並更新權重，因此通常需要高運算吞吐、記憶體容量及高速互連。",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 7,
+    "question": "即時客服聊天機器人的推論服務最應優先關注哪一項指標？",
+    "choices": [
+      "每週重新標註的紙張數量",
+      "訓練梯度的保存年限",
+      "每次回應的延遲與服務可用性",
+      "顯示卡外殼的顏色"
+    ],
+    "answer": 2,
+    "explanation": "互動式推論必須迅速回應使用者，因此端到端延遲和服務可用性通常比訓練期間的梯度處理更重要。",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 8,
+    "question": "某模型已完成訓練，現要為大量使用者提供預測。下列哪個架構調整最符合推論階段？",
+    "choices": [
+      "持續為每個請求執行反向傳播",
+      "刪除模型權重，只保留訓練日誌",
+      "要求每位使用者先重新訓練模型",
+      "部署模型服務，並依流量進行批次處理或水平擴展"
+    ],
+    "answer": 3,
+    "explanation": "推論架構會載入已訓練權重提供預測，並可用動態批次、複本或水平擴展提升吞吐與可用性，不需對每次請求執行反向傳播。",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 9,
+    "question": "為何大型分散式訓練系統常需要高速 GPU 互連與網路？",
+    "choices": [
+      "用來同步梯度、參數或分散在多個運算節點的資料",
+      "用來取代所有模型評估",
+      "用來避免資料進入記憶體",
+      "用來將監督式學習改成規則引擎"
+    ],
+    "answer": 0,
+    "explanation": "分散式訓練會在 GPU 或節點間交換梯度、參數與資料；高速互連可降低通訊瓶頸並改善擴展效率。",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 10,
+    "question": "邊緣裝置執行影像辨識推論時，與資料中心訓練環境相比，最常見的額外限制為何？",
+    "choices": [
+      "一定擁有無限網路頻寬",
+      "功耗、散熱、記憶體與延遲預算較嚴格",
+      "必須保存所有訓練梯度",
+      "模型不需要任何輸入資料"
+    ],
+    "answer": 1,
+    "explanation": "邊緣推論通常受到電力、散熱、裝置尺寸、記憶體與即時回應需求限制，因此常需採用最佳化模型與合適的部署硬體。",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 11,
+    "question": "下列何者正確描述 AI、機器學習與深度學習的關係？",
+    "choices": [
+      "AI 是機器學習的子集合，而機器學習是深度學習的子集合",
+      "三者完全相同，沒有範圍差異",
+      "深度學習通常是機器學習的一類，而機器學習是 AI 的一種方法",
+      "機器學習只指不使用資料的規則系統"
+    ],
+    "answer": 2,
+    "explanation": "AI 是較廣泛的領域；機器學習是讓系統從資料學習模式的方法，而深度學習通常指使用多層神經網路的一類機器學習。",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 12,
+    "question": "垃圾郵件分類器使用已標示為「垃圾」或「正常」的郵件進行學習，這屬於哪一類方法？",
+    "choices": [
+      "非監督式學習",
+      "純手動排序且不含學習",
+      "隨機硬體測試",
+      "監督式學習"
+    ],
+    "answer": 3,
+    "explanation": "訓練資料包含目標標籤，模型學習由輸入郵件預測類別，因此屬於監督式學習。",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 13,
+    "question": "公司希望在沒有預先類別標籤的客戶資料中找出自然群組，最適合採用哪種技術？",
+    "choices": [
+      "分群等非監督式學習",
+      "只依日期刪除資料",
+      "監督式分類且假設已有正確標籤",
+      "將所有客戶指定為同一固定結果"
+    ],
+    "answer": 0,
+    "explanation": "分群能在未標註資料中依特徵相似性找出潛在結構，是典型的非監督式學習應用。",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 14,
+    "question": "深度神經網路中的「訓練」主要在做什麼？",
+    "choices": [
+      "只把輸入檔案重新命名",
+      "依損失函數與最佳化方法調整模型參數",
+      "永久固定隨機初始權重且不做改變",
+      "保證模型理解所有人類知識"
+    ],
+    "answer": 1,
+    "explanation": "訓練會根據預測誤差計算損失，透過最佳化流程調整模型參數，使模型在目標任務上的表現逐步改善。",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 15,
+    "question": "生成式 AI 與傳統判別式分類模型的主要差異之一為何？",
+    "choices": [
+      "生成式 AI 完全不使用模型參數",
+      "分類模型一定會產生長篇文章",
+      "生成式 AI 可依提示產生新的文字、影像或其他內容",
+      "兩者都只能回傳資料庫中的原始紀錄"
+    ],
+    "answer": 2,
+    "explanation": "生成式 AI 能依學得的資料分布產生新內容；判別式分類模型則通常著重於估計類別或決策邊界。",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 16,
+    "question": "企業評估是否導入 AI 時，第一個應釐清的事項為何？",
+    "choices": [
+      "先購買最多 GPU，再決定用途",
+      "先移除所有資料治理規範",
+      "只比較模型名稱是否流行",
+      "業務問題、預期價值與可衡量的成功指標"
+    ],
+    "answer": 3,
+    "explanation": "AI 導入應由明確的業務問題和成功指標出發，才能判斷資料、技術、成本與風險是否支持可行方案。",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 17,
+    "question": "下列哪項最能反映資料是否適合支援 AI 專案？",
+    "choices": [
+      "資料與目標問題相關，品質可接受，且具合法使用依據",
+      "資料量很大，因此內容錯誤也無妨",
+      "資料來源未知，但檔名整齊",
+      "只要是文字資料就一定足夠"
+    ],
+    "answer": 0,
+    "explanation": "可用資料不只要有數量，也必須具相關性、品質、代表性、存取權限與合法合規基礎。",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 18,
+    "question": "某 AI 原型準確率良好，但推論成本高於可帶來的收益。這最直接指出哪項導入因素未被滿足？",
+    "choices": [
+      "模型是否包含神經元",
+      "經濟可行性與投資報酬",
+      "資料是否能以 CSV 儲存",
+      "辦公室是否使用雙螢幕"
+    ],
+    "answer": 1,
+    "explanation": "技術可行不代表商業可行；若部署與營運成本持續高於價值，專案缺乏可接受的投資報酬。",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 19,
+    "question": "在高風險 AI 應用中加入人工覆核，主要是為了什麼？",
+    "choices": [
+      "保證模型永遠不需監控",
+      "消除對資料品質的需求",
+      "在重要決策中提供監督、例外處理與責任控管",
+      "讓推論一定比訓練更耗電"
+    ],
+    "answer": 2,
+    "explanation": "人工介入可處理低信心或高影響案例，並強化監督、問責與風險管理，但不能取代資料治理與模型監控。",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 20,
+    "question": "為降低 AI 專案由概念驗證進入正式環境時的失敗風險，哪項做法最適當？",
+    "choices": [
+      "只在展示當天測試一次",
+      "忽略既有流程與使用者需求",
+      "將模型準確率視為唯一指標",
+      "及早評估整合、資安、維運、技能與變更管理需求"
+    ],
+    "answer": 3,
+    "explanation": "正式導入涉及系統整合、安全、可觀測性、人員能力、流程變更與使用者採納；這些因素應在早期一併評估。",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 21,
+    "question": "製造業利用攝影機自動找出產品表面刮痕，屬於哪一類 AI 使用案例？",
+    "choices": [
+      "電腦視覺品質檢測",
+      "語音合成薪資計算",
+      "網路路由的人工排班",
+      "未使用資料的紙本稽核"
+    ],
+    "answer": 0,
+    "explanation": "透過影像辨識產品缺陷是製造業常見的電腦視覺品質檢測應用，可協助提高檢查速度與一致性。",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 22,
+    "question": "醫療機構使用 AI 輔助分析放射影像時，最合理的定位為何？",
+    "choices": [
+      "未經驗證便完全取代所有醫療專業判斷",
+      "提供臨床人員輔助資訊，並搭配驗證與適當監督",
+      "只用來增加影像檔案大小",
+      "保證對每位病患都不會誤判"
+    ],
+    "answer": 1,
+    "explanation": "醫療影像 AI 可協助偵測與排序，但屬高風險領域，必須經適當驗證、治理並由合格專業人員監督。",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 23,
+    "question": "金融機構以歷史交易模式即時標示可疑刷卡行為，最接近哪個使用案例？",
+    "choices": [
+      "影像超解析度列印",
+      "自動增加所有信用額度",
+      "詐欺偵測與異常分析",
+      "無條件核准每筆交易"
+    ],
+    "answer": 2,
+    "explanation": "分析交易特徵並辨識異常模式是典型的詐欺偵測應用；實務上仍需管理誤報、偏差與處置流程。",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 24,
+    "question": "零售商想減少缺貨與過量庫存，哪項 AI 應用最直接？",
+    "choices": [
+      "隨機決定每項商品訂購量",
+      "刪除所有銷售紀錄",
+      "只依商品名稱長度補貨",
+      "結合歷史銷售與外部因素進行需求預測"
+    ],
+    "answer": 3,
+    "explanation": "需求預測可利用歷史銷售、季節、促銷等資料估計未來需求，協助改善庫存與供應鏈決策。",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 25,
+    "question": "電信業者希望在設備故障前安排維修，最適合哪種 AI 使用案例？",
+    "choices": [
+      "根據感測與運行資料進行預測性維護",
+      "定期刪除所有設備日誌",
+      "把每個警示都視為已故障",
+      "只在設備完全停機後才收集資料"
+    ],
+    "answer": 0,
+    "explanation": "預測性維護利用感測器、告警與歷史故障資料估計設備健康狀態，使業者能在失效前規劃檢修。",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 26,
+    "question": "企業需要可用 GPU 加速的完整 AI 系統，並希望降低各硬體元件自行整合的負擔。哪類 NVIDIA 解決方案最符合需求？",
+    "choices": [
+      "僅有鍵盤的辦公設備",
+      "預先整合的 NVIDIA DGX 系統",
+      "不含運算資源的紙本手冊",
+      "只支援一般列印的驅動程式"
+    ],
+    "answer": 1,
+    "explanation": "NVIDIA DGX 屬於針對 AI 工作負載設計的整合系統，可提供 GPU 運算、互連與配套軟體環境，降低自行組裝整合的複雜度。",
+    "objective": "1.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 27,
+    "question": "若組織想使用雲端方式取得 NVIDIA 加速運算資源，最合理的做法為何？",
+    "choices": [
+      "假設任何無 GPU 執行個體都有相同訓練效能",
+      "把本機顯示器寄給雲端業者",
+      "選用提供 NVIDIA GPU 執行個體與相關軟體映像的雲端服務",
+      "只上傳模型名稱而不部署任何服務"
+    ],
+    "answer": 2,
+    "explanation": "主流雲端可提供 NVIDIA GPU 執行個體、容器或預建映像，讓組織依需求使用加速運算並彈性擴展。",
+    "objective": "1.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 28,
+    "question": "智慧攝影機需要在現場低延遲處理影像，而不是把所有影片送回資料中心。哪類 NVIDIA 平台方向最適合？",
+    "choices": [
+      "只提供中央處理器文字編輯的環境",
+      "離線紙本報表系統",
+      "不具運算能力的被動纜線",
+      "Jetson 類邊緣 AI 平台"
+    ],
+    "answer": 3,
+    "explanation": "Jetson 類平台針對邊緣 AI 與嵌入式推論設計，可在受限功耗下於資料來源附近執行視覺等工作負載。",
+    "objective": "1.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 29,
+    "question": "企業要在 NVIDIA GPU 上建立高吞吐、可管理的模型推論服務，應優先考慮哪類解決方案？",
+    "choices": [
+      "支援模型服務與批次最佳化的推論伺服器軟體",
+      "只能編輯簡報的桌面工具",
+      "要求每次請求先完整重新訓練的腳本",
+      "完全不載入模型的網頁伺服器"
+    ],
+    "answer": 0,
+    "explanation": "專用推論伺服器可支援模型載入、並行執行、動態批次與監控等能力，便於把模型部署成可擴展服務。",
+    "objective": "1.6",
+    "source_keys": [
+      "S13",
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 30,
+    "question": "NVIDIA AI Enterprise 類解決方案對企業導入 AI 的核心價值為何？",
+    "choices": [
+      "保證模型不需要資料",
+      "提供企業級 AI 軟體套件、支援與生命週期管理能力",
+      "只販售消費性遊戲內容",
+      "自動免除所有法規責任"
+    ],
+    "answer": 1,
+    "explanation": "企業級 AI 軟體套件著重經驗證的元件、部署選項、支援及生命週期管理，協助組織以較一致的方式建立與營運 AI。",
+    "objective": "1.6",
+    "source_keys": [
+      "S18",
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 31,
+    "question": "在 AI 生命週期中，資料準備軟體最主要的功能為何？",
+    "choices": [
+      "只負責把模型部署到使用者端",
+      "永久停用資料品質檢查",
+      "蒐集、清理、轉換、標註並建立可供訓練的資料集",
+      "將所有輸入轉成相同常數"
+    ],
+    "answer": 2,
+    "explanation": "資料準備包含資料擷取、清理、轉換、標註與版本管理，目的是產生與任務相關且品質足以支援訓練和評估的資料集。",
+    "objective": "1.7",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 32,
+    "question": "實驗追蹤工具在模型開發階段的主要用途為何？",
+    "choices": [
+      "自動保證每次實驗得到相同準確率",
+      "取代所有訓練運算資源",
+      "只記錄開發者登入時間",
+      "記錄參數、程式版本、資料版本與評估結果以利重現比較"
+    ],
+    "answer": 3,
+    "explanation": "實驗追蹤可保存超參數、程式與資料版本、指標及產出，使團隊能比較實驗並提高可重現性。",
+    "objective": "1.7",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 33,
+    "question": "模型登錄庫在 AI 生命週期中解決的主要問題為何？",
+    "choices": [
+      "管理模型版本、狀態、核准資訊與部署來源",
+      "替所有資料自動產生正確標籤",
+      "把模型權重轉成實體 GPU",
+      "只用來儲存員工通訊錄"
+    ],
+    "answer": 0,
+    "explanation": "模型登錄庫集中管理候選與正式模型的版本、指標、核准狀態及來源，有助於治理、追蹤與可靠部署。",
+    "objective": "1.7",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 34,
+    "question": "模型正式上線後，持續監控資料漂移與預測品質的主要原因為何？",
+    "choices": [
+      "上線後模型必然每天自動改善",
+      "真實環境可能改變，導致模型表現隨時間下降",
+      "監控可完全取代重新評估",
+      "只有訓練前的資料才可能改變"
+    ],
+    "answer": 1,
+    "explanation": "輸入分布、使用情境或目標關係可能改變，使模型產生漂移或效能衰退；監控能協助觸發調查、回復或重新訓練。",
+    "objective": "1.7",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 35,
+    "question": "為何 GPU 特別適合許多深度學習工作負載？",
+    "choices": [
+      "每個 GPU 只會依序執行一個簡單指令",
+      "GPU 不需要記憶體即可運算",
+      "具有大量平行運算核心，能高效處理矩陣與張量運算",
+      "GPU 的主要優勢是處理紙張輸出"
+    ],
+    "answer": 2,
+    "explanation": "深度學習大量使用可平行化的矩陣和張量運算；GPU 擁有大量運算核心與高記憶體頻寬，適合此類高吞吐工作。",
+    "objective": "1.8",
+    "source_keys": [
+      "S10"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 36,
+    "question": "下列哪種工作較可能更適合由 CPU 主導，而非單獨交給 GPU？",
+    "choices": [
+      "高度平行的大型矩陣乘法",
+      "大批量卷積運算",
+      "神經網路的大規模張量計算",
+      "複雜分支、作業系統控制與一般序列式邏輯"
+    ],
+    "answer": 3,
+    "explanation": "CPU 擅長低延遲、複雜控制流程與序列式任務；GPU 則較擅長大量同類運算的資料平行處理。實際系統通常兩者協同運作。",
+    "objective": "1.8",
+    "source_keys": [
+      "S10"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 37,
+    "question": "在 GPU 加速的 AI 系統中，CPU 最常扮演哪種角色？",
+    "choices": [
+      "協調程式流程、資料準備與 I/O，並將平行運算工作派給 GPU",
+      "完全不參與任何系統操作",
+      "只負責增加模型參數數量",
+      "把所有 GPU 核心關閉後執行訓練"
+    ],
+    "answer": 0,
+    "explanation": "異質運算系統中，CPU 常負責控制流程、I/O 與工作協調，GPU 則處理適合高度平行化的運算。",
+    "objective": "1.8",
+    "source_keys": [
+      "S10"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 38,
+    "question": "若小型推論模型每次只處理一筆請求且資料搬移成本很高，為何 GPU 不一定比 CPU 更快？",
+    "choices": [
+      "GPU 永遠不能執行推論",
+      "啟動與資料傳輸開銷可能超過平行運算帶來的收益",
+      "CPU 擁有無限記憶體頻寬",
+      "模型在 CPU 上不需要任何計算"
+    ],
+    "answer": 1,
+    "explanation": "GPU 優勢取決於工作是否有足夠平行度與運算量；小批次、低運算量或頻繁資料搬移可能使啟動與傳輸開銷抵銷加速效果。",
+    "objective": "1.8",
+    "source_keys": [
+      "S10"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 39,
+    "question": "某團隊要為大型語言模型訓練估算 GPU 數量。模型權重可放入單張 GPU，但啟用值、梯度與最佳化器狀態使訓練發生 OOM。最適合的 sizing 作法是什麼？",
+    "choices": [
+      "只依模型參數檔案大小選擇 GPU",
+      "只提高儲存系統的可用容量",
+      "把完整訓練記憶體占用、批次大小與並行策略納入估算",
+      "以平均 CPU 使用率推算 GPU 記憶體"
+    ],
+    "answer": 2,
+    "explanation": "訓練記憶體不只包含權重，還包括啟用值、梯度與最佳化器狀態；容量規劃也必須考慮批次大小及模型、張量或管線並行方式。",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 40,
+    "question": "一個線上推論服務平均每秒 200 個請求，但尖峰可達 900 個，且要求第 99 百分位延遲低於 150 ms。哪一項資料最不應被 sizing 忽略？",
+    "choices": [
+      "辦公室使用者的人數",
+      "訓練資料的原始標籤格式",
+      "機櫃外觀與面板顏色",
+      "尖峰併行量、批次策略與尾端延遲"
+    ],
+    "answer": 3,
+    "explanation": "即時推論容量應依尖峰而非僅依平均流量規劃，並同時評估併行請求、動態批次、模型記憶體需求及尾端延遲 SLA。",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 41,
+    "question": "新 GPU 伺服器的理論算力很高，但影像訓練時 GPU 經常等待資料，CPU 解碼程序已滿載。下一輪容量規劃最合理的調整是什麼？",
+    "choices": [
+      "平衡 CPU、系統記憶體與資料前處理能力",
+      "再增加同型 GPU，其他元件不變",
+      "降低網路安全性以減少檢查",
+      "把所有資料改存於 GPU 暫存記憶體並取消持久化"
+    ],
+    "answer": 0,
+    "explanation": "GPU sizing 不能脫離整體資料路徑。若瓶頸在解碼與餵料，應補強 CPU、RAM、I/O 或前處理，而不是單純增加會繼續閒置的 GPU。",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 42,
+    "question": "企業預計三年內資料量與使用者數持續成長。製作 AI 基礎設施 BOM 時，哪個方法最完整？",
+    "choices": [
+      "只列目前所需的 GPU 數量",
+      "納入運算、網路、儲存、機櫃、電力、冷卻、備品及成長餘裕",
+      "以供應商最高階型號直接取代需求分析",
+      "只預留儲存容量，不考慮網路與電力"
+    ],
+    "answer": 1,
+    "explanation": "完整 sizing 必須從工作負載與成長預測推導所有相依資源，避免 GPU 已到位卻受網路、儲存或設施容量限制。",
+    "objective": "2.1",
+    "source_keys": [
+      "S6",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 43,
+    "question": "一個模型必須跨同一伺服器內的八張 GPU 切分，主要需求是提高 GPU 彼此之間的頻寬。這最接近哪一種擴充方式？",
+    "choices": [
+      "把資料備份到雲端物件儲存",
+      "增加遠端登入節點進行 scale-out",
+      "利用高速 GPU 互連進行 scale-up",
+      "降低機房入口溫度"
+    ],
+    "answer": 2,
+    "explanation": "scale-up 著重單一系統內增加或緊密連接運算資源；多 GPU 模型切分通常依賴高頻寬的節點內互連。",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 44,
+    "question": "將訓練從 8 個節點增加到 16 個節點後，完成時間只改善少量。監測顯示大部分新增時間耗在梯度同步。最佳判斷是什麼？",
+    "choices": [
+      "GPU 數量越多一定會線性加速，量測必定錯誤",
+      "應先把所有節點改成虛擬桌面",
+      "問題一定只與磁碟總容量有關",
+      "scale-out 效益正受到 collective communication 開銷限制"
+    ],
+    "answer": 3,
+    "explanation": "跨節點擴充會引入通訊與同步成本；若 all-reduce 成為主導，增加節點不會保證線性加速，應檢查 fabric、拓撲與並行效率。",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 45,
+    "question": "哪一個案例最明確代表 scale-out，而非 scale-up？",
+    "choices": [
+      "增加多個運算節點，透過叢集網路共同執行分散式訓練",
+      "在單一節點內啟用更快的 GPU 對 GPU 互連",
+      "替單台伺服器增加系統記憶體",
+      "把單一機櫃的風扇轉速提高"
+    ],
+    "answer": 0,
+    "explanation": "scale-out 是增加獨立節點並由網路與分散式軟體協同工作；單機內擴充資源或互連則屬 scale-up。",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 46,
+    "question": "在比較兩個擴充方案時，哪個指標最能反映新增 GPU 是否真正縮短訓練時間？",
+    "choices": [
+      "GPU 型號名稱的字元數",
+      "端到端 scaling efficiency 與達成目標時間所需的總資源",
+      "機櫃中未使用的 RU 數量",
+      "登入節點的桌布解析度"
+    ],
+    "answer": 1,
+    "explanation": "擴充決策應看端到端效益，而非只看硬體數量；scaling efficiency 可揭露通訊、I/O 與軟體開銷對新增資源的侵蝕。",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 47,
+    "question": "某機櫃內所有 GPU 的 TDP 合計為 40 kW。設施工程師要決定供電容量時，還必須納入哪一項？",
+    "choices": [
+      "只有 GPU 平均利用率",
+      "只有機櫃高度",
+      "CPU、NIC、儲存、電力損耗、峰值、冗餘與安全餘裕",
+      "只有模型參數量"
+    ],
+    "answer": 2,
+    "explanation": "GPU TDP 合計不等於機櫃或設施需求；完整估算需包含整機其他元件、轉換損耗、瞬時峰值、冗餘模式及成長餘裕。",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S15"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 48,
+    "question": "一個高密度 GPU 機櫃使既有氣流系統飽和，GPU 持續出現 thermal throttling。最合適的下一步是什麼？",
+    "choices": [
+      "關閉溫度告警，避免干擾操作人員",
+      "只增加訓練批次大小",
+      "把 A/B 電源接到同一個 PDU",
+      "評估液冷或其他高密度散熱方案，並驗證設施配套"
+    ],
+    "answer": 3,
+    "explanation": "當單櫃熱密度超過氣冷能力時，應評估液冷等高密度方案，同時確認供水、監控、維護與故障處理能力。",
+    "objective": "2.3",
+    "source_keys": [
+      "S15",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 49,
+    "question": "系統要求任一供電路徑故障時仍能維持必要負載。A/B 電源路徑應如何規劃？",
+    "choices": [
+      "每一條路徑都能獨立承擔故障情境下的必要負載",
+      "兩條路徑合計容量剛好等於正常平均負載",
+      "兩條路徑共用同一個無備援上游斷路器",
+      "只依 GPU 的閒置功耗計算容量"
+    ],
+    "answer": 0,
+    "explanation": "冗餘設計必須按故障後可用容量計算；若要求單一路徑失效仍維持服務，剩餘路徑就必須能承擔必要負載。",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S15"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 50,
+    "question": "機房平均溫度正常，但某些 GPU 頻繁降頻。哪種監測方式最能找出局部熱點？",
+    "choices": [
+      "只讀取整棟大樓每月用電量",
+      "同時檢查機櫃進出口溫度、GPU 溫度、風扇或冷卻液狀態及 throttling 原因",
+      "只計算模型訓練 epoch 數",
+      "只查看儲存可用容量"
+    ],
+    "answer": 1,
+    "explanation": "房間平均值可能掩蓋局部熱點；設備與機櫃層遙測可把降頻與入口溫度、氣流、風扇或液冷狀態關聯起來。",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S15"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 51,
+    "question": "公司只有六週的短期實驗需求，GPU 數量尚不確定，且希望立即取得資源。哪種部署模式通常最合適？",
+    "choices": [
+      "立即自建永久滿載的資料中心",
+      "先購買三年後可能需要的全部設備",
+      "使用可快速佈建並可彈性縮放的雲端資源",
+      "把所有工作移到無 GPU 的辦公電腦"
+    ],
+    "answer": 2,
+    "explanation": "需求短期且不確定時，雲端的快速取得與彈性通常可避免為尖峰或實驗預先投入大量資本。",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 52,
+    "question": "某受監管資料集不得離開企業園區，工作負載長期穩定且利用率高。哪個方案最符合主要限制？",
+    "choices": [
+      "將原始資料公開上傳至任何公有雲區域",
+      "只使用臨時免費試用資源",
+      "取消資料治理要求",
+      "在符合控制與設施要求的 on-prem 環境部署"
+    ],
+    "answer": 3,
+    "explanation": "資料主權與高而穩定的長期利用率通常支持 on-prem；但仍要計入建置時間、維運、電力與冷卻責任。",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 53,
+    "question": "企業將敏感資料與基礎推論留在本地，只在季度訓練尖峰租用雲端 GPU。這是哪種架構？",
+    "choices": [
+      "Hybrid，因為依資料與容量限制跨本地及雲端配置工作負載",
+      "純 on-prem，因為本地仍有伺服器",
+      "純 edge，因為使用了推論",
+      "單節點 scale-up，因為有更多 GPU"
+    ],
+    "answer": 0,
+    "explanation": "混合架構依合規、資料位置、成本與尖峰容量在本地和雲端間分配工作；還需評估資料搬移時間與費用。",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 54,
+    "question": "比較 on-prem 與 cloud 的三年成本時，哪個分析最合理？",
+    "choices": [
+      "只比較單張 GPU 的標價",
+      "同時計入利用率、資本與營運成本、資料傳輸、設施、人力、配額及成長彈性",
+      "只比較第一個月的電費",
+      "假設兩者永遠有相同供應量與服務"
+    ],
+    "answer": 1,
+    "explanation": "部署模式的成本是總體經濟問題；單價不足以代表實際成本，必須結合利用率、設施、人力、資料移動與彈性。",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 55,
+    "question": "為降低使用者操作對訓練工作的影響，AI 叢集最合理的角色分工是什麼？",
+    "choices": [
+      "所有使用者直接登入每個 GPU 運算節點並任意修改設定",
+      "只部署 GPU 節點，不需要排程、儲存或監控",
+      "以登入或管理節點接受互動與提交作業，運算節點專注執行工作負載",
+      "讓網路交換器負責執行模型訓練"
+    ],
+    "answer": 2,
+    "explanation": "將登入、管理與運算角色分離，可改善安全、穩定性與可管理性；完整叢集還需要網路、儲存、排程和監控服務。",
+    "objective": "2.5",
+    "source_keys": [
+      "S6",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 56,
+    "question": "數百個訓練節點同時讀取大量小檔案時，單一 NAS 的 metadata 服務成為瓶頸。哪個改善方向最直接？",
+    "choices": [
+      "增加登入節點的螢幕數量",
+      "降低 GPU 時脈以配合儲存",
+      "把所有網路流量改走 BMC 管理埠",
+      "採用可擴充 metadata 與聚合吞吐的平行儲存架構"
+    ],
+    "answer": 3,
+    "explanation": "大規模並行 I/O 同時要求資料吞吐與 metadata 可擴充性；平行檔案系統可把 I/O 分散到多個儲存目標。",
+    "objective": "2.5",
+    "source_keys": [
+      "S6",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 57,
+    "question": "兩份關鍵服務副本位於同一機櫃，並共用同一個上游交換器與 PDU。這個配置的主要問題是什麼？",
+    "choices": [
+      "副本仍位於共同故障域，無法抵禦該機櫃或上游元件故障",
+      "副本會自動獲得雙倍 GPU 記憶體",
+      "副本一定會使用不同儲存資料",
+      "服務會因此變成純雲端架構"
+    ],
+    "answer": 0,
+    "explanation": "邏輯上有兩份副本不代表真正高可用；若它們共享機櫃、電力或交換器，單一故障仍可能同時中斷兩者。",
+    "objective": "2.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 58,
+    "question": "新叢集已能開機並看見所有 GPU。上線生產前還應完成哪一項工作？",
+    "choices": [
+      "立即接受所有生產工作，避免浪費時間",
+      "依設計基準驗證韌體、GPU 健康、網路、儲存、電力與冷卻，並執行 burn-in",
+      "只確認伺服器序號與採購單一致",
+      "跳過網路與儲存測試，因為 GPU 已可見"
+    ],
+    "answer": 1,
+    "explanation": "可開機只是最低條件；端到端驗收與壓力測試才能確認運算、資料路徑和設施在負載下符合設計。",
+    "objective": "2.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 59,
+    "question": "一台高密度 GPU 伺服器在 RU 上放得進既有機櫃。部署前還必須驗證什麼？",
+    "choices": [
+      "只驗證前面板顏色",
+      "只驗證作業系統桌面主題",
+      "重量與樓板承載、供電、散熱、纜線路徑及維修空間",
+      "只驗證模型是否能輸出文字"
+    ],
+    "answer": 2,
+    "explanation": "RU 足夠不代表設施已就緒；重量、樓板承載、電力、冷卻、配線與維修淨空都可能阻止安全部署。",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 60,
+    "question": "伺服器已送達，但資料中心沒有足夠的電力饋線與散熱容量。這最直接屬於哪一類問題？",
+    "choices": [
+      "模型過度擬合",
+      "GPU kernel 語法錯誤",
+      "資料標籤品質不足",
+      "Facility readiness 不足"
+    ],
+    "answer": 3,
+    "explanation": "供電、冷卻、消防、承載與實體維護條件都屬設施就緒度；硬體已採購不表示場地可部署。",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 61,
+    "question": "規劃新的 AI 機房區域時，哪個清單最完整？",
+    "choices": [
+      "供電、冷卻、網路進線、消防、實體安全、樓板承載與維護流程",
+      "只列 GPU 型號與數量",
+      "只列模型名稱與訓練資料格式",
+      "只列雲端帳號與密碼"
+    ],
+    "answer": 0,
+    "explanation": "AI 基礎設施是 IT 與 facility 的共同工程；場地規劃必須涵蓋電力、熱、網路、安全、結構與維護。",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 62,
+    "question": "為何高密度 AI 機櫃的 site survey 不應只看整間機房的總冷量？",
+    "choices": [
+      "因為 GPU 完全不會產生熱",
+      "因為局部機櫃熱密度、氣流或冷卻液路徑可能先達極限",
+      "因為模型準確率決定所有散熱需求",
+      "因為總冷量只適用於雲端帳務"
+    ],
+    "answer": 1,
+    "explanation": "總冷量足夠仍可能因局部熱密度、氣流分布或液冷支援不足而出現熱點，因此必須做機櫃層驗證。",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 63,
+    "question": "分散式訓練頻繁交換許多小型同步訊息。相較於只看鏈路額定速率，哪個網路特性特別重要？",
+    "choices": [
+      "儲存磁碟的標籤顏色",
+      "機櫃門的高度",
+      "低延遲與穩定的訊息傳遞",
+      "使用者帳號的命名長度"
+    ],
+    "answer": 2,
+    "explanation": "大量小型同步訊息通常對延遲很敏感；網路設計須同時評估 latency、實際 throughput、拓撲與壅塞，而非只看峰值 bandwidth。",
+    "objective": "2.7",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 64,
+    "question": "AI 叢集同時有梯度同步、資料集讀取與管理流量。最合理的網路設計原則是什麼？",
+    "choices": [
+      "假設所有流量的延遲與頻寬需求相同",
+      "只根據單一 NIC 的理論峰值設計",
+      "把所有流量限制在最低速管理網路",
+      "辨識不同流量類型，依需求規劃 fabric、隔離與容量"
+    ],
+    "answer": 3,
+    "explanation": "collective、storage 與 management traffic 的特性不同；辨識並適當隔離或分層，才能避免互相爭用造成不可預期效能。",
+    "objective": "2.7",
+    "source_keys": [
+      "S6",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 65,
+    "question": "大規模 all-reduce 在網路核心交換層發生嚴重爭用。哪個架構調整最可能改善可預測效能？",
+    "choices": [
+      "降低 oversubscription，並以 Clos 或 fat-tree 類拓撲提供較高雙向分割頻寬",
+      "增加登入節點上的桌面應用程式",
+      "把所有節點接到單一低速交換器",
+      "只增加長期備份保留天數"
+    ],
+    "answer": 0,
+    "explanation": "大規模 collective 需要可預測的東西向頻寬；降低 oversubscription 並使用適合的 fabric 拓撲可減少核心爭用。",
+    "objective": "2.7",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 66,
+    "question": "兩張高速 NIC 都連到同一個受限 PCIe root complex。應預期哪種風險？",
+    "choices": [
+      "兩張 NIC 必然各自取得完整線速，拓撲不影響效能",
+      "共享 PCIe 路徑可能限制聚合吞吐並造成競爭",
+      "網路會自動轉為無線連線",
+      "GPU 記憶體容量會自動加倍"
+    ],
+    "answer": 1,
+    "explanation": "端點規格再高，實際資料路徑仍受 PCIe lane、世代、switch 與 root complex 共享關係限制；必須檢查端到端拓撲。",
+    "objective": "2.7",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 67,
+    "question": "RDMA 的主要價值是什麼？",
+    "choices": [
+      "讓 GPU 不需要任何電力即可運作",
+      "取代所有叢集排程器",
+      "讓端點記憶體間高效率搬移資料，降低 CPU 介入與軟體開銷",
+      "把本地部署自動轉成公有雲"
+    ],
+    "answer": 2,
+    "explanation": "RDMA 以較少 CPU 介入和資料複製完成端點記憶體間傳輸，適合需要低延遲、高吞吐的分散式運算。",
+    "objective": "2.8",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 68,
+    "question": "團隊希望在 Ethernet fabric 上提供 RDMA。最常見的技術選項是什麼？",
+    "choices": [
+      "SATA over USB",
+      "只啟用一般 TCP 而不做其他設計",
+      "把 NIC 改成顯示卡",
+      "RoCE"
+    ],
+    "answer": 3,
+    "explanation": "RoCE 是在 Ethernet 上承載 RDMA 的常見方式；實際部署仍須正確規劃壅塞控制、佇列與 fabric。",
+    "objective": "2.8",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 69,
+    "question": "部署 RoCE 後，壅塞期間延遲大幅波動且出現封包遺失。最合理的處理方式是什麼？",
+    "choices": [
+      "檢查端到端 fabric 的壅塞管理、佇列與流量工程設定",
+      "假設 Ethernet 上的 RDMA 不需要任何網路調校",
+      "只增加模型層數",
+      "關閉所有網路遙測"
+    ],
+    "answer": 0,
+    "explanation": "RoCE 效能依賴妥善的 Ethernet fabric 設計；壅塞管理與一致的端到端設定是維持低延遲的重要條件。",
+    "objective": "2.8",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 70,
+    "question": "哪一種工作負載最可能從 RDMA 得到直接效益？",
+    "choices": [
+      "離線編輯純文字文件",
+      "多節點訓練中頻繁交換梯度與 collective 資料",
+      "更換機櫃門鎖",
+      "列印採購單"
+    ],
+    "answer": 1,
+    "explanation": "多節點訓練的同步與 collective traffic 對延遲、頻寬及 CPU 開銷敏感，因此是 RDMA 的典型受益情境。",
+    "objective": "2.8",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 71,
+    "question": "某企業已有成熟的 Ethernet 維運能力，計畫建立中型 AI 叢集。選擇 Ethernet 或 InfiniBand 時最合理的作法是什麼？",
+    "choices": [
+      "不分析需求，所有 AI 叢集一律選 InfiniBand",
+      "不分析需求，既有 Ethernet 永遠足夠",
+      "依規模、collective 效能目標、成本、相容性與團隊能力評估",
+      "只比較交換器外殼尺寸"
+    ],
+    "answer": 2,
+    "explanation": "兩種 fabric 各有生態與特性，沒有脫離情境的絕對答案；應以工作負載、規模、效能與操作能力做選擇。",
+    "objective": "2.9",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 72,
+    "question": "下列哪一項最能描述 InfiniBand 在 AI/HPC 環境中的定位？",
+    "choices": [
+      "只用於長期歸檔資料，不能傳輸運算流量",
+      "是一種 GPU 記憶體格式",
+      "是機房冷卻液標準",
+      "是針對高效能、低延遲通訊與 RDMA 設計的網路技術"
+    ],
+    "answer": 3,
+    "explanation": "InfiniBand 是高效能互連技術，常用於需要低延遲、高頻寬與 RDMA 的 HPC 和 AI 叢集。",
+    "objective": "2.9",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 73,
+    "question": "企業需要讓既有資料中心服務與 AI 流量共用熟悉的通用網路生態，並願意妥善設計 RoCE。哪個選項較符合描述？",
+    "choices": [
+      "Ethernet fabric",
+      "只使用 NVLink 連接所有資料中心機櫃",
+      "以 GPU HBM 取代交換器",
+      "移除所有 NIC"
+    ],
+    "answer": 0,
+    "explanation": "Ethernet 具廣泛通用生態，也可透過 RoCE 支援 RDMA；但仍需依 AI 流量特性設計壅塞控制與拓撲。",
+    "objective": "2.9",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 74,
+    "question": "為何不能用 NVLink 或 NVSwitch 直接取代跨機櫃的 Ethernet 或 InfiniBand fabric？",
+    "choices": [
+      "因為 NVLink 只能連接 CPU 與磁碟",
+      "因為 NVLink/NVSwitch 主要服務節點內或特定系統的 GPU 高速互連，不等同資料中心 scale-out 網路",
+      "因為 Ethernet 與 InfiniBand 都不支援 GPU 流量",
+      "因為 NVSwitch 是冷卻設備"
+    ],
+    "answer": 1,
+    "explanation": "節點內 GPU fabric 與資料中心 scale-out fabric 解決的範圍不同；跨節點、跨機櫃仍需要合適的叢集網路。",
+    "objective": "2.9",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 75,
+    "question": "主機 CPU 因虛擬交換、儲存資料路徑與安全處理而負載過高。哪種元件最適合卸載這些基礎設施服務？",
+    "choices": [
+      "額外的顯示器",
+      "只增加模型參數",
+      "DPU",
+      "機櫃溫度感測器"
+    ],
+    "answer": 2,
+    "explanation": "DPU 的核心定位是加速與卸載網路、儲存和安全等資料中心基礎設施服務，讓 CPU 更專注於應用工作。",
+    "objective": "2.10",
+    "source_keys": [
+      "S6",
+      "S17",
+      "S1"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 76,
+    "question": "下列哪一項最不適合交給 DPU？",
+    "choices": [
+      "虛擬交換與封包處理",
+      "儲存與安全基礎設施卸載",
+      "隔離部分基礎設施控制面",
+      "取代 GPU 執行大型模型的張量運算"
+    ],
+    "answer": 3,
+    "explanation": "DPU 服務資料中心基礎設施層，不是用來取代 GPU 的大規模平行張量運算。",
+    "objective": "2.10",
+    "source_keys": [
+      "S17",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 77,
+    "question": "BlueField DPU 的主要設計目標是什麼？",
+    "choices": [
+      "以可程式化處理與高速網路加速資料中心網路、儲存與安全服務",
+      "只作為機房溫度計",
+      "只增加 GPU HBM 容量",
+      "取代訓練資料的標註流程"
+    ],
+    "answer": 0,
+    "explanation": "BlueField 結合可程式化處理能力與高速連線，重點是資料中心基礎設施加速、卸載與隔離。",
+    "objective": "2.10",
+    "source_keys": [
+      "S17",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 78,
+    "question": "在多租戶 AI 雲環境中加入 DPU，哪一項是最合理的預期效益？",
+    "choices": [
+      "保證任何模型都達到 100% 準確率",
+      "把部分網路、安全與儲存服務從主機 CPU 分離，改善隔離並釋放 CPU 資源",
+      "完全取消交換器與儲存設備",
+      "讓所有 GPU 不再需要冷卻"
+    ],
+    "answer": 1,
+    "explanation": "DPU 可將基礎設施服務置於獨立處理域，減少主機 CPU 負擔並強化多租戶隔離；它不會消除其他資料中心元件。",
+    "objective": "2.10",
+    "source_keys": [
+      "S17",
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 79,
+    "question": "維運團隊希望在 Kubernetes 叢集中集中查看每張 NVIDIA GPU 的健康狀態、利用率與錯誤計數，並將資料交給 Prometheus。最合適的做法為何？",
+    "choices": [
+      "在每個 Pod 內定期執行 nvidia-smi，並把文字輸出寫入應用程式日誌",
+      "只啟用 kube-state-metrics，因為它會直接讀取 GPU 韌體計數器",
+      "部署 DCGM Exporter，讓 Prometheus 擷取其 GPU 指標端點",
+      "使用容器執行階段的 CPU metrics 估算 GPU 狀態"
+    ],
+    "answer": 2,
+    "explanation": "DCGM Exporter 可將 NVIDIA DCGM 提供的 GPU 遙測資料轉為 Prometheus 可擷取的指標；kube-state-metrics 不會直接提供 GPU 韌體遙測，而解析各 Pod 的 nvidia-smi 文字也不利於集中監控。",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 80,
+    "question": "一個推論 Pod 必須取得一張完整 GPU。叢集已安裝 NVIDIA device plugin，且節點公開資源 nvidia.com/gpu。Pod 規格應如何表達需求？",
+    "choices": [
+      "在 requests 中要求 cpu: 1，讓排程器自動推斷 GPU",
+      "加入 hostNetwork: true，使 Pod 可看見所有 GPU",
+      "掛載 /dev/nvidia0，而不宣告任何延伸資源",
+      "在 limits 中要求 nvidia.com/gpu: 1"
+    ],
+    "answer": 3,
+    "explanation": "NVIDIA device plugin 以 nvidia.com/gpu 延伸資源公開 GPU；工作負載應在容器資源限制中宣告數量，讓 Kubernetes 排程器與 kubelet 正確配置裝置。直接掛載裝置會繞過正常的資源配置。",
+    "objective": "3.2",
+    "source_keys": [
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 81,
+    "question": "監控顯示 GPU 使用率長時間接近 100%，但顯示記憶體使用量遠低於容量，且推論延遲上升。哪一項解讀最合理？",
+    "choices": [
+      "工作負載較可能受 GPU 計算資源限制，而非顯示記憶體容量限制",
+      "GPU 一定發生不可修正的 ECC 錯誤",
+      "低記憶體用量表示 GPU 實際上處於閒置狀態",
+      "只要記憶體未滿，GPU 使用率就不可能接近 100%"
+    ],
+    "answer": 0,
+    "explanation": "高 GPU 使用率搭配低顯示記憶體占用，通常表示核心計算活動繁忙，但容量仍有餘裕；這不能單獨證明 ECC 故障，也不能以記憶體未滿推論 GPU 閒置。",
+    "objective": "3.3",
+    "source_keys": [
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 82,
+    "question": "管理員要把支援 MIG 的單張 GPU 分割給多個彼此隔離、資源需求固定的推論服務。MIG 的主要優點為何？",
+    "choices": [
+      "讓每個服務都能同時取得整張 GPU 的全部記憶體",
+      "建立具隔離運算與記憶體資源的硬體分割執行個體",
+      "把 GPU 自動轉換成純 CPU 裝置",
+      "允許不同實體主機共用同一個 PCIe 裝置而不需網路"
+    ],
+    "answer": 1,
+    "explanation": "MIG 可將支援的 GPU 劃分為多個具隔離運算與記憶體資源的 GPU 執行個體，適合多租戶或多服務的可預測資源配置；它不會讓每個分割區取得整卡全部資源。",
+    "objective": "3.4",
+    "source_keys": [
+      "S16",
+      "S5",
+      "S18"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 83,
+    "question": "某批次訓練工作只應排到已安裝特定 GPU 驅動且通過驗證的節點。哪種 Kubernetes 方法最直接且可稽核？",
+    "choices": [
+      "讓應用程式啟動後逐台 SSH 尋找合格節點",
+      "把所有 Pod 設為 privileged，排程器就會辨識驅動版本",
+      "為合格節點加上標籤，並在工作負載設定 nodeSelector 或 node affinity",
+      "調高 Pod 的 CPU limit，使其優先取得合格 GPU"
+    ],
+    "answer": 2,
+    "explanation": "節點標籤搭配 nodeSelector 或 node affinity，能在排程階段明確約束工作負載只落到符合條件的節點。提高 CPU 限制或 privileged 權限都不會讓排程器自動辨識指定驅動條件。",
+    "objective": "3.2",
+    "source_keys": [
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 84,
+    "question": "DCGM 健康檢查持續回報某張 GPU 有不可修正的記憶體錯誤。維運人員的最佳第一步為何？",
+    "choices": [
+      "忽略告警，因為不可修正錯誤不影響運算正確性",
+      "只重新啟動 Prometheus，因為告警一定來自監控資料庫",
+      "增加模型 batch size，藉此覆寫錯誤記憶體區域",
+      "隔離或封鎖該 GPU 所在節點以避免新工作排入，保留診斷資訊並依程序處理"
+    ],
+    "answer": 3,
+    "explanation": "不可修正錯誤可能影響工作可靠性。先停止新工作進入受影響資源、保存遙測與事件資料，再依維修或更換程序處理，可降低風險並保留根因分析證據。",
+    "objective": "3.1",
+    "source_keys": [
+      "S15",
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 85,
+    "question": "團隊想辨識 GPU 是否因溫度過高而降頻。除了溫度外，最應關聯觀察哪一類指標？",
+    "choices": [
+      "SM 時脈與節流原因",
+      "Pod 的 DNS 查詢次數",
+      "容器映像層數量",
+      "Kubernetes Service 的 ClusterIP"
+    ],
+    "answer": 0,
+    "explanation": "判斷熱節流需要把溫度、SM 時脈及節流原因一起觀察；若高溫期間時脈下降且出現熱相關節流原因，證據比單看溫度更完整。",
+    "objective": "3.3",
+    "source_keys": [
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 86,
+    "question": "某節點提供四個 MIG 裝置資源。工作負載宣告需要一個相符的 MIG 延伸資源。排程器主要依據什麼判斷是否可排入？",
+    "choices": [
+      "Pod 名稱是否包含 mig 字樣",
+      "節點尚未配置的該類 MIG 延伸資源數量是否足夠",
+      "容器映像是否由 NVIDIA 發布",
+      "該節點 CPU 使用率是否恰好為零"
+    ],
+    "answer": 1,
+    "explanation": "MIG 裝置可透過 device plugin 以延伸資源呈現；排程器根據 Pod 宣告的資源需求與節點可配置數量進行放置，不會從名稱或映像發布者推斷需求。",
+    "objective": "3.2",
+    "source_keys": [
+      "S5",
+      "S16"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 87,
+    "question": "企業需要讓多台虛擬機共享實體 GPU，並由管理平台為各 VM 指派受支援的虛擬 GPU 設定檔。應優先採用哪項技術？",
+    "choices": [
+      "僅使用 Kubernetes CPU Manager",
+      "將 nvidia-smi 輸出轉成 CSV",
+      "NVIDIA vGPU",
+      "停用 IOMMU 後直接讓所有 VM 同時存取同一 PCI 位址"
+    ],
+    "answer": 2,
+    "explanation": "NVIDIA vGPU 用於在受支援的虛擬化堆疊中，依 vGPU profile 將實體 GPU 能力配置給多台 VM。直接讓所有 VM 無仲介地存取同一 PCI 位址不是正確的共享方式。",
+    "objective": "3.4",
+    "source_keys": [
+      "S18",
+      "S16"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 88,
+    "question": "一個 GPU Pod 一直處於 Pending。事件顯示 Insufficient nvidia.com/gpu。首先應檢查什麼？",
+    "choices": [
+      "Pod 的 HTTP readiness probe 回應內容",
+      "應用程式模型檔案中的類別標籤名稱",
+      "Prometheus 的資料保留天數",
+      "是否有節點公開足夠且未配置的 nvidia.com/gpu 資源，以及 device plugin 是否正常"
+    ],
+    "answer": 3,
+    "explanation": "Insufficient nvidia.com/gpu 是排程資源不足訊息，應先確認節點 capacity/allocatable、既有配置及 device plugin 狀態。Readiness probe 只在 Pod 啟動後影響服務就緒狀態。",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 89,
+    "question": "兩個模型的 GPU 使用率相近，但模型 A 的 framebuffer memory 使用量持續逼近容量上限。哪個營運風險最值得優先驗證？",
+    "choices": [
+      "模型 A 在尖峰或批次增大時可能發生 GPU 記憶體配置失敗",
+      "模型 A 必然有較低的網路封包遺失率",
+      "模型 A 一定沒有任何 GPU 核心活動",
+      "模型 A 的 CPU 核心數會由 GPU 自動增加"
+    ],
+    "answer": 0,
+    "explanation": "顯示記憶體接近容量上限代表可用餘裕不足，尖峰或 batch 增大可能觸發配置失敗或 OOM。GPU 使用率相近並不能消除容量風險。",
+    "objective": "3.3",
+    "source_keys": [
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 90,
+    "question": "維運團隊使用 NVIDIA GPU Operator 管理 Kubernetes GPU 節點。相較於逐台手動安裝元件，其核心營運價值為何？",
+    "choices": [
+      "保證任何 GPU 應用程式都不需 CUDA 相依性",
+      "以 Kubernetes 原生方式自動化驅動、device plugin 與監控等 GPU 軟體元件的部署與生命週期",
+      "把所有 GPU 工作自動改寫成 CPU 工作",
+      "取代 Kubernetes 排程器並停用資源限制"
+    ],
+    "answer": 1,
+    "explanation": "GPU Operator 將 GPU 軟體堆疊的部署與管理自動化，包括驅動、容器工具、device plugin 與監控相關元件；它不會消除應用相依性，也不會取代排程器。",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 91,
+    "question": "叢集同時有完整 GPU 節點與 MIG 節點。為避免需要整張 GPU 的訓練工作誤排到 MIG 資源池，最佳設計為何？",
+    "choices": [
+      "讓所有工作都要求相同的 CPU 數量",
+      "只在容器名稱中加入 full-gpu",
+      "使用明確的資源名稱，並搭配節點標籤、親和性或污點與容忍度區隔資源池",
+      "移除所有 GPU 資源宣告，改由應用程式自行搶占裝置"
+    ],
+    "answer": 2,
+    "explanation": "完整 GPU 與 MIG 工作應透過相符的延伸資源宣告，並可用標籤、affinity、taint/toleration 強化資源池隔離。名稱慣例不會影響排程決策。",
+    "objective": "3.2",
+    "source_keys": [
+      "S16",
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 92,
+    "question": "GPU 功耗已接近設定的功率上限，同時 SM 時脈下降。哪個後續動作最能確認是否為功率限制導致降頻？",
+    "choices": [
+      "只查看磁碟 inode 使用量",
+      "刪除 GPU 利用率指標以避免重複",
+      "將 Kubernetes Namespace 重新命名",
+      "檢查功率相關節流原因，並把它與功耗及時脈的時間序列對齊"
+    ],
+    "answer": 3,
+    "explanation": "功耗接近上限與時脈下降只是相關現象；再檢查功率節流原因並對齊時間序列，才能建立更直接的診斷依據。",
+    "objective": "3.3",
+    "source_keys": [
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 93,
+    "question": "一台 VM 需要一張 GPU 的獨占原生效能與完整裝置控制，不要求與其他 VM 分享該卡。在平台支援下，哪種配置最符合需求？",
+    "choices": [
+      "PCIe GPU passthrough",
+      "選擇可共享的最小 vGPU profile",
+      "在 VM 內只安裝 Prometheus node exporter",
+      "建立四個 MIG 執行個體後全部分給其他租戶"
+    ],
+    "answer": 0,
+    "explanation": "PCIe passthrough 將實體 GPU 直接指派給單一 VM，符合獨占與完整裝置存取需求；vGPU profile 著重受控虛擬化配置與共享情境。",
+    "objective": "3.4",
+    "source_keys": [
+      "S18",
+      "S16"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 94,
+    "question": "GPU Operator 升級後，部分節點不再公開 nvidia.com/gpu。為縮小問題範圍，最合理的檢查順序為何？",
+    "choices": [
+      "先刪除所有使用者 Namespace，再觀察是否恢復",
+      "先看 Operator/ClusterPolicy 與相關 DaemonSet Pod 狀態及事件，再檢查驅動和 device plugin 日誌",
+      "先增加每個工作負載的 batch size，再重新升級",
+      "先停用 API Server 的稽核功能，因為它會隱藏 GPU"
+    ],
+    "answer": 1,
+    "explanation": "GPU 資源是否被公開依賴管理元件、節點驅動及 device plugin。從控制資源狀態與事件開始，再深入相關 Pod 日誌，可由上而下定位升級後的失敗點。",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 95,
+    "question": "為避免一般工作負載排入昂貴的 GPU 節點，但仍允許經授權的 AI 工作使用這些節點，哪個組合最合適？",
+    "choices": [
+      "把 GPU 節點的 CPU capacity 設為零",
+      "讓所有 Pod 都使用 hostPID",
+      "在 GPU 節點設定 taint，並只讓 AI 工作負載加入相符 toleration，必要時再搭配 affinity",
+      "只修改 AI 工作負載的映像標籤"
+    ],
+    "answer": 2,
+    "explanation": "Taint 可排斥未具相符 toleration 的 Pod；授權工作負載加入 toleration 後，可再用 affinity 確保選到 GPU 節點。映像標籤與 hostPID 不會建立排程隔離。",
+    "objective": "3.2",
+    "source_keys": [
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 96,
+    "question": "監控面板顯示 GPU utilization 間歇性尖峰，但推論請求延遲穩定。為避免誤判容量不足，下一步最佳做法為何？",
+    "choices": [
+      "只要出現一次 100% 就立即增加十倍 GPU",
+      "停止收集應用層指標，因為 GPU 指標已足夠",
+      "以單次 nvidia-smi 畫面取代所有時間序列",
+      "把 GPU 使用率與請求率、延遲、batch 大小及較長時間窗的分位數或趨勢一起分析"
+    ],
+    "answer": 3,
+    "explanation": "瞬時尖峰不必然代表持續容量不足。把 GPU 遙測與工作量及服務層指標對齊，並檢視趨勢與分布，才能判斷尖峰是否影響服務目標。",
+    "objective": "3.3",
+    "source_keys": [
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 97,
+    "question": "管理員變更 MIG 幾何配置後，既有工作負載看到的裝置資源與預期不符。哪項操作原則最重要？",
+    "choices": [
+      "先排空或停止受影響工作，套用一致的 MIG 配置，確認 device plugin 重新發現並公開資源後再排程",
+      "在工作仍執行時反覆隨機切換 MIG profile，直到名稱相符",
+      "只重新啟動應用程式內的 HTTP 伺服器，無須檢查節點資源",
+      "把所有 Pod 的 GPU limit 改成小數"
+    ],
+    "answer": 0,
+    "explanation": "MIG 重配置會改變可用裝置拓撲與對外公開的資源。先控制工作負載、完成一致配置，再驗證 device plugin 與節點 allocatable，可避免執行中資源被破壞或排程資訊過時。",
+    "objective": "3.4",
+    "source_keys": [
+      "S5",
+      "S16",
+      "S18"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 98,
+    "question": "某 GPU 節點可由 nvidia-smi 看見裝置，但 Kubernetes Node 的 allocatable 沒有 nvidia.com/gpu。最可能缺少或異常的元件是什麼？",
+    "choices": [
+      "CoreDNS 的上游 DNS 設定",
+      "NVIDIA device plugin",
+      "Ingress Controller 的 TLS 憑證",
+      "應用程式的模型權重檔"
+    ],
+    "answer": 1,
+    "explanation": "主機工具能看見 GPU 表示基本裝置與驅動可能可用；Kubernetes 是否公開 nvidia.com/gpu 則依賴 NVIDIA device plugin 向 kubelet 註冊裝置資源。",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 99,
+    "question": "排程多個 GPU 訓練工作時，團隊希望讓短任務優先，但又避免低優先權任務永遠無法執行。哪個策略最合理？",
+    "choices": [
+      "所有工作都設成最高優先權，且不設任何配額",
+      "讓每個工作直接指定同一個節點名稱",
+      "採用佇列與優先權機制，設定配額或公平分享政策，並監控等待時間",
+      "移除 GPU requests，使排程器看不到競爭"
+    ],
+    "answer": 2,
+    "explanation": "優先權可讓重要或短任務先行，但需搭配配額、公平分享或防飢餓政策及等待時間監控。把所有工作設為同級最高優先權無法達成差異化，隱藏資源需求則會破壞排程正確性。",
+    "objective": "3.2",
+    "source_keys": [
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 100,
+    "question": "比較 MIG 與 time-slicing 時，哪個敘述最正確？",
+    "choices": [
+      "兩者都保證每個工作同時擁有整張 GPU 的全部記憶體",
+      "time-slicing 只能用於 CPU，與 GPU 無關",
+      "MIG 只是監控儀表板名稱，不會改變 GPU 資源呈現",
+      "MIG 提供硬體層級的分割與資源隔離；time-slicing 讓多個工作輪流使用 GPU，但不等同 MIG 的硬體隔離"
+    ],
+    "answer": 3,
+    "explanation": "MIG 將支援 GPU 切成具有隔離資源的執行個體；time-slicing 是共享存取的排程方式，並不提供與 MIG 相同的硬體資源隔離與固定分割特性。",
+    "objective": "3.4",
+    "source_keys": [
+      "S16",
+      "S5",
+      "S18"
+    ],
+    "domain": "operations"
+  }
+]
