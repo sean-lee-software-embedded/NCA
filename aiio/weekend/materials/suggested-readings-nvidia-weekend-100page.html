@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NVIDIA AI 推論證照週末速成教材</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18202a;
+      --muted: #627084;
+      --line: #d9e0ea;
+      --paper: #f7f9fc;
+      --panel: #ffffff;
+      --green: #76b900;
+      --blue: #2563eb;
+      --amber: #b45309;
+      --violet: #6d28d9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+    }
+    header {
+      min-height: 78vh;
+      padding: 56px min(7vw, 76px);
+      display: grid;
+      align-content: center;
+      gap: 24px;
+      background:
+        linear-gradient(110deg, rgba(15, 23, 42, .94), rgba(15, 23, 42, .72)),
+        radial-gradient(circle at 78% 24%, rgba(118, 185, 0, .38), transparent 34%),
+        linear-gradient(135deg, #0f172a, #1f2937);
+      color: white;
+    }
+    header h1 {
+      margin: 0;
+      max-width: 960px;
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+    header p { max-width: 780px; margin: 0; color: #dce6f3; font-size: 20px; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 12px min(7vw, 76px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(10px);
+    }
+    nav a, button {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: white;
+      color: var(--ink);
+      padding: 8px 12px;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    nav a:hover, button:hover { border-color: var(--green); }
+    main { padding: 32px min(7vw, 76px) 72px; }
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 12px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 11px 12px;
+      font: inherit;
+      background: white;
+    }
+    .meta { color: var(--muted); font-size: 14px; }
+    .slide {
+      min-height: 620px;
+      margin: 0 0 22px;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-left: 8px solid var(--green);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, .07);
+      break-after: page;
+      page-break-after: always;
+    }
+    .slide:nth-child(4n+1) { border-left-color: var(--green); }
+    .slide:nth-child(4n+2) { border-left-color: var(--blue); }
+    .slide:nth-child(4n+3) { border-left-color: var(--amber); }
+    .slide:nth-child(4n+4) { border-left-color: var(--violet); }
+    .kicker { color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
+    h2 { margin: 8px 0 12px; font-size: clamp(26px, 4vw, 42px); line-height: 1.18; letter-spacing: 0; }
+    h3 { margin: 22px 0 8px; font-size: 20px; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    ul, ol { padding-left: 24px; }
+    li { margin: 8px 0; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+    .box { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fbfdff; }
+    .term { display: inline-block; margin: 3px 6px 3px 0; padding: 4px 8px; border-radius: 999px; background: #eef6df; color: #314600; font-size: 13px; font-weight: 700; }
+    .sources a { color: #1d4ed8; word-break: break-word; }
+    .quiz strong { color: #0f5132; }
+    footer { color: var(--muted); font-size: 13px; padding: 28px min(7vw, 76px); border-top: 1px solid var(--line); background: white; }
+    @media (max-width: 720px) {
+      header { min-height: 64vh; padding: 42px 22px; }
+      main, nav, footer { padding-left: 18px; padding-right: 18px; }
+      .toolbar { grid-template-columns: 1fr; }
+      .slide { min-height: auto; padding: 22px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      nav, .toolbar { display: none; }
+      body { background: white; }
+      header { min-height: 100vh; }
+      .slide { min-height: 95vh; box-shadow: none; border-radius: 0; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header id="top">
+    <div class="kicker">Weekend certification bootcamp</div>
+    <h1>NVIDIA AI 推論證照週末速成教材</h1>
+    <p>依 9 篇推薦閱讀與 NVIDIA 教學主題整理成 100 頁 HTML 教材，適合週六建立觀念、週日複習題庫與部署情境。</p>
+  </header>
+  <nav>
+    <a href="#study-plan">讀書節奏</a>
+    <a href="#slides">100 頁教材</a>
+    <a href="#sources">參考文章</a>
+    <button type="button" onclick="window.print()">列印 / 轉 PDF</button>
+  </nav>
+  <main>
+    <section class="slide" id="study-plan">
+      <div class="kicker">Page 0</div>
+      <h2>週末讀書節奏</h2>
+      <div class="grid">
+        <div class="box">
+          <h3>週六上午：基礎語言</h3>
+          <p>AI、ML、training、inference、CPU/GPU 差異。目標是看到題目時能先判斷它在問模型生命週期、硬體架構，還是部署問題。</p>
+        </div>
+        <div class="box">
+          <h3>週六下午：推論工程</h3>
+          <p>模型 serving、latency、throughput、batching、TensorRT、LLM serving。目標是把「模型會跑」和「產品能穩定服務」分開看。</p>
+        </div>
+        <div class="box">
+          <h3>週日上午：平台與維運</h3>
+          <p>storage、network、Kubernetes、GPU Operator、container runtime、monitoring。目標是理解 GPU 叢集不是只有 GPU。</p>
+        </div>
+        <div class="box">
+          <h3>週日下午：模擬考</h3>
+          <p>快速複習每頁底部問題，特別練習把名詞對到場景：訓練、推論、最佳化、擴展、維運。</p>
+        </div>
+      </div>
+    </section>
+    <section id="slides"></section>
+    <section class="slide sources" id="sources">
+      <div class="kicker">Reference</div>
+      <h2>參考文章與官方入口</h2>
+      <ol>
+        <li><a href="https://developer.nvidia.com/tensorrt">NVIDIA TensorRT, NVIDIA Developer</a></li>
+        <li><a href="https://ai.plainenglish.io/deep-learning-training-vs-inference-do-you-know-the-difference-72e136a0a070">Deep Learning Training vs. Inference</a></li>
+        <li><a href="https://www.mirantis.com/blog/understanding-machine-learning-inference-a-guide/">Understanding Machine Learning Inference</a></li>
+        <li><a href="https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/">Tips on Scaling Storage for AI Training and Inferencing</a></li>
+        <li><a href="https://www.ibm.com/think/topics/machine-learning">What Is Machine Learning?, IBM</a></li>
+        <li><a href="https://www.sas.com/en_us/insights/analytics/machine-learning.html">Machine Learning: What It Is and Why It Matters, SAS</a></li>
+        <li><a href="https://blogs.nvidia.com/blog/what-are-large-language-models-used-for/">What Are Large Language Models Used For?, NVIDIA Blog</a></li>
+        <li><a href="https://developer.nvidia.com/blog/nvidia-gpu-operator-simplifying-gpu-management-in-kubernetes/">NVIDIA GPU Operator: Simplifying GPU Management in Kubernetes</a></li>
+        <li><a href="https://www.intel.com/content/www/us/en/products/docs/processors/cpu-vs-gpu.html">CPU vs. GPU: What's the Difference?, Intel</a></li>
+        <li><a href="https://docs.nvidia.com/deeplearning/tensorrt/">NVIDIA TensorRT Documentation</a></li>
+        <li><a href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/">NVIDIA GPU Operator Documentation</a></li>
+      </ol>
+    </section>
+  </main>
+  <footer>
+    HTML 教材版本：2026-08-15。內容定位為週末考前速讀與複習，不取代官方文件與實作練習。
+  </footer>
+  <script>
+    const modules = [
+      {
+        title: "AI、ML 與證照考點地圖",
+        source: "IBM / SAS ML overview",
+        terms: ["AI", "Machine Learning", "Model", "Pattern"],
+        bullets: [
+          "Machine Learning 是 AI 的子領域，重點是從資料學出規律，而不是把每個規則都寫死。",
+          "考題常把 AI、ML、Deep Learning 混在一起問；先判斷層級，再判斷場景。",
+          "模型不是魔法函式，而是由資料、演算法、訓練流程、評估方式共同產生的系統元件。"
+        ],
+        checkpoints: ["ML 和傳統 rule-based system 最大差異是什麼？", "為什麼資料品質會影響模型結果？", "AI、ML、DL 的範圍關係如何描述？"],
+        lab: "用一句話向非技術主管解釋：為什麼 ML 專案不是買 GPU 就會成功。"
+      },
+      {
+        title: "Training vs. Inference",
+        source: "AI TutorMaster / Run:ai",
+        terms: ["Training", "Inference", "Weights", "Prediction"],
+        bullets: [
+          "Training 是用資料調整權重；Inference 是用固定權重對新輸入產生輸出。",
+          "Training 通常重視長時間吞吐與大規模資料；Inference 通常重視低延遲、穩定性與成本。",
+          "考試遇到「模型參數是否更新」是很好的判斷線索：有更新偏 training，沒有更新偏 inference。"
+        ],
+        checkpoints: ["哪個階段會更新模型權重？", "推論服務為什麼會在意 latency？", "Batch size 在訓練和推論的取捨有何不同？"],
+        lab: "畫出從資料收集、訓練、評估、部署、監控到再訓練的生命週期。"
+      },
+      {
+        title: "CPU vs. GPU 的硬體直覺",
+        source: "Intel CPU vs GPU / NVIDIA tutorials",
+        terms: ["CPU", "GPU", "Parallelism", "Throughput"],
+        bullets: [
+          "CPU 核心少但控制能力強，適合序列流程、系統控制與低延遲分支邏輯。",
+          "GPU 核心多且擅長同質平行計算，適合矩陣乘法、向量運算、影像與深度學習工作負載。",
+          "AI 題目不是看到 GPU 就選 GPU；要先判斷工作是否能有效平行化。"
+        ],
+        checkpoints: ["CPU 適合哪些任務？", "GPU 為什麼適合神經網路？", "資料搬移為什麼會讓 GPU 閒置？"],
+        lab: "列出一個 CPU 較適合、GPU 較適合、CPU/GPU 混合較適合的場景。"
+      },
+      {
+        title: "Inference Serving 基本架構",
+        source: "Run:ai inference guide",
+        terms: ["Serving", "Endpoint", "Latency", "Autoscaling"],
+        bullets: [
+          "推論服務把模型包成可被產品呼叫的 endpoint，通常還需要前處理、後處理、監控與錯誤處理。",
+          "Production inference 的難點在穩定服務：尖峰流量、冷啟動、版本切換與資源隔離都會影響體驗。",
+          "常見考點包含 latency、throughput、batching、autoscaling、SLA 與資源配置。"
+        ],
+        checkpoints: ["模型檔案和 inference service 有什麼差異？", "為什麼 autoscaling 不是萬靈丹？", "SLA 會如何影響架構選擇？"],
+        lab: "設計一個圖片分類 API 的最小推論服務元件清單。"
+      },
+      {
+        title: "TensorRT 的角色",
+        source: "NVIDIA TensorRT",
+        terms: ["TensorRT", "Engine", "Optimization", "Precision"],
+        bullets: [
+          "TensorRT 是 NVIDIA 的深度學習推論最佳化 SDK，定位在已訓練模型的 deployment optimization。",
+          "它透過 graph optimization、kernel selection、precision calibration、engine build 等方式提升吞吐並降低延遲。",
+          "考題若出現 low latency inference、NVIDIA GPU deployment、optimized engine，通常與 TensorRT 有關。"
+        ],
+        checkpoints: ["TensorRT 是訓練工具還是推論工具？", "為什麼降低精度可能提升效能？", "Engine build 和 runtime serving 有什麼差異？"],
+        lab: "用流程圖描述 ONNX 模型進入 TensorRT 到部署的步驟。"
+      },
+      {
+        title: "LLM 用途與推論特性",
+        source: "NVIDIA LLM blog",
+        terms: ["LLM", "Transformer", "Token", "Prompt"],
+        bullets: [
+          "LLM 可用於摘要、翻譯、問答、內容生成、程式碼、資訊抽取與其他序列型任務。",
+          "LLM 推論和一般分類模型不同，常受 token 長度、KV cache、batching、streaming 與記憶體容量影響。",
+          "考題會把用途、限制與部署成本放在一起問；不要只記模型名稱，要理解 serving 行為。"
+        ],
+        checkpoints: ["LLM 為什麼常需要大量 GPU memory？", "Token length 會影響哪些成本？", "Streaming 回覆解決的是哪一類使用者體驗問題？"],
+        lab: "整理三個 LLM 商業應用，並標註每個應用最在意 latency、品質或成本哪一項。"
+      },
+      {
+        title: "Storage 與 Data Path",
+        source: "NVIDIA storage scaling blog",
+        terms: ["Storage", "I/O", "Bandwidth", "Data Pipeline"],
+        bullets: [
+          "AI 系統效能不只由 GPU 決定；資料讀取、網路、檔案系統與前處理都可能成為瓶頸。",
+          "Training 常需要大量資料連續餵入；Inference 則可能面對模型載入、向量資料、使用者資料與日誌寫入。",
+          "考題看到 GPU utilization 偏低時，要想到資料路徑、I/O、batching 與 pipeline 是否卡住。"
+        ],
+        checkpoints: ["GPU utilization 低一定是 GPU 太弱嗎？", "Training 和 inference 的儲存壓力有何不同？", "為什麼容量和頻寬要一起規劃？"],
+        lab: "替一個影像訓練任務列出 storage、network、GPU 三者的瓶頸檢查表。"
+      },
+      {
+        title: "Kubernetes 上的 GPU 管理",
+        source: "NVIDIA GPU Operator",
+        terms: ["Kubernetes", "GPU Operator", "Device Plugin", "Driver"],
+        bullets: [
+          "在 Kubernetes 上跑 GPU workload，需要 driver、container runtime、device plugin、monitoring 與升級生命週期。",
+          "GPU Operator 用 Operator pattern 自動部署與管理 NVIDIA GPU stack，降低人工安裝與版本不一致風險。",
+          "考試遇到 cluster lifecycle、GPU node 管理、自動化安裝，應想到 GPU Operator。"
+        ],
+        checkpoints: ["GPU Operator 管哪些元件？", "Device plugin 的角色是什麼？", "為什麼 driver 版本管理會影響叢集穩定性？"],
+        lab: "列出一台 Kubernetes GPU node 從裸機到可排程 workload 需要的元件。"
+      },
+      {
+        title: "效能指標與取捨",
+        source: "NVIDIA tutorials / inference guides",
+        terms: ["Latency", "Throughput", "Batching", "SLA"],
+        bullets: [
+          "Latency 是單次請求等待時間；throughput 是單位時間處理量；兩者常需要取捨。",
+          "Batching 可以提升吞吐，但可能增加等待時間；即時互動產品通常不能只追求最大 batch。",
+          "證照題常測你是否能根據需求選指標，而不是只追求最高 benchmark。"
+        ],
+        checkpoints: ["即時客服機器人最在意哪個指標？", "離線批次摘要最在意哪個指標？", "Batching 何時會傷害使用者體驗？"],
+        lab: "為三種應用設定主要指標：聊天、推薦排序、夜間批次轉錄。"
+      },
+      {
+        title: "精度、量化與模型最佳化",
+        source: "TensorRT documentation",
+        terms: ["FP32", "FP16", "INT8", "Quantization"],
+        bullets: [
+          "降低數值精度常能加速推論並降低記憶體使用，但可能帶來準確率影響。",
+          "FP16 通常是 NVIDIA GPU 推論常見加速選項；INT8 需要更謹慎的校準與驗證。",
+          "最佳化不是盲目壓縮，而是在準確率、延遲、吞吐、成本之間做工程取捨。"
+        ],
+        checkpoints: ["量化的主要好處是什麼？", "為什麼 INT8 需要校準？", "模型最佳化後要重新驗證哪些指標？"],
+        lab: "設計一張表格比較 FP32、FP16、INT8 的速度、記憶體與準確率風險。"
+      },
+      {
+        title: "模型部署生命週期",
+        source: "Run:ai / NVIDIA tutorials",
+        terms: ["Deployment", "Versioning", "Monitoring", "Rollback"],
+        bullets: [
+          "部署不是最後一步，而是持續循環：發布、監控、收集回饋、修正、再發布。",
+          "模型版本管理要能追蹤資料、權重、程式、設定與效能指標，否則問題發生時難以回溯。",
+          "Production 題目常把 canary、rollback、A/B test、drift monitoring 放在同一組選項。"
+        ],
+        checkpoints: ["模型 rollback 要準備哪些資訊？", "資料 drift 代表什麼？", "A/B test 和 canary deployment 差異在哪？"],
+        lab: "為一個 fraud detection 模型設計部署後監控項目。"
+      },
+      {
+        title: "安全、可靠性與成本",
+        source: "NVIDIA / SAS business context",
+        terms: ["Reliability", "Cost", "Governance", "Observability"],
+        bullets: [
+          "企業 AI 落地會同時看準確率、可靠性、可解釋性、資料治理與營運成本。",
+          "GPU 成本高，推論架構要避免閒置、過度配置與無法預測的尖峰浪費。",
+          "考題若問 production readiness，通常答案不會只包含模型精度。"
+        ],
+        checkpoints: ["為什麼 production AI 要 monitoring？", "成本最佳化可能和 latency 有何衝突？", "資料治理和模型部署有什麼關係？"],
+        lab: "列出一個企業導入 LLM 服務前的風險清單。"
+      },
+      {
+        title: "NVIDIA 軟體堆疊速覽",
+        source: "NVIDIA developer docs",
+        terms: ["CUDA", "cuDNN", "TensorRT", "Triton"],
+        bullets: [
+          "CUDA 是 NVIDIA GPU 平行運算基礎；cuDNN 提供深度學習常用最佳化 primitives。",
+          "TensorRT 聚焦模型推論最佳化；Triton Inference Server 則偏向多模型、多框架的 serving。",
+          "證照準備時要能分辨底層 compute library、模型最佳化工具、serving server 的角色。"
+        ],
+        checkpoints: ["CUDA 和 TensorRT 是同一層嗎？", "Serving server 解決什麼問題？", "為什麼軟體堆疊版本相容性重要？"],
+        lab: "畫出從 GPU driver 到 inference endpoint 的 NVIDIA 軟體層次。"
+      },
+      {
+        title: "容器化與 MLOps",
+        source: "GPU Operator / inference guides",
+        terms: ["Container", "Runtime", "Image", "CI/CD"],
+        bullets: [
+          "容器讓模型服務的環境更可重現，但 GPU 容器還需要 host driver 與 container runtime 正確協作。",
+          "MLOps 把模型開發、測試、部署、監控串成流程，降低人工操作造成的版本落差。",
+          "Kubernetes 題目常把排程、資源限制、node label、device plugin 與 operator 放在一起考。"
+        ],
+        checkpoints: ["容器是否包含 GPU driver？", "為什麼要設定 resource limits？", "MLOps 和傳統 DevOps 的差異在哪？"],
+        lab: "寫出一個 GPU inference container 上線前的 checklist。"
+      },
+      {
+        title: "資料、模型與業務價值",
+        source: "IBM / SAS",
+        terms: ["Use Case", "Dataset", "Metric", "Decision"],
+        bullets: [
+          "ML 專案成功不是因為模型新，而是因為它改善了決策、效率、風險或使用者體驗。",
+          "選 use case 時要確認資料可得、標註可行、評估指標明確、部署成本合理。",
+          "考題常用商業場景包裝技術概念，先找出真正的目標指標。"
+        ],
+        checkpoints: ["為什麼沒有好資料就難有好模型？", "技術指標和業務指標可能不同嗎？", "如何判斷 use case 是否適合 ML？"],
+        lab: "選一個製造業場景，定義資料來源、模型輸出與成功指標。"
+      },
+      {
+        title: "常見陷阱題",
+        source: "All readings",
+        terms: ["Exam Trap", "Bottleneck", "Lifecycle", "Tradeoff"],
+        bullets: [
+          "陷阱一：把 training 和 inference 混為一談，忽略是否更新權重。",
+          "陷阱二：看到效能問題只換更強 GPU，忘記 storage、network、preprocessing 與 batching。",
+          "陷阱三：只看 accuracy，忽略 latency、cost、monitoring、rollback 與維運。"
+        ],
+        checkpoints: ["哪個詞能快速分辨訓練和推論？", "效能瓶頸可能在哪些非 GPU 元件？", "Production readiness 包含哪些面向？"],
+        lab: "把本頁三個陷阱各寫一題選擇題，並標出正解。"
+      },
+      {
+        title: "週六晚間總複習",
+        source: "Weekend plan",
+        terms: ["Review", "Concept Map", "Flashcards", "Recall"],
+        bullets: [
+          "用概念圖連接 ML、training、inference、GPU、TensorRT、storage、Kubernetes。",
+          "不要只重讀文章；用閉卷方式寫出名詞定義，再回頭補洞。",
+          "把每個主題壓縮成一句考場提示，讓隔天能快速喚回完整觀念。"
+        ],
+        checkpoints: ["今天最容易混淆的三組名詞是什麼？", "哪些考點需要實作印象？", "哪一篇文章對你最陌生？"],
+        lab: "做 20 張 flashcards：正面名詞，背面定義、用途、常見陷阱。"
+      },
+      {
+        title: "週日模擬考策略",
+        source: "Weekend plan",
+        terms: ["Mock Exam", "Elimination", "Scenario", "Review"],
+        bullets: [
+          "先讀題目場景，再找關鍵詞：訓練、推論、延遲、吞吐、GPU 管理、資料瓶頸。",
+          "遇到多個看似正確的選項，優先選最直接解決題目限制的答案。",
+          "錯題不要只記答案，要寫下你當時誤判的線索。"
+        ],
+        checkpoints: ["你最常被哪類題目誤導？", "如何判斷題目在問工具、概念還是架構？", "錯題筆記要記什麼？"],
+        lab: "用本教材每頁問題做一次 60 分鐘閉卷測驗。"
+      },
+      {
+        title: "考前 30 分鐘快掃",
+        source: "All readings",
+        terms: ["Final Review", "Keywords", "Confidence", "Timing"],
+        bullets: [
+          "最後 30 分鐘只看關鍵詞、常見陷阱和自己錯題；不要再開新文章。",
+          "確認能快速說出 TensorRT、GPU Operator、training、inference、latency、throughput 的差異。",
+          "看到情境題先穩住，問自己：它真正要最佳化的是速度、成本、穩定、準確，還是維運？"
+        ],
+        checkpoints: ["六個核心名詞能否各用一句話說清楚？", "最該避免的粗心是什麼？", "題目限制條件通常藏在哪裡？"],
+        lab: "寫下 10 句自己的考場提醒，考前只看這 10 句。"
+      },
+      {
+        title: "延伸實作路線",
+        source: "NVIDIA docs",
+        terms: ["Hands-on", "ONNX", "TensorRT", "Kubernetes"],
+        bullets: [
+          "如果證照包含實作，優先補三件事：模型轉換、TensorRT engine、GPU container deployment。",
+          "實作時記錄每個錯誤訊息，因為版本、driver、runtime、framework 相容性常是考點來源。",
+          "完成速成後，下一步應補官方 tutorial 和小型 lab，建立真正的操作記憶。"
+        ],
+        checkpoints: ["ONNX 在部署流程中扮演什麼角色？", "為什麼實作能補強選擇題？", "GPU container 最常見的環境依賴有哪些？"],
+        lab: "安排三個 30 分鐘 lab：模型轉換、TensorRT 最佳化、Kubernetes GPU workload。"
+      }
+    ];
+
+    const slideTypes = [
+      { label: "觀念頁", lead: "先抓住本章最可能出現在考題裡的核心觀念。", prompt: "用自己的話重述本頁三個重點。" },
+      { label: "考點頁", lead: "把文章內容轉成考場會問的判斷線索。", prompt: "看到題目時，先圈出能判斷場景的關鍵字。" },
+      { label: "架構頁", lead: "用系統角度看元件、資料流、瓶頸與維運責任。", prompt: "畫一張最小架構圖，標出誰輸入、誰處理、誰監控。" },
+      { label: "複習頁", lead: "用小題目檢查自己是否真的能分辨相近概念。", prompt: "閉卷回答問題，再回本頁核對。" },
+      { label: "實戰頁", lead: "把觀念放回 production 或考試情境中使用。", prompt: "用 3 分鐘完成 lab，超時就先寫假設。" }
+    ];
+
+    const slides = [];
+    modules.forEach((module, moduleIndex) => {
+      slideTypes.forEach((type, typeIndex) => {
+        const number = moduleIndex * slideTypes.length + typeIndex + 1;
+        slides.push({ number, moduleIndex: moduleIndex + 1, module, type });
+      });
+    });
+
+    const container = document.querySelector("#slides");
+    container.innerHTML = slides.map(({ number, moduleIndex, module, type }) => `
+      <article class="slide" id="page-${number}">
+        <div class="kicker">Page ${String(number).padStart(3, "0")} / Module ${moduleIndex} / ${type.label}</div>
+        <h2>${module.title}</h2>
+        <p>${type.lead}</p>
+        <div>${module.terms.map(term => `<span class="term">${term}</span>`).join("")}</div>
+        <h3>本頁重點</h3>
+        <ul>${module.bullets.map(item => `<li>${item}</li>`).join("")}</ul>
+        <div class="grid">
+          <div class="box quiz">
+            <h3>考前自測</h3>
+            <ol>${module.checkpoints.map(q => `<li>${q}</li>`).join("")}</ol>
+          </div>
+          <div class="box">
+            <h3>週末任務</h3>
+            <p>${module.lab}</p>
+            <p><strong>本頁動作：</strong>${type.prompt}</p>
+            <p class="meta">來源線索：${module.source}</p>
+          </div>
+        </div>
+      </article>
+    `).join("");
+
+    const search = document.createElement("div");
+    search.className = "toolbar";
+    search.innerHTML = `
+      <input id="q" type="search" placeholder="搜尋：TensorRT、GPU Operator、latency、training..." />
+      <span class="meta">教材頁數：${slides.length} 頁</span>
+    `;
+    container.before(search);
+    document.querySelector("#q").addEventListener("input", event => {
+      const q = event.target.value.trim().toLowerCase();
+      document.querySelectorAll("#slides .slide").forEach(slide => {
+        slide.hidden = q && !slide.textContent.toLowerCase().includes(q);
+      });
+    });
+  </script>
+</body>
+</html>
