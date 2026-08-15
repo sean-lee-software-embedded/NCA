@@ -4,6 +4,8 @@ Source study materials retained in Git for browsing, download, and version histo
 
 | File | Description | Source label |
 | --- | --- | --- |
+| `hermes-nca-aiio-100-english-question-blueprint-mock.html` | 100 brand-new English four-choice practice questions aligned to the official 38/40/22 blueprint, with a weighted 50-question mode, 60-minute timer, scoring, English explanations, and progress storage. | Hermes independent English practice bank |
+| `data/hermes-nca-aiio-100-original-english-questions.json` | Machine-readable source data for the independent 100-question English practice bank. | Hermes English question-bank data |
 | `nca-aiio-exam-experiences-prep-guide-2026.html` | Public research digest covering first-hand exam experiences, preparation methods, high-priority topics, a seven-day sprint plan, source-quality labels, and current Certiverse remote-proctoring requirements. | Hermes web research, verified 2026-08-15 |
 | `hermes-nca-aiio-100-question-blueprint-mock.html` | 100 original four-choice mock questions aligned exactly to the official 38/40/22 blueprint, with weighted random 50-question mode, 60-minute timer, scoring, explanations, and progress storage. | Hermes independent 100-question mock bank |
 | `data/hermes-nca-aiio-100-original-questions.json` | Machine-readable source data for the 100 original questions, answers, explanations, objectives, domains, and source keys. | Hermes question-bank data |

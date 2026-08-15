@@ -1,0 +1,1799 @@
+[
+  {
+    "id": 1,
+    "question": "Which component of the NVIDIA software stack provides GPU-accelerated primitives for deep neural networks?",
+    "choices": [
+      "cuDNN",
+      "Kubernetes",
+      "OpenGL",
+      "Apache Spark"
+    ],
+    "answer": 0,
+    "explanation": "cuDNN supplies optimized GPU implementations of operations commonly used in deep neural networks.",
+    "objective": "1.1",
+    "source_keys": [
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 2,
+    "question": "A data scientist wants a higher-level framework for building and training neural networks while relying on NVIDIA GPU acceleration underneath. Which choice best fits?",
+    "choices": [
+      "A CPU microcode package",
+      "PyTorch with CUDA support",
+      "A network file system",
+      "A BIOS configuration utility"
+    ],
+    "answer": 1,
+    "explanation": "PyTorch offers high-level model development APIs and can use CUDA-enabled NVIDIA GPUs for acceleration.",
+    "objective": "1.1",
+    "source_keys": [
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 3,
+    "question": "What is the primary role of CUDA in the NVIDIA software stack?",
+    "choices": [
+      "Managing business dashboards",
+      "Labeling training data",
+      "Enabling general-purpose parallel computing on NVIDIA GPUs",
+      "Replacing all operating systems"
+    ],
+    "answer": 2,
+    "explanation": "CUDA is NVIDIA's parallel computing platform and programming model for general-purpose GPU computation.",
+    "objective": "1.1",
+    "source_keys": [
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 4,
+    "question": "Which NVIDIA technology is designed to optimize trained neural networks for high-performance inference?",
+    "choices": [
+      "CUDA-GDB",
+      "Nsight Systems",
+      "NVIDIA Omniverse",
+      "TensorRT"
+    ],
+    "answer": 3,
+    "explanation": "TensorRT optimizes and executes trained neural networks for efficient inference on NVIDIA platforms.",
+    "objective": "1.1",
+    "source_keys": [
+      "S3",
+      "S4"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 5,
+    "question": "Why are NVIDIA NGC containers useful to AI teams?",
+    "choices": [
+      "They package tested GPU-optimized software and dependencies for repeatable deployment",
+      "They increase available GPU memory by compressing model weights at container startup",
+      "They generate production-quality labels automatically without any source data",
+      "They replace every cloud orchestration and cluster-management service"
+    ],
+    "answer": 0,
+    "explanation": "NGC containers provide curated, GPU-optimized software environments that improve portability and reproducibility.",
+    "objective": "1.1",
+    "source_keys": [
+      "S14"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 6,
+    "question": "Which workload is normally more important during model training than during inference?",
+    "choices": [
+      "Returning a prediction to one request",
+      "Computing gradients and updating model weights",
+      "Reading a cached prediction",
+      "Formatting an API response"
+    ],
+    "answer": 1,
+    "explanation": "Training requires forward and backward passes, including gradient calculation and weight updates; inference does not update weights.",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 7,
+    "question": "An online recommendation service must respond to individual users with minimal delay. Which architecture priority is most relevant?",
+    "choices": [
+      "Maximum training epoch count",
+      "Largest possible archival storage",
+      "Low-latency inference",
+      "Frequent weight initialization"
+    ],
+    "answer": 2,
+    "explanation": "Interactive services generally prioritize low inference latency so each request receives a prompt response.",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 8,
+    "question": "Why is distributed training commonly used for very large models?",
+    "choices": [
+      "To eliminate the need for training data",
+      "To guarantee perfect accuracy",
+      "To avoid all interconnect traffic",
+      "To divide computation or model state across multiple accelerators"
+    ],
+    "answer": 3,
+    "explanation": "Distributed training partitions data, computation, or model state across accelerators to handle greater scale and reduce training time.",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 9,
+    "question": "Which statement correctly contrasts batch and real-time inference?",
+    "choices": [
+      "Batch inference processes groups of inputs for throughput, while real-time inference emphasizes per-request latency",
+      "Batch inference updates model weights continuously, while real-time inference performs scheduled training",
+      "Real-time inference requires a newly labeled training example for every incoming request",
+      "Real-time inference runs only on CPUs, while batch inference requires GPUs"
+    ],
+    "answer": 0,
+    "explanation": "Batch processing favors aggregate throughput, whereas real-time services are designed to minimize request latency.",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 10,
+    "question": "A trained model is being deployed to thousands of edge devices. Which concern belongs primarily to inference architecture?",
+    "choices": [
+      "Selecting examples for the original training set",
+      "Meeting device power, memory, and latency limits",
+      "Choosing the loss function used during training",
+      "Calculating gradients on every prediction"
+    ],
+    "answer": 1,
+    "explanation": "Edge inference architecture must fit deployment constraints such as power consumption, memory capacity, and latency.",
+    "objective": "1.2",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 11,
+    "question": "Which relationship among AI, machine learning, and deep learning is most accurate?",
+    "choices": [
+      "AI is a subset of deep learning",
+      "Machine learning and AI are unrelated",
+      "Deep learning is a subset of machine learning, which is a subset of AI",
+      "Deep learning contains every form of AI"
+    ],
+    "answer": 2,
+    "explanation": "AI is the broad field; machine learning is an AI approach, and deep learning is a machine learning approach based on multilayer neural networks.",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 12,
+    "question": "Which system is an example of AI but does not necessarily use machine learning?",
+    "choices": [
+      "A neural image classifier",
+      "A model trained by gradient descent",
+      "A clustering algorithm fitted to customer data",
+      "A rule-based expert system using hand-authored logic"
+    ],
+    "answer": 3,
+    "explanation": "A rule-based expert system can exhibit AI behavior through explicit rules without learning patterns from data.",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 13,
+    "question": "What distinguishes machine learning from a conventional program built entirely from explicit rules?",
+    "choices": [
+      "Machine learning derives predictive patterns from data",
+      "Machine learning never requires evaluation",
+      "Conventional programs cannot process numbers",
+      "Conventional programs always run on GPUs"
+    ],
+    "answer": 0,
+    "explanation": "Machine learning fits model behavior from examples rather than relying only on rules written directly by a programmer.",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 14,
+    "question": "Which characteristic most directly identifies a deep learning approach?",
+    "choices": [
+      "It uses only spreadsheet formulas",
+      "It uses neural networks with multiple representation-learning layers",
+      "It cannot learn from unstructured data",
+      "It requires every feature to be a handwritten rule"
+    ],
+    "answer": 1,
+    "explanation": "Deep learning uses multilayer neural networks to learn hierarchical representations from data.",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 15,
+    "question": "A supervised learning system is typically trained with which kind of data?",
+    "choices": [
+      "Inputs with no examples or feedback",
+      "Only random numbers",
+      "Examples paired with target labels or values",
+      "A fixed list of hard-coded decisions"
+    ],
+    "answer": 2,
+    "explanation": "Supervised learning uses labeled examples that associate input observations with desired outputs.",
+    "objective": "1.3",
+    "source_keys": [
+      "S8",
+      "S9"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 16,
+    "question": "Which combination has been a major driver of recent AI capability improvements?",
+    "choices": [
+      "Less data and slower networks",
+      "Smaller datasets and fewer experiments",
+      "Removal of all specialized hardware",
+      "More data, improved algorithms, and increased compute capacity"
+    ],
+    "answer": 3,
+    "explanation": "Advances in algorithms, access to large datasets, and growing compute capacity have jointly improved AI systems.",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 17,
+    "question": "How do pretrained models often accelerate AI adoption within an organization?",
+    "choices": [
+      "They can be adapted to new tasks with less data and compute than training from scratch",
+      "They guarantee compliance in every jurisdiction",
+      "They remove the need to define a business problem",
+      "They make inference hardware unnecessary"
+    ],
+    "answer": 0,
+    "explanation": "Teams can fine-tune or otherwise adapt pretrained models, reducing the resources and time required to build a useful system.",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 18,
+    "question": "Why has cloud computing contributed to broader AI adoption?",
+    "choices": [
+      "It guarantees that every AI project succeeds",
+      "It offers on-demand access to scalable compute and managed services",
+      "It prevents organizations from using GPUs",
+      "It eliminates operating costs"
+    ],
+    "answer": 1,
+    "explanation": "Cloud platforms make scalable infrastructure and AI services available without requiring every organization to own a large computing cluster.",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 19,
+    "question": "Which development most directly reduced training time for highly parallel deep learning workloads?",
+    "choices": [
+      "Replacing numerical computation with manual review",
+      "Restricting models to a single serial instruction stream",
+      "Using accelerators that execute many mathematical operations concurrently",
+      "Storing all inputs as printed documents"
+    ],
+    "answer": 2,
+    "explanation": "Parallel accelerators such as GPUs efficiently execute the large matrix and tensor workloads used in deep learning.",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 20,
+    "question": "Which organizational factor most strongly supports sustainable AI adoption?",
+    "choices": [
+      "Purchasing the newest accelerator before identifying a measurable business need",
+      "Centralizing all available data while omitting ownership and governance controls",
+      "Selecting a model architecture before defining users, risks, and success criteria",
+      "Combining skilled people, governed data, appropriate infrastructure, and measurable goals"
+    ],
+    "answer": 3,
+    "explanation": "Successful adoption depends on coordinated talent, data governance, infrastructure, and business objectives rather than technology alone.",
+    "objective": "1.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 21,
+    "question": "Which AI use case is most directly associated with manufacturing quality inspection?",
+    "choices": [
+      "Computer vision that detects defects in product images",
+      "Language translation for tourism",
+      "Music recommendation for listeners",
+      "Automatic tax-rate calculation from fixed tables"
+    ],
+    "answer": 0,
+    "explanation": "Vision models can inspect product images or video to identify visible defects on manufacturing lines.",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 22,
+    "question": "A hospital uses a model to highlight suspicious regions in medical scans for clinician review. What is the primary AI use case?",
+    "choices": [
+      "Inventory routing",
+      "Computer-aided medical imaging analysis",
+      "Speech synthesis for games",
+      "Industrial robot welding"
+    ],
+    "answer": 1,
+    "explanation": "Analyzing scans and identifying suspicious regions is a medical imaging decision-support use case.",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 23,
+    "question": "Which retail application is best suited to a recommendation model?",
+    "choices": [
+      "Measuring warehouse temperature with a thermometer",
+      "Encrypting a payment using a fixed standard",
+      "Suggesting products based on customer behavior and item similarity",
+      "Printing the same receipt format for every sale"
+    ],
+    "answer": 2,
+    "explanation": "Recommendation models rank products using signals such as customer interactions, preferences, and similarities among items.",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 24,
+    "question": "In financial services, which task is a common AI application?",
+    "choices": [
+      "Defining the mathematical value of one plus one",
+      "Replacing all legal obligations",
+      "Guaranteeing that no transaction will fail",
+      "Scoring transactions for anomalous or potentially fraudulent behavior"
+    ],
+    "answer": 3,
+    "explanation": "AI systems commonly detect patterns and anomalies that help analysts identify potentially fraudulent transactions.",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 25,
+    "question": "Which transportation use case relies on AI perception?",
+    "choices": [
+      "Detecting lanes, pedestrians, and vehicles from sensor data",
+      "Using a fixed mechanical key",
+      "Painting road signs manually",
+      "Calculating a fare from an unchanging lookup table"
+    ],
+    "answer": 0,
+    "explanation": "AI perception interprets camera, lidar, or other sensor data to identify objects and roadway features.",
+    "objective": "1.5",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 26,
+    "question": "What is the main purpose of NVIDIA DGX systems?",
+    "choices": [
+      "Providing desktop productivity applications for general office users",
+      "Providing integrated, high-performance infrastructure for enterprise AI workloads",
+      "Acting only as a storage array for long-term model archive retention",
+      "Replacing organizational data governance and model approval processes"
+    ],
+    "answer": 1,
+    "explanation": "DGX systems integrate NVIDIA compute, networking, and optimized software for demanding AI development workloads.",
+    "objective": "1.6",
+    "source_keys": [
+      "S24"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 27,
+    "question": "Which NVIDIA solution is intended to help deploy and manage AI inference services at scale?",
+    "choices": [
+      "GeForce Experience",
+      "NVIDIA Broadcast",
+      "NVIDIA Triton Inference Server",
+      "CUDA-GDB"
+    ],
+    "answer": 2,
+    "explanation": "Triton Inference Server serves models from multiple frameworks and supports scalable inference deployment.",
+    "objective": "1.6",
+    "source_keys": [
+      "S13"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 28,
+    "question": "Which NVIDIA platform is designed for developing physically based, collaborative simulations and industrial digital twins?",
+    "choices": [
+      "NVIDIA Canvas",
+      "NVIDIA Broadcast",
+      "NVIDIA Reflex",
+      "NVIDIA Omniverse"
+    ],
+    "answer": 3,
+    "explanation": "NVIDIA Omniverse supports connected 3D workflows, simulation, and digital-twin development.",
+    "objective": "1.6",
+    "source_keys": [
+      "S25"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 29,
+    "question": "What is a principal use case for NVIDIA Jetson?",
+    "choices": [
+      "Running accelerated AI inference and robotics workloads at the edge",
+      "Hosting only mainframe batch accounting",
+      "Replacing all network switches",
+      "Archiving paper documents without computation"
+    ],
+    "answer": 0,
+    "explanation": "Jetson modules provide compact accelerated computing for edge AI, autonomous machines, and robotics.",
+    "objective": "1.6",
+    "source_keys": [
+      "S26"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 30,
+    "question": "Which NVIDIA solution provides APIs and pretrained models for building generative AI applications for enterprise use?",
+    "choices": [
+      "NVIDIA Omniverse Enterprise with collaborative digital-twin services",
+      "NVIDIA AI Enterprise with NVIDIA NIM microservices",
+      "NVIDIA Base Command Manager with bare-metal provisioning services",
+      "NVIDIA DCGM with GPU telemetry and diagnostic services"
+    ],
+    "answer": 1,
+    "explanation": "NVIDIA AI Enterprise and NIM microservices provide supported software and optimized model-serving components for enterprise generative AI.",
+    "objective": "1.6",
+    "source_keys": [
+      "S18"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 31,
+    "question": "Which lifecycle activity should occur before model training begins?",
+    "choices": [
+      "Retiring the deployed endpoint",
+      "Scaling production replicas",
+      "Collecting, cleaning, and preparing relevant data",
+      "Discarding the evaluation criteria"
+    ],
+    "answer": 2,
+    "explanation": "Training depends on suitable prepared data, so data collection and preprocessing occur before model fitting.",
+    "objective": "1.7",
+    "source_keys": [
+      "S18"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 32,
+    "question": "What is the purpose of an experiment-tracking tool in AI development?",
+    "choices": [
+      "To manufacture GPU hardware",
+      "To label every prediction as correct",
+      "To remove the need for validation data",
+      "To record parameters, metrics, artifacts, and results across training runs"
+    ],
+    "answer": 3,
+    "explanation": "Experiment tracking supports reproducibility and comparison by preserving the configuration and outcomes of model runs.",
+    "objective": "1.7",
+    "source_keys": [
+      "S18"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 33,
+    "question": "Why is a model registry useful in an AI deployment lifecycle?",
+    "choices": [
+      "It versions approved model artifacts and records their deployment status",
+      "It increases the physical clock speed of a GPU",
+      "It replaces all model testing",
+      "It creates training labels from nothing"
+    ],
+    "answer": 0,
+    "explanation": "A model registry organizes versioned artifacts and metadata so teams can govern promotion and deployment.",
+    "objective": "1.7",
+    "source_keys": [
+      "S18"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 34,
+    "question": "After an AI service is deployed, which software capability helps detect model or data drift?",
+    "choices": [
+      "Source-code formatting",
+      "Production monitoring of inputs, outputs, latency, and quality metrics",
+      "A one-time training progress bar",
+      "A static hardware inventory alone"
+    ],
+    "answer": 1,
+    "explanation": "Continuous production monitoring can reveal shifts in input distributions, output behavior, service performance, or measured quality.",
+    "objective": "1.7",
+    "source_keys": [
+      "S18"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 35,
+    "question": "Why are GPUs generally effective for training deep neural networks?",
+    "choices": [
+      "They prioritize complex serial control flow through a small number of general-purpose cores",
+      "They remove the need to perform floating-point and integer arithmetic",
+      "They contain many parallel execution units suited to tensor and matrix operations",
+      "They keep model weights in permanent storage instead of moving them through memory"
+    ],
+    "answer": 2,
+    "explanation": "Deep learning uses highly parallel tensor operations that map well to the many execution units and high bandwidth of GPUs.",
+    "objective": "1.8",
+    "source_keys": [
+      "S10",
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 36,
+    "question": "Which workload characteristic generally favors a CPU over a GPU?",
+    "choices": [
+      "Millions of independent matrix multiplications",
+      "Massively parallel pixel processing",
+      "Large batched tensor operations",
+      "Complex sequential control flow with limited parallelism"
+    ],
+    "answer": 3,
+    "explanation": "CPUs are optimized for low-latency execution of varied instructions and complex control flow, especially when parallelism is limited.",
+    "objective": "1.8",
+    "source_keys": [
+      "S10",
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 37,
+    "question": "How does a typical GPU architecture differ from a typical CPU architecture?",
+    "choices": [
+      "A GPU devotes more resources to many parallel arithmetic operations, while a CPU emphasizes a smaller number of versatile cores",
+      "A GPU removes the memory hierarchy, while a CPU stores all data in processor registers",
+      "A CPU executes only operating-system code, while a GPU runs every user application",
+      "A GPU supports graphics operations exclusively, while a CPU performs all general computation"
+    ],
+    "answer": 0,
+    "explanation": "GPUs prioritize parallel throughput across many execution units, whereas CPUs prioritize versatile, low-latency performance on fewer powerful cores.",
+    "objective": "1.8",
+    "source_keys": [
+      "S10",
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 38,
+    "question": "Why is high memory bandwidth important to many GPU-accelerated AI workloads?",
+    "choices": [
+      "It makes model evaluation unnecessary",
+      "It feeds large volumes of data to parallel compute units efficiently",
+      "It converts every serial algorithm into a parallel one",
+      "It permanently stores all enterprise data inside the processor"
+    ],
+    "answer": 1,
+    "explanation": "Parallel AI kernels need rapid movement of weights, activations, and other tensor data to keep compute units utilized.",
+    "objective": "1.8",
+    "source_keys": [
+      "S10",
+      "S11"
+    ],
+    "domain": "essential"
+  },
+  {
+    "id": 39,
+    "question": "A research team must fine-tune a model whose weights, optimizer states, activations, and working buffers exceed the memory of one GPU. Which hardware capability should the architect prioritize?",
+    "choices": [
+      "A higher CPU clock with the same GPU memory",
+      "A larger local boot disk only",
+      "Enough aggregate GPU memory with high-bandwidth GPU interconnects",
+      "Additional display outputs on each GPU"
+    ],
+    "answer": 2,
+    "explanation": "Large training jobs need sufficient GPU memory and fast inter-GPU communication when model state is partitioned.",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S10"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 40,
+    "question": "An image-training pipeline leaves expensive GPUs idle while CPU workers decode and augment files. Which change most directly addresses the bottleneck?",
+    "choices": [
+      "Reduce the number of storage paths",
+      "Disable host memory caching",
+      "Lower the network link speed",
+      "Add CPU capacity and parallelize the input pipeline"
+    ],
+    "answer": 3,
+    "explanation": "When preprocessing cannot feed GPUs fast enough, more CPU-side pipeline capacity can raise GPU utilization.",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S10"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 41,
+    "question": "A team is sizing hardware for transformer training and expects mixed-precision matrix operations to dominate. Which GPU characteristic is most relevant?",
+    "choices": [
+      "Tensor-processing throughput in supported lower-precision formats",
+      "The number and resolution of physical display connectors on the GPU",
+      "The acoustic profile and cosmetic lighting options of server cooling fans",
+      "The read throughput of the server optical-media drive"
+    ],
+    "answer": 0,
+    "explanation": "Tensor-oriented lower-precision throughput is a primary performance factor for mixed-precision transformer training.",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S10"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 42,
+    "question": "A training job repeatedly reads a multi-terabyte dataset and checkpoints every few minutes. GPU utilization drops during both operations. What should be included in the sizing exercise?",
+    "choices": [
+      "Only the parameter count of the model",
+      "Sustained storage read and checkpoint write throughput",
+      "Only the number of rack units",
+      "Only the CPU instruction set"
+    ],
+    "answer": 1,
+    "explanation": "Storage bandwidth must support dataset ingestion and checkpoint writes without starving or pausing the GPUs.",
+    "objective": "2.1",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S10"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 43,
+    "question": "A model fits on one eight-GPU server, but its training time is too long. The server can accept additional GPUs with a high-bandwidth internal fabric. Which strategy is being considered?",
+    "choices": [
+      "Scale out to another region",
+      "Replace training with archiving",
+      "Scale up within the server",
+      "Move the dataset to tape"
+    ],
+    "answer": 2,
+    "explanation": "Adding tightly connected resources inside one system is scale-up.",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12",
+      "S24"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 44,
+    "question": "A company expands distributed training from one node to sixteen nodes, but performance improves only fourfold. Which factor should be investigated first?",
+    "choices": [
+      "The management network's user-account naming convention",
+      "The number of interactive shell accounts on the login nodes",
+      "The audit-log retention period configured for administrative events",
+      "Communication overhead and network contention during collectives"
+    ],
+    "answer": 3,
+    "explanation": "Poor scale-out efficiency commonly results from collective communication overhead or an undersized network fabric.",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12",
+      "S24"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 45,
+    "question": "An organization needs a repeatable building block for scaling AI capacity and prefers a fully integrated NVIDIA system rather than integrating each server itself. Which choice best fits?",
+    "choices": [
+      "DGX systems used as validated cluster building blocks",
+      "A general-purpose laptop pool",
+      "A storage-only appliance",
+      "A collection of unrelated desktop GPUs"
+    ],
+    "answer": 0,
+    "explanation": "DGX provides an integrated AI system that can serve as a consistent unit for larger deployments.",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12",
+      "S24"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 46,
+    "question": "A server vendor wants to build its own branded eight-GPU AI platform using an NVIDIA baseboard with GPUs and high-speed GPU interconnects. Which platform is the appropriate foundation?",
+    "choices": [
+      "Jetson developer kit",
+      "HGX platform",
+      "A DPU-only management node",
+      "A CPU-only reference workstation"
+    ],
+    "answer": 1,
+    "explanation": "HGX is a platform used by system builders to create integrated multi-GPU AI servers.",
+    "objective": "2.2",
+    "source_keys": [
+      "S1",
+      "S2",
+      "S12",
+      "S24"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 47,
+    "question": "A new AI rack has a much higher load than the existing general-purpose racks. What should facilities staff verify before installation?",
+    "choices": [
+      "That every server uses the same hostname",
+      "That the room has more office lighting",
+      "That rack power delivery and cooling capacity support the design load",
+      "That all GPUs use the same application container"
+    ],
+    "answer": 2,
+    "explanation": "High-density AI racks require verified electrical and thermal capacity before deployment.",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 48,
+    "question": "GPU clocks fall during long training runs while inlet temperature remains acceptable. Exhaust temperature is high and hot air recirculates into neighboring racks. What is the best corrective action?",
+    "choices": [
+      "Increase the model vocabulary",
+      "Disable GPU telemetry",
+      "Reduce the number of network routes",
+      "Improve hot-aisle containment and airflow management"
+    ],
+    "answer": 3,
+    "explanation": "Containment and controlled airflow reduce recirculation that can cause thermal throttling.",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 49,
+    "question": "A planned dense GPU deployment exceeds the practical heat-removal capability of the current air-cooling design. Which option should the architect evaluate?",
+    "choices": [
+      "Liquid cooling supported by the system and facility design",
+      "A slower administrative network",
+      "Smaller monitoring dashboards",
+      "Additional software namespaces"
+    ],
+    "answer": 0,
+    "explanation": "Supported liquid-cooling designs can remove heat more effectively from very high-density AI systems.",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 50,
+    "question": "A facility engineer is estimating the electrical service needed for an AI cluster. Which value should drive the estimate rather than average idle consumption?",
+    "choices": [
+      "The total number of model artifacts stored by the development team",
+      "Peak design load plus appropriate redundancy and safety margin",
+      "Average electrical consumption of office equipment in the same building",
+      "The compression ratio achieved by the cluster's storage system"
+    ],
+    "answer": 1,
+    "explanation": "Electrical infrastructure must handle peak cluster demand while meeting redundancy and engineering margin requirements.",
+    "objective": "2.3",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 51,
+    "question": "A startup runs occasional short experiments and cannot predict next quarter's GPU demand. Which deployment model offers the best initial flexibility?",
+    "choices": [
+      "Purchase a fixed on-premises cluster sized for five years",
+      "Build a private data center before testing the workload",
+      "Use cloud GPU instances that can be provisioned and released on demand",
+      "Use CPU-only instances regardless of performance"
+    ],
+    "answer": 2,
+    "explanation": "Cloud capacity reduces initial commitment and supports elastic, uncertain, or intermittent demand.",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 52,
+    "question": "A hospital must keep sensitive training data inside its controlled facility and needs predictable year-round GPU utilization. Which option is most appropriate?",
+    "choices": [
+      "A public endpoint with unrestricted uploads",
+      "Temporary consumer gaming systems",
+      "A cloud region selected only by lowest hourly price",
+      "An on-premises deployment under the hospital's security controls"
+    ],
+    "answer": 3,
+    "explanation": "On-premises infrastructure can meet strict data-control requirements and suit steady, predictable utilization.",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 53,
+    "question": "A retailer keeps its baseline inference service on premises but needs extra capacity during a two-week annual event. Which architecture best matches the requirement?",
+    "choices": [
+      "A hybrid design that bursts eligible workloads to cloud GPUs",
+      "A permanent tenfold on-premises expansion used only two weeks per year",
+      "A single edge device for all global requests",
+      "Removal of autoscaling and capacity monitoring"
+    ],
+    "answer": 0,
+    "explanation": "Hybrid bursting can cover temporary peaks without permanently overbuilding on-premises capacity.",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 54,
+    "question": "A team compares cloud and on-premises costs for a continuously used training cluster. Which analysis is most complete?",
+    "choices": [
+      "Compare GPU purchase price with one hour of cloud use",
+      "Compare total cost over the expected utilization period, including facilities, operations, support, and data movement",
+      "Ignore staffing and data transfer because they are not infrastructure costs",
+      "Select the option with the largest advertised GPU count"
+    ],
+    "answer": 1,
+    "explanation": "A valid comparison includes utilization and the full lifecycle costs of operating and moving data.",
+    "objective": "2.4",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 55,
+    "question": "A distributed training cluster has fast GPUs and networking, but jobs pause whenever checkpoints are written. Which accelerated-cluster component is most likely undersized?",
+    "choices": [
+      "The console display",
+      "The front-end DNS zone",
+      "The high-throughput shared storage tier",
+      "The user directory banner"
+    ],
+    "answer": 2,
+    "explanation": "Checkpoint stalls indicate that the storage path cannot sustain the required write throughput.",
+    "objective": "2.5",
+    "source_keys": [
+      "S24",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 56,
+    "question": "A cluster architect separates management traffic from high-volume training collectives. Why is this a sound design?",
+    "choices": [
+      "It makes GPU memory unnecessary",
+      "It eliminates the need for switches",
+      "It converts scale-out traffic into local GPU traffic",
+      "It prevents training traffic from congesting essential management access"
+    ],
+    "answer": 3,
+    "explanation": "Separate management and data fabrics improve operational access and isolate performance-sensitive traffic.",
+    "objective": "2.5",
+    "source_keys": [
+      "S24",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 57,
+    "question": "An AI cluster must coordinate users, submit jobs, and schedule GPU resources without consuming compute nodes for interactive administration. Which component should provide these services?",
+    "choices": [
+      "A management or login node with cluster scheduling services",
+      "A passive high-speed cable connected between compute switches",
+      "A server heat sink dedicated to removing processor heat",
+      "A storage expansion shelf with capacity but no management services"
+    ],
+    "answer": 0,
+    "explanation": "Management and login nodes host access and scheduling functions separately from accelerated compute nodes.",
+    "objective": "2.5",
+    "source_keys": [
+      "S24",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 58,
+    "question": "A team is assembling a balanced accelerated cluster. Which set identifies the essential data-path components?",
+    "choices": [
+      "GPU compute nodes only",
+      "Accelerated compute, high-speed fabric, and scalable storage",
+      "Office workstations, printers, and phones",
+      "Cooling towers, badges, and monitors only"
+    ],
+    "answer": 1,
+    "explanation": "A balanced AI cluster combines accelerated compute with fast networking and storage that can feed it.",
+    "objective": "2.5",
+    "source_keys": [
+      "S24",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 59,
+    "question": "A proposed row of AI racks is within the room's total power limit, but each floor tile has a lower structural rating than the loaded racks require. What must happen before deployment?",
+    "choices": [
+      "Increase GPU utilization targets",
+      "Move monitoring to another namespace",
+      "Validate or reinforce floor loading with qualified facilities engineers",
+      "Change the model checkpoint format"
+    ],
+    "answer": 2,
+    "explanation": "Facility readiness includes structural floor loading, not only room-level power capacity.",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 60,
+    "question": "A data center installs redundant power feeds to every AI rack, but both feeds depend on the same upstream breaker. Which requirement is not truly met?",
+    "choices": [
+      "GPU memory capacity",
+      "Dataset durability",
+      "Network packet sizing",
+      "Independent power-path redundancy"
+    ],
+    "answer": 3,
+    "explanation": "Two feeds sharing one upstream failure point do not provide independent end-to-end redundancy.",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 61,
+    "question": "A facility will receive fully populated AI racks from a vendor. Which delivery detail is most important to confirm during site planning?",
+    "choices": [
+      "Door, corridor, elevator, and loading-dock clearances and weight limits",
+      "The development team's preferred font",
+      "The number of source-code branches",
+      "The model's validation accuracy"
+    ],
+    "answer": 0,
+    "explanation": "Rack delivery requires a verified physical path with adequate dimensions and load ratings.",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 62,
+    "question": "A liquid-cooled AI system is planned for a room that currently supports only conventional air-cooled racks. What facility capability must be added or verified?",
+    "choices": [
+      "A larger source-code repository for facility configuration files",
+      "Compatible coolant distribution, heat rejection, leak controls, and service procedures",
+      "A dedicated public IP address assigned to each installed GPU",
+      "A lower console display resolution for the rack-management interface"
+    ],
+    "answer": 1,
+    "explanation": "Liquid-cooled systems require a compatible facility water loop or CDU design plus safe monitoring and maintenance.",
+    "objective": "2.6",
+    "source_keys": [
+      "S1",
+      "S2"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 63,
+    "question": "A synchronous data-parallel training job spends substantial time in all-reduce operations. Which network property should receive the highest priority?",
+    "choices": [
+      "A high number of public web addresses",
+      "Long DNS cache duration",
+      "High bandwidth and low latency between compute nodes",
+      "A slower out-of-band management link"
+    ],
+    "answer": 2,
+    "explanation": "All-reduce performance depends heavily on low-latency, high-bandwidth node-to-node communication.",
+    "objective": "2.7",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 64,
+    "question": "A training cluster's links are fast, but some flows traverse more oversubscribed switch tiers than others, causing inconsistent step times. What should the architect improve?",
+    "choices": [
+      "Model label formatting",
+      "Boot-disk partition names",
+      "Office wireless coverage",
+      "Fabric topology and path consistency"
+    ],
+    "answer": 3,
+    "explanation": "A balanced, predictable topology reduces contention and variable latency for distributed training traffic.",
+    "objective": "2.7",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 65,
+    "question": "An inference service sends small responses to users but repeatedly retrieves large embeddings from remote storage. Which traffic must be included in network sizing?",
+    "choices": [
+      "Backend storage and embedding traffic as well as client traffic",
+      "Only the response payloads sent to users",
+      "Only administrative SSH sessions",
+      "Only software license checks"
+    ],
+    "answer": 0,
+    "explanation": "End-to-end sizing must include large backend data flows, not just small client responses.",
+    "objective": "2.7",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 66,
+    "question": "A multi-node training job receives full link bandwidth in a simple test, yet training slows when several jobs run together. Which missing requirement is most likely?",
+    "choices": [
+      "Additional rack labels that identify every cable and switch port",
+      "Adequate bisection bandwidth and congestion control under concurrent traffic",
+      "A larger login banner displayed to every cluster user",
+      "A standardized JSON schema for experiment metadata"
+    ],
+    "answer": 1,
+    "explanation": "Concurrent distributed jobs require a nonblocking or suitably provisioned fabric with effective congestion management.",
+    "objective": "2.7",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 67,
+    "question": "An Ethernet AI fabric experiences packet drops during brief collective-traffic bursts even though average utilization is moderate. Which concept most directly addresses transient queue pressure?",
+    "choices": [
+      "A larger model registry for storing additional checkpoint versions",
+      "Additional CPU instruction cache on each training node",
+      "Appropriate buffering and congestion-management configuration",
+      "A lower collection rate for GPU utilization metrics"
+    ],
+    "answer": 2,
+    "explanation": "Burst handling depends on queueing, buffers, and congestion controls rather than average utilization alone.",
+    "objective": "2.8",
+    "source_keys": [
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 68,
+    "question": "A network engineer wants hosts to transfer data directly between accelerator memory and a network adapter with less CPU involvement. Which concept enables this?",
+    "choices": [
+      "DNS round-robin",
+      "Network address translation",
+      "Spanning-tree root election",
+      "Remote direct memory access with GPU-direct data paths"
+    ],
+    "answer": 3,
+    "explanation": "RDMA and GPU-direct paths reduce CPU copies and latency when moving data to or from accelerator memory.",
+    "objective": "2.8",
+    "source_keys": [
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 69,
+    "question": "An architect builds a leaf-spine network for a large AI cluster. What is the primary reason for this topology?",
+    "choices": [
+      "To provide predictable low-hop east-west connectivity and scalable bandwidth",
+      "To ensure every node uses a public address",
+      "To eliminate the need for network adapters",
+      "To store model checkpoints inside switches"
+    ],
+    "answer": 0,
+    "explanation": "Leaf-spine designs provide consistent paths and scale east-west bandwidth for clustered workloads.",
+    "objective": "2.8",
+    "source_keys": [
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 70,
+    "question": "An Ethernet-based RDMA design must preserve throughput during congestion without relying on indiscriminate lossless behavior across all traffic classes. Which approach is most appropriate?",
+    "choices": [
+      "Disable queue telemetry so endpoints cannot react to congestion signals",
+      "Apply a validated RoCE congestion-control and traffic-class design",
+      "Combine management and training traffic in a single unmanaged queue",
+      "Increase hostname length to distinguish individual fabric endpoints"
+    ],
+    "answer": 1,
+    "explanation": "RoCE requires a carefully validated congestion and traffic-class configuration for reliable high-performance behavior.",
+    "objective": "2.8",
+    "source_keys": [
+      "S27",
+      "S28"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 71,
+    "question": "A customer wants a dedicated, mature high-performance fabric for tightly coupled AI training with native RDMA semantics. Which option best fits?",
+    "choices": [
+      "A consumer Wi-Fi mesh",
+      "A 1 GbE management network",
+      "InfiniBand",
+      "A storage tape interface"
+    ],
+    "answer": 2,
+    "explanation": "InfiniBand is designed for high-throughput, low-latency RDMA communication in tightly coupled clusters.",
+    "objective": "2.9",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 72,
+    "question": "An enterprise wants to use its Ethernet operational skills while supporting low-latency RDMA traffic for AI nodes. Which high-speed option should it evaluate?",
+    "choices": [
+      "Bluetooth between compute nodes",
+      "A serial console network",
+      "An internet VPN as the training fabric",
+      "RoCE on a properly designed high-speed Ethernet fabric"
+    ],
+    "answer": 3,
+    "explanation": "RoCE provides RDMA over Ethernet when the fabric is engineered for the required performance and congestion behavior.",
+    "objective": "2.9",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 73,
+    "question": "A server contains eight GPUs. Traffic between GPUs inside that server is the dominant performance concern. Which option is most appropriate for that path?",
+    "choices": [
+      "NVLink and an NVSwitch-based internal GPU fabric",
+      "The out-of-band management LAN",
+      "A public cloud load balancer",
+      "A SATA cable between GPUs"
+    ],
+    "answer": 0,
+    "explanation": "NVLink and NVSwitch provide high-bandwidth GPU-to-GPU communication within supported multi-GPU systems.",
+    "objective": "2.9",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 74,
+    "question": "A scale-out cluster requires both a fast compute fabric and ordinary administrative access. Which design is most appropriate?",
+    "choices": [
+      "Use only the administrative network for every workload",
+      "Use a high-speed fabric for training data and a separate Ethernet management network",
+      "Expose all management services on the compute fabric",
+      "Remove the management network after deployment"
+    ],
+    "answer": 1,
+    "explanation": "Dedicated high-speed and management networks align each fabric with its performance and operational use case.",
+    "objective": "2.9",
+    "source_keys": [
+      "S12",
+      "S27",
+      "S28",
+      "S29"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 75,
+    "question": "CPU utilization is high because every AI node processes virtual switching, storage, encryption, and telemetry tasks in addition to feeding GPUs. What should the architect add?",
+    "choices": [
+      "A second keyboard per server",
+      "A larger monitor",
+      "A DPU to offload infrastructure services",
+      "A slower network adapter"
+    ],
+    "answer": 2,
+    "explanation": "A DPU can offload networking, storage, security, and management work from host CPUs.",
+    "objective": "2.10",
+    "source_keys": [
+      "S17"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 76,
+    "question": "A cloud operator wants to isolate tenant infrastructure services from the host operating system's application domain. What DPU benefit is most relevant?",
+    "choices": [
+      "It increases the physical floor rating",
+      "It replaces every GPU in the server",
+      "It removes the need for authentication",
+      "It creates a separate infrastructure control and security domain"
+    ],
+    "answer": 3,
+    "explanation": "A DPU can run infrastructure services in an isolated domain, strengthening separation from tenant workloads.",
+    "objective": "2.10",
+    "source_keys": [
+      "S17"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 77,
+    "question": "An AI server's GPUs frequently wait because the CPU is occupied with packet processing and storage protocol work. How can a DPU improve application performance?",
+    "choices": [
+      "Offload infrastructure processing so CPU resources can support the application data path",
+      "Reduce GPU memory to create more CPU cores",
+      "Replace high-speed links with Wi-Fi",
+      "Store all model weights in switch configuration"
+    ],
+    "answer": 0,
+    "explanation": "DPU offload frees CPU cycles and can accelerate network and storage paths used by GPU workloads.",
+    "objective": "2.10",
+    "source_keys": [
+      "S17"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 78,
+    "question": "A security team asks which task is a suitable DPU use case in an accelerated data center. Which answer is correct?",
+    "choices": [
+      "Executing the model's tensor operations in place of the installed GPUs",
+      "Enforcing network security and encryption policies near the server data path",
+      "Supplying chilled water directly to the facility's liquid-cooling loop",
+      "Increasing the structural load rating of the data-center floor"
+    ],
+    "answer": 1,
+    "explanation": "DPUs can accelerate and isolate security functions such as policy enforcement and encryption close to the data path.",
+    "objective": "2.10",
+    "source_keys": [
+      "S17"
+    ],
+    "domain": "infrastructure"
+  },
+  {
+    "id": 79,
+    "question": "A platform engineer needs node-level GPU utilization, temperature, power, and memory metrics in Prometheus without adding monitoring code to each training container. Which component should the engineer deploy?",
+    "choices": [
+      "Kubernetes Metrics Server",
+      "Slurm accounting storage",
+      "NVIDIA DCGM Exporter",
+      "NVIDIA Container Toolkit CLI"
+    ],
+    "answer": 2,
+    "explanation": "DCGM Exporter exposes NVIDIA GPU telemetry as Prometheus metrics and can run as a node-level service.",
+    "objective": "3.1",
+    "source_keys": [
+      "S15",
+      "S23"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 80,
+    "question": "A GPU node is reporting intermittent ECC errors. An operator wants a quick command-line view of ECC counters for the installed GPUs before reviewing long-term dashboards. Which tool is most appropriate?",
+    "choices": [
+      "kubectl top node",
+      "squeue --start",
+      "helm get values",
+      "nvidia-smi -q"
+    ],
+    "answer": 3,
+    "explanation": "nvidia-smi -q displays detailed device information, including supported ECC status and error counters.",
+    "objective": "3.3",
+    "source_keys": [
+      "S19"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 81,
+    "question": "A Kubernetes cluster has new GPU worker nodes, but workloads remain Pending because the nodes do not advertise nvidia.com/gpu resources. The team wants NVIDIA drivers, the device plugin, and monitoring components managed consistently. What should it install?",
+    "choices": [
+      "NVIDIA GPU Operator",
+      "Kubernetes Dashboard",
+      "Slurm controller",
+      "A second container runtime"
+    ],
+    "answer": 0,
+    "explanation": "The GPU Operator automates the lifecycle of NVIDIA drivers and supporting Kubernetes GPU software, including the device plugin.",
+    "objective": "3.1",
+    "source_keys": [
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 82,
+    "question": "Several inference pods request whole GPUs but average only 15% utilization. The models fit together in GPU memory, and strict hardware fault isolation is not required. Which approach most directly improves sharing with minimal application changes?",
+    "choices": [
+      "Assign every pod two GPUs",
+      "Configure GPU time-slicing",
+      "Disable the Kubernetes scheduler",
+      "Create a separate cluster per model"
+    ],
+    "answer": 1,
+    "explanation": "Time-slicing lets multiple workloads share access to a GPU and is suitable when utilization is low and hard isolation is unnecessary.",
+    "objective": "3.4",
+    "source_keys": [
+      "S22"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 83,
+    "question": "A multi-tenant inference service requires each tenant to receive a fixed portion of GPU memory and compute resources with hardware-enforced isolation. The installed GPU supports the required feature. What should the operator configure?",
+    "choices": [
+      "GPU time-slicing only",
+      "CPU pinning",
+      "Multi-Instance GPU (MIG)",
+      "Kubernetes pod priority only"
+    ],
+    "answer": 2,
+    "explanation": "MIG partitions a supported GPU into isolated instances with dedicated memory and compute resources.",
+    "objective": "3.4",
+    "source_keys": [
+      "S16"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 84,
+    "question": "A Slurm user submits a training job that needs four GPUs on the same node. Which request best expresses that requirement when the cluster defines GPUs as a generic resource?",
+    "choices": [
+      "--cpus-per-task=4",
+      "--nodes=4",
+      "--mem=4G",
+      "--gres=gpu:4"
+    ],
+    "answer": 3,
+    "explanation": "Slurm uses the GRES mechanism to request consumable GPU resources, so --gres=gpu:4 requests four GPUs.",
+    "objective": "3.2",
+    "source_keys": [
+      "S21"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 85,
+    "question": "A Kubernetes training pod must run only on nodes equipped with H100 GPUs. Nodes already carry a label identifying the accelerator model. Which pod setting should the operator use for this hard placement requirement?",
+    "choices": [
+      "Node affinity with a required rule",
+      "A liveness probe",
+      "A PodDisruptionBudget",
+      "A HorizontalPodAutoscaler"
+    ],
+    "answer": 0,
+    "explanation": "Required node affinity constrains scheduling to nodes whose labels match the specified GPU model.",
+    "objective": "3.2",
+    "source_keys": [
+      "S20"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 86,
+    "question": "A distributed training job consists of eight workers and should not start unless all eight can be scheduled together. Starting only a subset would waste GPU time. Which scheduling capability addresses this requirement?",
+    "choices": [
+      "Rolling updates",
+      "Gang scheduling",
+      "Best-effort preemption",
+      "Container image pre-pulling"
+    ],
+    "answer": 1,
+    "explanation": "Gang scheduling admits the related workers as a group, preventing partial startup when the full resource set is unavailable.",
+    "objective": "3.2",
+    "source_keys": [
+      "S20"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 87,
+    "question": "A DCGM dashboard shows GPU utilization near 100%, memory utilization near 95%, and temperatures approaching the configured thermal limit during training. What should the operator investigate first?",
+    "choices": [
+      "A missing Kubernetes ServiceAccount",
+      "An incorrect DNS search domain",
+      "Cooling and possible thermal throttling",
+      "A full CPU root filesystem only"
+    ],
+    "answer": 2,
+    "explanation": "Sustained high temperature under load can trigger thermal throttling, so cooling, airflow, and clock behavior should be checked first.",
+    "objective": "3.3",
+    "source_keys": [
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 88,
+    "question": "A Slurm training job is queued with the reason Resources even though some nodes are idle. The job requests A100 GPUs, but only idle CPU nodes are available. What is the most likely explanation?",
+    "choices": [
+      "The job exceeded its wall-clock limit",
+      "Prometheus has stopped scraping metrics",
+      "The user's container lacks a shell",
+      "No eligible node currently satisfies the requested GPU GRES"
+    ],
+    "answer": 3,
+    "explanation": "Idle nodes do not make a job runnable if they lack the GPU type or GRES requested by the job.",
+    "objective": "3.2",
+    "source_keys": [
+      "S21"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 89,
+    "question": "After a node reboot, nvidia-smi fails on the host with a message that it cannot communicate with the NVIDIA driver. What should the operator verify before troubleshooting Kubernetes components?",
+    "choices": [
+      "That the NVIDIA kernel driver is loaded and matches the running kernel",
+      "That the affected pod exposes the expected HTTP readiness endpoint",
+      "That the queued Slurm jobs have sufficient scheduling priority",
+      "That Prometheus retains GPU metrics for the required time period"
+    ],
+    "answer": 0,
+    "explanation": "A host-level nvidia-smi communication failure indicates the driver stack should be validated before higher-level orchestration components.",
+    "objective": "3.1",
+    "source_keys": [
+      "S19"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 90,
+    "question": "A Kubernetes GPU pod is Pending and its event says Insufficient nvidia.com/gpu. Other GPU pods are using all advertised devices. What is the best immediate interpretation?",
+    "choices": [
+      "The image registry is unavailable",
+      "No schedulable advertised GPU resource is currently free",
+      "The pod has a failing readiness probe",
+      "The node clock is unsynchronized"
+    ],
+    "answer": 1,
+    "explanation": "The scheduler event means the requested extended GPU resource is not presently available on an eligible node.",
+    "objective": "3.2",
+    "source_keys": [
+      "S5",
+      "S20"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 91,
+    "question": "An enterprise VDI platform needs many virtual machines to share physical GPUs while each VM receives a managed virtual GPU profile. Which technology best fits this requirement?",
+    "choices": [
+      "Kubernetes time-slicing",
+      "Slurm GRES autodetection",
+      "NVIDIA vGPU",
+      "CUDA_VISIBLE_DEVICES alone"
+    ],
+    "answer": 2,
+    "explanation": "NVIDIA vGPU provides profile-based GPU resources to virtual machines through a supported hypervisor stack.",
+    "objective": "3.4",
+    "source_keys": [
+      "S18"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 92,
+    "question": "A team wants an alert when GPU memory usage remains above 90% for 15 minutes, but it wants to avoid alerts from brief allocation spikes. What monitoring design is most appropriate?",
+    "choices": [
+      "Run nvidia-smi manually once a week",
+      "Restart every GPU pod when memory exceeds 50%",
+      "Use only Kubernetes audit logs",
+      "Create a Prometheus alert with a sustained-duration condition"
+    ],
+    "answer": 3,
+    "explanation": "A time-bounded Prometheus alert based on exported GPU metrics detects persistent pressure while filtering transient spikes.",
+    "objective": "3.3",
+    "source_keys": [
+      "S15",
+      "S23"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 93,
+    "question": "A GPU Operator upgrade must be tested without risking the entire production fleet. Which rollout strategy best limits the blast radius?",
+    "choices": [
+      "Canary the upgrade on a small labeled node pool and validate workloads and telemetry",
+      "Upgrade every node simultaneously",
+      "Delete all GPU workload manifests first",
+      "Disable all node health checks during the upgrade"
+    ],
+    "answer": 0,
+    "explanation": "A canary node pool allows driver, operator, workload, and monitoring validation before a wider controlled rollout.",
+    "objective": "3.1",
+    "source_keys": [
+      "S5"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 94,
+    "question": "A pod can see /dev/nvidia0, but its application fails because a required CUDA user-space library is absent from the image. Which action most directly fixes the problem?",
+    "choices": [
+      "Increase CPU requests so the scheduler selects a larger worker node",
+      "Use a compatible CUDA-enabled container image containing the required libraries",
+      "Add another Kubernetes scheduler replica to the control plane",
+      "Lower the GPU power limit before restarting the application"
+    ],
+    "answer": 1,
+    "explanation": "Device exposure does not supply every application library; the container image must include a CUDA user-space stack compatible with the host driver.",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S11"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 95,
+    "question": "An operator must identify which process is consuming nearly all memory on GPU 2 of a shared host. Which command provides the most direct initial evidence?",
+    "choices": [
+      "kubectl get namespaces",
+      "sinfo -R",
+      "nvidia-smi -i 2",
+      "journalctl --vacuum-time=1d"
+    ],
+    "answer": 2,
+    "explanation": "nvidia-smi for the selected device reports memory use and the active compute processes associated with that GPU.",
+    "objective": "3.3",
+    "source_keys": [
+      "S19"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 96,
+    "question": "Two Slurm partitions contain different GPU generations. A researcher needs only nodes with H100 GPUs. Which configuration gives the clearest scheduling control?",
+    "choices": [
+      "Request more system memory than any A100 node has",
+      "Set CUDA_VISIBLE_DEVICES to H100",
+      "Reduce the job's time limit to one minute",
+      "Request the H100 partition or an H100 GRES/constraint defined by the administrator"
+    ],
+    "answer": 3,
+    "explanation": "A partition, typed GRES, or node constraint representing H100 hardware lets Slurm select eligible nodes explicitly.",
+    "objective": "3.2",
+    "source_keys": [
+      "S21"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 97,
+    "question": "A MIG-enabled node was reconfigured with a new instance geometry, but Kubernetes still advertises the previous resource layout. What should the operator reconcile?",
+    "choices": [
+      "The MIG configuration and the device plugin's refreshed resource discovery",
+      "The cluster DNS suffix and search-domain configuration",
+      "The application's service port and HTTP routing configuration",
+      "The CPU manager policy used for non-GPU workload pinning"
+    ],
+    "answer": 0,
+    "explanation": "After changing MIG geometry, the configured instances and Kubernetes device discovery must agree so the advertised resources reflect the new layout.",
+    "objective": "3.4",
+    "source_keys": [
+      "S5",
+      "S16"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 98,
+    "question": "A time-sliced GPU cluster lets several pods share one GPU. One pod launches a memory-heavy model and causes failures in neighboring pods. Which limitation does this demonstrate?",
+    "choices": [
+      "Time-slicing prevents CUDA applications from running",
+      "Time-slicing does not provide the dedicated memory isolation of MIG",
+      "Time-slicing requires one physical GPU per pod",
+      "Time-slicing automatically creates MIG memory partitions"
+    ],
+    "answer": 1,
+    "explanation": "Time-sliced clients share the same physical GPU and memory domain, unlike MIG instances with hardware-isolated memory resources.",
+    "objective": "3.4",
+    "source_keys": [
+      "S16",
+      "S22"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 99,
+    "question": "A training job has low GPU utilization while CPU utilization is saturated and the GPU repeatedly waits for new batches. Which optimization should the operations team evaluate first?",
+    "choices": [
+      "Reduce the number of GPUs advertised by the node",
+      "Disable GPU monitoring",
+      "Increase data-loader parallelism and remove CPU or input-pipeline bottlenecks",
+      "Create smaller MIG instances regardless of model size"
+    ],
+    "answer": 2,
+    "explanation": "Low GPU use combined with saturated CPUs and batch starvation points to a CPU or data-input bottleneck rather than insufficient GPU capacity.",
+    "objective": "3.3",
+    "source_keys": [
+      "S6",
+      "S15"
+    ],
+    "domain": "operations"
+  },
+  {
+    "id": 100,
+    "question": "A Kubernetes node develops repeated uncorrectable GPU errors during jobs. The team wants to prevent new workloads from landing there while preserving evidence for diagnosis. What should it do first?",
+    "choices": [
+      "Delete node monitoring records before restarting the affected workloads",
+      "Increase every pod's GPU request so jobs move to other nodes",
+      "Remove GPU resource requests from all pending workload definitions",
+      "Cordon the node, drain GPU workloads according to policy, and collect DCGM and system diagnostics"
+    ],
+    "answer": 3,
+    "explanation": "Cordoning stops new placements; a controlled drain limits further impact while diagnostics preserve evidence for hardware and driver investigation.",
+    "objective": "3.1",
+    "source_keys": [
+      "S5",
+      "S15"
+    ],
+    "domain": "operations"
+  }
+]
