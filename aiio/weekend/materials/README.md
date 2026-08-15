@@ -5,6 +5,7 @@ Source study materials retained in Git for browsing, download, and version histo
 | File | Description | Source label |
 | --- | --- | --- |
 | `suggested-readings-nvidia-weekend-100page.html` | Native long-form HTML reader with 100 unique study sections derived from the 9 suggested-reading topics plus verified NVIDIA tutorial references; includes search, progress tracking, print layout, and self-check prompts. This is not a PPTX conversion. | Standalone HTML reading edition |
+| `suggested-readings-nvidia-weekend-100page-modular.html` | Preserved modular edition generated earlier: 20 subject modules × 5 learning-page types. Kept at a separate path so it is no longer overwritten by the native reader. | Modular HTML edition |
 | `ai-ml-systems-deployment-100page-guide.html` | Standalone 100-page AI/ML systems and deployment guide with 50 expandable practice questions. | nvidia_ai_certification_100page_guide.html |
 | `complete-guide-v4.html` | Recommended guide with Software Stack, Kubernetes labs, and AI Operations review appendices. | NCA_AIIO_Weekend_Complete_Guide_v4.html |
 | `complete-guide-v3.html` | Previous expanded guide with Software Stack and three-stage Kubernetes tutorial appendices. | NCA_AIIO_Weekend_Complete_Guide_v3.html |
