@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NCA-AIIO 考試心得、準備方法與注意事項整理：官方藍圖、公開分享重點、讀書策略與考前 checklist。">
+  <title>NCA-AIIO 考試心得與準備方法｜NCA Study Hub</title>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <style>
+    .weight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}.weight-card{border:1px solid var(--line);border-radius:8px;padding:18px;background:#fff}.weight-card strong{display:block;font-size:2rem;color:var(--accent)}.method-list{counter-reset:item;display:grid;gap:12px}.method-list article{position:relative;border:1px solid var(--line);border-radius:8px;background:#fff;padding:16px 16px 16px 54px}.method-list article:before{counter-increment:item;content:counter(item);position:absolute;left:16px;top:16px;width:26px;height:26px;border-radius:999px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800}.quote-card{border-left:5px solid var(--accent);background:#f7fbf0}.warn-card{border-left:5px solid #d97706;background:#fff8ed}.checklist{columns:2;column-gap:28px}.checklist li{break-inside:avoid;margin:.45rem 0}@media(max-width:760px){.weight-grid{grid-template-columns:1fr}.checklist{columns:1}}
+  </style>
+</head>
+<body class="site">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="NCA-AIIO 導覽">
+      <a class="brand" href="../../"><span class="brand-mark">NCA</span>AIIO</a>
+      <ul class="nav-links">
+        <li><a href="../">完整教材</a></li>
+        <li><a href="../weekend/">週末衝刺</a></li>
+        <li><a href="../tutorial/">技術專題</a></li>
+        <li><a href="../readings/">延伸閱讀</a></li>
+        <li><a href="../mock/">模擬考</a></li>
+        <li><a href="./" aria-current="page">考試心得</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Exam Experience Digest</p>
+      <h1>NCA-AIIO 考試心得與準備方法</h1>
+      <p class="page-hero__lead">整理 NVIDIA 官方考試資訊、公開網路分享常見準備方式，以及 AI infrastructure 類認證的應考注意事項。此頁不包含正式考題、外流題或 exam dump。</p>
+      <div class="actions">
+        <a class="button" href="#method">照這樣準備</a>
+        <a class="button button--ghost" href="../mock/materials/nca-aiio-100-must-pass-practice-zh.html">刷 100 題</a>
+      </div>
+    </section>
+
+    <section class="page-section" id="official" aria-labelledby="official-title">
+      <div class="section-heading">
+        <p class="eyebrow">Official Baseline</p>
+        <h2 id="official-title">先以官方資訊校正方向</h2>
+        <p>公開心得可參考，但考試範圍與規則一定以 NVIDIA 官方頁與 Study Guide 為準。</p>
+      </div>
+      <div class="card-grid card-grid--three">
+        <article class="content-card"><span class="tag">Format</span><h3>50 題 / 60 分鐘</h3><p>線上遠端監考，英文作答。平均每題約 72 秒，所以需要練 keyword 判斷，不適合逐字翻譯題幹。</p></article>
+        <article class="content-card"><span class="tag">Cost</span><h3>官方價格 $125</h3><p>官方頁列出的考試費用是 125 美元。考前務必確認 Certiverse 帳號、付款、身分證件、網路與監考環境。</p></article>
+        <article class="content-card"><span class="tag">Course</span><h3>官方課程約 7 小時</h3><p>AI Infrastructure and Operations Fundamentals 是官方推薦 learning path；至少完整跑一輪，再用題庫找弱點。</p></article>
+      </div>
+      <div class="weight-grid" aria-label="官方藍圖比例">
+        <div class="weight-card"><strong>38%</strong><p>Essential AI Knowledge：AI/ML/DL、training vs inference、GPU/CPU、NVIDIA software stack。</p></div>
+        <div class="weight-card"><strong>40%</strong><p>AI Infrastructure：GPU infrastructure、cluster、network、storage、power/cooling、on-prem vs cloud。</p></div>
+        <div class="weight-card"><strong>22%</strong><p>AI Operations：monitoring、orchestration、job scheduling、GPU monitoring、virtualization。</p></div>
+      </div>
+      <div class="notice"><p>官方來源：<a href="https://www.nvidia.com/en-us/learn/certification/ai-infrastructure-operations-associate/">NVIDIA NCA-AIIO Certification</a>。官方頁另提供 Study Guide PDF 與 Certiverse 報名入口。</p></div>
+    </section>
+
+    <section class="page-section" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <p class="eyebrow">Public Experience Summary</p>
+        <h2 id="experience-title">公開心得整理出的共通結論</h2>
+        <p>NCA-AIIO 專屬心得在公開網路上不算多，因此這裡把 NVIDIA associate / entry-level certification 與 AI infrastructure 類考照準備經驗分開整理成可操作結論。</p>
+      </div>
+      <div class="card-grid card-grid--three">
+        <article class="content-card quote-card"><span class="tag">01</span><h3>偏觀念與情境判斷</h3><p>準備重點不是背單一產品規格，而是知道每個元件在 AI adoption、infrastructure、operations 裡解決什麼問題。</p></article>
+        <article class="content-card quote-card"><span class="tag">02</span><h3>Infrastructure 權重最高</h3><p>很多人會只讀 AI/ML 名詞，但官方藍圖中 AI Infrastructure 佔 40%。GPU、network、storage、power/cooling、cluster 概念不能跳過。</p></article>
+        <article class="content-card quote-card"><span class="tag">03</span><h3>英文題幹要抓 keyword</h3><p>50 題 60 分鐘，讀題速度很重要。看到 latency、throughput、GPU idle、scale-out、monitoring、driver、orchestration 要能快速定位主題。</p></article>
+        <article class="content-card quote-card"><span class="tag">04</span><h3>題庫不是拿來背答案</h3><p>比較有效的方式是把錯題分類，回去補章節，並練習說出每個錯誤選項為什麼不適合題目情境。</p></article>
+        <article class="content-card quote-card"><span class="tag">05</span><h3>官方課程要跑完</h3><p>公開心得普遍不建議只靠零碎文章。官方 self-paced course 能建立 NVIDIA 想考的語言與邏輯。</p></article>
+        <article class="content-card quote-card"><span class="tag">06</span><h3>Operations 題常藏在場景中</h3><p>AI Operations 只有 22%，但 monitoring、GPU health、scheduler、virtualization、resource isolation 常會包在 production 情境題裡。</p></article>
+      </div>
+    </section>
+
+    <section class="page-section" id="method" aria-labelledby="method-title">
+      <div class="section-heading">
+        <p class="eyebrow">Must-Pass Method</p>
+        <h2 id="method-title">建議準備方法</h2>
+        <p>目標不是「看完很多材料」，而是把題目限制條件對應到正確層級與元件。</p>
+      </div>
+      <div class="method-list">
+        <article><h3>第一輪：跑官方課程與 Study Guide</h3><p>先建立考試語言。把官方藍圖三大區塊寫在紙上：Essential AI Knowledge、AI Infrastructure、AI Operations。</p></article>
+        <article><h3>第二輪：讀 100 頁準備教材</h3><p>用 NCA repo 裡的 100 頁 HTML reader 建立完整觀念。不要跳過 data center、network、storage、power/cooling。</p></article>
+        <article><h3>第三輪：限時做 100 題中文題</h3><p>第一次不要看答案，90 分鐘內完成。做完才展開解析，錯題依主題分類。</p></article>
+        <article><h3>第四輪：刷英文 250 題練速度</h3><p>英文題不是只測技術，也測你能否快速辨識題幹。練到看到 keyword 能直接想到考點。</p></article>
+        <article><h3>第五輪：回補錯題章節</h3><p>錯在 TensorRT 就補 inference optimization；錯在 GPU idle 就補 storage/data pipeline/network；錯在 cluster lifecycle 就補 GPU Operator/Kubernetes。</p></article>
+        <article><h3>考前最後 30 分鐘：只看錯題表</h3><p>不要再開新文章。只看 keyword mapping、錯題原因、官方藍圖比例與監考 checklist。</p></article>
+      </div>
+    </section>
+
+    <section class="page-section" id="traps" aria-labelledby="traps-title">
+      <div class="section-heading">
+        <p class="eyebrow">Common Traps</p>
+        <h2 id="traps-title">常見陷阱與注意事項</h2>
+        <p>這些是公開準備經驗與題型推估中最容易失分的地方。</p>
+      </div>
+      <div class="card-grid card-grid--three">
+        <article class="content-card warn-card"><span class="tag">Trap</span><h3>把 TensorRT 當訓練工具</h3><p>TensorRT 是推論最佳化。看到 low latency inference、engine、precision optimization 才是它的主場。</p></article>
+        <article class="content-card warn-card"><span class="tag">Trap</span><h3>GPU idle 就選換 GPU</h3><p>GPU utilization 低常是 data pipeline、storage、network、preprocessing 或 scheduling 沒餵飽 GPU。</p></article>
+        <article class="content-card warn-card"><span class="tag">Trap</span><h3>只背產品名</h3><p>考試更像問「這個場景該用哪一層解決」。要知道 CUDA、TensorRT、Triton、DCGM、GPU Operator 各在哪一層。</p></article>
+        <article class="content-card warn-card"><span class="tag">Trap</span><h3>忽略 power/cooling</h3><p>AI Infrastructure 包含 facility requirements。高密度 GPU server 的電力、散熱、rack capacity 是考點。</p></article>
+        <article class="content-card warn-card"><span class="tag">Trap</span><h3>Operations 只看監控名詞</h3><p>Operations 包含 GPU monitoring、orchestration、job scheduling、virtualization、resource isolation，不只是 Prometheus/Grafana。</p></article>
+        <article class="content-card warn-card"><span class="tag">Trap</span><h3>考前才處理監考環境</h3><p>遠端監考要提前測試 Certiverse、身分證件、攝影機、麥克風、網路、安靜空間與瀏覽器需求。</p></article>
+      </div>
+    </section>
+
+    <section class="page-section" id="checklist" aria-labelledby="checklist-title">
+      <div class="section-heading">
+        <p class="eyebrow">Final Checklist</p>
+        <h2 id="checklist-title">考前 checklist</h2>
+      </div>
+      <ul class="checklist">
+        <li>能說明 AI / ML / DL / GenAI 的差異。</li>
+        <li>能用一句話分辨 training 與 inference。</li>
+        <li>能比較 CPU 與 GPU 架構取向。</li>
+        <li>知道 CUDA、cuDNN、TensorRT、Triton、NGC、DCGM 的角色。</li>
+        <li>知道 GPU memory、MIG、NVLink/NVSwitch 的用途。</li>
+        <li>知道 storage / data pipeline 如何造成 GPU idle。</li>
+        <li>知道 RDMA、InfiniBand、Ethernet、NCCL 和 scale-out 的關係。</li>
+        <li>知道 power、cooling、facility、rack capacity 為什麼是 AI infrastructure。</li>
+        <li>知道 Kubernetes device plugin 與 GPU Operator 的分工。</li>
+        <li>知道 monitoring GPU 要看 utilization、memory、temperature、power、health。</li>
+        <li>知道 job scheduling、orchestration、virtualization、resource isolation 是 AI Operations。</li>
+        <li>完成 100 題中文題並訂正。</li>
+        <li>至少做一輪英文題，練題幹速度。</li>
+        <li>考前確認 Certiverse 帳號、身分證件、網路、攝影機、麥克風。</li>
+      </ul>
+      <div class="notice"><p>建議練習入口：<a href="../mock/materials/nca-aiio-100-must-pass-practice-zh.html">100 題中文衝刺模擬題</a>、<a href="../mock/materials/practice-questions-250-en.html">250 題英文練習</a>。</p></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · 考試心得與準備方法</p><p><a href="../../">回認證首頁</a></p></div></footer>
+</body>
+</html>
