@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="freeCodeCamp NCA-AIIO 影片考點分析：整理對 NVIDIA Certified Associate AI Infrastructure and Operations 考試最有幫助的段落、時間點與準備策略。">
+  <title>freeCodeCamp NCA-AIIO 影片考點分析｜NCA Study Hub</title>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <style>
+    .hero-note{max-width:940px}
+    .watch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .time-card{border:1px solid var(--line);border-radius:8px;background:#fff;padding:16px}
+    .time-card time{font-weight:800;color:var(--accent);display:block;margin-bottom:6px}
+    .score{display:inline-block;border-radius:999px;background:#eef7df;color:#314900;font-weight:800;padding:3px 9px;margin:2px 4px 8px 0}
+    .priority{border-left:5px solid var(--accent)}
+    .trap{border-left:5px solid #d97706;background:#fff8ed}
+    .blueprint{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .blueprint strong{font-size:2rem;color:var(--accent);display:block}
+    .plan li{margin:.5rem 0}
+    @media(max-width:760px){.watch-grid,.blueprint{grid-template-columns:1fr}}
+  </style>
+</head>
+<body class="site">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="NCA-AIIO 導覽">
+      <a class="brand" href="../../"><span class="brand-mark">NCA</span>AIIO</a>
+      <ul class="nav-links">
+        <li><a href="../">完整教材</a></li>
+        <li><a href="../weekend/">週末衝刺</a></li>
+        <li><a href="../tutorial/">技術專題</a></li>
+        <li><a href="../readings/">延伸閱讀</a></li>
+        <li><a href="../mock/">模擬考</a></li>
+        <li><a href="./">考試心得</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Video Analysis</p>
+      <h1>freeCodeCamp NCA-AIIO 影片考點分析</h1>
+      <p class="page-hero__lead hero-note">影片：<a href="https://youtu.be/0WjfKQdfeMU">NVIDIA-Certified Associate AI Infrastructure and Operations (NCA AIIO) Free Study Course</a>。我用字幕與章節整理對考試最有幫助的段落，目標是把影片內容對齊官方藍圖，而不是從頭被動看完 3 小時 54 分鐘。</p>
+      <div class="actions">
+        <a class="button" href="#must-watch">必看段落</a>
+        <a class="button button--ghost" href="../mock/materials/nca-aiio-100-english-exam-style-practice.html">刷英文題型</a>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="verdict-title">
+      <div class="section-heading">
+        <p class="eyebrow">Verdict</p>
+        <h2 id="verdict-title">這支影片對考試有沒有幫助？</h2>
+      </div>
+      <div class="card-grid card-grid--three">
+        <article class="content-card priority"><span class="tag">很有用</span><h3>它補官方課程的語感</h3><p>影片用口語方式解釋 NVIDIA hardware、CUDA、Triton、GPU Operator、DCGM、DPU、storage、cooling。適合拿來把名詞和情境題連起來。</p></article>
+        <article class="content-card priority"><span class="tag">不要全等速看</span><h3>用章節跳看效率最高</h3><p>真正高密度考點集中在 software stack、Triton、cluster operations、hardware datasheet、DPU/storage、GPUDirect Storage 幾段。</p></article>
+        <article class="content-card priority"><span class="tag">不能只靠它</span><h3>仍要回官方藍圖</h3><p>影片有些段落很長、口語、甚至偏展示。考前要把它轉成官方 38% / 40% / 22% 藍圖和錯題清單。</p></article>
+      </div>
+      <div class="blueprint">
+        <div class="content-card"><strong>38%</strong><p>Essential AI Knowledge：AI/ML/DL、training vs inference、GPU/CPU、NVIDIA software stack。</p></div>
+        <div class="content-card"><strong>40%</strong><p>AI Infrastructure：GPU hardware、network、storage、power/cooling、cluster、on-prem vs cloud。</p></div>
+        <div class="content-card"><strong>22%</strong><p>AI Operations：monitoring、orchestration、job scheduling、GPU Operator、DCGM、virtualization。</p></div>
+      </div>
+    </section>
+
+    <section class="page-section" id="must-watch" aria-labelledby="must-title">
+      <div class="section-heading">
+        <p class="eyebrow">Must Watch</p>
+        <h2 id="must-title">考前最值得看的時間點</h2>
+        <p>以下時間點依影片公開章節與字幕整理。建議用 1.25x 或 1.5x，看完每段立刻做題。</p>
+      </div>
+      <div class="watch-grid">
+        <article class="time-card">
+          <time>0:00:00 - 0:15:19</time>
+          <h3>Introduction / 考試定位</h3>
+          <p><span class="score">優先度：中</span><span class="score">用途：建立方向</span></p>
+          <p>影片開頭說明 NCA-AIIO 是 entry-level certification，重點是 data center hardware、management tools、AI infrastructure and operations。這段適合確認考試不是純 ML，而是 AI infrastructure。</p>
+        </article>
+        <article class="time-card">
+          <time>0:15:19 - 2:28:12</time>
+          <h3>NVIDIA Foundations and Accelerated Computing</h3>
+          <p><span class="score">優先度：高</span><span class="score">對應：38%</span></p>
+          <p>這是最長的一段，包含 NVIDIA、GPU、CUDA、software stack、AI/ML 基礎、inference 相關工具。不要逐字背，重點是把 CUDA、cuDNN、Triton、TensorRT、DCGM 放到正確層級。</p>
+        </article>
+        <article class="time-card">
+          <time>2:09:10</time>
+          <h3>Triton Inference Server</h3>
+          <p><span class="score">優先度：高</span><span class="score">對應：Essential AI / Ops</span></p>
+          <p>影片用 web server 類比 inference server：web server 服務網頁，Triton 服務模型，讓 client 呼叫模型取得 prediction/inference。這是英文情境題很可能出現的理解方式。</p>
+        </article>
+        <article class="time-card">
+          <time>2:25:04</time>
+          <h3>Cluster management / Kubernetes / Slurm / GPU Operator / DCGM</h3>
+          <p><span class="score">優先度：最高</span><span class="score">對應：22% Ops</span></p>
+          <p>影片明講考試不需要超深，但要記得 cluster management software 能做 provisioning、workflow management、infrastructure monitoring，並和 Kubernetes / Slurm orchestration 相關。這段非常適合補 AI Operations。</p>
+        </article>
+        <article class="time-card">
+          <time>2:28:12 - 3:28:06</time>
+          <h3>NVIDIA Hardware / H100 / cooling / memory</h3>
+          <p><span class="score">優先度：最高</span><span class="score">對應：40% Infrastructure</span></p>
+          <p>影片提醒 H100 datasheet、SXM/NVL 差異、TDP、GPU-to-GPU communication、memory capacity 都可能變成題幹線索。這段是 hardware + facility 題的主戰場。</p>
+        </article>
+        <article class="time-card">
+          <time>2:29:56</time>
+          <h3>Cooling / memory / model fit</h3>
+          <p><span class="score">優先度：最高</span><span class="score">對應：Infrastructure</span></p>
+          <p>影片提到 cooling、TDP、GPU-to-GPU bandwidth、GPU memory。特別重要的是：inference 要能放下模型；training 通常需要更多 memory。這正是情境題常問的 resource sizing。</p>
+        </article>
+        <article class="time-card">
+          <time>3:03:56</time>
+          <h3>DPU / BlueField</h3>
+          <p><span class="score">優先度：高</span><span class="score">對應：Infrastructure</span></p>
+          <p>DPU 是 data processing unit，和 network interface、storage/security offload、BlueField 相關。考試不一定考細規格，但要知道 DPU 是 data center infrastructure 的 offload/acceleration 元件。</p>
+        </article>
+        <article class="time-card">
+          <time>3:06:24</time>
+          <h3>NVMe / NVMe-oF / RDMA / InfiniBand</h3>
+          <p><span class="score">優先度：最高</span><span class="score">對應：Network + Storage</span></p>
+          <p>這段把 high-performance storage、PCIe、NVMe over Fabrics、Ethernet、Fibre Channel、InfiniBand、RDMA 串在一起。這是 AI Infrastructure 40% 裡很容易失分的地方。</p>
+        </article>
+        <article class="time-card">
+          <time>3:28:06</time>
+          <h3>Advanced AI Acceleration / OOM / SIMT</h3>
+          <p><span class="score">優先度：中高</span><span class="score">對應：GPU architecture</span></p>
+          <p>這段補 single instruction multi-thread、out-of-memory、LLM training memory pressure。看完要能回答：為什麼模型太大會 OOM？training 和 inference 對 memory 的需求為什麼不同？</p>
+        </article>
+        <article class="time-card">
+          <time>3:40:00</time>
+          <h3>GPUDirect Storage / RAPIDS cuDF</h3>
+          <p><span class="score">優先度：高</span><span class="score">對應：Storage bottleneck</span></p>
+          <p>影片提到 GPUDirect Storage 避免 CPU bounce buffer，降低 data loading idle time；RAPIDS cuDF 可協助 GPU dataframe 處理。這段對「GPU idle / storage bottleneck」情境題很有幫助。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="exam-title">
+      <div class="section-heading">
+        <p class="eyebrow">Exam Mapping</p>
+        <h2 id="exam-title">影片內容如何轉成考點</h2>
+      </div>
+      <div class="card-grid card-grid--three">
+        <article class="content-card"><span class="tag">Essential AI</span><h3>CUDA / GPU / inference server</h3><p>要會分辨 CUDA、cuDNN、TensorRT、Triton、DCGM。英文題常問「which component is used for...」。</p></article>
+        <article class="content-card"><span class="tag">Infrastructure</span><h3>H100 / memory / cooling / storage</h3><p>要會看出題幹是在問 memory fit、TDP/cooling、GPU-to-GPU communication、NVMe-oF、RDMA、InfiniBand。</p></article>
+        <article class="content-card"><span class="tag">Operations</span><h3>Cluster / Kubernetes / Slurm / DCGM</h3><p>要會把 provisioning、workflow management、monitoring、scheduling、GPU Operator 放進 AI Operations。</p></article>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="traps-title">
+      <div class="section-heading">
+        <p class="eyebrow">Traps</p>
+        <h2 id="traps-title">看完影片後要避免的誤解</h2>
+      </div>
+      <div class="card-grid card-grid--three">
+        <article class="content-card trap"><span class="tag">Trap</span><h3>不要背一堆硬體數字</h3><p>影片提到 datasheet 數字，但考前重點是知道數字代表什麼：memory capacity、TDP、bandwidth、form factor、communication path。</p></article>
+        <article class="content-card trap"><span class="tag">Trap</span><h3>不要把 Triton 和 TensorRT 混在一起</h3><p>Triton 是 serving server；TensorRT 是 inference optimization。題目問 serving 多模型，多半不是 TensorRT 單獨解決。</p></article>
+        <article class="content-card trap"><span class="tag">Trap</span><h3>不要把 GPU idle 全怪 GPU</h3><p>影片後段很適合記住：storage、CPU preprocessing、data loader、GDS、cuDF 都可能和 GPU idle 有關。</p></article>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="plan-title">
+      <div class="section-heading">
+        <p class="eyebrow">100% Strategy</p>
+        <h2 id="plan-title">把影片變成必過準備流程</h2>
+        <p>不能保證 100%，但可以把風險降到最低。照下面流程跑，會比單純看影片有效很多。</p>
+      </div>
+      <ol class="plan">
+        <li>先看 2:25:04、2:29:56、3:06:24、3:40:00 四段，補最容易失分的 Infrastructure / Operations。</li>
+        <li>回到 0:15:19 - 2:28:12，用 1.5x 掃 NVIDIA software stack，整理 CUDA、cuDNN、TensorRT、Triton、DCGM。</li>
+        <li>做 <a href="../mock/materials/nca-aiio-100-english-exam-style-practice.html">100 題英文題型</a>，錯題只分四類：Essential AI、Infrastructure、Operations、英文題幹誤判。</li>
+        <li>錯在 hardware/facility：重看 2:28:12 - 3:28:06；錯在 storage/network：重看 3:06:24；錯在 operations：重看 2:25:04。</li>
+        <li>考前最後一天只看本頁、官方藍圖、錯題清單，不再開新影片。</li>
+      </ol>
+      <div class="notice"><p>影片來源：freeCodeCamp.org，<a href="https://youtu.be/0WjfKQdfeMU">NVIDIA-Certified Associate AI Infrastructure and Operations (NCA AIIO) Free Study Course</a>。本頁是學習整理，不是官方考題或考試保證。</p></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · freeCodeCamp 影片考點分析</p><p><a href="./">回考試心得</a></p></div></footer>
+</body>
+</html>
