@@ -4,7 +4,7 @@ Source study materials retained in Git for browsing, download, and version histo
 
 | File | Description | Source label |
 | --- | --- | --- |
-| `suggested-readings-nvidia-weekend-100page.html` | 100-page weekend prep guide generated from the 9 suggested readings plus NVIDIA tutorial topics, with search, print, and self-check prompts. | suggested_readings_nvidia_weekend_100page.html |
+| `suggested-readings-nvidia-weekend-100page.html` | Native HTML reading-mode 100-page weekend prep guide generated from the 9 suggested readings plus NVIDIA tutorial topics, with search, print, and self-check prompts. Not converted from PPTX. | suggested_readings_nvidia_weekend_100page.html |
 | `ai-ml-systems-deployment-100page-guide.html` | Standalone 100-page AI/ML systems and deployment guide with 50 expandable practice questions. | nvidia_ai_certification_100page_guide.html |
 | `complete-guide-v4.html` | Recommended guide with Software Stack, Kubernetes labs, and AI Operations review appendices. | NCA_AIIO_Weekend_Complete_Guide_v4.html |
 | `complete-guide-v3.html` | Previous expanded guide with Software Stack and three-stage Kubernetes tutorial appendices. | NCA_AIIO_Weekend_Complete_Guide_v3.html |

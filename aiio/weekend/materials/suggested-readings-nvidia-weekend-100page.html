@@ -86,7 +86,7 @@
       background: white;
     }
     .meta { color: var(--muted); font-size: 14px; }
-    .slide {
+    .reader-page {
       min-height: 620px;
       margin: 0 0 22px;
       padding: 34px;
@@ -98,10 +98,10 @@
       break-after: page;
       page-break-after: always;
     }
-    .slide:nth-child(4n+1) { border-left-color: var(--green); }
-    .slide:nth-child(4n+2) { border-left-color: var(--blue); }
-    .slide:nth-child(4n+3) { border-left-color: var(--amber); }
-    .slide:nth-child(4n+4) { border-left-color: var(--violet); }
+    .reader-page:nth-child(4n+1) { border-left-color: var(--green); }
+    .reader-page:nth-child(4n+2) { border-left-color: var(--blue); }
+    .reader-page:nth-child(4n+3) { border-left-color: var(--amber); }
+    .reader-page:nth-child(4n+4) { border-left-color: var(--violet); }
     .kicker { color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
     h2 { margin: 8px 0 12px; font-size: clamp(26px, 4vw, 42px); line-height: 1.18; letter-spacing: 0; }
     h3 { margin: 22px 0 8px; font-size: 20px; letter-spacing: 0; }
@@ -118,14 +118,14 @@
       header { min-height: 64vh; padding: 42px 22px; }
       main, nav, footer { padding-left: 18px; padding-right: 18px; }
       .toolbar { grid-template-columns: 1fr; }
-      .slide { min-height: auto; padding: 22px; }
+      .reader-page { min-height: auto; padding: 22px; }
       .grid { grid-template-columns: 1fr; }
     }
     @media print {
       nav, .toolbar { display: none; }
       body { background: white; }
       header { min-height: 100vh; }
-      .slide { min-height: 95vh; box-shadow: none; border-radius: 0; margin: 0; }
+      .reader-page { min-height: 95vh; box-shadow: none; border-radius: 0; margin: 0; }
     }
   </style>
 </head>
@@ -133,17 +133,17 @@
   <header id="top">
     <div class="kicker">Weekend certification bootcamp</div>
     <h1>NVIDIA AI 推論證照週末速成教材</h1>
-    <p>依 9 篇推薦閱讀與 NVIDIA 教學主題整理成 100 頁 HTML 教材，適合週六建立觀念、週日複習題庫與部署情境。</p>
+    <p>依 9 篇推薦閱讀與 NVIDIA 教學主題整理成 100 頁原生 HTML 閱讀教材，適合週六建立觀念、週日複習題庫與部署情境。</p>
   </header>
   <nav>
     <a href="#study-plan">讀書節奏</a>
-    <a href="#slides">100 頁教材</a>
+    <a href="#reader-pages">100 頁閱讀教材</a>
     <a href="#sources">參考文章</a>
     <button type="button" onclick="window.print()">列印 / 轉 PDF</button>
   </nav>
   <main>
-    <section class="slide" id="study-plan">
-      <div class="kicker">Page 0</div>
+    <section class="reader-page" id="study-plan">
+      <div class="kicker">Reading Guide</div>
       <h2>週末讀書節奏</h2>
       <div class="grid">
         <div class="box">
@@ -164,8 +164,8 @@
         </div>
       </div>
     </section>
-    <section id="slides"></section>
-    <section class="slide sources" id="sources">
+    <section id="reader-pages"></section>
+    <section class="reader-page sources" id="sources">
       <div class="kicker">Reference</div>
       <h2>參考文章與官方入口</h2>
       <ol>
@@ -430,26 +430,26 @@
       }
     ];
 
-    const slideTypes = [
-      { label: "觀念頁", lead: "先抓住本章最可能出現在考題裡的核心觀念。", prompt: "用自己的話重述本頁三個重點。" },
-      { label: "考點頁", lead: "把文章內容轉成考場會問的判斷線索。", prompt: "看到題目時，先圈出能判斷場景的關鍵字。" },
-      { label: "架構頁", lead: "用系統角度看元件、資料流、瓶頸與維運責任。", prompt: "畫一張最小架構圖，標出誰輸入、誰處理、誰監控。" },
-      { label: "複習頁", lead: "用小題目檢查自己是否真的能分辨相近概念。", prompt: "閉卷回答問題，再回本頁核對。" },
-      { label: "實戰頁", lead: "把觀念放回 production 或考試情境中使用。", prompt: "用 3 分鐘完成 lab，超時就先寫假設。" }
+    const readingSections = [
+      { label: "核心觀念", lead: "先抓住本章最可能出現在考題裡的核心觀念。", prompt: "用自己的話重述本頁三個重點。" },
+      { label: "考點導讀", lead: "把文章內容轉成考場會問的判斷線索。", prompt: "看到題目時，先圈出能判斷場景的關鍵字。" },
+      { label: "架構理解", lead: "用系統角度看元件、資料流、瓶頸與維運責任。", prompt: "畫一張最小架構圖，標出誰輸入、誰處理、誰監控。" },
+      { label: "閱讀自測", lead: "用小題目檢查自己是否真的能分辨相近概念。", prompt: "閉卷回答問題，再回本頁核對。" },
+      { label: "實作延伸", lead: "把觀念放回 production 或考試情境中使用。", prompt: "用 3 分鐘完成 lab，超時就先寫假設。" }
     ];
 
-    const slides = [];
+    const pages = [];
     modules.forEach((module, moduleIndex) => {
-      slideTypes.forEach((type, typeIndex) => {
-        const number = moduleIndex * slideTypes.length + typeIndex + 1;
-        slides.push({ number, moduleIndex: moduleIndex + 1, module, type });
+      readingSections.forEach((type, typeIndex) => {
+        const number = moduleIndex * readingSections.length + typeIndex + 1;
+        pages.push({ number, moduleIndex: moduleIndex + 1, module, type });
       });
     });
 
-    const container = document.querySelector("#slides");
-    container.innerHTML = slides.map(({ number, moduleIndex, module, type }) => `
-      <article class="slide" id="page-${number}">
-        <div class="kicker">Page ${String(number).padStart(3, "0")} / Module ${moduleIndex} / ${type.label}</div>
+    const container = document.querySelector("#reader-pages");
+    container.innerHTML = pages.map(({ number, moduleIndex, module, type }) => `
+      <article class="reader-page" id="page-${number}">
+        <div class="kicker">Reading Page ${String(number).padStart(3, "0")} / Module ${moduleIndex} / ${type.label}</div>
         <h2>${module.title}</h2>
         <p>${type.lead}</p>
         <div>${module.terms.map(term => `<span class="term">${term}</span>`).join("")}</div>
@@ -474,13 +474,13 @@
     search.className = "toolbar";
     search.innerHTML = `
       <input id="q" type="search" placeholder="搜尋：TensorRT、GPU Operator、latency、training..." />
-      <span class="meta">教材頁數：${slides.length} 頁</span>
+      <span class="meta">教材頁數：${pages.length} 頁</span>
     `;
     container.before(search);
     document.querySelector("#q").addEventListener("input", event => {
       const q = event.target.value.trim().toLowerCase();
-      document.querySelectorAll("#slides .slide").forEach(slide => {
-        slide.hidden = q && !slide.textContent.toLowerCase().includes(q);
+      document.querySelectorAll("#reader-pages .reader-page").forEach(page => {
+        page.hidden = q && !page.textContent.toLowerCase().includes(q);
       });
     });
   </script>
