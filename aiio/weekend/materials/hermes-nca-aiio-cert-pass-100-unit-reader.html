@@ -1,0 +1,613 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="赫少獨立重新生成的 NVIDIA NCA-AIIO 100 單元週末考照準備教材，精準對齊官方 38/40/22 考試藍圖。"><title>赫少版｜NCA-AIIO 100 單元考照準備教材</title>
+<style>
+:root{--g:#76b900;--bg:#070907;--ink:#161a16;--paper:#fbfcf8;--muted:#667064;--line:#d9ded2;--warn:#f2a900}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#fff;font-family:Inter,"Noto Sans TC",system-ui,-apple-system,sans-serif;line-height:1.65}a{color:inherit}.bar{position:sticky;top:0;z-index:30;background:rgba(0,0,0,.94);border-bottom:1px solid #303630}.bar-inner{max-width:1320px;margin:auto;padding:12px 22px;display:flex;gap:14px;align-items:center}.brand{text-decoration:none;font-weight:900}.brand i{font-style:normal;color:var(--g)}.search{margin-left:auto;background:#141714;border:1px solid #3a4235;padding:8px 12px;min-width:280px}.search input{width:100%;background:none;border:0;outline:0;color:#fff}button{background:transparent;color:#fff;border:2px solid var(--g);padding:7px 11px;font-weight:800;cursor:pointer}#progress{height:4px;background:var(--g);display:block;width:0;transition:.2s}.hero{background:radial-gradient(circle at 80% 20%,rgba(118,185,0,.18),transparent 30%),#000}.hero-inner{max-width:1320px;margin:auto;padding:76px 22px 62px;display:grid;grid-template-columns:1.35fr .65fr;gap:48px}.kicker{color:var(--g);font-weight:900;letter-spacing:.15em;font-size:.75rem}h1{font-size:clamp(2.6rem,6vw,5.5rem);line-height:1.02;letter-spacing:-.055em;margin:12px 0 24px}.lead{font-size:1.12rem;color:#c8cec3;max-width:780px}.disclaimer{border-left:4px solid var(--warn);padding:12px 16px;background:#231a04;color:#f7dfa1}.blueprint{display:grid;gap:1px;background:#333;border:1px solid #333;align-self:end}.weight{background:#0c0e0c;padding:20px;display:grid;grid-template-columns:72px 1fr;align-items:center}.weight b{font-size:2rem;color:var(--g)}.weight span{color:#aaa;font-size:.86rem;white-space:nowrap}.shell{max-width:1320px;margin:auto;padding:38px 22px 88px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:34px}.side{position:sticky;top:82px;height:calc(100vh - 96px);overflow:auto}.side h2{font-size:.72rem;letter-spacing:.14em;color:#8a9388}.side a{display:block;text-decoration:none;border-bottom:1px solid #2c312b;padding:9px 0;color:#c2c9bf;font-size:.84rem}.side a:hover{color:var(--g)}.plan{margin-top:20px;border:1px solid #303630;padding:15px;font-size:.78rem;color:#abb2a8}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}.filters button.active{background:var(--g);color:#000}.study-unit{scroll-margin-top:82px;background:var(--paper);color:var(--ink);border-top:3px solid var(--g);padding:32px;margin:0 0 22px;box-shadow:0 10px 24px rgba(0,0,0,.28)}.study-unit>header{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px;font-size:.72rem;letter-spacing:.08em}.study-unit>header b{color:#4e7900}.study-unit h2{font-size:clamp(1.55rem,3vw,2.25rem);letter-spacing:-.035em;line-height:1.2}.unit-layout{display:grid;grid-template-columns:1.5fr .65fr;gap:24px}.unit-layout>section{background:#fff;border:1px solid var(--line);padding:22px}.unit-layout h3{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 7px}.unit-layout h3:not(:first-child){margin-top:22px}.unit-layout aside{background:#111;color:#fff;padding:22px;border-left:4px solid var(--g)}.unit-layout aside>span{color:var(--g);font-weight:900;font-size:.72rem;letter-spacing:.15em}details summary{cursor:pointer;font-weight:800}.citations{font-size:.76rem;color:var(--muted)}.citations a{color:#4c7600;font-weight:800}.done{display:flex;gap:8px;align-items:center;margin-top:18px;color:#667064;font-size:.82rem}.done input{width:18px;height:18px;accent-color:var(--g)}.exam,.sources{max-width:1320px;margin:0 auto 80px;padding:0 22px}.exam-box,.source-box{background:#0c0e0c;border:1px solid #343a32;padding:30px}.exam-head{display:flex;justify-content:space-between;align-items:end;gap:20px}#exam-timer{font:800 2rem ui-monospace,monospace;color:var(--g)}.mock-question{background:#151915;border:1px solid #303630;padding:14px 18px;margin:10px 0}.mock-question summary{display:flex;gap:12px}.mock-question summary span{color:var(--g)}.mock-question p{color:#c7cec4}.source-box li{margin:.55rem 0;color:#bac1b7}.source-link{text-decoration-color:var(--g);text-underline-offset:4px}footer{text-align:center;color:#7f897c;border-top:1px solid #2b302a;padding:28px}[hidden]{display:none!important}
+@media(max-width:900px){.hero-inner,.shell{grid-template-columns:1fr}.weight span{white-space:normal}.side{position:static;height:auto}.unit-layout{grid-template-columns:1fr}.search{min-width:0}}@media(max-width:620px){.bar-inner{padding:10px}.brand span,button.print{display:none}.search{width:100%}.hero-inner{padding:48px 16px}.shell,.exam,.sources{padding-left:12px;padding-right:12px}.study-unit{padding:22px 16px}}@media print{.bar,.hero,.side,.filters,.done,.exam,.sources,footer{display:none!important}body{background:#fff}.shell{display:block;padding:0;max-width:none}.study-unit{box-shadow:none;margin:0;page-break-after:always;min-height:95vh}}
+</style></head><body>
+<header class="bar"><div class="bar-inner"><a class="brand" href="../"><i>赫少</i> NCA-AIIO <span>PASS KIT</span></a><label class="search"><input id="search" type="search" placeholder="搜尋 100 單元…"></label><button class="print" onclick="window.print()">列印 / PDF</button></div><span id="progress"></span></header>
+<section class="hero"><div class="hero-inner"><div><div class="kicker">INDEPENDENTLY REBUILT · OFFICIAL BLUEPRINT ALIGNED</div><h1>NCA-AIIO<br>考照準備教材</h1><p class="lead">赫少獨立重新生成的 100 單元 HTML 閱讀版。內容依 NVIDIA 官方藍圖精準配置：Essential AI Knowledge 38、AI Infrastructure 40、AI Operations 22。</p><p class="disclaimer">「必過」是準備目標，不是通過保證。本教材不是 NVIDIA 官方教材，也不包含真實考題；正式要求請以官方頁面為準。</p></div><div class="blueprint"><div class="weight"><b>38%</b><span>Essential AI Knowledge · Units 001–038</span></div><div class="weight"><b>40%</b><span>AI Infrastructure · Units 039–078</span></div><div class="weight"><b>22%</b><span>AI Operations · Units 079–100</span></div><div class="weight"><b>50</b><span>獨立自製模擬題 · 60 分鐘</span></div></div></div></section>
+<div class="shell"><aside class="side"><h2>100-UNIT INDEX</h2><a href="#unit-1">001–038 Essential AI Knowledge</a><a href="#unit-39">039–078 AI Infrastructure</a><a href="#unit-79">079–100 AI Operations</a><a href="#mock-exam">50 題模擬考</a><a href="#sources">已驗證來源</a><div class="plan"><b>週六</b><br>Units 001–038 → 039–058<br><b>週日</b><br>Units 059–100 → 50 題模擬考<br><br><b>過關規則</b><br>每單元先閉卷回答 CHECK，再開答案。</div></aside><main><div class="filters"><button class="active" data-filter="all">全部 100</button><button data-filter="essential">Essential 38</button><button data-filter="infrastructure">Infrastructure 40</button><button data-filter="operations">Operations 22</button></div><article class="study-unit" id="unit-1" data-unit="1" data-domain="essential" data-search="官方藍圖與得分策略 nca-aiio 為入門級 ai 基礎設施與維運認證；官方藍圖分成 essential ai knowledge 38%、ai infrastructure 40%、ai operations 22%。 準備時間也應依 38/40/22 分配，而不是只背 gpu 產品。">
+<header><span>UNIT 001</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>官方藍圖與得分策略</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>NCA-AIIO 為入門級 AI 基礎設施與維運認證；官方藍圖分成 Essential AI Knowledge 38%、AI Infrastructure 40%、AI Operations 22%。</p><h3>考場判斷線索</h3><p>準備時間也應依 38/40/22 分配，而不是只背 GPU 產品。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>若你只有 10 小時，哪一領域至少應分配約 4 小時？</strong></p><details><summary>顯示答案</summary><p>AI Infrastructure，因為官方權重最高為 40%。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="1">完成這個單元</label>
+</article><article class="study-unit" id="unit-2" data-unit="2" data-domain="essential" data-search="ai、ml、dl 的集合關係 ai 是能運用資訊做決策或預測的總稱；ml 是從資料學模式的 ai 子集；dl 是以深層神經網路為核心的 ml 子集。 看到「所有 ml 都是 ai」正確；反過來通常錯。">
+<header><span>UNIT 002</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>AI、ML、DL 的集合關係</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>AI 是能運用資訊做決策或預測的總稱；ML 是從資料學模式的 AI 子集；DL 是以深層神經網路為核心的 ML 子集。</p><h3>考場判斷線索</h3><p>看到「所有 ML 都是 AI」正確；反過來通常錯。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>規則式專家系統一定屬於 ML 嗎？</strong></p><details><summary>顯示答案</summary><p>不一定；它可能是 AI，但沒有從資料學習。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="2">完成這個單元</label>
+</article><article class="study-unit" id="unit-3" data-unit="3" data-domain="essential" data-search="監督式學習 使用帶標籤資料學習輸入到目標輸出的映射，常見任務是分類與回歸。 題目若同時給 training examples 與正確答案，優先想到 supervised learning。">
+<header><span>UNIT 003</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>監督式學習</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>使用帶標籤資料學習輸入到目標輸出的映射，常見任務是分類與回歸。</p><h3>考場判斷線索</h3><p>題目若同時給 training examples 與正確答案，優先想到 supervised learning。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>垃圾郵件分類有每封信的 spam/ham 標籤，屬於哪類學習？</strong></p><details><summary>顯示答案</summary><p>監督式學習。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="3">完成這個單元</label>
+</article><article class="study-unit" id="unit-4" data-unit="4" data-domain="essential" data-search="非監督式學習 沒有明確標籤，模型從資料中找結構、群集或低維表示。 題目出現 clustering、customer segmentation、pattern discovery 時要想到 unsupervised。">
+<header><span>UNIT 004</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>非監督式學習</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>沒有明確標籤，模型從資料中找結構、群集或低維表示。</p><h3>考場判斷線索</h3><p>題目出現 clustering、customer segmentation、pattern discovery 時要想到 unsupervised。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>沒有客戶類別標籤，仍想自動分群，應選哪類方法？</strong></p><details><summary>顯示答案</summary><p>非監督式學習。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="4">完成這個單元</label>
+</article><article class="study-unit" id="unit-5" data-unit="5" data-domain="essential" data-search="強化學習 agent 在環境中採取行動，根據 reward 學習策略；核心不是標籤，而是延遲回饋。 看到 policy、reward、environment、agent 即鎖定 reinforcement learning。">
+<header><span>UNIT 005</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>強化學習</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Agent 在環境中採取行動，根據 reward 學習策略；核心不是標籤，而是延遲回饋。</p><h3>考場判斷線索</h3><p>看到 policy、reward、environment、agent 即鎖定 reinforcement learning。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a></p></section>
+<aside><span>CHECK</span><p><strong>機器人以成功抓取物體取得獎勵，這是什麼學習？</strong></p><details><summary>顯示答案</summary><p>強化學習。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="5">完成這個單元</label>
+</article><article class="study-unit" id="unit-6" data-unit="6" data-domain="essential" data-search="模型訓練生命週期 資料準備、訓練、驗證、部署、監控與再訓練形成循環；部署不是終點。 題目問 lifecycle 時，要同時想到 data、model、runtime 與 monitoring。">
+<header><span>UNIT 006</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>模型訓練生命週期</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>資料準備、訓練、驗證、部署、監控與再訓練形成循環；部署不是終點。</p><h3>考場判斷線索</h3><p>題目問 lifecycle 時，要同時想到 data、model、runtime 與 monitoring。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a></p></section>
+<aside><span>CHECK</span><p><strong>模型上線後資料分布改變，下一步只調伺服器就夠嗎？</strong></p><details><summary>顯示答案</summary><p>不夠；需監控 drift，必要時更新資料並再訓練。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="6">完成這個單元</label>
+</article><article class="study-unit" id="unit-7" data-unit="7" data-domain="essential" data-search="推論的本質 inference 使用已訓練且通常固定的權重，對新輸入產生預測或生成結果。 「是否更新權重」是分辨 training 與 inference 的最快線索。">
+<header><span>UNIT 007</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>推論的本質</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Inference 使用已訓練且通常固定的權重，對新輸入產生預測或生成結果。</p><h3>考場判斷線索</h3><p>「是否更新權重」是分辨 training 與 inference 的最快線索。</p><p class="citations">依據 <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S4" title="NVIDIA TensorRT Documentation">[S4]</a> <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a></p></section>
+<aside><span>CHECK</span><p><strong>線上 API 讀取固定模型回答請求，屬於哪個階段？</strong></p><details><summary>顯示答案</summary><p>Inference。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="7">完成這個單元</label>
+</article><article class="study-unit" id="unit-8" data-unit="8" data-domain="essential" data-search="訓練與推論比較 training 重長時間吞吐、資料與反向傳播；inference 重 latency、throughput、可靠性與單次成本。 同一模型在兩階段的硬體與軟體最佳化方向不同。">
+<header><span>UNIT 008</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>訓練與推論比較</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Training 重長時間吞吐、資料與反向傳播；inference 重 latency、throughput、可靠性與單次成本。</p><h3>考場判斷線索</h3><p>同一模型在兩階段的硬體與軟體最佳化方向不同。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a></p></section>
+<aside><span>CHECK</span><p><strong>要求每個請求 100ms 內回應，主要是哪個階段的考量？</strong></p><details><summary>顯示答案</summary><p>推論階段。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="8">完成這個單元</label>
+</article><article class="study-unit" id="unit-9" data-unit="9" data-domain="essential" data-search="資料品質與代表性 模型只能從提供的資料學習；偏差、缺漏、錯標與不代表真實世界的資料會限制泛化。 「更多資料」不必然勝過「更乾淨且代表性更高的資料」。">
+<header><span>UNIT 009</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>資料品質與代表性</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>模型只能從提供的資料學習；偏差、缺漏、錯標與不代表真實世界的資料會限制泛化。</p><h3>考場判斷線索</h3><p>「更多資料」不必然勝過「更乾淨且代表性更高的資料」。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>訓練準確率高但新客群表現差，先檢查什麼？</strong></p><details><summary>顯示答案</summary><p>資料分布、代表性與泛化問題。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="9">完成這個單元</label>
+</article><article class="study-unit" id="unit-10" data-unit="10" data-domain="essential" data-search="泛化與過度擬合 generalization 是對未見資料仍有效；overfitting 則過度記住訓練資料。 訓練分數高、驗證分數差，是 overfitting 的典型訊號。">
+<header><span>UNIT 010</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>泛化與過度擬合</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Generalization 是對未見資料仍有效；overfitting 則過度記住訓練資料。</p><h3>考場判斷線索</h3><p>訓練分數高、驗證分數差，是 overfitting 的典型訊號。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a></p></section>
+<aside><span>CHECK</span><p><strong>模型在 training set 99%、validation 70%，最可能是什麼？</strong></p><details><summary>顯示答案</summary><p>過度擬合。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="10">完成這個單元</label>
+</article><article class="study-unit" id="unit-11" data-unit="11" data-domain="essential" data-search="模型評估與指標 分類常看 precision、recall、f1；回歸常看 mae/mse；production 還需 latency、cost 與可靠性。 不要只選 accuracy；先看錯誤代價與業務目標。">
+<header><span>UNIT 011</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>模型評估與指標</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>分類常看 precision、recall、F1；回歸常看 MAE/MSE；production 還需 latency、cost 與可靠性。</p><h3>考場判斷線索</h3><p>不要只選 accuracy；先看錯誤代價與業務目標。</p><p class="citations">依據 <a href="#source-S8" title="IBM: What Is Machine Learning?">[S8]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>漏掉病患的代價極高，應特別重視哪個分類指標？</strong></p><details><summary>顯示答案</summary><p>Recall。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="11">完成這個單元</label>
+</article><article class="study-unit" id="unit-12" data-unit="12" data-domain="essential" data-search="生成式 ai 生成式模型根據學到的分布產生新內容，例如文字、圖像、音訊或程式碼。 分類模型選標籤；生成模型產生內容，兩者輸出型態不同。">
+<header><span>UNIT 012</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>生成式 AI</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>生成式模型根據學到的分布產生新內容，例如文字、圖像、音訊或程式碼。</p><h3>考場判斷線索</h3><p>分類模型選標籤；生成模型產生內容，兩者輸出型態不同。</p><p class="citations">依據 <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a></p></section>
+<aside><span>CHECK</span><p><strong>產生新的產品描述屬於預測分類還是生成？</strong></p><details><summary>顯示答案</summary><p>生成式 AI。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="12">完成這個單元</label>
+</article><article class="study-unit" id="unit-13" data-unit="13" data-domain="essential" data-search="transformer 與 llm transformer 以 attention 處理序列並支援高度平行的訓練；llm 是其成功應用。 考試通常測架構用途，不要求推導 attention 公式。">
+<header><span>UNIT 013</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Transformer 與 LLM</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Transformer 以 attention 處理序列並支援高度平行的訓練；LLM 是其成功應用。</p><h3>考場判斷線索</h3><p>考試通常測架構用途，不要求推導 attention 公式。</p><p class="citations">依據 <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a></p></section>
+<aside><span>CHECK</span><p><strong>為什麼 transformer 適合大型語言模型？</strong></p><details><summary>顯示答案</summary><p>能有效建模長距依賴，且訓練時可平行處理序列。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="13">完成這個單元</label>
+</article><article class="study-unit" id="unit-14" data-unit="14" data-domain="essential" data-search="token、prompt 與 context token 是模型處理的基本序列單位；prompt 是輸入指令；context window 是可參考的上下文範圍。 較長 context 通常增加記憶體與計算需求。">
+<header><span>UNIT 014</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Token、Prompt 與 Context</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Token 是模型處理的基本序列單位；prompt 是輸入指令；context window 是可參考的上下文範圍。</p><h3>考場判斷線索</h3><p>較長 context 通常增加記憶體與計算需求。</p><p class="citations">依據 <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a></p></section>
+<aside><span>CHECK</span><p><strong>輸入 token 倍增時，推論成本通常如何變化？</strong></p><details><summary>顯示答案</summary><p>通常上升，且可能增加延遲與記憶體需求。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="14">完成這個單元</label>
+</article><article class="study-unit" id="unit-15" data-unit="15" data-domain="essential" data-search="rag、微調與提示工程 rag 在生成前檢索外部知識；fine-tuning 調整參數；prompt engineering 不必改權重。 題目問「更新知識且要可追溯來源」時，rag 常比重訓更直接。">
+<header><span>UNIT 015</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>RAG、微調與提示工程</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>RAG 在生成前檢索外部知識；fine-tuning 調整參數；prompt engineering 不必改權重。</p><h3>考場判斷線索</h3><p>題目問「更新知識且要可追溯來源」時，RAG 常比重訓更直接。</p><p class="citations">依據 <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a></p></section>
+<aside><span>CHECK</span><p><strong>內規每天更新，想避免頻繁重訓，優先考慮什麼？</strong></p><details><summary>顯示答案</summary><p>RAG。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="15">完成這個單元</label>
+</article><article class="study-unit" id="unit-16" data-unit="16" data-domain="essential" data-search="加速運算 把適合平行化的計算交給專用加速器，讓 cpu 與 gpu 分工，而非所有工作都由 cpu 處理。 先判斷 workload 是否具高度資料平行性。">
+<header><span>UNIT 016</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>加速運算</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>把適合平行化的計算交給專用加速器，讓 CPU 與 GPU 分工，而非所有工作都由 CPU 處理。</p><h3>考場判斷線索</h3><p>先判斷 workload 是否具高度資料平行性。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S10" title="AWS: What’s the Difference Between a CPU and a GPU?">[S10]</a></p></section>
+<aside><span>CHECK</span><p><strong>含大量矩陣乘法的深度學習工作適合哪種處理器？</strong></p><details><summary>顯示答案</summary><p>GPU。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="16">完成這個單元</label>
+</article><article class="study-unit" id="unit-17" data-unit="17" data-domain="essential" data-search="cpu 與 gpu 架構 cpu 以較少而強的核心處理序列控制與低延遲分支；gpu 以大量較小核心處理平行工作。 不是「gpu 永遠更快」，而是架構是否匹配 workload。">
+<header><span>UNIT 017</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>CPU 與 GPU 架構</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>CPU 以較少而強的核心處理序列控制與低延遲分支；GPU 以大量較小核心處理平行工作。</p><h3>考場判斷線索</h3><p>不是「GPU 永遠更快」，而是架構是否匹配 workload。</p><p class="citations">依據 <a href="#source-S10" title="AWS: What’s the Difference Between a CPU and a GPU?">[S10]</a></p></section>
+<aside><span>CHECK</span><p><strong>資料庫控制流程與大量分支邏輯通常優先使用什麼？</strong></p><details><summary>顯示答案</summary><p>CPU。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="17">完成這個單元</label>
+</article><article class="study-unit" id="unit-18" data-unit="18" data-domain="essential" data-search="gpu streaming multiprocessor sm 是 gpu 執行與排程大量 threads 的主要計算單元，內含多種運算資源。 認識 sm 的角色即可，不要把 sm 與整張 gpu 混為一談。">
+<header><span>UNIT 018</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>GPU Streaming Multiprocessor</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>SM 是 GPU 執行與排程大量 threads 的主要計算單元，內含多種運算資源。</p><h3>考場判斷線索</h3><p>認識 SM 的角色即可，不要把 SM 與整張 GPU 混為一談。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S11" title="NVIDIA CUDA Documentation">[S11]</a></p></section>
+<aside><span>CHECK</span><p><strong>大量 threads 在 GPU 上由哪個主要硬體單元組織執行？</strong></p><details><summary>顯示答案</summary><p>Streaming Multiprocessor。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="18">完成這個單元</label>
+</article><article class="study-unit" id="unit-19" data-unit="19" data-domain="essential" data-search="tensor core tensor cores 專門加速矩陣乘加與支援的低精度運算，對深度學習訓練與推論重要。 題目提到 mixed precision 與矩陣運算加速時要想到 tensor core。">
+<header><span>UNIT 019</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Tensor Core</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Tensor Cores 專門加速矩陣乘加與支援的低精度運算，對深度學習訓練與推論重要。</p><h3>考場判斷線索</h3><p>題目提到 mixed precision 與矩陣運算加速時要想到 Tensor Core。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a></p></section>
+<aside><span>CHECK</span><p><strong>FP16 矩陣乘法想取得專用硬體加速，關鍵單元是什麼？</strong></p><details><summary>顯示答案</summary><p>Tensor Core。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="19">完成這個單元</label>
+</article><article class="study-unit" id="unit-20" data-unit="20" data-domain="essential" data-search="gpu 記憶體階層 registers、cache、shared memory 與 hbm/vram 有不同容量、延遲與可見範圍；資料移動會影響效能。 算力高但 memory bandwidth 不足，gpu 仍可能等待資料。">
+<header><span>UNIT 020</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>GPU 記憶體階層</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Registers、cache、shared memory 與 HBM/VRAM 有不同容量、延遲與可見範圍；資料移動會影響效能。</p><h3>考場判斷線索</h3><p>算力高但 memory bandwidth 不足，GPU 仍可能等待資料。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>模型放不進 GPU memory，最直接限制的是什麼？</strong></p><details><summary>顯示答案</summary><p>可用 GPU 記憶體容量。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="20">完成這個單元</label>
+</article><article class="study-unit" id="unit-21" data-unit="21" data-domain="essential" data-search="平行主義：資料與模型 data parallel 複製模型、切資料；model parallel 切分模型；大型模型常混合多種並行策略。 模型放不進單卡時，單純增加 data parallel 不會解決容量問題。">
+<header><span>UNIT 021</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>平行主義：資料與模型</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Data parallel 複製模型、切資料；model parallel 切分模型；大型模型常混合多種並行策略。</p><h3>考場判斷線索</h3><p>模型放不進單卡時，單純增加 data parallel 不會解決容量問題。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S12" title="NVIDIA NCCL Documentation">[S12]</a></p></section>
+<aside><span>CHECK</span><p><strong>模型權重超過單卡 VRAM，優先考慮哪類並行？</strong></p><details><summary>顯示答案</summary><p>模型或張量/管線並行。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="21">完成這個單元</label>
+</article><article class="study-unit" id="unit-22" data-unit="22" data-domain="essential" data-search="cuda 的定位 cuda 是 nvidia gpu 平行運算平台與程式設計模型，提供執行 kernel、管理記憶體與開發 gpu 應用的基礎。 cuda 是底層平台，不等於 tensorrt 或 serving server。">
+<header><span>UNIT 022</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>CUDA 的定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>CUDA 是 NVIDIA GPU 平行運算平台與程式設計模型，提供執行 kernel、管理記憶體與開發 GPU 應用的基礎。</p><h3>考場判斷線索</h3><p>CUDA 是底層平台，不等於 TensorRT 或 serving server。</p><p class="citations">依據 <a href="#source-S11" title="NVIDIA CUDA Documentation">[S11]</a></p></section>
+<aside><span>CHECK</span><p><strong>要撰寫自訂 GPU kernel，最直接使用哪個平台？</strong></p><details><summary>顯示答案</summary><p>CUDA。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="22">完成這個單元</label>
+</article><article class="study-unit" id="unit-23" data-unit="23" data-domain="essential" data-search="cudnn 的定位 cudnn 提供深度神經網路常用運算的 gpu 最佳化 primitives，供深度學習框架呼叫。 cudnn 是 library，不是模型登錄庫或叢集排程器。">
+<header><span>UNIT 023</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>cuDNN 的定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>cuDNN 提供深度神經網路常用運算的 GPU 最佳化 primitives，供深度學習框架呼叫。</p><h3>考場判斷線索</h3><p>cuDNN 是 library，不是模型登錄庫或叢集排程器。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>卷積與 activation 的最佳化函式庫是哪一類元件？</strong></p><details><summary>顯示答案</summary><p>cuDNN。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="23">完成這個單元</label>
+</article><article class="study-unit" id="unit-24" data-unit="24" data-domain="essential" data-search="nccl 的定位 nccl 實作 gpu 間高效 collective communication，如 all-reduce、all-gather 與 broadcast。 多 gpu 訓練同步梯度時，nccl 是高頻答案。">
+<header><span>UNIT 024</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>NCCL 的定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>NCCL 實作 GPU 間高效 collective communication，如 all-reduce、all-gather 與 broadcast。</p><h3>考場判斷線索</h3><p>多 GPU 訓練同步梯度時，NCCL 是高頻答案。</p><p class="citations">依據 <a href="#source-S12" title="NVIDIA NCCL Documentation">[S12]</a></p></section>
+<aside><span>CHECK</span><p><strong>Data-parallel training 要同步各 GPU 梯度，常用什麼？</strong></p><details><summary>顯示答案</summary><p>NCCL all-reduce。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="24">完成這個單元</label>
+</article><article class="study-unit" id="unit-25" data-unit="25" data-domain="essential" data-search="tensorrt 的定位 tensorrt 將已訓練模型最佳化並編譯為 nvidia gpu 推論 engine，目標是低延遲與高吞吐。 tensorrt 是 inference optimizer/runtime，不負責原始模型訓練。">
+<header><span>UNIT 025</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>TensorRT 的定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>TensorRT 將已訓練模型最佳化並編譯為 NVIDIA GPU 推論 engine，目標是低延遲與高吞吐。</p><h3>考場判斷線索</h3><p>TensorRT 是 inference optimizer/runtime，不負責原始模型訓練。</p><p class="citations">依據 <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S4" title="NVIDIA TensorRT Documentation">[S4]</a></p></section>
+<aside><span>CHECK</span><p><strong>部署 ONNX 模型並希望降低 NVIDIA GPU latency，應先想到什麼？</strong></p><details><summary>顯示答案</summary><p>TensorRT。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="25">完成這個單元</label>
+</article><article class="study-unit" id="unit-26" data-unit="26" data-domain="essential" data-search="混合精度與量化 降低數值精度可減少記憶體、頻寬與計算成本，但必須重新驗證準確率。 fp16/fp8/int8 不是無條件更好；硬體支援與 accuracy 都要看。">
+<header><span>UNIT 026</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>混合精度與量化</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>降低數值精度可減少記憶體、頻寬與計算成本，但必須重新驗證準確率。</p><h3>考場判斷線索</h3><p>FP16/FP8/INT8 不是無條件更好；硬體支援與 accuracy 都要看。</p><p class="citations">依據 <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S4" title="NVIDIA TensorRT Documentation">[S4]</a></p></section>
+<aside><span>CHECK</span><p><strong>INT8 推論變快但 accuracy 掉太多，應怎麼做？</strong></p><details><summary>顯示答案</summary><p>重新校準/量化策略並以準確率門檻驗證。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="26">完成這個單元</label>
+</article><article class="study-unit" id="unit-27" data-unit="27" data-domain="essential" data-search="triton inference server triton 提供多模型、多框架 serving、dynamic batching、concurrent execution 與標準化部署能力。 tensorrt 最佳化模型；triton 管理與服務模型，層次不同。">
+<header><span>UNIT 027</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Triton Inference Server</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Triton 提供多模型、多框架 serving、dynamic batching、concurrent execution 與標準化部署能力。</p><h3>考場判斷線索</h3><p>TensorRT 最佳化模型；Triton 管理與服務模型，層次不同。</p><p class="citations">依據 <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S13" title="NVIDIA Triton Inference Server Documentation">[S13]</a></p></section>
+<aside><span>CHECK</span><p><strong>要在同一服務管理多模型版本與動態批次，應想到什麼？</strong></p><details><summary>顯示答案</summary><p>Triton Inference Server。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="27">完成這個單元</label>
+</article><article class="study-unit" id="unit-28" data-unit="28" data-domain="essential" data-search="ngc catalog ngc 提供 nvidia 最佳化容器、模型、helm charts 與 sdk 等可重用資產。 ngc 是 catalog/registry 生態，不是 gpu driver。">
+<header><span>UNIT 028</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>NGC Catalog</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>NGC 提供 NVIDIA 最佳化容器、模型、Helm charts 與 SDK 等可重用資產。</p><h3>考場判斷線索</h3><p>NGC 是 catalog/registry 生態，不是 GPU driver。</p><p class="citations">依據 <a href="#source-S14" title="NVIDIA NGC Catalog">[S14]</a></p></section>
+<aside><span>CHECK</span><p><strong>想取得 NVIDIA 最佳化框架容器，應去哪裡？</strong></p><details><summary>顯示答案</summary><p>NGC Catalog。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="28">完成這個單元</label>
+</article><article class="study-unit" id="unit-29" data-unit="29" data-domain="essential" data-search="nvidia nemo 概念 nemo 是 nvidia 生成式 ai 模型開發與客製化框架，可涵蓋訓練、微調與部署工作流。 nemo 偏模型開發；tensorrt-llm 偏 llm inference optimization。">
+<header><span>UNIT 029</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>NVIDIA NeMo 概念</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>NeMo 是 NVIDIA 生成式 AI 模型開發與客製化框架，可涵蓋訓練、微調與部署工作流。</p><h3>考場判斷線索</h3><p>NeMo 偏模型開發；TensorRT-LLM 偏 LLM inference optimization。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S18" title="NVIDIA AI Enterprise Documentation">[S18]</a></p></section>
+<aside><span>CHECK</span><p><strong>企業想客製化大型語言模型，哪類工具更接近開發層？</strong></p><details><summary>顯示答案</summary><p>NVIDIA NeMo。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="29">完成這個單元</label>
+</article><article class="study-unit" id="unit-30" data-unit="30" data-domain="essential" data-search="rapids 概念 rapids 使用 gpu 加速資料處理與傳統資料科學工作流，減少 cpu 與 gpu 間不必要搬移。 資料前處理慢不一定要換模型，可能需加速 data pipeline。">
+<header><span>UNIT 030</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>RAPIDS 概念</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>RAPIDS 使用 GPU 加速資料處理與傳統資料科學工作流，減少 CPU 與 GPU 間不必要搬移。</p><h3>考場判斷線索</h3><p>資料前處理慢不一定要換模型，可能需加速 data pipeline。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>大型表格資料前處理成為瓶頸，哪個 NVIDIA 生態工具值得評估？</strong></p><details><summary>顯示答案</summary><p>RAPIDS。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="30">完成這個單元</label>
+</article><article class="study-unit" id="unit-31" data-unit="31" data-domain="essential" data-search="base command 與叢集管理概念 nvidia 叢集管理解決方案聚焦工作負載、資源、使用者與基礎設施的可視化及管理。 不要把 cluster management 與單機 inference runtime 混淆。">
+<header><span>UNIT 031</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Base Command 與叢集管理概念</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>NVIDIA 叢集管理解決方案聚焦工作負載、資源、使用者與基礎設施的可視化及管理。</p><h3>考場判斷線索</h3><p>不要把 cluster management 與單機 inference runtime 混淆。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>要管理多使用者 GPU 叢集資源，而非只加速一個模型，應看哪一層？</strong></p><details><summary>顯示答案</summary><p>叢集管理與排程層。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="31">完成這個單元</label>
+</article><article class="study-unit" id="unit-32" data-unit="32" data-domain="essential" data-search="nvidia ai enterprise ai enterprise 是企業級 ai 軟體套件，重視支援、生命週期、相容性與 production deployment。 企業採購題常不只比較功能，也比較支援與驗證矩陣。">
+<header><span>UNIT 032</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>NVIDIA AI Enterprise</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>AI Enterprise 是企業級 AI 軟體套件，重視支援、生命週期、相容性與 production deployment。</p><h3>考場判斷線索</h3><p>企業採購題常不只比較功能，也比較支援與驗證矩陣。</p><p class="citations">依據 <a href="#source-S18" title="NVIDIA AI Enterprise Documentation">[S18]</a></p></section>
+<aside><span>CHECK</span><p><strong>需要受支援的企業 AI 軟體堆疊，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>NVIDIA AI Enterprise。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="32">完成這個單元</label>
+</article><article class="study-unit" id="unit-33" data-unit="33" data-domain="essential" data-search="醫療與生命科學用例 ai 可支援影像分析、藥物探索、文件處理與研究，但資料治理與風險要求高。 用例題先找資料型態、輸出與錯誤代價。">
+<header><span>UNIT 033</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>醫療與生命科學用例</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>AI 可支援影像分析、藥物探索、文件處理與研究，但資料治理與風險要求高。</p><h3>考場判斷線索</h3><p>用例題先找資料型態、輸出與錯誤代價。</p><p class="citations">依據 <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>放射影像判讀屬於哪種常見 AI workload？</strong></p><details><summary>顯示答案</summary><p>Computer vision inference。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="33">完成這個單元</label>
+</article><article class="study-unit" id="unit-34" data-unit="34" data-domain="essential" data-search="金融、零售與製造用例 金融常見詐欺/風險；零售常見推薦/需求預測；製造常見視覺檢測/預知維護。 不要只背產業名，需配對 workload 和 kpi。">
+<header><span>UNIT 034</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>金融、零售與製造用例</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>金融常見詐欺/風險；零售常見推薦/需求預測；製造常見視覺檢測/預知維護。</p><h3>考場判斷線索</h3><p>不要只背產業名，需配對 workload 和 KPI。</p><p class="citations">依據 <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a> <a href="#source-S9" title="SAS: Machine Learning">[S9]</a></p></section>
+<aside><span>CHECK</span><p><strong>產線即時瑕疵檢測最在意哪些指標？</strong></p><details><summary>顯示答案</summary><p>低延遲、可靠性與視覺模型準確率。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="34">完成這個單元</label>
+</article><article class="study-unit" id="unit-35" data-unit="35" data-domain="essential" data-search="edge ai edge ai 在資料產生地附近執行，降低往返延遲與頻寬需求，但受功耗、散熱與容量限制。 題目提到現場即時、斷網可用與隱私，通常偏 edge。">
+<header><span>UNIT 035</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Edge AI</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Edge AI 在資料產生地附近執行，降低往返延遲與頻寬需求，但受功耗、散熱與容量限制。</p><h3>考場判斷線索</h3><p>題目提到現場即時、斷網可用與隱私，通常偏 edge。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>工廠相機需毫秒級反應且網路不穩，部署在哪裡較合理？</strong></p><details><summary>顯示答案</summary><p>Edge。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="35">完成這個單元</label>
+</article><article class="study-unit" id="unit-36" data-unit="36" data-domain="essential" data-search="軟體生命週期角色配對 framework 用於開發訓練，tensorrt 最佳化推論，triton 提供服務，dcgm 監控 gpu，ngc 提供資產。 高頻考法是「哪個元件負責哪一層」。">
+<header><span>UNIT 036</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>軟體生命週期角色配對</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Framework 用於開發訓練，TensorRT 最佳化推論，Triton 提供服務，DCGM 監控 GPU，NGC 提供資產。</p><h3>考場判斷線索</h3><p>高頻考法是「哪個元件負責哪一層」。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S13" title="NVIDIA Triton Inference Server Documentation">[S13]</a> <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>哪個元件最適合監控 GPU health，而不是 serving 模型？</strong></p><details><summary>顯示答案</summary><p>DCGM。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="36">完成這個單元</label>
+</article><article class="study-unit" id="unit-37" data-unit="37" data-domain="essential" data-search="nvidia 平台配對 dgx 偏完整 ai 系統；hgx 是伺服器平台基礎；mgx 提供模組化伺服器架構；jetson 聚焦 edge/embedded。 平台題先看部署位置與系統整合程度。">
+<header><span>UNIT 037</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>NVIDIA 平台配對</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>DGX 偏完整 AI 系統；HGX 是伺服器平台基礎；MGX 提供模組化伺服器架構；Jetson 聚焦 edge/embedded。</p><h3>考場判斷線索</h3><p>平台題先看部署位置與系統整合程度。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>自主機器的嵌入式 AI 通常配對哪個平台？</strong></p><details><summary>顯示答案</summary><p>Jetson。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="37">完成這個單元</label>
+</article><article class="study-unit" id="unit-38" data-unit="38" data-domain="essential" data-search="essential ai knowledge 總複習 把 ai/ml/dl、training/inference、cpu/gpu 與 cuda/cudnn/nccl/tensorrt/triton 串成一條 stack。 若不能用一句話說清每個元件，先別背產品規格。">
+<header><span>UNIT 038</span><b>Essential AI Knowledge · 38%</b></header>
+<h2>Essential AI Knowledge 總複習</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>把 AI/ML/DL、training/inference、CPU/GPU 與 CUDA/cuDNN/NCCL/TensorRT/Triton 串成一條 stack。</p><h3>考場判斷線索</h3><p>若不能用一句話說清每個元件，先別背產品規格。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S11" title="NVIDIA CUDA Documentation">[S11]</a> <a href="#source-S13" title="NVIDIA Triton Inference Server Documentation">[S13]</a></p></section>
+<aside><span>CHECK</span><p><strong>請由底到上排列 CUDA、TensorRT、Triton。</strong></p><details><summary>顯示答案</summary><p>CUDA 提供底層 GPU 平台，TensorRT 最佳化推論模型，Triton 提供 serving。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="38">完成這個單元</label>
+</article><article class="study-unit" id="unit-39" data-unit="39" data-domain="infrastructure" data-search="從 workload 反推硬體 先確認模型大小、資料量、precision、batch、sla、併行數與成長需求，再選 gpu、cpu、memory、network、storage。 「最強 gpu」不是需求分析的替代品。">
+<header><span>UNIT 039</span><b>AI Infrastructure · 40%</b></header>
+<h2>從 Workload 反推硬體</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>先確認模型大小、資料量、precision、batch、SLA、併行數與成長需求，再選 GPU、CPU、memory、network、storage。</p><h3>考場判斷線索</h3><p>「最強 GPU」不是需求分析的替代品。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>離線訓練和即時推論能直接用同一 sizing 假設嗎？</strong></p><details><summary>顯示答案</summary><p>不能；兩者的吞吐、延遲、容量與可用性需求不同。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="39">完成這個單元</label>
+</article><article class="study-unit" id="unit-40" data-unit="40" data-domain="infrastructure" data-search="訓練 gpu sizing 訓練 sizing 要看模型/activation/optimizer memory、batch、訓練時間目標與多 gpu scaling efficiency。 參數量不是唯一記憶體來源。">
+<header><span>UNIT 040</span><b>AI Infrastructure · 40%</b></header>
+<h2>訓練 GPU Sizing</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>訓練 sizing 要看模型/activation/optimizer memory、batch、訓練時間目標與多 GPU scaling efficiency。</p><h3>考場判斷線索</h3><p>參數量不是唯一記憶體來源。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>模型權重放得下但 training OOM，還可能是哪類資料佔用？</strong></p><details><summary>顯示答案</summary><p>Activation、gradient 與 optimizer states。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="40">完成這個單元</label>
+</article><article class="study-unit" id="unit-41" data-unit="41" data-domain="infrastructure" data-search="推論 gpu sizing 推論 sizing 要看模型權重、kv cache、batching、concurrency、latency sla 與精度。 平均流量不足以代表尖峰容量。">
+<header><span>UNIT 041</span><b>AI Infrastructure · 40%</b></header>
+<h2>推論 GPU Sizing</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>推論 sizing 要看模型權重、KV cache、batching、concurrency、latency SLA 與精度。</p><h3>考場判斷線索</h3><p>平均流量不足以代表尖峰容量。</p><p class="citations">依據 <a href="#source-S3" title="NVIDIA TensorRT">[S3]</a> <a href="#source-S4" title="NVIDIA TensorRT Documentation">[S4]</a> <a href="#source-S7" title="NVIDIA: What Are Large Language Models Used For?">[S7]</a></p></section>
+<aside><span>CHECK</span><p><strong>LLM 使用者數增加時，除了 weights 還要關注哪個主要 memory 消耗？</strong></p><details><summary>顯示答案</summary><p>KV cache。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="41">完成這個單元</label>
+</article><article class="study-unit" id="unit-42" data-unit="42" data-domain="infrastructure" data-search="scale-up 與 scale-out scale-up 增強單節點與高速 gpu 互連；scale-out 增加節點並依賴網路與 distributed software。 節點增加後，communication overhead 可能降低 scaling efficiency。">
+<header><span>UNIT 042</span><b>AI Infrastructure · 40%</b></header>
+<h2>Scale-up 與 Scale-out</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Scale-up 增強單節點與高速 GPU 互連；scale-out 增加節點並依賴網路與 distributed software。</p><h3>考場判斷線索</h3><p>節點增加後，communication overhead 可能降低 scaling efficiency。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S12" title="NVIDIA NCCL Documentation">[S12]</a></p></section>
+<aside><span>CHECK</span><p><strong>模型主要卡在跨節點同步，繼續加節點一定線性加速嗎？</strong></p><details><summary>顯示答案</summary><p>不一定，網路與 collective overhead 會限制效率。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="42">完成這個單元</label>
+</article><article class="study-unit" id="unit-43" data-unit="43" data-domain="infrastructure" data-search="ai 叢集核心元件 compute nodes、management/login nodes、high-speed network、storage、scheduler、monitoring 與安全服務共同構成叢集。 gpu nodes 只是叢集的一部分。">
+<header><span>UNIT 043</span><b>AI Infrastructure · 40%</b></header>
+<h2>AI 叢集核心元件</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Compute nodes、management/login nodes、high-speed network、storage、scheduler、monitoring 與安全服務共同構成叢集。</p><h3>考場判斷線索</h3><p>GPU nodes 只是叢集的一部分。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>使用者登入、提交 job 與 compute 執行是否應全放同一角色節點？</strong></p><details><summary>顯示答案</summary><p>通常分離，以提高安全、穩定與可管理性。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="43">完成這個單元</label>
+</article><article class="study-unit" id="unit-44" data-unit="44" data-domain="infrastructure" data-search="cpu、ram 與 gpu 平衡 cpu 負責資料準備、i/o、控制與系統服務；ram 容納 staging data；比例失衡會讓 gpu 閒置。 gpu utilization 低時先看 host bottleneck。">
+<header><span>UNIT 044</span><b>AI Infrastructure · 40%</b></header>
+<h2>CPU、RAM 與 GPU 平衡</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>CPU 負責資料準備、I/O、控制與系統服務；RAM 容納 staging data；比例失衡會讓 GPU 閒置。</p><h3>考場判斷線索</h3><p>GPU utilization 低時先看 host bottleneck。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a> <a href="#source-S10" title="AWS: What’s the Difference Between a CPU and a GPU?">[S10]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU 常等待 dataloader，應先檢查什麼？</strong></p><details><summary>顯示答案</summary><p>CPU、system memory、storage 與 preprocessing pipeline。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="44">完成這個單元</label>
+</article><article class="study-unit" id="unit-45" data-unit="45" data-domain="infrastructure" data-search="pcie 的角色 pcie 連接 cpu、gpu、nic、dpu 與 storage；lane、generation 與拓撲會影響可用頻寬。 裝置都支援高速不代表整條 path 沒有共享瓶頸。">
+<header><span>UNIT 045</span><b>AI Infrastructure · 40%</b></header>
+<h2>PCIe 的角色</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>PCIe 連接 CPU、GPU、NIC、DPU 與 storage；lane、generation 與拓撲會影響可用頻寬。</p><h3>考場判斷線索</h3><p>裝置都支援高速不代表整條 path 沒有共享瓶頸。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>兩張 GPU 共用受限 PCIe root complex 可能造成什麼？</strong></p><details><summary>顯示答案</summary><p>資料傳輸競爭與有效頻寬下降。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="45">完成這個單元</label>
+</article><article class="study-unit" id="unit-46" data-unit="46" data-domain="infrastructure" data-search="nvlink 與 nvswitch nvlink 提供 gpu 間高速互連；nvswitch 讓多 gpu 建立高頻寬互連 fabric。 它們不取代 data-center scale-out network。">
+<header><span>UNIT 046</span><b>AI Infrastructure · 40%</b></header>
+<h2>NVLink 與 NVSwitch</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>NVLink 提供 GPU 間高速互連；NVSwitch 讓多 GPU 建立高頻寬互連 fabric。</p><h3>考場判斷線索</h3><p>它們不取代 data-center scale-out network。</p><p class="citations">依據 <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>單節點多 GPU 模型並行最希望使用哪類互連？</strong></p><details><summary>顯示答案</summary><p>NVLink/NVSwitch。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="46">完成這個單元</label>
+</article><article class="study-unit" id="unit-47" data-unit="47" data-domain="infrastructure" data-search="storage hierarchy gpu memory 最快但固定；data fabric 連接 storage 與 gpu；storage devices 提供容量與持久性。 容量、延遲、吞吐要分開討論。">
+<header><span>UNIT 047</span><b>AI Infrastructure · 40%</b></header>
+<h2>Storage Hierarchy</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>GPU memory 最快但固定；data fabric 連接 storage 與 GPU；storage devices 提供容量與持久性。</p><h3>考場判斷線索</h3><p>容量、延遲、吞吐要分開討論。</p><p class="citations">依據 <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>訓練時頻繁 swap 到磁碟會發生什麼？</strong></p><details><summary>顯示答案</summary><p>效能大幅下降，GPU 等待資料。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="47">完成這個單元</label>
+</article><article class="study-unit" id="unit-48" data-unit="48" data-domain="infrastructure" data-search="資料管線與 gpu 餵料 讀取、解碼、augmentation、shuffle、batch 與 transfer 都可能成為 pipeline bottleneck。 gpu utilization 低且 compute 短，常不是 gpu 算力問題。">
+<header><span>UNIT 048</span><b>AI Infrastructure · 40%</b></header>
+<h2>資料管線與 GPU 餵料</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>讀取、解碼、augmentation、shuffle、batch 與 transfer 都可能成為 pipeline bottleneck。</p><h3>考場判斷線索</h3><p>GPU utilization 低且 compute 短，常不是 GPU 算力問題。</p><p class="citations">依據 <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>影像解碼耗盡 CPU，應優化哪一段？</strong></p><details><summary>顯示答案</summary><p>資料前處理與輸入管線。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="48">完成這個單元</label>
+</article><article class="study-unit" id="unit-49" data-unit="49" data-domain="infrastructure" data-search="平行檔案系統概念 多節點訓練需要同時高吞吐與 metadata 能力；平行檔案系統可把 i/o 分散到多個 storage target。 單一 nas 可能在大規模並行讀取時成為瓶頸。">
+<header><span>UNIT 049</span><b>AI Infrastructure · 40%</b></header>
+<h2>平行檔案系統概念</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>多節點訓練需要同時高吞吐與 metadata 能力；平行檔案系統可把 I/O 分散到多個 storage target。</p><h3>考場判斷線索</h3><p>單一 NAS 可能在大規模並行讀取時成為瓶頸。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>上百節點同時讀 dataset，應關注什麼？</strong></p><details><summary>顯示答案</summary><p>Aggregate throughput、metadata scalability 與 network path。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="49">完成這個單元</label>
+</article><article class="study-unit" id="unit-50" data-unit="50" data-domain="infrastructure" data-search="gpudirect storage 概念 目標是縮短 storage 到 gpu memory 的資料路徑，減少 cpu bounce buffer 與額外複製。 不是所有 storage/network/platform 都自動支援，需看相容性。">
+<header><span>UNIT 050</span><b>AI Infrastructure · 40%</b></header>
+<h2>GPUDirect Storage 概念</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>目標是縮短 storage 到 GPU memory 的資料路徑，減少 CPU bounce buffer 與額外複製。</p><h3>考場判斷線索</h3><p>不是所有 storage/network/platform 都自動支援，需看相容性。</p><p class="citations">依據 <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>資料搬移被 CPU memory copy 限制時，可評估什麼方向？</strong></p><details><summary>顯示答案</summary><p>GPUDirect Storage 與完整 data path 最佳化。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="50">完成這個單元</label>
+</article><article class="study-unit" id="unit-51" data-unit="51" data-domain="infrastructure" data-search="網路需求推導 training 的 east-west collective traffic、storage traffic、management traffic 應分辨；不同流量對 latency/bandwidth 有不同要求。 只看 nic peak bandwidth 不足以設計網路。">
+<header><span>UNIT 051</span><b>AI Infrastructure · 40%</b></header>
+<h2>網路需求推導</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Training 的 east-west collective traffic、storage traffic、management traffic 應分辨；不同流量對 latency/bandwidth 有不同要求。</p><h3>考場判斷線索</h3><p>只看 NIC peak bandwidth 不足以設計網路。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S12" title="NVIDIA NCCL Documentation">[S12]</a></p></section>
+<aside><span>CHECK</span><p><strong>All-reduce 對網路最敏感的是什麼？</strong></p><details><summary>顯示答案</summary><p>低延遲、高頻寬與穩定的 collective communication。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="51">完成這個單元</label>
+</article><article class="study-unit" id="unit-52" data-unit="52" data-domain="infrastructure" data-search="ethernet 與 infiniband ethernet 生態廣、通用性高；infiniband 針對 hpc/ai 高效網路與 rdma；選擇取決於規模、技能與目標。 沒有「所有 ai 一律選某一種」的絕對答案。">
+<header><span>UNIT 052</span><b>AI Infrastructure · 40%</b></header>
+<h2>Ethernet 與 InfiniBand</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Ethernet 生態廣、通用性高；InfiniBand 針對 HPC/AI 高效網路與 RDMA；選擇取決於規模、技能與目標。</p><h3>考場判斷線索</h3><p>沒有「所有 AI 一律選某一種」的絕對答案。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>既有 Ethernet 團隊與中型 workload，要先做什麼？</strong></p><details><summary>顯示答案</summary><p>根據 SLA、規模與成本評估，不應只因品牌直接更換。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="52">完成這個單元</label>
+</article><article class="study-unit" id="unit-53" data-unit="53" data-domain="infrastructure" data-search="latency、bandwidth、throughput latency 是傳輸等待；bandwidth 是理論容量；throughput 是實際完成量。 三者不能互換，應對應 workload。">
+<header><span>UNIT 053</span><b>AI Infrastructure · 40%</b></header>
+<h2>Latency、Bandwidth、Throughput</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Latency 是傳輸等待；bandwidth 是理論容量；throughput 是實際完成量。</p><h3>考場判斷線索</h3><p>三者不能互換，應對應 workload。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>許多小訊息頻繁同步，哪個指標通常更敏感？</strong></p><details><summary>顯示答案</summary><p>Latency。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="53">完成這個單元</label>
+</article><article class="study-unit" id="unit-54" data-unit="54" data-domain="infrastructure" data-search="rdma 與 roce rdma 讓資料直接在端點記憶體間移動、降低 cpu involvement；roce 在 ethernet 上承載 rdma。 roce 要求適當的 fabric 設計與 congestion management。">
+<header><span>UNIT 054</span><b>AI Infrastructure · 40%</b></header>
+<h2>RDMA 與 RoCE</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>RDMA 讓資料直接在端點記憶體間移動、降低 CPU involvement；RoCE 在 Ethernet 上承載 RDMA。</p><h3>考場判斷線索</h3><p>RoCE 要求適當的 fabric 設計與 congestion management。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>想在 Ethernet 上使用 RDMA，常見技術是什麼？</strong></p><details><summary>顯示答案</summary><p>RoCE。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="54">完成這個單元</label>
+</article><article class="study-unit" id="unit-55" data-unit="55" data-domain="infrastructure" data-search="collective communication 基礎 all-reduce、all-gather、reduce-scatter 等操作是 distributed training 常見 communication pattern。 不同 parallelism 會產生不同 collective。">
+<header><span>UNIT 055</span><b>AI Infrastructure · 40%</b></header>
+<h2>Collective Communication 基礎</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>All-reduce、all-gather、reduce-scatter 等操作是 distributed training 常見 communication pattern。</p><h3>考場判斷線索</h3><p>不同 parallelism 會產生不同 collective。</p><p class="citations">依據 <a href="#source-S12" title="NVIDIA NCCL Documentation">[S12]</a></p></section>
+<aside><span>CHECK</span><p><strong>Data parallel 梯度同步最典型的 collective 是什麼？</strong></p><details><summary>顯示答案</summary><p>All-reduce。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="55">完成這個單元</label>
+</article><article class="study-unit" id="unit-56" data-unit="56" data-domain="infrastructure" data-search="dpu 的目的 dpu 可卸載 networking、storage 與 security infrastructure services，釋放 cpu 並強化隔離。 dpu 不是用來取代 gpu 執行模型張量運算。">
+<header><span>UNIT 056</span><b>AI Infrastructure · 40%</b></header>
+<h2>DPU 的目的</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>DPU 可卸載 networking、storage 與 security infrastructure services，釋放 CPU 並強化隔離。</p><h3>考場判斷線索</h3><p>DPU 不是用來取代 GPU 執行模型張量運算。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S17" title="NVIDIA Data Processing Unit">[S17]</a></p></section>
+<aside><span>CHECK</span><p><strong>要把虛擬交換、storage 與 security offload 從 host CPU 移開，可用什麼？</strong></p><details><summary>顯示答案</summary><p>DPU。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="56">完成這個單元</label>
+</article><article class="study-unit" id="unit-57" data-unit="57" data-domain="infrastructure" data-search="bluefield dpu bluefield 結合可程式化處理器與高速網路，定位在 data-center infrastructure acceleration。 考題問 infrastructure services offload 時比問 model training 更接近 bluefield。">
+<header><span>UNIT 057</span><b>AI Infrastructure · 40%</b></header>
+<h2>BlueField DPU</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>BlueField 結合可程式化處理器與高速網路，定位在 data-center infrastructure acceleration。</p><h3>考場判斷線索</h3><p>考題問 infrastructure services offload 時比問 model training 更接近 BlueField。</p><p class="citations">依據 <a href="#source-S17" title="NVIDIA Data Processing Unit">[S17]</a></p></section>
+<aside><span>CHECK</span><p><strong>BlueField 主要加速哪一層？</strong></p><details><summary>顯示答案</summary><p>資料中心網路、儲存與安全基礎設施層。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="57">完成這個單元</label>
+</article><article class="study-unit" id="unit-58" data-unit="58" data-domain="infrastructure" data-search="ai network fabric 設計 clos/fat-tree 等拓撲追求可預測的 bisection bandwidth；oversubscription 會影響大規模 collective。 邏輯拓撲與實際 cable/port mapping 都重要。">
+<header><span>UNIT 058</span><b>AI Infrastructure · 40%</b></header>
+<h2>AI Network Fabric 設計</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Clos/fat-tree 等拓撲追求可預測的 bisection bandwidth；oversubscription 會影響大規模 collective。</p><h3>考場判斷線索</h3><p>邏輯拓撲與實際 cable/port mapping 都重要。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>為何 AI training fabric 常降低 oversubscription？</strong></p><details><summary>顯示答案</summary><p>避免多節點同步時網路成為瓶頸。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="58">完成這個單元</label>
+</article><article class="study-unit" id="unit-59" data-unit="59" data-domain="infrastructure" data-search="on-prem 優缺點 優點是控制、資料主權、可預測長期使用；缺點是前期資本、建置時間、容量與維運責任。 高利用率、長期穩定需求較能攤提 on-prem。">
+<header><span>UNIT 059</span><b>AI Infrastructure · 40%</b></header>
+<h2>On-prem 優缺點</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>優點是控制、資料主權、可預測長期使用；缺點是前期資本、建置時間、容量與維運責任。</p><h3>考場判斷線索</h3><p>高利用率、長期穩定需求較能攤提 on-prem。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>資料不能離場且 workload 穩定，哪種模式較有吸引力？</strong></p><details><summary>顯示答案</summary><p>On-prem。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="59">完成這個單元</label>
+</article><article class="study-unit" id="unit-60" data-unit="60" data-domain="infrastructure" data-search="cloud 優缺點 優點是快速取得資源、彈性與託管服務；缺點是持續成本、資料移動、配額與供應差異。 burst workload 不必為尖峰永久買設備。">
+<header><span>UNIT 060</span><b>AI Infrastructure · 40%</b></header>
+<h2>Cloud 優缺點</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>優點是快速取得資源、彈性與託管服務；缺點是持續成本、資料移動、配額與供應差異。</p><h3>考場判斷線索</h3><p>Burst workload 不必為尖峰永久買設備。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>短期實驗且需求不確定，哪種模式較靈活？</strong></p><details><summary>顯示答案</summary><p>Cloud。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="60">完成這個單元</label>
+</article><article class="study-unit" id="unit-61" data-unit="61" data-domain="infrastructure" data-search="hybrid 架構 hybrid 依資料、成本、容量與合規，把 workload 分配在 on-prem 與 cloud。 資料與模型搬移成本會影響設計。">
+<header><span>UNIT 061</span><b>AI Infrastructure · 40%</b></header>
+<h2>Hybrid 架構</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Hybrid 依資料、成本、容量與合規，把 workload 分配在 on-prem 與 cloud。</p><h3>考場判斷線索</h3><p>資料與模型搬移成本會影響設計。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>敏感資料留本地、尖峰訓練借用雲端，屬於什麼？</strong></p><details><summary>顯示答案</summary><p>Hybrid。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="61">完成這個單元</label>
+</article><article class="study-unit" id="unit-62" data-unit="62" data-domain="infrastructure" data-search="虛擬化考量 virtualization 提供隔離、可管理性與彈性，但需評估 gpu passthrough、vgpu、numa 與效能 overhead。 不是所有 workload 都要求 bare metal。">
+<header><span>UNIT 062</span><b>AI Infrastructure · 40%</b></header>
+<h2>虛擬化考量</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Virtualization 提供隔離、可管理性與彈性，但需評估 GPU passthrough、vGPU、NUMA 與效能 overhead。</p><h3>考場判斷線索</h3><p>不是所有 workload 都要求 bare metal。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S18" title="NVIDIA AI Enterprise Documentation">[S18]</a></p></section>
+<aside><span>CHECK</span><p><strong>多桌面使用者共享 GPU 且重視隔離，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>vGPU/虛擬化。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="62">完成這個單元</label>
+</article><article class="study-unit" id="unit-63" data-unit="63" data-domain="infrastructure" data-search="功率基本概念 設計需估計 it load、峰值、冗餘、conversion loss 與成長；不能只把 gpu tdp 相加。 nameplate、typical、peak 與 facility capacity 不同。">
+<header><span>UNIT 063</span><b>AI Infrastructure · 40%</b></header>
+<h2>功率基本概念</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>設計需估計 IT load、峰值、冗餘、conversion loss 與成長；不能只把 GPU TDP 相加。</p><h3>考場判斷線索</h3><p>Nameplate、typical、peak 與 facility capacity 不同。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>機櫃 GPU 額定功耗總和等於實際設施需求嗎？</strong></p><details><summary>顯示答案</summary><p>不等於，還需 CPU、network、storage、loss、冗餘與安全餘裕。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="63">完成這個單元</label>
+</article><article class="study-unit" id="unit-64" data-unit="64" data-domain="infrastructure" data-search="tdp 與容量規劃 tdp 是熱設計與功耗規劃參考，不代表每時每刻的精確耗電；應以平台與 workload 測量驗證。 考題問電力設計時要保留 headroom。">
+<header><span>UNIT 064</span><b>AI Infrastructure · 40%</b></header>
+<h2>TDP 與容量規劃</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>TDP 是熱設計與功耗規劃參考，不代表每時每刻的精確耗電；應以平台與 workload 測量驗證。</p><h3>考場判斷線索</h3><p>考題問電力設計時要保留 headroom。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>為什麼不能用單顆 GPU TDP 直接決定 PDU？</strong></p><details><summary>顯示答案</summary><p>系統還有其他元件、瞬時峰值與冗餘需求。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="64">完成這個單元</label>
+</article><article class="study-unit" id="unit-65" data-unit="65" data-domain="infrastructure" data-search="電力冗餘 a/b feeds、ups、pdu 與 psu 冗餘降低單點失效，但可用容量需按冗餘模式計算。 安裝容量不等於故障後可承載容量。">
+<header><span>UNIT 065</span><b>AI Infrastructure · 40%</b></header>
+<h2>電力冗餘</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>A/B feeds、UPS、PDU 與 PSU 冗餘降低單點失效，但可用容量需按冗餘模式計算。</p><h3>考場判斷線索</h3><p>安裝容量不等於故障後可承載容量。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>要求任一電源路徑失效仍滿載，應如何規劃？</strong></p><details><summary>顯示答案</summary><p>A/B 路徑各自能承擔必要負載。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="65">完成這個單元</label>
+</article><article class="study-unit" id="unit-66" data-unit="66" data-domain="infrastructure" data-search="氣冷與液冷 高密度 ai rack 可能超出傳統氣冷能力；液冷能更直接移除熱量，但需要設施、監控與維護配套。 選 cooling 需看 rack density，而非只看總機房冷量。">
+<header><span>UNIT 066</span><b>AI Infrastructure · 40%</b></header>
+<h2>氣冷與液冷</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>高密度 AI rack 可能超出傳統氣冷能力；液冷能更直接移除熱量，但需要設施、監控與維護配套。</p><h3>考場判斷線索</h3><p>選 cooling 需看 rack density，而非只看總機房冷量。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>單櫃熱密度急升且 airflow 已飽和，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>液冷或其他高密度散熱方案。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="66">完成這個單元</label>
+</article><article class="study-unit" id="unit-67" data-unit="67" data-domain="infrastructure" data-search="溫度與熱監控 inlet/outlet temperature、gpu temperature、fan、throttling 與 coolant 狀態可揭露熱風險。 只看房間平均溫度可能漏掉 hot spot。">
+<header><span>UNIT 067</span><b>AI Infrastructure · 40%</b></header>
+<h2>溫度與熱監控</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Inlet/outlet temperature、GPU temperature、fan、throttling 與 coolant 狀態可揭露熱風險。</p><h3>考場判斷線索</h3><p>只看房間平均溫度可能漏掉 hot spot。</p><p class="citations">依據 <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU clock 因 thermal throttling 下降，先檢查什麼？</strong></p><details><summary>顯示答案</summary><p>設備與機櫃層的溫度、airflow/coolant 與風扇。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="67">完成這個單元</label>
+</article><article class="study-unit" id="unit-68" data-unit="68" data-domain="infrastructure" data-search="機櫃密度與空間 rack units、重量、功率、冷卻、cabling、service clearance 與 floor loading 都是設施要求。 空間「放得下」不等於可安全供電與散熱。">
+<header><span>UNIT 068</span><b>AI Infrastructure · 40%</b></header>
+<h2>機櫃密度與空間</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Rack units、重量、功率、冷卻、cabling、service clearance 與 floor loading 都是設施要求。</p><h3>考場判斷線索</h3><p>空間「放得下」不等於可安全供電與散熱。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>高密度 rack 上線前除了 RU 還要驗證什麼？</strong></p><details><summary>顯示答案</summary><p>重量、電力、冷卻、網路與維護空間。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="68">完成這個單元</label>
+</article><article class="study-unit" id="unit-69" data-unit="69" data-domain="infrastructure" data-search="機房設施需求 power、cooling、network demarcation、fire safety、physical security、floor loading 與 maintenance workflow 共同決定可部署性。 ai infrastructure 是跨 it 與 facility 的工程。">
+<header><span>UNIT 069</span><b>AI Infrastructure · 40%</b></header>
+<h2>機房設施需求</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Power、cooling、network demarcation、fire safety、physical security、floor loading 與 maintenance workflow 共同決定可部署性。</p><h3>考場判斷線索</h3><p>AI infrastructure 是跨 IT 與 facility 的工程。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>伺服器已到貨但機房供電不足，問題屬於哪一層？</strong></p><details><summary>顯示答案</summary><p>Facility readiness。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="69">完成這個單元</label>
+</article><article class="study-unit" id="unit-70" data-unit="70" data-domain="infrastructure" data-search="fault domain 把節點、rack、電源、switch 與 storage failure domain 納入 placement，可避免單一故障同時影響所有副本。 冗餘若落在同一 fault domain 就是假冗餘。">
+<header><span>UNIT 070</span><b>AI Infrastructure · 40%</b></header>
+<h2>Fault Domain</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>把節點、rack、電源、switch 與 storage failure domain 納入 placement，可避免單一故障同時影響所有副本。</p><h3>考場判斷線索</h3><p>冗餘若落在同一 fault domain 就是假冗餘。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>兩個副本都在同一 rack 的同一 PDU，算完整冗餘嗎？</strong></p><details><summary>顯示答案</summary><p>不算，仍共享單點故障。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="70">完成這個單元</label>
+</article><article class="study-unit" id="unit-71" data-unit="71" data-domain="infrastructure" data-search="availability 與冗餘設計 ha 來自消除單點、快速偵測、failover、備份與復原演練；不是單靠昂貴元件。 recovery procedure 未演練就不能視為已驗證。">
+<header><span>UNIT 071</span><b>AI Infrastructure · 40%</b></header>
+<h2>Availability 與冗餘設計</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>HA 來自消除單點、快速偵測、failover、備份與復原演練；不是單靠昂貴元件。</p><h3>考場判斷線索</h3><p>Recovery procedure 未演練就不能視為已驗證。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>有備份但從未測試 restore，風險是什麼？</strong></p><details><summary>顯示答案</summary><p>災難時可能無法在目標時間內復原。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="71">完成這個單元</label>
+</article><article class="study-unit" id="unit-72" data-unit="72" data-domain="infrastructure" data-search="dgx 系統定位 dgx 是整合 nvidia gpu、networking 與軟體的 ai 系統，降低自行整合完整節點的負擔。 dgx 是系統級產品，不只是 gpu 卡。">
+<header><span>UNIT 072</span><b>AI Infrastructure · 40%</b></header>
+<h2>DGX 系統定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>DGX 是整合 NVIDIA GPU、networking 與軟體的 AI 系統，降低自行整合完整節點的負擔。</p><h3>考場判斷線索</h3><p>DGX 是系統級產品，不只是 GPU 卡。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>想快速取得整合式 NVIDIA AI 系統，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>DGX。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="72">完成這個單元</label>
+</article><article class="study-unit" id="unit-73" data-unit="73" data-domain="infrastructure" data-search="hgx 平台定位 hgx 是供 oem/系統建構 gpu 伺服器的高效能平台基礎，聚焦多 gpu 與高速互連。 hgx 不等於完整資料中心 solution。">
+<header><span>UNIT 073</span><b>AI Infrastructure · 40%</b></header>
+<h2>HGX 平台定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>HGX 是供 OEM/系統建構 GPU 伺服器的高效能平台基礎，聚焦多 GPU 與高速互連。</p><h3>考場判斷線索</h3><p>HGX 不等於完整資料中心 solution。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>伺服器 OEM 要建多 GPU 高效平台，核心基礎可選什麼？</strong></p><details><summary>顯示答案</summary><p>HGX。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="73">完成這個單元</label>
+</article><article class="study-unit" id="unit-74" data-unit="74" data-domain="infrastructure" data-search="mgx 平台定位 mgx 提供模組化伺服器架構，讓不同 cpu、gpu、dpu 與 workload 配置更有彈性。 題目強調 modular、multiple configurations 時要想到 mgx。">
+<header><span>UNIT 074</span><b>AI Infrastructure · 40%</b></header>
+<h2>MGX 平台定位</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>MGX 提供模組化伺服器架構，讓不同 CPU、GPU、DPU 與 workload 配置更有彈性。</p><h3>考場判斷線索</h3><p>題目強調 modular、multiple configurations 時要想到 MGX。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>要用一致架構支援多種加速伺服器配置，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>MGX。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="74">完成這個單元</label>
+</article><article class="study-unit" id="unit-75" data-unit="75" data-domain="infrastructure" data-search="reference architecture reference architecture 提供經驗證的元件、拓撲與規模設計起點，降低整合風險，但仍需依 workload 調整。 reference 不等於可以跳過 site survey。">
+<header><span>UNIT 075</span><b>AI Infrastructure · 40%</b></header>
+<h2>Reference Architecture</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Reference architecture 提供經驗證的元件、拓撲與規模設計起點，降低整合風險，但仍需依 workload 調整。</p><h3>考場判斷線索</h3><p>Reference 不等於可以跳過 site survey。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>採用 reference architecture 後還要做 sizing 嗎？</strong></p><details><summary>顯示答案</summary><p>要，仍需依 workload、設施與 SLA 驗證。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="75">完成這個單元</label>
+</article><article class="study-unit" id="unit-76" data-unit="76" data-domain="infrastructure" data-search="部署前驗證 驗收應涵蓋 firmware/driver、gpu health、network bandwidth/latency、storage throughput、power/cooling 與 burn-in。 「能開機」不代表 ready for ai。">
+<header><span>UNIT 076</span><b>AI Infrastructure · 40%</b></header>
+<h2>部署前驗證</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>驗收應涵蓋 firmware/driver、GPU health、network bandwidth/latency、storage throughput、power/cooling 與 burn-in。</p><h3>考場判斷線索</h3><p>「能開機」不代表 ready for AI。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>新叢集上線前最重要的整體動作是什麼？</strong></p><details><summary>顯示答案</summary><p>依設計基準做端到端驗收與 burn-in。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="76">完成這個單元</label>
+</article><article class="study-unit" id="unit-77" data-unit="77" data-domain="infrastructure" data-search="bom 與容量預留 bom 應包含 compute、network、storage、rack、power、cooling、cables、spares 與 support；並預留成長。 只列 gpu 數量會漏掉大量關鍵相依項。">
+<header><span>UNIT 077</span><b>AI Infrastructure · 40%</b></header>
+<h2>BOM 與容量預留</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>BOM 應包含 compute、network、storage、rack、power、cooling、cables、spares 與 support；並預留成長。</p><h3>考場判斷線索</h3><p>只列 GPU 數量會漏掉大量關鍵相依項。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>採購清單只有 GPU servers，缺少哪些常見項？</strong></p><details><summary>顯示答案</summary><p>Network、storage、rack/power/cooling、cabling、spares 與 support。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="77">完成這個單元</label>
+</article><article class="study-unit" id="unit-78" data-unit="78" data-domain="infrastructure" data-search="ai infrastructure 情境總複習 從 workload → sizing → fabric → storage → facility → validation 依序推導，才能避免單點優化。 情境題先圈出 bottleneck 與限制，再選最直接的元件。">
+<header><span>UNIT 078</span><b>AI Infrastructure · 40%</b></header>
+<h2>AI Infrastructure 情境總複習</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>從 workload → sizing → fabric → storage → facility → validation 依序推導，才能避免單點優化。</p><h3>考場判斷線索</h3><p>情境題先圈出 bottleneck 與限制，再選最直接的元件。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S6" title="NVIDIA: Scaling Storage for AI Training and Inferencing">[S6]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU utilization 低、storage latency 高，第一優先是加 GPU 嗎？</strong></p><details><summary>顯示答案</summary><p>不是；先修復 data path/storage bottleneck。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="78">完成這個單元</label>
+</article><article class="study-unit" id="unit-79" data-unit="79" data-domain="operations" data-search="ai operations 的責任範圍 operations 涵蓋 provisioning、scheduling、monitoring、incident、capacity、change、security 與 lifecycle。 模型 accuracy 不是 operations 唯一責任。">
+<header><span>UNIT 079</span><b>AI Operations · 22%</b></header>
+<h2>AI Operations 的責任範圍</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Operations 涵蓋 provisioning、scheduling、monitoring、incident、capacity、change、security 與 lifecycle。</p><h3>考場判斷線索</h3><p>模型 accuracy 不是 operations 唯一責任。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU 正常但 job 長期排不到，屬於哪個維運面向？</strong></p><details><summary>顯示答案</summary><p>Resource management 與 scheduling。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="79">完成這個單元</label>
+</article><article class="study-unit" id="unit-80" data-unit="80" data-domain="operations" data-search="叢集管理基礎 需要 inventory、node state、configuration、user/project、quota、health 與 lifecycle 的一致視圖。 手動 ssh 每台節點不適合規模化維運。">
+<header><span>UNIT 080</span><b>AI Operations · 22%</b></header>
+<h2>叢集管理基礎</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>需要 inventory、node state、configuration、user/project、quota、health 與 lifecycle 的一致視圖。</p><h3>考場判斷線索</h3><p>手動 SSH 每台節點不適合規模化維運。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>叢集節點設定逐漸不一致，應導入什麼思路？</strong></p><details><summary>顯示答案</summary><p>集中化、宣告式 configuration 與 drift detection。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="80">完成這個單元</label>
+</article><article class="study-unit" id="unit-81" data-unit="81" data-domain="operations" data-search="monitoring stack metric、log、event、trace 與 alert 共同建立可觀測性；dashboard 不是監控的全部。 能看到圖表但沒有告警與 runbook，仍不足以應變。">
+<header><span>UNIT 081</span><b>AI Operations · 22%</b></header>
+<h2>Monitoring Stack</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Metric、log、event、trace 與 alert 共同建立可觀測性；dashboard 不是監控的全部。</p><h3>考場判斷線索</h3><p>能看到圖表但沒有告警與 runbook，仍不足以應變。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU 錯誤發生後只能人工看 dashboard，缺少什麼？</strong></p><details><summary>顯示答案</summary><p>Alerting、事件流程與 runbook。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="81">完成這個單元</label>
+</article><article class="study-unit" id="unit-82" data-unit="82" data-domain="operations" data-search="dcgm 的角色 dcgm 提供資料中心 gpu 的 monitoring、diagnostics、health 與管理能力。 dcgm 監控 gpu；它不是 training framework。">
+<header><span>UNIT 082</span><b>AI Operations · 22%</b></header>
+<h2>DCGM 的角色</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>DCGM 提供資料中心 GPU 的 monitoring、diagnostics、health 與管理能力。</p><h3>考場判斷線索</h3><p>DCGM 監控 GPU；它不是 training framework。</p><p class="citations">依據 <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>要做 GPU health diagnostics，優先使用什麼？</strong></p><details><summary>顯示答案</summary><p>DCGM。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="82">完成這個單元</label>
+</article><article class="study-unit" id="unit-83" data-unit="83" data-domain="operations" data-search="dcgm exporter dcgm exporter 把 gpu metrics 暴露給 prometheus 生態，便於 dashboard 與 alerting。 exporter 是 metrics bridge，不是 scheduler。">
+<header><span>UNIT 083</span><b>AI Operations · 22%</b></header>
+<h2>DCGM Exporter</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>DCGM Exporter 把 GPU metrics 暴露給 Prometheus 生態，便於 dashboard 與 alerting。</p><h3>考場判斷線索</h3><p>Exporter 是 metrics bridge，不是 scheduler。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a> <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>Kubernetes 想以 Prometheus 收集 GPU 指標，可用什麼？</strong></p><details><summary>顯示答案</summary><p>DCGM Exporter。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="83">完成這個單元</label>
+</article><article class="study-unit" id="unit-84" data-unit="84" data-domain="operations" data-search="核心 gpu 指標 utilization、memory use、temperature、power、clock、ecc/xid errors 與 throttling 原因可描述健康與瓶頸。 單看 utilization 不能判斷所有問題。">
+<header><span>UNIT 084</span><b>AI Operations · 22%</b></header>
+<h2>核心 GPU 指標</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Utilization、memory use、temperature、power、clock、ECC/Xid errors 與 throttling 原因可描述健康與瓶頸。</p><h3>考場判斷線索</h3><p>單看 utilization 不能判斷所有問題。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>利用率低但 power/clock 正常，還要看哪些外部訊號？</strong></p><details><summary>顯示答案</summary><p>CPU、network、storage、queue 與 workload behavior。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="84">完成這個單元</label>
+</article><article class="study-unit" id="unit-85" data-unit="85" data-domain="operations" data-search="告警與基線 告警應以正常基線、持續時間與業務影響設計，避免 noisy alerts；同時保留趨勢做 capacity planning。 單次尖峰不一定是故障。">
+<header><span>UNIT 085</span><b>AI Operations · 22%</b></header>
+<h2>告警與基線</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>告警應以正常基線、持續時間與業務影響設計，避免 noisy alerts；同時保留趨勢做 capacity planning。</p><h3>考場判斷線索</h3><p>單次尖峰不一定是故障。</p><p class="citations">依據 <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU temperature 短暫上升就 page on-call 合理嗎？</strong></p><details><summary>顯示答案</summary><p>應結合門檻、持續時間、throttling 與 workload 基線。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="85">完成這個單元</label>
+</article><article class="study-unit" id="unit-86" data-unit="86" data-domain="operations" data-search="kubernetes 基礎 kubernetes 以 pod、node、scheduler、controller 與宣告式 api 管理容器工作負載。 kubernetes 本身不會自動安裝 nvidia driver stack。">
+<header><span>UNIT 086</span><b>AI Operations · 22%</b></header>
+<h2>Kubernetes 基礎</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Kubernetes 以 pod、node、scheduler、controller 與宣告式 API 管理容器工作負載。</p><h3>考場判斷線索</h3><p>Kubernetes 本身不會自動安裝 NVIDIA driver stack。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a></p></section>
+<aside><span>CHECK</span><p><strong>Pod 是什麼？</strong></p><details><summary>顯示答案</summary><p>Kubernetes 中最小的可部署/排程工作負載單位。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="86">完成這個單元</label>
+</article><article class="study-unit" id="unit-87" data-unit="87" data-domain="operations" data-search="nvidia device plugin device plugin 向 kubernetes 註冊 gpu 資源，讓 scheduler 能依 resource request 分配 gpu。 沒有 device plugin，pod 看不到可排程 gpu resource。">
+<header><span>UNIT 087</span><b>AI Operations · 22%</b></header>
+<h2>NVIDIA Device Plugin</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Device plugin 向 Kubernetes 註冊 GPU 資源，讓 scheduler 能依 resource request 分配 GPU。</p><h3>考場判斷線索</h3><p>沒有 device plugin，pod 看不到可排程 GPU resource。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a></p></section>
+<aside><span>CHECK</span><p><strong>Pod 要求 nvidia.com/gpu 但 cluster 沒該資源，先查什麼？</strong></p><details><summary>顯示答案</summary><p>NVIDIA device plugin 與 node GPU registration。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="87">完成這個單元</label>
+</article><article class="study-unit" id="unit-88" data-unit="88" data-domain="operations" data-search="gpu operator gpu operator 以 operator pattern 自動管理 driver、container toolkit、device plugin、gfd 與 dcgm monitoring 等元件。 它解決 gpu software stack lifecycle，不是模型 serving。">
+<header><span>UNIT 088</span><b>AI Operations · 22%</b></header>
+<h2>GPU Operator</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>GPU Operator 以 Operator pattern 自動管理 driver、Container Toolkit、device plugin、GFD 與 DCGM monitoring 等元件。</p><h3>考場判斷線索</h3><p>它解決 GPU software stack lifecycle，不是模型 serving。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a></p></section>
+<aside><span>CHECK</span><p><strong>新 GPU node 需要一致安裝 NVIDIA 元件，應用什麼？</strong></p><details><summary>顯示答案</summary><p>GPU Operator。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="88">完成這個單元</label>
+</article><article class="study-unit" id="unit-89" data-unit="89" data-domain="operations" data-search="nvidia container toolkit container toolkit 讓容器 runtime 能安全存取 nvidia gpu 與必要 libraries。 container image 通常不應取代 host kernel driver。">
+<header><span>UNIT 089</span><b>AI Operations · 22%</b></header>
+<h2>NVIDIA Container Toolkit</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Container Toolkit 讓容器 runtime 能安全存取 NVIDIA GPU 與必要 libraries。</p><h3>考場判斷線索</h3><p>Container image 通常不應取代 host kernel driver。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a></p></section>
+<aside><span>CHECK</span><p><strong>Container 裡有 CUDA app 但看不到 GPU，應檢查什麼？</strong></p><details><summary>顯示答案</summary><p>Host driver、Container Toolkit、runtime 設定與 resource allocation。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="89">完成這個單元</label>
+</article><article class="study-unit" id="unit-90" data-unit="90" data-domain="operations" data-search="排程與 queue scheduler 依資源、priority、policy、quota、affinity 與 topology 決定 job 何時在哪裡執行。 排程問題不是只看「有沒有空 gpu」。">
+<header><span>UNIT 090</span><b>AI Operations · 22%</b></header>
+<h2>排程與 Queue</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Scheduler 依資源、priority、policy、quota、affinity 與 topology 決定 job 何時在哪裡執行。</p><h3>考場判斷線索</h3><p>排程問題不是只看「有沒有空 GPU」。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>高優先權 production job 被測試 job 佔滿資源，應用什麼機制？</strong></p><details><summary>顯示答案</summary><p>Priority、quota、preemption 或獨立資源池。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="90">完成這個單元</label>
+</article><article class="study-unit" id="unit-91" data-unit="91" data-domain="operations" data-search="slurm 與 kubernetes slurm 常見於 hpc/batch scheduling；kubernetes 常見於 container orchestration/service；實際環境可能整合或並存。 不應只因 workload 有 gpu 就選其中一個。">
+<header><span>UNIT 091</span><b>AI Operations · 22%</b></header>
+<h2>Slurm 與 Kubernetes</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Slurm 常見於 HPC/batch scheduling；Kubernetes 常見於 container orchestration/service；實際環境可能整合或並存。</p><h3>考場判斷線索</h3><p>不應只因 workload 有 GPU 就選其中一個。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>長時間 batch training 與佇列公平性是主需求，哪類 scheduler 常見？</strong></p><details><summary>顯示答案</summary><p>Slurm 類 HPC scheduler。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="91">完成這個單元</label>
+</article><article class="study-unit" id="unit-92" data-unit="92" data-domain="operations" data-search="mig mig 將支援的 gpu 劃分為具硬體隔離的 instances，提供較可預測的資源與多租戶隔離。 mig profile 是固定切分，不等同時間共享。">
+<header><span>UNIT 092</span><b>AI Operations · 22%</b></header>
+<h2>MIG</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>MIG 將支援的 GPU 劃分為具硬體隔離的 instances，提供較可預測的資源與多租戶隔離。</p><h3>考場判斷線索</h3><p>MIG profile 是固定切分，不等同時間共享。</p><p class="citations">依據 <a href="#source-S16" title="NVIDIA MIG User Guide">[S16]</a></p></section>
+<aside><span>CHECK</span><p><strong>多個小 inference workload 需要隔離與可預測資源，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>MIG。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="92">完成這個單元</label>
+</article><article class="study-unit" id="unit-93" data-unit="93" data-domain="operations" data-search="time-slicing time-slicing 讓多工作負載輪流使用 gpu，可提升共享彈性，但效能與隔離可預測性弱於 mig。 共享不等於 memory 硬隔離。">
+<header><span>UNIT 093</span><b>AI Operations · 22%</b></header>
+<h2>Time-slicing</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Time-slicing 讓多工作負載輪流使用 GPU，可提升共享彈性，但效能與隔離可預測性弱於 MIG。</p><h3>考場判斷線索</h3><p>共享不等於 memory 硬隔離。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a> <a href="#source-S16" title="NVIDIA MIG User Guide">[S16]</a></p></section>
+<aside><span>CHECK</span><p><strong>開發環境想提高 GPU 使用率且可接受干擾，可用什麼？</strong></p><details><summary>顯示答案</summary><p>Time-slicing。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="93">完成這個單元</label>
+</article><article class="study-unit" id="unit-94" data-unit="94" data-domain="operations" data-search="vgpu vgpu 在虛擬化環境分配 gpu 能力，適合 vdi、vm 隔離與受支援企業環境。 vgpu 與 mig 可解決不同層次的 sharing。">
+<header><span>UNIT 094</span><b>AI Operations · 22%</b></header>
+<h2>vGPU</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>vGPU 在虛擬化環境分配 GPU 能力，適合 VDI、VM 隔離與受支援企業環境。</p><h3>考場判斷線索</h3><p>vGPU 與 MIG 可解決不同層次的 sharing。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a> <a href="#source-S18" title="NVIDIA AI Enterprise Documentation">[S18]</a></p></section>
+<aside><span>CHECK</span><p><strong>多個 VM 需要受控 GPU 存取，應評估什麼？</strong></p><details><summary>顯示答案</summary><p>NVIDIA vGPU。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="94">完成這個單元</label>
+</article><article class="study-unit" id="unit-95" data-unit="95" data-domain="operations" data-search="job orchestration pipeline 把 data prep、training、evaluation、registration 與 deployment 串接，需處理重試、artifact 與 dependency。 單一 container 成功不等於 pipeline 可靠。">
+<header><span>UNIT 095</span><b>AI Operations · 22%</b></header>
+<h2>Job Orchestration</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Pipeline 把 data prep、training、evaluation、registration 與 deployment 串接，需處理重試、artifact 與 dependency。</p><h3>考場判斷線索</h3><p>單一 container 成功不等於 pipeline 可靠。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>Training 完成後 evaluation 失敗，正確 orchestrator 行為是什麼？</strong></p><details><summary>顯示答案</summary><p>阻止後續發布、保留 artifact/log 並依 policy 重試或告警。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="95">完成這個單元</label>
+</article><article class="study-unit" id="unit-96" data-unit="96" data-domain="operations" data-search="logs 與 troubleshooting 從症狀定位層次：application → container → runtime → driver → hardware → network/storage；保留時間同步與 correlation id。 先建立假設，再用證據縮小範圍。">
+<header><span>UNIT 096</span><b>AI Operations · 22%</b></header>
+<h2>Logs 與 Troubleshooting</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>從症狀定位層次：application → container → runtime → driver → hardware → network/storage；保留時間同步與 correlation ID。</p><h3>考場判斷線索</h3><p>先建立假設，再用證據縮小範圍。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a> <a href="#source-S15" title="NVIDIA DCGM Documentation">[S15]</a></p></section>
+<aside><span>CHECK</span><p><strong>所有 pod 同時出現 GPU access error，先查單一模型程式嗎？</strong></p><details><summary>顯示答案</summary><p>先查共同層：node、runtime、driver、device plugin。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="96">完成這個單元</label>
+</article><article class="study-unit" id="unit-97" data-unit="97" data-domain="operations" data-search="driver、cuda 與 firmware 相容性 driver、cuda runtime、framework、operator 與 firmware 需符合支援矩陣；任意升級可能破壞 stack。 「最新版」不等於「相容」。">
+<header><span>UNIT 097</span><b>AI Operations · 22%</b></header>
+<h2>Driver、CUDA 與 Firmware 相容性</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>Driver、CUDA runtime、framework、operator 與 firmware 需符合支援矩陣；任意升級可能破壞 stack。</p><h3>考場判斷線索</h3><p>「最新版」不等於「相容」。</p><p class="citations">依據 <a href="#source-S4" title="NVIDIA TensorRT Documentation">[S4]</a> <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a> <a href="#source-S18" title="NVIDIA AI Enterprise Documentation">[S18]</a></p></section>
+<aside><span>CHECK</span><p><strong>升級 framework 後所有 job 失敗，第一步是什麼？</strong></p><details><summary>顯示答案</summary><p>比對完整支援矩陣與實際版本。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="97">完成這個單元</label>
+</article><article class="study-unit" id="unit-98" data-unit="98" data-domain="operations" data-search="維護與滾動升級 先驗證、分批 drain、升級、health check、再納回；保留 rollback 與 spare capacity。 直接全叢集同時升級會放大 blast radius。">
+<header><span>UNIT 098</span><b>AI Operations · 22%</b></header>
+<h2>維護與滾動升級</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>先驗證、分批 drain、升級、health check、再納回；保留 rollback 與 spare capacity。</p><h3>考場判斷線索</h3><p>直接全叢集同時升級會放大 blast radius。</p><p class="citations">依據 <a href="#source-S5" title="NVIDIA GPU Operator Documentation">[S5]</a></p></section>
+<aside><span>CHECK</span><p><strong>GPU Operator 升級前應先做什麼？</strong></p><details><summary>顯示答案</summary><p>確認支援矩陣、備份設定、建立 canary/rollback 計畫。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="98">完成這個單元</label>
+</article><article class="study-unit" id="unit-99" data-unit="99" data-domain="operations" data-search="安全與治理 最小權限、image provenance、secrets、network policy、tenant isolation、audit 與資料治理都屬 production readiness。 gpu 隔離不代表資料與網路已安全。">
+<header><span>UNIT 099</span><b>AI Operations · 22%</b></header>
+<h2>安全與治理</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>最小權限、image provenance、secrets、network policy、tenant isolation、audit 與資料治理都屬 production readiness。</p><h3>考場判斷線索</h3><p>GPU 隔離不代表資料與網路已安全。</p><p class="citations">依據 <a href="#source-S14" title="NVIDIA NGC Catalog">[S14]</a> <a href="#source-S18" title="NVIDIA AI Enterprise Documentation">[S18]</a></p></section>
+<aside><span>CHECK</span><p><strong>使用者能拉任意不明 container image，主要風險是什麼？</strong></p><details><summary>顯示答案</summary><p>Supply-chain、惡意程式與未受控依賴風險。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="99">完成這個單元</label>
+</article><article class="study-unit" id="unit-100" data-unit="100" data-domain="operations" data-search="最終 60 分鐘考試策略 官方考試為 50 題、60 分鐘；先做直接配對題，標記計算/情境題，最後回頭檢查否定詞與限制條件。 平均約 72 秒一題，但不要在單題消耗過久。">
+<header><span>UNIT 100</span><b>AI Operations · 22%</b></header>
+<h2>最終 60 分鐘考試策略</h2>
+<div class="unit-layout"><section><h3>核心理解</h3><p>官方考試為 50 題、60 分鐘；先做直接配對題，標記計算/情境題，最後回頭檢查否定詞與限制條件。</p><h3>考場判斷線索</h3><p>平均約 72 秒一題，但不要在單題消耗過久。</p><p class="citations">依據 <a href="#source-S1" title="NVIDIA NCA-AIIO Certification &amp; Exam Blueprint">[S1]</a> <a href="#source-S2" title="NVIDIA NCA-AIIO Exam Study Guide (PDF)">[S2]</a></p></section>
+<aside><span>CHECK</span><p><strong>兩個選項都合理時怎麼選？</strong></p><details><summary>顯示答案</summary><p>回到題目限制，選最直接符合官方元件角色與主要 KPI 的答案。</p></details></aside></div>
+<label class="done"><input type="checkbox" data-check="100">完成這個單元</label>
+</article><p id="no-results" hidden>找不到符合的單元。</p></main></div>
+<section class="exam" id="mock-exam"><div class="exam-box"><div class="exam-head"><div><div class="kicker">50-QUESTION PRACTICE</div><h2>60 分鐘模擬考</h2><p>非真實考題。先收合答案完成 50 題，再逐題訂正並回到對應單元。</p></div><div><div id="exam-timer">60:00</div><button id="timer-button">開始計時</button></div></div><details class="mock-question"><summary><span>Q01</span>若你只有 10 小時，哪一領域至少應分配約 4 小時？</summary><p><b>答案：</b>AI Infrastructure，因為官方權重最高為 40%。</p><p><b>對應單元：</b><a href="#unit-1">Unit 001 · 官方藍圖與得分策略</a></p></details><details class="mock-question"><summary><span>Q02</span>垃圾郵件分類有每封信的 spam/ham 標籤，屬於哪類學習？</summary><p><b>答案：</b>監督式學習。</p><p><b>對應單元：</b><a href="#unit-3">Unit 003 · 監督式學習</a></p></details><details class="mock-question"><summary><span>Q03</span>機器人以成功抓取物體取得獎勵，這是什麼學習？</summary><p><b>答案：</b>強化學習。</p><p><b>對應單元：</b><a href="#unit-5">Unit 005 · 強化學習</a></p></details><details class="mock-question"><summary><span>Q04</span>線上 API 讀取固定模型回答請求，屬於哪個階段？</summary><p><b>答案：</b>Inference。</p><p><b>對應單元：</b><a href="#unit-7">Unit 007 · 推論的本質</a></p></details><details class="mock-question"><summary><span>Q05</span>訓練準確率高但新客群表現差，先檢查什麼？</summary><p><b>答案：</b>資料分布、代表性與泛化問題。</p><p><b>對應單元：</b><a href="#unit-9">Unit 009 · 資料品質與代表性</a></p></details><details class="mock-question"><summary><span>Q06</span>漏掉病患的代價極高，應特別重視哪個分類指標？</summary><p><b>答案：</b>Recall。</p><p><b>對應單元：</b><a href="#unit-11">Unit 011 · 模型評估與指標</a></p></details><details class="mock-question"><summary><span>Q07</span>為什麼 transformer 適合大型語言模型？</summary><p><b>答案：</b>能有效建模長距依賴，且訓練時可平行處理序列。</p><p><b>對應單元：</b><a href="#unit-13">Unit 013 · Transformer 與 LLM</a></p></details><details class="mock-question"><summary><span>Q08</span>內規每天更新，想避免頻繁重訓，優先考慮什麼？</summary><p><b>答案：</b>RAG。</p><p><b>對應單元：</b><a href="#unit-15">Unit 015 · RAG、微調與提示工程</a></p></details><details class="mock-question"><summary><span>Q09</span>資料庫控制流程與大量分支邏輯通常優先使用什麼？</summary><p><b>答案：</b>CPU。</p><p><b>對應單元：</b><a href="#unit-17">Unit 017 · CPU 與 GPU 架構</a></p></details><details class="mock-question"><summary><span>Q10</span>FP16 矩陣乘法想取得專用硬體加速，關鍵單元是什麼？</summary><p><b>答案：</b>Tensor Core。</p><p><b>對應單元：</b><a href="#unit-19">Unit 019 · Tensor Core</a></p></details><details class="mock-question"><summary><span>Q11</span>模型權重超過單卡 VRAM，優先考慮哪類並行？</summary><p><b>答案：</b>模型或張量/管線並行。</p><p><b>對應單元：</b><a href="#unit-21">Unit 021 · 平行主義：資料與模型</a></p></details><details class="mock-question"><summary><span>Q12</span>卷積與 activation 的最佳化函式庫是哪一類元件？</summary><p><b>答案：</b>cuDNN。</p><p><b>對應單元：</b><a href="#unit-23">Unit 023 · cuDNN 的定位</a></p></details><details class="mock-question"><summary><span>Q13</span>部署 ONNX 模型並希望降低 NVIDIA GPU latency，應先想到什麼？</summary><p><b>答案：</b>TensorRT。</p><p><b>對應單元：</b><a href="#unit-25">Unit 025 · TensorRT 的定位</a></p></details><details class="mock-question"><summary><span>Q14</span>要在同一服務管理多模型版本與動態批次，應想到什麼？</summary><p><b>答案：</b>Triton Inference Server。</p><p><b>對應單元：</b><a href="#unit-27">Unit 027 · Triton Inference Server</a></p></details><details class="mock-question"><summary><span>Q15</span>企業想客製化大型語言模型，哪類工具更接近開發層？</summary><p><b>答案：</b>NVIDIA NeMo。</p><p><b>對應單元：</b><a href="#unit-29">Unit 029 · NVIDIA NeMo 概念</a></p></details><details class="mock-question"><summary><span>Q16</span>要管理多使用者 GPU 叢集資源，而非只加速一個模型，應看哪一層？</summary><p><b>答案：</b>叢集管理與排程層。</p><p><b>對應單元：</b><a href="#unit-31">Unit 031 · Base Command 與叢集管理概念</a></p></details><details class="mock-question"><summary><span>Q17</span>放射影像判讀屬於哪種常見 AI workload？</summary><p><b>答案：</b>Computer vision inference。</p><p><b>對應單元：</b><a href="#unit-33">Unit 033 · 醫療與生命科學用例</a></p></details><details class="mock-question"><summary><span>Q18</span>工廠相機需毫秒級反應且網路不穩，部署在哪裡較合理？</summary><p><b>答案：</b>Edge。</p><p><b>對應單元：</b><a href="#unit-35">Unit 035 · Edge AI</a></p></details><details class="mock-question"><summary><span>Q19</span>自主機器的嵌入式 AI 通常配對哪個平台？</summary><p><b>答案：</b>Jetson。</p><p><b>對應單元：</b><a href="#unit-37">Unit 037 · NVIDIA 平台配對</a></p></details><details class="mock-question"><summary><span>Q20</span>離線訓練和即時推論能直接用同一 sizing 假設嗎？</summary><p><b>答案：</b>不能；兩者的吞吐、延遲、容量與可用性需求不同。</p><p><b>對應單元：</b><a href="#unit-39">Unit 039 · 從 Workload 反推硬體</a></p></details><details class="mock-question"><summary><span>Q21</span>LLM 使用者數增加時，除了 weights 還要關注哪個主要 memory 消耗？</summary><p><b>答案：</b>KV cache。</p><p><b>對應單元：</b><a href="#unit-41">Unit 041 · 推論 GPU Sizing</a></p></details><details class="mock-question"><summary><span>Q22</span>使用者登入、提交 job 與 compute 執行是否應全放同一角色節點？</summary><p><b>答案：</b>通常分離，以提高安全、穩定與可管理性。</p><p><b>對應單元：</b><a href="#unit-43">Unit 043 · AI 叢集核心元件</a></p></details><details class="mock-question"><summary><span>Q23</span>兩張 GPU 共用受限 PCIe root complex 可能造成什麼？</summary><p><b>答案：</b>資料傳輸競爭與有效頻寬下降。</p><p><b>對應單元：</b><a href="#unit-45">Unit 045 · PCIe 的角色</a></p></details><details class="mock-question"><summary><span>Q24</span>訓練時頻繁 swap 到磁碟會發生什麼？</summary><p><b>答案：</b>效能大幅下降，GPU 等待資料。</p><p><b>對應單元：</b><a href="#unit-47">Unit 047 · Storage Hierarchy</a></p></details><details class="mock-question"><summary><span>Q25</span>上百節點同時讀 dataset，應關注什麼？</summary><p><b>答案：</b>Aggregate throughput、metadata scalability 與 network path。</p><p><b>對應單元：</b><a href="#unit-49">Unit 049 · 平行檔案系統概念</a></p></details><details class="mock-question"><summary><span>Q26</span>All-reduce 對網路最敏感的是什麼？</summary><p><b>答案：</b>低延遲、高頻寬與穩定的 collective communication。</p><p><b>對應單元：</b><a href="#unit-51">Unit 051 · 網路需求推導</a></p></details><details class="mock-question"><summary><span>Q27</span>許多小訊息頻繁同步，哪個指標通常更敏感？</summary><p><b>答案：</b>Latency。</p><p><b>對應單元：</b><a href="#unit-53">Unit 053 · Latency、Bandwidth、Throughput</a></p></details><details class="mock-question"><summary><span>Q28</span>Data parallel 梯度同步最典型的 collective 是什麼？</summary><p><b>答案：</b>All-reduce。</p><p><b>對應單元：</b><a href="#unit-55">Unit 055 · Collective Communication 基礎</a></p></details><details class="mock-question"><summary><span>Q29</span>BlueField 主要加速哪一層？</summary><p><b>答案：</b>資料中心網路、儲存與安全基礎設施層。</p><p><b>對應單元：</b><a href="#unit-57">Unit 057 · BlueField DPU</a></p></details><details class="mock-question"><summary><span>Q30</span>資料不能離場且 workload 穩定，哪種模式較有吸引力？</summary><p><b>答案：</b>On-prem。</p><p><b>對應單元：</b><a href="#unit-59">Unit 059 · On-prem 優缺點</a></p></details><details class="mock-question"><summary><span>Q31</span>敏感資料留本地、尖峰訓練借用雲端，屬於什麼？</summary><p><b>答案：</b>Hybrid。</p><p><b>對應單元：</b><a href="#unit-61">Unit 061 · Hybrid 架構</a></p></details><details class="mock-question"><summary><span>Q32</span>機櫃 GPU 額定功耗總和等於實際設施需求嗎？</summary><p><b>答案：</b>不等於，還需 CPU、network、storage、loss、冗餘與安全餘裕。</p><p><b>對應單元：</b><a href="#unit-63">Unit 063 · 功率基本概念</a></p></details><details class="mock-question"><summary><span>Q33</span>要求任一電源路徑失效仍滿載，應如何規劃？</summary><p><b>答案：</b>A/B 路徑各自能承擔必要負載。</p><p><b>對應單元：</b><a href="#unit-65">Unit 065 · 電力冗餘</a></p></details><details class="mock-question"><summary><span>Q34</span>GPU clock 因 thermal throttling 下降，先檢查什麼？</summary><p><b>答案：</b>設備與機櫃層的溫度、airflow/coolant 與風扇。</p><p><b>對應單元：</b><a href="#unit-67">Unit 067 · 溫度與熱監控</a></p></details><details class="mock-question"><summary><span>Q35</span>伺服器已到貨但機房供電不足，問題屬於哪一層？</summary><p><b>答案：</b>Facility readiness。</p><p><b>對應單元：</b><a href="#unit-69">Unit 069 · 機房設施需求</a></p></details><details class="mock-question"><summary><span>Q36</span>有備份但從未測試 restore，風險是什麼？</summary><p><b>答案：</b>災難時可能無法在目標時間內復原。</p><p><b>對應單元：</b><a href="#unit-71">Unit 071 · Availability 與冗餘設計</a></p></details><details class="mock-question"><summary><span>Q37</span>伺服器 OEM 要建多 GPU 高效平台，核心基礎可選什麼？</summary><p><b>答案：</b>HGX。</p><p><b>對應單元：</b><a href="#unit-73">Unit 073 · HGX 平台定位</a></p></details><details class="mock-question"><summary><span>Q38</span>採用 reference architecture 後還要做 sizing 嗎？</summary><p><b>答案：</b>要，仍需依 workload、設施與 SLA 驗證。</p><p><b>對應單元：</b><a href="#unit-75">Unit 075 · Reference Architecture</a></p></details><details class="mock-question"><summary><span>Q39</span>採購清單只有 GPU servers，缺少哪些常見項？</summary><p><b>答案：</b>Network、storage、rack/power/cooling、cabling、spares 與 support。</p><p><b>對應單元：</b><a href="#unit-77">Unit 077 · BOM 與容量預留</a></p></details><details class="mock-question"><summary><span>Q40</span>GPU 正常但 job 長期排不到，屬於哪個維運面向？</summary><p><b>答案：</b>Resource management 與 scheduling。</p><p><b>對應單元：</b><a href="#unit-79">Unit 079 · AI Operations 的責任範圍</a></p></details><details class="mock-question"><summary><span>Q41</span>GPU 錯誤發生後只能人工看 dashboard，缺少什麼？</summary><p><b>答案：</b>Alerting、事件流程與 runbook。</p><p><b>對應單元：</b><a href="#unit-81">Unit 081 · Monitoring Stack</a></p></details><details class="mock-question"><summary><span>Q42</span>Kubernetes 想以 Prometheus 收集 GPU 指標，可用什麼？</summary><p><b>答案：</b>DCGM Exporter。</p><p><b>對應單元：</b><a href="#unit-83">Unit 083 · DCGM Exporter</a></p></details><details class="mock-question"><summary><span>Q43</span>GPU temperature 短暫上升就 page on-call 合理嗎？</summary><p><b>答案：</b>應結合門檻、持續時間、throttling 與 workload 基線。</p><p><b>對應單元：</b><a href="#unit-85">Unit 085 · 告警與基線</a></p></details><details class="mock-question"><summary><span>Q44</span>Pod 要求 nvidia.com/gpu 但 cluster 沒該資源，先查什麼？</summary><p><b>答案：</b>NVIDIA device plugin 與 node GPU registration。</p><p><b>對應單元：</b><a href="#unit-87">Unit 087 · NVIDIA Device Plugin</a></p></details><details class="mock-question"><summary><span>Q45</span>Container 裡有 CUDA app 但看不到 GPU，應檢查什麼？</summary><p><b>答案：</b>Host driver、Container Toolkit、runtime 設定與 resource allocation。</p><p><b>對應單元：</b><a href="#unit-89">Unit 089 · NVIDIA Container Toolkit</a></p></details><details class="mock-question"><summary><span>Q46</span>長時間 batch training 與佇列公平性是主需求，哪類 scheduler 常見？</summary><p><b>答案：</b>Slurm 類 HPC scheduler。</p><p><b>對應單元：</b><a href="#unit-91">Unit 091 · Slurm 與 Kubernetes</a></p></details><details class="mock-question"><summary><span>Q47</span>開發環境想提高 GPU 使用率且可接受干擾，可用什麼？</summary><p><b>答案：</b>Time-slicing。</p><p><b>對應單元：</b><a href="#unit-93">Unit 093 · Time-slicing</a></p></details><details class="mock-question"><summary><span>Q48</span>Training 完成後 evaluation 失敗，正確 orchestrator 行為是什麼？</summary><p><b>答案：</b>阻止後續發布、保留 artifact/log 並依 policy 重試或告警。</p><p><b>對應單元：</b><a href="#unit-95">Unit 095 · Job Orchestration</a></p></details><details class="mock-question"><summary><span>Q49</span>升級 framework 後所有 job 失敗，第一步是什麼？</summary><p><b>答案：</b>比對完整支援矩陣與實際版本。</p><p><b>對應單元：</b><a href="#unit-97">Unit 097 · Driver、CUDA 與 Firmware 相容性</a></p></details><details class="mock-question"><summary><span>Q50</span>使用者能拉任意不明 container image，主要風險是什麼？</summary><p><b>答案：</b>Supply-chain、惡意程式與未受控依賴風險。</p><p><b>對應單元：</b><a href="#unit-99">Unit 099 · 安全與治理</a></p></details></div></section>
+<section class="sources" id="sources"><div class="source-box"><div class="kicker">VERIFIED REFERENCES</div><h2>官方藍圖與已驗證來源</h2><ol><li id="source-S1"><a class="source-link" href="https://www.nvidia.com/en-us/learn/certification/ai-infrastructure-operations-associate/" target="_blank" rel="noopener noreferrer"><b>[S1]</b> NVIDIA NCA-AIIO Certification &amp; Exam Blueprint</a></li><li id="source-S2"><a class="source-link" href="https://dam-cdn.nvd.orangelogic.com/AssetLink/x874j05hy3m3r2sor84kpvp70750m468.pdf" target="_blank" rel="noopener noreferrer"><b>[S2]</b> NVIDIA NCA-AIIO Exam Study Guide (PDF)</a></li><li id="source-S3"><a class="source-link" href="https://developer.nvidia.com/tensorrt" target="_blank" rel="noopener noreferrer"><b>[S3]</b> NVIDIA TensorRT</a></li><li id="source-S4"><a class="source-link" href="https://docs.nvidia.com/deeplearning/tensorrt/latest/index.html" target="_blank" rel="noopener noreferrer"><b>[S4]</b> NVIDIA TensorRT Documentation</a></li><li id="source-S5"><a class="source-link" href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html" target="_blank" rel="noopener noreferrer"><b>[S5]</b> NVIDIA GPU Operator Documentation</a></li><li id="source-S6"><a class="source-link" href="https://developer.nvidia.com/blog/tips-on-scaling-storage-for-ai-training-and-inferencing/" target="_blank" rel="noopener noreferrer"><b>[S6]</b> NVIDIA: Scaling Storage for AI Training and Inferencing</a></li><li id="source-S7"><a class="source-link" href="https://blogs.nvidia.com/blog/what-are-large-language-models-used-for/" target="_blank" rel="noopener noreferrer"><b>[S7]</b> NVIDIA: What Are Large Language Models Used For?</a></li><li id="source-S8"><a class="source-link" href="https://www.ibm.com/think/topics/machine-learning" target="_blank" rel="noopener noreferrer"><b>[S8]</b> IBM: What Is Machine Learning?</a></li><li id="source-S9"><a class="source-link" href="https://www.sas.com/en_us/insights/analytics/machine-learning.html" target="_blank" rel="noopener noreferrer"><b>[S9]</b> SAS: Machine Learning</a></li><li id="source-S10"><a class="source-link" href="https://aws.amazon.com/compare/the-difference-between-gpus-cpus/" target="_blank" rel="noopener noreferrer"><b>[S10]</b> AWS: What’s the Difference Between a CPU and a GPU?</a></li><li id="source-S11"><a class="source-link" href="https://docs.nvidia.com/cuda/" target="_blank" rel="noopener noreferrer"><b>[S11]</b> NVIDIA CUDA Documentation</a></li><li id="source-S12"><a class="source-link" href="https://docs.nvidia.com/deeplearning/nccl/" target="_blank" rel="noopener noreferrer"><b>[S12]</b> NVIDIA NCCL Documentation</a></li><li id="source-S13"><a class="source-link" href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/" target="_blank" rel="noopener noreferrer"><b>[S13]</b> NVIDIA Triton Inference Server Documentation</a></li><li id="source-S14"><a class="source-link" href="https://catalog.ngc.nvidia.com/" target="_blank" rel="noopener noreferrer"><b>[S14]</b> NVIDIA NGC Catalog</a></li><li id="source-S15"><a class="source-link" href="https://docs.nvidia.com/datacenter/dcgm/latest/" target="_blank" rel="noopener noreferrer"><b>[S15]</b> NVIDIA DCGM Documentation</a></li><li id="source-S16"><a class="source-link" href="https://docs.nvidia.com/datacenter/tesla/mig-user-guide/latest/" target="_blank" rel="noopener noreferrer"><b>[S16]</b> NVIDIA MIG User Guide</a></li><li id="source-S17"><a class="source-link" href="https://www.nvidia.com/en-us/networking/products/data-processing-unit/" target="_blank" rel="noopener noreferrer"><b>[S17]</b> NVIDIA Data Processing Unit</a></li><li id="source-S18"><a class="source-link" href="https://docs.nvidia.com/ai-enterprise/index.html#overview" target="_blank" rel="noopener noreferrer"><b>[S18]</b> NVIDIA AI Enterprise Documentation</a></li></ol></div></section><footer>赫少獨立重建版 · NCA-AIIO 100-Unit Certification Prep · 2026</footer>
+<script>
+const units=[...document.querySelectorAll('.study-unit')],checks=[...document.querySelectorAll('[data-check]')],key='hermes-nca-aiio-pass-kit-v1';let done=new Set(JSON.parse(localStorage.getItem(key)||'[]'));function progress(){checks.forEach(c=>c.checked=done.has(+c.dataset.check));document.getElementById('progress').style.width=done.size+'%'}checks.forEach(c=>c.addEventListener('change',()=>{c.checked?done.add(+c.dataset.check):done.delete(+c.dataset.check);localStorage.setItem(key,JSON.stringify([...done]));progress()}));document.getElementById('search').addEventListener('input',e=>{let q=e.target.value.trim().toLowerCase(),n=0;units.forEach(u=>{u.hidden=!!q&&!u.dataset.search.includes(q);if(!u.hidden)n++});document.getElementById('no-results').hidden=n>0});document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));let f=b.dataset.filter;units.forEach(u=>u.hidden=f!=='all'&&u.dataset.domain!==f)}));let seconds=3600,timer=null;const display=document.getElementById('exam-timer'),timerButton=document.getElementById('timer-button');timerButton.addEventListener('click',()=>{if(timer)return;timerButton.textContent='計時中';timer=setInterval(()=>{seconds--;let m=String(Math.floor(seconds/60)).padStart(2,'0'),s=String(seconds%60).padStart(2,'0');display.textContent=m+':'+s;if(seconds<=0){clearInterval(timer);display.textContent='00:00';timerButton.textContent='時間到'}},1000)});progress();
+</script></body></html>
