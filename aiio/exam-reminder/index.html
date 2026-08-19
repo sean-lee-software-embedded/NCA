@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="NVIDIA NCA-AIIO × Certiverse 考前提醒：證件、系統、監考規則、改期政策與考試當天 checklist。">
 <title>NCA-AIIO × Certiverse 考試提醒</title>
+<link rel="stylesheet" href="../../assets/css/site.css">
 <style>
 :root{
   --bg:#f3f6f8; --paper:#ffffff; --ink:#17212b; --muted:#5f6b78; --line:#dce3e8;
@@ -16,10 +17,6 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;line-height:1.68}
 a{color:var(--blue)}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(23,50,77,.96);backdrop-filter:blur(10px);color:#fff;border-bottom:3px solid var(--green)}
-.topbar .inner{max-width:1040px;margin:auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand{font-weight:900;letter-spacing:.03em}.brand span{color:var(--green)}
-.topbar nav{display:flex;gap:14px;flex-wrap:wrap}.topbar nav a{color:#fff;text-decoration:none;font-size:.9rem;opacity:.9}.topbar nav a:hover{opacity:1}
 main{max-width:1040px;margin:26px auto 50px;background:var(--paper);box-shadow:var(--shadow);border-radius:18px;overflow:hidden}
 .hero{padding:54px 58px 46px;background:linear-gradient(135deg,#122b42 0%,#1e405d 72%,#28506e 100%);color:#fff;position:relative;overflow:hidden}
 .hero:after{content:"";position:absolute;width:260px;height:260px;border:46px solid rgba(118,185,0,.18);border-radius:50%;right:-80px;top:-85px}
@@ -40,19 +37,25 @@ table{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:.94rem}th
 .big-rule{font-size:1.15rem;font-weight:900;color:var(--danger)}
 .sources{font-size:.9rem;color:var(--muted)}.sources li{margin:.4em 0}.updated{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
 .backtop{display:inline-block;margin-top:15px;text-decoration:none;font-weight:700}
-@media(max-width:760px){main{margin:0;border-radius:0}.hero,.content{padding:32px 22px}.summary{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.topbar nav{display:none}}
-@media print{body{background:#fff}.topbar,.actions{display:none}main{box-shadow:none;margin:0;border-radius:0}.hero{background:#fff;color:#000;padding:20px 0;border-bottom:4px solid #76b900}.hero p,.hero .kicker{color:#333}.pill{color:#000;border-color:#bbb;background:#fff}.content{padding:18px 0}.card,.checklist li,.alert,table{break-inside:avoid}}
+@media(max-width:760px){main{margin:0;border-radius:0}.hero,.content{padding:32px 22px}.summary{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+@media print{body{background:#fff}.guide-nav,.actions{display:none}main{box-shadow:none;margin:0;border-radius:0}.hero{background:#fff;color:#000;padding:20px 0;border-bottom:4px solid #76b900}.hero p,.hero .kicker{color:#333}.pill{color:#000;border-color:#bbb;background:#fff}.content{padding:18px 0}.card,.checklist li,.alert,table{break-inside:avoid}}
 </style>
 </head>
 <body>
-<header class="topbar" id="top">
-  <div class="inner">
-    <div class="brand"><span>NCA</span>-AIIO Exam Ready</div>
-    <nav aria-label="頁面導覽">
-      <a href="#must">最重要</a><a href="#checklist">Checklist</a><a href="#day">考試當天</a><a href="#policy">改期政策</a><a href="#sources">官方來源</a>
-    </nav>
+<nav class="guide-nav screen-only" aria-label="NCA-AIIO 導覽" id="top">
+  <div class="guide-nav__inner">
+    <a class="brand" href="../../"><span class="brand-mark">NCA</span>AIIO</a>
+    <div class="guide-nav__links">
+      <a href="../">完整教材</a>
+      <a href="../weekend/">週末衝刺</a>
+      <a href="../tutorial/">技術專題</a>
+      <a href="../readings/">延伸閱讀</a>
+      <a href="../mock/">模擬考</a>
+      <a href="../experience/">考試心得</a>
+      <a href="./" aria-current="page">考試提醒</a>
+    </div>
   </div>
-</header>
+</nav>
 <main>
 <section class="hero">
   <div class="kicker">NVIDIA NCA-AIIO × Certiverse</div>
