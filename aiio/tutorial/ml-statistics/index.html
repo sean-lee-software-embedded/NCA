@@ -15,7 +15,8 @@
 .flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0}.box{border:1px solid #b8c4ce;border-radius:8px;padding:9px 12px;background:#fff;font-weight:700}.arr{font-size:1.3rem;color:#5b7f20}.pair{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 table{width:100%;border-collapse:collapse;margin:14px 0 20px}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:var(--n);color:#fff;text-align:left}tr:nth-child(even) td{background:#f9fbfc}
 pre{background:#17212b;color:#eef3f7;border-radius:10px;padding:14px 16px;overflow:auto;line-height:1.5}.rule{background:var(--n);color:#fff;border-radius:12px;padding:15px;text-align:center;font-weight:800;font-size:1.12rem;margin:20px 0}.quiz .q{border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}details{margin-top:8px}summary{cursor:pointer;font-weight:700;color:#315e7d}
-@media(max-width:820px){.map,.pair{grid-template-columns:1fr}.lesson{padding:24px 16px 56px}}
+.mindmap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:18px 0}.mindmap pre{margin:0;background:#f7f9fb;color:#1d2b38;border:1px solid #e0e6eb;font-size:.94rem;line-height:1.55}.mindmap-note{margin-top:12px;color:var(--m)}
+@media(max-width:820px){.map,.pair{grid-template-columns:1fr}.lesson{padding:24px 16px 56px}.mindmap pre{font-size:.79rem}}
 </style>
 </head>
 <body class="site">
@@ -32,6 +33,42 @@ pre{background:#17212b;color:#eef3f7;border-radius:10px;padding:14px 16px;overfl
 <div class="step"><b>⑤ Statistics</b><small>誰真的有影響？<br>Regression / t-test / ANOVA</small></div>
 </div>
 <div class="rule">考試先問自己：這題到底要我「預測、訓練、評分、畫圖，還是找原因」？</div>
+
+<section id="mindmap">
+<h2>先看總圖：Machine Learning 心智地圖</h2>
+<p>下面這張圖是整份教材的「定位圖」。遇到陌生名詞時，先問它屬於哪一支，再往下判斷。</p>
+<div class="mindmap">
+<pre>                    Machine Learning
+                          │
+          ┌───────────────┼────────────────┐
+          │               │                │
+        Task           Training         Analysis
+          │               │                │
+    ┌─────┴─────┐     Hyperparameters     Regression
+    │           │     Learning Rate       t-test
+Regression  Classification Batch Size     ANOVA
+    │           │
+    │           │
+ MAE          Accuracy
+ RMSE         Precision
+ R²           Recall
+              F1
+              │
+              │
+        Cross-Entropy Loss
+
+
+Visualization（另外一類）
+│
+├─ Heatmap
+├─ Box Plot
+├─ Line Chart
+├─ Scatter Plot
+└─ Histogram</pre>
+<p class="mindmap-note"><b>怎麼讀這張圖：</b>Task 是「做什麼預測」；Training 是「怎麼訓練」；Metrics 是「模型表現如何」；Analysis 是「哪些因素真的有影響」；Visualization 則只是「把資料畫出來讓人看懂」。</p>
+</div>
+<div class="card good"><b>最重要的分界：</b><br>Regression / Classification 是 <b>Task</b>；MAE / R² / F1 是 <b>Metrics</b>；Learning Rate / Batch Size 是 <b>Training settings</b>；Heatmap / Box Plot 是 <b>Visualization</b>；t-test / ANOVA / Regression Analysis 是 <b>Statistical Analysis</b>。</div>
+</section>
 
 <section><h2>1. Task：先看「答案長什麼樣」</h2>
 <div class="pair"><div class="card good"><h3>Regression：預測數字</h3><div class="flow"><span class="box">GPU / Batch / Model Size</span><span class="arr">→</span><span class="box">72.5 分鐘</span></div><p>輸出是連續數值。例：房價、溫度、功耗、Latency、Training Time。</p></div>
@@ -67,7 +104,7 @@ PCA              ──[===│=======]──────●
 <h3>Heatmap：看很多變數之間的關係</h3>
 <table><tr><th></th><th>GPU</th><th>Batch</th><th>Time</th><th>Power</th></tr><tr><th>GPU</th><td>1.0</td><td>0.1</td><td>-0.8</td><td>0.7</td></tr><tr><th>Batch</th><td>0.1</td><td>1.0</td><td>0.5</td><td>0.3</td></tr><tr><th>Time</th><td>-0.8</td><td>0.5</td><td>1.0</td><td>-0.2</td></tr><tr><th>Power</th><td>0.7</td><td>0.3</td><td>-0.2</td><td>1.0</td></tr></table>
 <p>Correlation heatmap 用顏色把相關係數視覺化。例如 GPU 與 Time 的 -0.8 表示強負相關。</p>
-<table><tr><th>圖</th><th>最好記的用途</th></tr><tr><td><b>Box Plot</b></td><td>分布、median、outlier</td></tr><tr><td><b>Heatmap</b></td><td>很多變數的 correlation / 關係</td></tr><tr><td><b>Line Chart</b></td><td>時間或順序上的趨勢</td></tr><tr><td><b>Scatter Plot</b></td><td>兩個連續變數之間的關係</td></tr></table></section>
+<table><tr><th>圖</th><th>最好記的用途</th></tr><tr><td><b>Box Plot</b></td><td>分布、median、outlier</td></tr><tr><td><b>Heatmap</b></td><td>很多變數的 correlation / 關係</td></tr><tr><td><b>Line Chart</b></td><td>時間或順序上的趨勢</td></tr><tr><td><b>Scatter Plot</b></td><td>兩個連續變數之間的關係</td></tr><tr><td><b>Histogram</b></td><td>單一數值欄位的頻率分布</td></tr></table></section>
 
 <section><h2>5. Statistical Analysis：誰「真的」有影響？</h2>
 <p>看到 <b>significant effect / impact / statistically significant</b>，通常已經不是單純 visualization，而是在問統計分析。</p>
@@ -96,7 +133,7 @@ PCA              ──[===│=======]──────●
 
 <section><h2>10. 最後只背這一張</h2>
 <div class="rule">數字 → Regression　｜　類別 → Classification</div>
-<div class="pair"><div class="card good"><b>Regression 成績</b><br>MAE、RMSE、R²</div><div class="card good"><b>Classification 成績</b><br>Accuracy、Precision、Recall、F1</div><div class="card exam"><b>只是畫圖</b><br>Box Plot、Heatmap、Line Chart</div><div class="card exam"><b>訓練設定</b><br>Learning Rate、Batch Size、Epoch</div></div>
+<div class="pair"><div class="card good"><b>Regression 成績</b><br>MAE、RMSE、R²</div><div class="card good"><b>Classification 成績</b><br>Accuracy、Precision、Recall、F1</div><div class="card exam"><b>只是畫圖</b><br>Box Plot、Heatmap、Line Chart、Scatter Plot、Histogram</div><div class="card exam"><b>訓練設定</b><br>Learning Rate、Batch Size、Epoch</div></div>
 <div class="card warn"><b>看到 significant / impact / effect：</b>往 Regression Analysis、t-test、ANOVA 等統計分析想，而不是只選圖表。</div></section>
 <p class="muted" style="margin-top:34px">本頁為 NCA-AIIO 考試導向教材，重點是建立直覺與題目辨識能力；正式統計分析仍需檢查方法的假設條件與資料特性。</p>
 </main>
