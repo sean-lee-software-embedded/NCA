@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NCA-AIIO NVIDIA 產品地圖：Clara、Isaac、Merlin、Metropolis、DRIVE、Riva、Morpheus、Omniverse、TensorRT、Triton、NIM、Jetson 等產品定位與考試關鍵字。">
+<title>NVIDIA 產品地圖｜NCA-AIIO Study Guide</title>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<style>
+:root{
+  --green:#76b900; --green-dark:#477000; --navy:#14283a; --blue:#246b9c;
+  --ink:#17212b; --muted:#5d6975; --line:#dce3e8; --soft:#f5f8f6;
+  --warn:#fff6df; --danger:#fff0f0; --good:#edf8e6; --purple:#6b55a3;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f3f6f5;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.66}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(16,26,35,.96);color:#fff;border-bottom:2px solid var(--green);backdrop-filter:blur(10px)}
+.topbar .inner{width:min(calc(100% - 36px),1120px);min-height:62px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:900;text-decoration:none;color:#fff}.brand b{display:inline-grid;place-items:center;width:31px;height:31px;margin-right:9px;border-radius:8px;background:var(--green);color:#101a23;font-size:.73rem}
+.topbar nav{display:flex;gap:4px;flex-wrap:wrap}.topbar nav a{color:#dce5eb;text-decoration:none;padding:7px 9px;border-radius:7px;font-size:.87rem}.topbar nav a:hover{background:#ffffff15;color:#fff}
+.hero{background:radial-gradient(circle at 82% 20%,#76b90035 0,transparent 29%),linear-gradient(135deg,#101a23,#1b3040);color:#fff}
+.hero .inner{width:min(calc(100% - 40px),1120px);margin:auto;padding:76px 0 68px}
+.eyebrow{margin:0 0 12px;color:#a9ea42;font-weight:900;letter-spacing:.13em;font-size:.79rem;text-transform:uppercase}
+h1{font-size:clamp(2.45rem,7vw,5rem);line-height:1.04;letter-spacing:-.045em;margin:0;max-width:900px}
+.hero p{max-width:760px;margin:20px 0 0;color:#cbd7df;font-size:1.12rem}.hero .meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:25px}.pill{border:1px solid #ffffff35;background:#ffffff0f;padding:6px 10px;border-radius:999px;font-size:.84rem}
+main{width:min(calc(100% - 40px),1120px);margin:auto;padding:38px 0 70px}
+section{scroll-margin-top:78px;margin:0 0 58px}
+h2{font-size:clamp(1.6rem,4vw,2.25rem);line-height:1.25;margin:0 0 8px;color:var(--navy)}
+h3{line-height:1.25;color:var(--navy)}
+.lead{color:var(--muted);max-width:830px;margin:0 0 22px}.note{border-left:5px solid var(--green);background:#edf7e5;padding:15px 18px;border-radius:0 10px 10px 0;margin:18px 0}.warn{border-left-color:#d69a00;background:var(--warn)}
+.quick-map{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.quick{min-height:137px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:16px;box-shadow:0 8px 24px #17212b0a}.quick .emoji{font-size:1.55rem}.quick strong{display:block;margin:6px 0 2px;font-size:1.05rem;color:var(--navy)}.quick small{color:var(--muted)}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:20px 0}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;cursor:pointer;font-weight:800;color:#40505f}.filter.active,.filter:hover{background:var(--navy);border-color:var(--navy);color:#fff}.search{min-width:260px;flex:1;max-width:390px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;background:#fff}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.product{position:relative;border:1px solid var(--line);border-radius:15px;background:#fff;padding:20px;box-shadow:0 10px 30px #1825300a}.product:hover{border-color:#76b90088}.product .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.icon{font-size:1.75rem}.badge{display:inline-block;padding:3px 8px;border-radius:999px;background:#eaf4df;color:#3f6500;font-size:.7rem;font-weight:900;letter-spacing:.04em}.badge.blue{background:#eaf3f9;color:#245c82}.badge.gray{background:#edf1f4;color:#5c6974}.badge.purple{background:#f0ecf8;color:#5b468f}.product h3{font-size:1.25rem;margin:10px 0 4px}.one{font-weight:850;color:#2f4657;margin:0 0 9px}.product p{margin:.35em 0;color:var(--muted)}.keywords{margin-top:13px;padding-top:12px;border-top:1px dashed var(--line);font-size:.88rem}.keywords b{color:var(--navy)}.product a.more{display:inline-block;margin-top:12px;font-weight:800;text-decoration:none;color:var(--green-dark)}
+.stack{border:1px solid var(--line);border-radius:16px;background:#fff;padding:22px;overflow:auto}.stack-flow{min-width:760px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch}.stack-box{border-radius:12px;padding:16px;border:1px solid var(--line);background:#f9fbfa;text-align:center}.stack-box strong{display:block;color:var(--navy);font-size:1.08rem}.arrow{text-align:center;color:var(--green-dark);font-size:1.2rem;font-weight:900;margin:10px 0}
+.compare{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--line)}.compare th,.compare td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}.compare th{background:var(--navy);color:#fff}.compare tr:last-child td{border-bottom:0}.compare tr:nth-child(even) td{background:#fafcfc}.yes{color:#3f7500;font-weight:900}.no{color:#a54343;font-weight:900}
+.health-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.mini{border:1px solid var(--line);border-radius:13px;background:#fff;padding:17px}.mini .emoji{font-size:1.45rem}.mini h3{margin:7px 0 4px;font-size:1.05rem}.mini p{margin:0;color:var(--muted);font-size:.92rem}
+.exam-card{border:1px solid var(--line);border-radius:15px;background:#fff;padding:20px}.exam-card h3{margin-top:0}.pairs{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pair{border-left:4px solid var(--green);background:#f8fbf6;padding:13px 15px}.pair b{color:var(--navy)}
+.cheat{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.cheat div{border:1px solid var(--line);border-radius:10px;background:#fff;padding:11px 13px}.cheat code{font-family:Consolas,monospace;color:#1d4f72;font-weight:800}
+.sources{font-size:.91rem}.sources li{margin:.5em 0}.sources a{word-break:break-all}.updated{margin-top:24px;padding-top:15px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem}
+footer{background:#101a23;color:#b9c5cc}footer .inner{width:min(calc(100% - 40px),1120px);margin:auto;padding:26px 0;display:flex;justify-content:space-between;gap:20px;font-size:.86rem}footer a{color:#fff}
+@media(max-width:950px){.quick-map{grid-template-columns:repeat(3,1fr)}.product-grid{grid-template-columns:repeat(2,1fr)}.health-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.topbar nav{display:none}.hero .inner{padding:54px 0}.quick-map,.product-grid,.health-grid,.pairs,.cheat{grid-template-columns:1fr}.search{max-width:none;width:100%}}
+@media print{.topbar,.toolbar,footer{display:none}.hero{background:#fff;color:#000;border-bottom:5px solid var(--green)}.hero p{color:#333}main{width:100%;padding:20px}.product,.mini,.exam-card,.compare{break-inside:avoid}.product-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="topbar" id="top">
+  <div class="inner">
+    <a class="brand" href="../"><b>NCA</b> NVIDIA Product Map</a>
+    <nav aria-label="頁面導覽">
+      <a href="#core">核心配對</a><a href="#products">產品卡</a><a href="#stack">AI Stack</a><a href="#health">醫療</a><a href="#infra">Infrastructure</a><a href="#exam">考試陷阱</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="inner">
+    <div class="eyebrow">NCA-AIIO · PRODUCT LANDSCAPE</div>
+    <h1>NVIDIA 產品地圖</h1>
+    <p>不要硬背產品名稱。先看「它解決哪一類問題」，再用考題關鍵字把產品配回去。Clara、Isaac、Merlin、Metropolis、DRIVE、Riva、TensorRT、Triton 等一次整理。</p>
+    <div class="meta"><span class="pill">產業平台</span><span class="pill">AI 開發 / 推論</span><span class="pill">Edge / Robotics</span><span class="pill">Healthcare</span><span class="pill">AI Infrastructure</span><span class="pill">更新：2026-08-19</span></div>
+  </div>
+</div>
+
+<main>
+<section id="core">
+  <h2>先背這張：看到場景就配產品</h2>
+  <p class="lead">Associate 類題目最常考的是「產品定位」。先把這 10 個場景記成圖像，不要先背技術細節。</p>
+  <div class="quick-map">
+    <div class="quick"><span class="emoji">🏥</span><strong>Clara</strong><small>Healthcare / Medical Imaging / Genomics</small></div>
+    <div class="quick"><span class="emoji">🤖</span><strong>Isaac</strong><small>Robotics / Simulation / AMR</small></div>
+    <div class="quick"><span class="emoji">🛒</span><strong>Merlin</strong><small>Recommendation / Personalization</small></div>
+    <div class="quick"><span class="emoji">📹</span><strong>Metropolis</strong><small>Vision AI / Video Analytics</small></div>
+    <div class="quick"><span class="emoji">🚗</span><strong>DRIVE</strong><small>ADAS / Autonomous Vehicle</small></div>
+    <div class="quick"><span class="emoji">🗣️</span><strong>Riva</strong><small>Speech AI / ASR / TTS</small></div>
+    <div class="quick"><span class="emoji">🔐</span><strong>Morpheus</strong><small>Cybersecurity / Threat Detection</small></div>
+    <div class="quick"><span class="emoji">🏭</span><strong>Omniverse</strong><small>Digital Twin / Physical AI Simulation</small></div>
+    <div class="quick"><span class="emoji">🚚</span><strong>cuOpt</strong><small>Routing / Decision Optimization</small></div>
+    <div class="quick"><span class="emoji">📊</span><strong>CUDA-X Data Science</strong><small>GPU Data Processing / ML / Analytics</small></div>
+  </div>
+  <div class="note"><b>最短口訣：</b>醫院 Clara、機器人 Isaac、推薦 Merlin、攝影機 Metropolis、汽車 DRIVE、語音 Riva、資安 Morpheus、數位孿生 Omniverse、路線 cuOpt、資料科學 CUDA-X。</div>
+</section>
+
+<section id="products">
+  <h2>產品卡：知道「它是什麼」與「它不是什麼」</h2>
+  <p class="lead">可用分類或關鍵字搜尋。真正做題時，先找題幹中的 domain keyword。</p>
+  <div class="toolbar">
+    <div class="filters">
+      <button class="filter active" data-filter="all">全部</button>
+      <button class="filter" data-filter="industry">產業</button>
+      <button class="filter" data-filter="ai">AI / 推論</button>
+      <button class="filter" data-filter="edge">Edge</button>
+      <button class="filter" data-filter="infra">Infrastructure</button>
+    </div>
+    <input class="search" id="search" placeholder="搜尋：robot、speech、inference、healthcare…" aria-label="搜尋產品">
+  </div>
+  <div class="product-grid" id="productGrid">
+
+    <article class="product" data-cat="industry" data-text="clara healthcare medical imaging genomics 醫療 影像 基因">
+      <div class="top"><span class="icon">🏥</span><span class="badge">核心</span></div><h3>NVIDIA Clara</h3>
+      <p class="one">Healthcare-specific AI 平台 / 生態。</p><p>考題看到 healthcare、medical imaging、genomics、biomedical，Clara 通常是最直接的 umbrella answer。</p>
+      <div class="keywords"><b>關鍵字：</b> Healthcare · Medical Imaging · Genomics · Biomedical</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/clara/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry edge" data-text="isaac robotics robot amr manipulator humanoid simulation 機器人 模擬">
+      <div class="top"><span class="icon">🤖</span><span class="badge">核心</span></div><h3>NVIDIA Isaac</h3>
+      <p class="one">Robotics development platform。</p><p>涵蓋機器人模擬、robot learning、CUDA 加速函式庫、AI models 與 reference workflows，可用於 AMR、robot arm、humanoid。</p>
+      <div class="keywords"><b>關鍵字：</b> Robotics · AMR · Manipulator · Humanoid · Simulation</div><a class="more" target="_blank" rel="noopener" href="https://developer.nvidia.com/isaac/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry ai" data-text="merlin recommender recommendation personalization ecommerce 推薦 個人化">
+      <div class="top"><span class="icon">🛒</span><span class="badge">核心</span></div><h3>NVIDIA Merlin</h3>
+      <p class="one">大規模 Recommendation System framework。</p><p>針對推薦流程的 preprocessing、feature engineering、training、inference 與 production deployment。</p>
+      <div class="keywords"><b>關鍵字：</b> Recommender · Personalization · Ranking · E-commerce</div><a class="more" target="_blank" rel="noopener" href="https://developer.nvidia.com/merlin">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry edge" data-text="metropolis vision video analytics camera smart city retail traffic surveillance 視覺 影像 攝影機 智慧城市">
+      <div class="top"><span class="icon">📹</span><span class="badge">核心</span></div><h3>NVIDIA Metropolis</h3>
+      <p class="one">Vision AI / Video Analytics application platform。</p><p>把 camera / sensor data 轉成即時洞察，常見在智慧城市、製造、零售、物流與交通。</p>
+      <div class="keywords"><b>關鍵字：</b> Video Analytics · Camera · Smart City · Visual Inspection</div><a class="more" target="_blank" rel="noopener" href="https://developer.nvidia.com/metropolis">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry edge" data-text="drive autonomous vehicle self driving adas automotive car 自駕 車 汽車">
+      <div class="top"><span class="icon">🚗</span><span class="badge">核心</span></div><h3>NVIDIA DRIVE</h3>
+      <p class="one">Autonomous vehicle / ADAS 平台。</p><p>從車用 compute、感知與規劃到自駕 software stack。題目只要明確是 self-driving / ADAS，先想到 DRIVE。</p>
+      <div class="keywords"><b>關鍵字：</b> Autonomous Vehicle · ADAS · Self-driving · Automotive</div><a class="more" target="_blank" rel="noopener" href="https://www.nvidia.com/en-us/solutions/autonomous-vehicles/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry ai" data-text="riva speech asr tts voice conversational ai 語音 辨識 合成">
+      <div class="top"><span class="icon">🗣️</span><span class="badge">核心</span></div><h3>NVIDIA Riva</h3>
+      <p class="one">GPU-accelerated Speech AI SDK。</p><p>主要聯想 ASR（語音辨識）、TTS（語音合成）與 production conversational AI。</p>
+      <div class="keywords"><b>關鍵字：</b> Speech · ASR · TTS · Voice · Conversational AI</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/riva/user-guide/docs/public/index.html">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry ai" data-text="morpheus cybersecurity security threat anomaly logs telemetry 資安 威脅 異常">
+      <div class="top"><span class="icon">🔐</span><span class="badge">核心</span></div><h3>NVIDIA Morpheus</h3>
+      <p class="one">GPU-accelerated AI cybersecurity framework。</p><p>針對大量 streaming security data、logs、telemetry 做分析、分類、threat / anomaly detection。</p>
+      <div class="keywords"><b>關鍵字：</b> Cybersecurity · Threat · Anomaly · Logs · Telemetry</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/morpheus/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry ai" data-text="omniverse digital twin simulation openusd physical ai factory 3d 數位孿生 模擬 工廠">
+      <div class="top"><span class="icon">🏭</span><span class="badge">核心</span></div><h3>NVIDIA Omniverse</h3>
+      <p class="one">Physical AI / Industrial Digital Twin 的 3D 與 simulation 基礎。</p><p>常見於工廠、倉儲、data center、robotics simulation 與 OpenUSD 工作流程。</p>
+      <div class="keywords"><b>關鍵字：</b> Digital Twin · OpenUSD · Simulation · Factory</div><a class="more" target="_blank" rel="noopener" href="https://docs.omniverse.nvidia.com/ov/latest/index.html">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="industry ai" data-text="cuopt route routing optimization logistics fleet scheduling vrp lp mip 物流 路線 排程 最佳化">
+      <div class="top"><span class="icon">🚚</span><span class="badge">延伸</span></div><h3>NVIDIA cuOpt</h3>
+      <p class="one">GPU-accelerated decision optimization engine。</p><p>可解 vehicle routing、LP / QP / MIP 等問題。物流、fleet、排程、最佳路徑是最強提示。</p>
+      <div class="keywords"><b>關鍵字：</b> Routing · Logistics · Fleet · Scheduling · Optimization</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/cuopt/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="ai" data-text="cuda-x rapids data science cudf cuml data processing dataframe pandas analytics 資料科學 dataframe gpu">
+      <div class="top"><span class="icon">📊</span><span class="badge blue">名稱更新</span></div><h3>CUDA-X Data Science（RAPIDS）</h3>
+      <p class="one">GPU-accelerated Data Science libraries。</p><p>cuDF、cuML、cuGraph 等讓 DataFrame、ML、graph analytics 與資料處理吃到 GPU 加速。2026-08-11 起 RAPIDS 品牌轉向 CUDA-X，功能持續保留。</p>
+      <div class="keywords"><b>關鍵字：</b> Data Science · DataFrame · pandas · ETL · cuDF · cuML</div><a class="more" target="_blank" rel="noopener" href="https://developer.nvidia.com/topics/ai/data-science/cuda-x-for-data-science">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="ai" data-text="nemo llm generative ai agents agent customization training nlp 大語言模型 生成式ai 代理">
+      <div class="top"><span class="icon">🧠</span><span class="badge blue">GenAI</span></div><h3>NVIDIA NeMo</h3>
+      <p class="one">GenAI / AI agent 專門化、最佳化與治理的開放式工具套件。</p><p>舊教材常把 NeMo 記成 NLP / LLM framework；新版定位更偏 agent lifecycle 與生成式 AI 開發。</p>
+      <div class="keywords"><b>關鍵字：</b> LLM · GenAI · Agents · Customization · Governance</div><a class="more" target="_blank" rel="noopener" href="https://www.nvidia.com/zh-tw/ai-data-science/products/nemo/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="ai" data-text="tensorrt inference optimize runtime low latency throughput engine quantization 推論 最佳化 低延遲">
+      <div class="top"><span class="icon">⚡</span><span class="badge">必考</span></div><h3>NVIDIA TensorRT</h3>
+      <p class="one">把已訓練模型「最佳化成更快的 inference engine」。</p><p>重點是 optimize inference：mixed precision、layer / graph optimization、hardware-specific engine。</p>
+      <div class="keywords"><b>關鍵字：</b> Optimize Inference · Low Latency · Throughput · Engine</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/tensorrt/latest/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="ai infra" data-text="triton inference server serving dynamic batching model repository api kubernetes serve 推論伺服器 服務 batching">
+      <div class="top"><span class="icon">🌐</span><span class="badge">必考</span></div><h3>NVIDIA Triton Inference Server</h3>
+      <p class="one">把模型「serve 成 inference service」。</p><p>常見重點：model repository、HTTP / gRPC API、dynamic batching、concurrent execution、多 framework backend。</p>
+      <div class="keywords"><b>關鍵字：</b> Serving · Inference Server · Dynamic Batching · API</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/triton-inference-server/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="ai infra" data-text="nim microservice deploy foundation model container api inference deployment 微服務 模型部署 容器">
+      <div class="top"><span class="icon">📦</span><span class="badge blue">GenAI</span></div><h3>NVIDIA NIM</h3>
+      <p class="one">預先建置、最佳化的 AI inference microservices。</p><p>把 foundation model 與 runtime、API、相依套件封裝成 production-ready microservice，降低部署複雜度。</p>
+      <div class="keywords"><b>關鍵字：</b> Microservice · Foundation Model · Container · API · Deployment</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/nim/">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="ai infra" data-text="dynamo distributed inference llm serving kv cache prefill decode routing autoscaling 分散式推論 kv cache">
+      <div class="top"><span class="icon">🌀</span><span class="badge purple">2026 延伸</span></div><h3>NVIDIA Dynamo</h3>
+      <p class="one">分散式 Generative AI inference framework。</p><p>面向大型 GPU fleet 的低延遲、高吞吐 serving，重點包含 KV-aware routing、prefill / decode disaggregation 與 autoscaling。</p>
+      <div class="keywords"><b>關鍵字：</b> Distributed Inference · KV Cache · Prefill/Decode · Routing</div><a class="more" target="_blank" rel="noopener" href="https://docs.nvidia.com/dynamo/dev">官方資料 ↗</a>
+    </article>
+
+    <article class="product" data-cat="edge infra" data-text="jetson edge ai embedded robotics autonomous machine orin thor 邊緣 嵌入式 機器人">
+      <div class="top"><span class="icon">🧩</span><span class="badge">核心</span></div><h3>NVIDIA Jetson</h3>
+      <p class="one">Edge AI / embedded compute platform。</p><p>小型、節能的 NVIDIA AI compute module，常放在 robot、camera、autonomous machine 裡做即時 inference。</p>
+      <div class="keywords"><b>關鍵字：</b> Edge AI · Embedded · Robotics · Autonomous Machine</div><a class="more" target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/jetson-modules">官方資料 ↗</a>
+    </article>
+  </div>
+</section>
+
+<section id="stack">
+  <h2>最容易混：TensorRT、Triton、NIM、Dynamo 到底差在哪？</h2>
+  <p class="lead">把它們放進同一條 inference pipeline 就清楚了。它們不是互斥產品，而是解決不同層級的問題。</p>
+  <div class="stack">
+    <div class="stack-flow">
+      <div class="stack-box"><strong>Training 完的 Model</strong><small>PyTorch / ONNX / LLM</small></div>
+      <div class="stack-box"><strong>TensorRT</strong><small>Optimize model execution</small></div>
+      <div class="stack-box"><strong>Triton</strong><small>Serve models via inference server</small></div>
+      <div class="stack-box"><strong>NIM</strong><small>Prebuilt optimized microservice</small></div>
+      <div class="stack-box"><strong>Dynamo</strong><small>Scale distributed GenAI inference</small></div>
+    </div>
+  </div>
+  <div class="arrow">模型最佳化 → 模型服務 → 微服務化 → 大規模分散式 serving</div>
+  <table class="compare">
+    <tr><th>產品</th><th>最簡單的一句話</th><th>最常見考題字眼</th><th>不要誤認成</th></tr>
+    <tr><td><b>TensorRT</b></td><td>讓 inference 執行更快</td><td>optimization, low latency, engine, precision</td><td>Triton server</td></tr>
+    <tr><td><b>Triton</b></td><td>把模型 serve 給 client</td><td>inference server, dynamic batching, HTTP/gRPC</td><td>模型訓練 framework</td></tr>
+    <tr><td><b>NIM</b></td><td>封裝好的 production AI microservice</td><td>microservice, API, fast deployment</td><td>單純 optimizer</td></tr>
+    <tr><td><b>Dynamo</b></td><td>大型分散式 GenAI inference orchestration</td><td>KV cache, distributed serving, prefill/decode</td><td>單機 TensorRT</td></tr>
+  </table>
+  <div class="note"><b>考試口訣：</b> TensorRT = <b>加速</b>；Triton = <b>服務</b>；NIM = <b>包好可部署</b>；Dynamo = <b>大規模分散式推論</b>。</div>
+</section>
+
+<section id="health">
+  <h2>Healthcare 再拆一層：Clara 下面常看到誰？</h2>
+  <p class="lead">Clara 是最重要的 healthcare umbrella。若題目問得更細，可以再做下面的配對。</p>
+  <div class="health-grid">
+    <div class="mini"><span class="emoji">🩻</span><h3>MONAI</h3><p><b>Medical Imaging</b><br>醫療影像 AI workflow、segmentation、imaging models。</p></div>
+    <div class="mini"><span class="emoji">🧬</span><h3>Parabricks</h3><p><b>Genomics</b><br>GPU 加速 next-generation sequencing 與 genomic analysis。</p></div>
+    <div class="mini"><span class="emoji">💊</span><h3>BioNeMo</h3><p><b>Drug Discovery</b><br>利用 Generative AI / biomolecular models 加速藥物研發。</p></div>
+    <div class="mini"><span class="emoji">🩺</span><h3>Holoscan</h3><p><b>Medical / Sensor Computing</b><br>即時 sensor processing、醫療設備與 edge AI pipeline。</p></div>
+  </div>
+  <div class="note"><b>考試層級：</b> 題目只說「healthcare / imaging / genomics 的 NVIDIA 平台」→ 優先 <b>Clara</b>。題目直接指定「medical imaging framework」→ <b>MONAI</b>；「genomics pipeline」→ <b>Parabricks</b>；「drug discovery」→ <b>BioNeMo</b>。</div>
+</section>
+
+<section id="infra">
+  <h2>NCA-AIIO 額外必認：Infrastructure / Operations 產品</h2>
+  <p class="lead">這些不是「產業垂直 solution」，但對 AI Infrastructure & Operations 更直接。</p>
+  <div class="product-grid">
+    <article class="product"><div class="top"><span class="icon">🖥️</span><span class="badge gray">System</span></div><h3>DGX</h3><p class="one">NVIDIA 完整整合的 enterprise AI system / platform。</p><p>看到完整 NVIDIA AI system、NVIDIA 自家整合硬體與軟體、SuperPOD，想到 DGX。</p><div class="keywords"><b>口訣：</b> DGX = NVIDIA 自己整套交付</div><a class="more" href="https://www.nvidia.com/en-us/data-center/dgx-platform/" target="_blank" rel="noopener">官方資料 ↗</a></article>
+
+    <article class="product"><div class="top"><span class="icon">🧱</span><span class="badge gray">Platform</span></div><h3>HGX</h3><p class="one">給 OEM / server vendor 建 AI server 的 high-performance platform。</p><p>整合 GPU、NVLink、networking 與 AI/HPC software stack，常作為資料中心 AI server 基礎。</p><div class="keywords"><b>口訣：</b> HGX = server platform / building block</div><a class="more" href="https://www.nvidia.com/en-us/data-center/hgx/" target="_blank" rel="noopener">官方資料 ↗</a></article>
+
+    <article class="product"><div class="top"><span class="icon">🌐</span><span class="badge gray">DPU</span></div><h3>BlueField</h3><p class="one">Infrastructure compute / DPU。</p><p>把 networking、storage、security 等基礎架構工作從 CPU offload / accelerate。</p><div class="keywords"><b>關鍵字：</b> DPU · Network · Storage · Security · Offload</div><a class="more" href="https://www.nvidia.com/en-us/networking/products/data-processing-unit/" target="_blank" rel="noopener">官方資料 ↗</a></article>
+
+    <article class="product"><div class="top"><span class="icon">☸️</span><span class="badge gray">Kubernetes</span></div><h3>GPU Operator</h3><p class="one">自動管理 Kubernetes GPU software stack。</p><p>自動部署 / 管理 NVIDIA driver、device plugin、Container Toolkit、DCGM monitoring 等元件。</p><div class="keywords"><b>關鍵字：</b> Kubernetes · Provision GPU · Driver · Device Plugin</div><a class="more" href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/" target="_blank" rel="noopener">官方資料 ↗</a></article>
+
+    <article class="product"><div class="top"><span class="icon">📈</span><span class="badge gray">Monitoring</span></div><h3>DCGM</h3><p class="one">Data Center GPU Manager。</p><p>GPU health、telemetry、diagnostics、configuration、accounting 與 data-center GPU monitoring。</p><div class="keywords"><b>關鍵字：</b> GPU Health · Monitoring · Diagnostics · Telemetry</div><a class="more" href="https://docs.nvidia.com/datacenter/dcgm/latest/" target="_blank" rel="noopener">官方資料 ↗</a></article>
+
+    <article class="product"><div class="top"><span class="icon">🔗</span><span class="badge gray">Communication</span></div><h3>NCCL</h3><p class="one">Multi-GPU collective communication library。</p><p>加速 GPU 之間 AllReduce、Broadcast、AllGather、ReduceScatter 等 collective operations。</p><div class="keywords"><b>關鍵字：</b> Multi-GPU · Collective · AllReduce · Communication</div><a class="more" href="https://docs.nvidia.com/deeplearning/nccl/" target="_blank" rel="noopener">官方資料 ↗</a></article>
+  </div>
+</section>
+
+<section id="exam">
+  <h2>最常搞混的配對</h2>
+  <div class="pairs">
+    <div class="pair"><b>Isaac vs Jetson</b><br>Isaac = robotics software / development platform；Jetson = edge AI compute platform。</div>
+    <div class="pair"><b>Clara vs TensorRT</b><br>Clara = healthcare-specific；TensorRT = 通用 inference optimization，醫療也能用但不是 healthcare 專屬。</div>
+    <div class="pair"><b>Metropolis vs Jetson</b><br>Metropolis = vision AI application platform；Jetson = 執行 edge AI 的硬體 / compute 平台。</div>
+    <div class="pair"><b>TensorRT vs Triton</b><br>TensorRT = optimize model；Triton = serve model。</div>
+    <div class="pair"><b>Omniverse vs Isaac</b><br>Omniverse = general 3D / digital twin / physical simulation foundation；Isaac = robotics-specific development stack，兩者可一起使用。</div>
+    <div class="pair"><b>Merlin vs RAPIDS / CUDA-X</b><br>Merlin = recommendation-specific；CUDA-X Data Science = 通用 GPU data science / analytics。</div>
+    <div class="pair"><b>DGX vs HGX</b><br>DGX = NVIDIA 完整 system；HGX = 給 server makers 整合的 platform / building block。</div>
+    <div class="pair"><b>GPU Operator vs DCGM</b><br>GPU Operator = Kubernetes GPU software lifecycle；DCGM = GPU monitoring / health / diagnostics。</div>
+  </div>
+
+  <h3>題目關鍵字 → 秒選</h3>
+  <div class="cheat">
+    <div><code>healthcare / genomics</code> → <b>Clara</b></div>
+    <div><code>robotics / AMR / humanoid</code> → <b>Isaac</b></div>
+    <div><code>recommendation / personalization</code> → <b>Merlin</b></div>
+    <div><code>video analytics / smart city</code> → <b>Metropolis</b></div>
+    <div><code>self-driving / ADAS</code> → <b>DRIVE</b></div>
+    <div><code>speech / ASR / TTS</code> → <b>Riva</b></div>
+    <div><code>cybersecurity / anomaly</code> → <b>Morpheus</b></div>
+    <div><code>digital twin / OpenUSD</code> → <b>Omniverse</b></div>
+    <div><code>route / fleet optimization</code> → <b>cuOpt</b></div>
+    <div><code>GPU data science / DataFrame</code> → <b>CUDA-X Data Science</b></div>
+    <div><code>optimize inference</code> → <b>TensorRT</b></div>
+    <div><code>inference server / batching</code> → <b>Triton</b></div>
+    <div><code>model microservice / API</code> → <b>NIM</b></div>
+    <div><code>distributed GenAI inference</code> → <b>Dynamo</b></div>
+    <div><code>edge AI / embedded</code> → <b>Jetson</b></div>
+    <div><code>Kubernetes GPU provisioning</code> → <b>GPU Operator</b></div>
+    <div><code>GPU health / telemetry</code> → <b>DCGM</b></div>
+    <div><code>multi-GPU AllReduce</code> → <b>NCCL</b></div>
+  </div>
+  <div class="note warn"><b>答題技巧：</b>選項都能「做到」某件事時，找題目中的 <b>specifically designed for / most directly / primary purpose</b>。例如醫療模型當然能用 TensorRT，但題目問「specifically designed for healthcare」時，答案會是 Clara。</div>
+</section>
+
+<section id="sources">
+  <h2>官方來源</h2>
+  <p class="lead">產品名稱與定位會隨 NVIDIA 生態演進，因此以官方文件為準。本頁用於 NCA-AIIO 考試複習，重點是辨認角色與場景。</p>
+  <ul class="sources">
+    <li><a href="https://docs.nvidia.com/clara/" target="_blank" rel="noopener">NVIDIA Clara Documentation</a></li>
+    <li><a href="https://developer.nvidia.com/isaac/" target="_blank" rel="noopener">NVIDIA Isaac</a>；<a href="https://developer.nvidia.com/merlin" target="_blank" rel="noopener">NVIDIA Merlin</a>；<a href="https://developer.nvidia.com/metropolis" target="_blank" rel="noopener">NVIDIA Metropolis</a></li>
+    <li><a href="https://docs.nvidia.com/deeplearning/riva/user-guide/docs/public/index.html" target="_blank" rel="noopener">NVIDIA Riva</a>；<a href="https://docs.nvidia.com/morpheus/" target="_blank" rel="noopener">NVIDIA Morpheus</a></li>
+    <li><a href="https://docs.omniverse.nvidia.com/ov/latest/index.html" target="_blank" rel="noopener">NVIDIA Omniverse</a>；<a href="https://docs.nvidia.com/cuopt/" target="_blank" rel="noopener">NVIDIA cuOpt</a></li>
+    <li><a href="https://docs.nvidia.com/deeplearning/tensorrt/latest/" target="_blank" rel="noopener">TensorRT</a>；<a href="https://docs.nvidia.com/deeplearning/triton-inference-server/" target="_blank" rel="noopener">Triton Inference Server</a>；<a href="https://docs.nvidia.com/nim/" target="_blank" rel="noopener">NIM</a>；<a href="https://docs.nvidia.com/dynamo/dev" target="_blank" rel="noopener">Dynamo</a></li>
+    <li><a href="https://developer.nvidia.com/topics/ai/data-science/cuda-x-for-data-science" target="_blank" rel="noopener">CUDA-X for Data Science</a>；<a href="https://developer.nvidia.com/embedded/jetson-modules" target="_blank" rel="noopener">Jetson</a></li>
+    <li><a href="https://www.nvidia.com/en-us/data-center/dgx-platform/" target="_blank" rel="noopener">DGX</a>；<a href="https://www.nvidia.com/en-us/data-center/hgx/" target="_blank" rel="noopener">HGX</a>；<a href="https://www.nvidia.com/en-us/networking/products/data-processing-unit/" target="_blank" rel="noopener">BlueField</a></li>
+    <li><a href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/" target="_blank" rel="noopener">GPU Operator</a>；<a href="https://docs.nvidia.com/datacenter/dcgm/latest/" target="_blank" rel="noopener">DCGM</a>；<a href="https://docs.nvidia.com/deeplearning/nccl/" target="_blank" rel="noopener">NCCL</a></li>
+  </ul>
+  <div class="updated">最後更新：2026-08-19。注意：NVIDIA 官方已於 2026-08-11 開始將 RAPIDS 品牌轉向 CUDA-X；舊題仍可能使用 RAPIDS 名稱。</div>
+</section>
+</main>
+
+<footer><div class="inner"><span>NCA-AIIO Study Guide · NVIDIA Product Landscape</span><a href="../">回到完整教材</a></div></footer>
+
+<script>
+const buttons=[...document.querySelectorAll('.filter')];
+const cards=[...document.querySelectorAll('#productGrid .product')];
+const search=document.getElementById('search');
+let current='all';
+function apply(){
+  const q=search.value.trim().toLowerCase();
+  cards.forEach(card=>{
+    const cats=(card.dataset.cat||'').split(' ');
+    const text=(card.dataset.text+' '+card.innerText).toLowerCase();
+    const catOK=current==='all'||cats.includes(current);
+    const textOK=!q||text.includes(q);
+    card.style.display=(catOK&&textOK)?'':'none';
+  });
+}
+buttons.forEach(btn=>btn.addEventListener('click',()=>{
+  buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');current=btn.dataset.filter;apply();
+}));
+search.addEventListener('input',apply);
+</script>
+</body>
+</html>
