@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NVIDIA NCA-AIIO × Certiverse 考前提醒：證件、系統、監考規則、改期政策與考試當天 checklist。">
+<title>NCA-AIIO × Certiverse 考試提醒</title>
+<style>
+:root{
+  --bg:#f3f6f8; --paper:#ffffff; --ink:#17212b; --muted:#5f6b78; --line:#dce3e8;
+  --navy:#17324d; --green:#76b900; --green-dark:#4f7f00; --blue:#246c9f;
+  --warn:#a86400; --warn-bg:#fff7e5; --danger:#b02a37; --danger-bg:#fff0f2;
+  --good:#2d6a1f; --good-bg:#eef8e8; --shadow:0 10px 30px rgba(18,39,57,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;line-height:1.68}
+a{color:var(--blue)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(23,50,77,.96);backdrop-filter:blur(10px);color:#fff;border-bottom:3px solid var(--green)}
+.topbar .inner{max-width:1040px;margin:auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:900;letter-spacing:.03em}.brand span{color:var(--green)}
+.topbar nav{display:flex;gap:14px;flex-wrap:wrap}.topbar nav a{color:#fff;text-decoration:none;font-size:.9rem;opacity:.9}.topbar nav a:hover{opacity:1}
+main{max-width:1040px;margin:26px auto 50px;background:var(--paper);box-shadow:var(--shadow);border-radius:18px;overflow:hidden}
+.hero{padding:54px 58px 46px;background:linear-gradient(135deg,#122b42 0%,#1e405d 72%,#28506e 100%);color:#fff;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border:46px solid rgba(118,185,0,.18);border-radius:50%;right:-80px;top:-85px}
+.kicker{font-size:.83rem;letter-spacing:.14em;font-weight:900;color:#b8ef63;text-transform:uppercase}
+h1{font-size:clamp(2rem,5vw,3.35rem);line-height:1.12;margin:.28em 0 .35em;max-width:760px}.hero p{max-width:760px;color:#deebf4;font-size:1.08rem}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.09);padding:6px 11px;border-radius:999px;font-size:.88rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}.btn{appearance:none;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.btn.primary{background:var(--green);color:#14210a}.btn.secondary{background:#fff;color:var(--navy)}
+.content{padding:34px 58px 56px}
+h2{color:var(--navy);font-size:1.62rem;margin:1.7em 0 .6em;padding-bottom:.28em;border-bottom:3px solid var(--green)}
+h2:first-child{margin-top:.2em}h3{color:var(--navy);margin:1.1em 0 .35em;font-size:1.13rem}
+p{margin:.45em 0 .9em}.muted{color:var(--muted)}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 22px}.stat{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fafcfd}.stat b{display:block;font-size:1.32rem;color:var(--navy)}.stat span{font-size:.84rem;color:var(--muted)}
+.alert{border-radius:11px;padding:13px 15px;margin:13px 0;border:1px solid}.alert strong{display:block;margin-bottom:2px}.alert.danger{background:var(--danger-bg);border-color:#efc1c7;color:#77202a}.alert.warn{background:var(--warn-bg);border-color:#f0d39c;color:#714700}.alert.good{background:var(--good-bg);border-color:#c9e5ba;color:#285d1d}.alert.info{background:#eef6fb;border-color:#c7ddec;color:#204f70}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{border:1px solid var(--line);border-radius:13px;padding:16px 17px;background:#fff}.card h3{margin-top:0}.card ul{margin:.45em 0 .1em;padding-left:1.25em}.card li{margin:.38em 0}
+.checklist{list-style:none;padding:0;margin:10px 0}.checklist li{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;background:#fbfcfd;display:flex;gap:10px;align-items:flex-start}.checklist input{margin-top:6px;transform:scale(1.18);accent-color:var(--green)}.checklist label{cursor:pointer;flex:1}.checklist small{display:block;color:var(--muted);margin-top:2px}
+.timeline{border-left:4px solid var(--green);margin:15px 0 0 8px;padding-left:20px}.timeline .step{position:relative;margin:0 0 22px}.timeline .step:before{content:"";position:absolute;width:13px;height:13px;border-radius:50%;background:var(--green);left:-28.5px;top:7px;box-shadow:0 0 0 4px #edf6df}.timeline b{color:var(--navy)}
+table{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}th{background:var(--navy);color:#fff}tr:nth-child(even) td{background:#f8fafb}
+.big-rule{font-size:1.15rem;font-weight:900;color:var(--danger)}
+.sources{font-size:.9rem;color:var(--muted)}.sources li{margin:.4em 0}.updated{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.backtop{display:inline-block;margin-top:15px;text-decoration:none;font-weight:700}
+@media(max-width:760px){main{margin:0;border-radius:0}.hero,.content{padding:32px 22px}.summary{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.topbar nav{display:none}}
+@media print{body{background:#fff}.topbar,.actions{display:none}main{box-shadow:none;margin:0;border-radius:0}.hero{background:#fff;color:#000;padding:20px 0;border-bottom:4px solid #76b900}.hero p,.hero .kicker{color:#333}.pill{color:#000;border-color:#bbb;background:#fff}.content{padding:18px 0}.card,.checklist li,.alert,table{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar" id="top">
+  <div class="inner">
+    <div class="brand"><span>NCA</span>-AIIO Exam Ready</div>
+    <nav aria-label="頁面導覽">
+      <a href="#must">最重要</a><a href="#checklist">Checklist</a><a href="#day">考試當天</a><a href="#policy">改期政策</a><a href="#sources">官方來源</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="hero">
+  <div class="kicker">NVIDIA NCA-AIIO × Certiverse</div>
+  <h1>考試提醒與最後檢查表</h1>
+  <p>把最容易造成「不能考、被監考系統攔下、或白白損失考試費」的事情集中在一頁。考前照著勾完即可。</p>
+  <div class="hero-meta">
+    <span class="pill">50 題</span><span class="pill">60 分鐘</span><span class="pill">English</span><span class="pill">US$125</span><span class="pill">Remote Proctored</span>
+  </div>
+  <div class="actions">
+    <button class="btn primary" onclick="window.print()">列印 / 存成 PDF</button>
+    <a class="btn secondary" href="https://www.certiverse.com/" target="_blank" rel="noopener">開啟 Certiverse</a>
+  </div>
+</section>
+<div class="content">
+<section id="must">
+<h2>先記住這 7 件事</h2>
+<div class="summary">
+  <div class="stat"><b>姓名</b><span>與實體政府證件一致</span></div>
+  <div class="stat"><b>1 螢幕</b><span>第二螢幕不要使用</span></div>
+  <div class="stat"><b>5 / 5 Mbps</b><span>最低下載 / 上傳</span></div>
+  <div class="stat"><b>24 小時</b><span>自行改期最後門檻</span></div>
+</div>
+<div class="alert danger"><strong>最容易忽略：不要把題目唸出來。</strong>Certiverse 的監考規則將 looking off screen、mumbling / speaking aloud、離開 webcam 畫面等列為可能被調查的行為。英文題目再難，也盡量在心裡讀。</div>
+<div class="grid2">
+  <div class="card"><h3>1. 證件</h3><ul><li>First Name / Last Name 必須與註冊姓名一致。</li><li>使用有效、未過期的<strong>實體</strong>政府核發照片證件。</li><li>最省事的做法：註冊英文姓名直接照護照。</li></ul></div>
+  <div class="card"><h3>2. 電腦</h3><ul><li>Windows 11 或更新版本。</li><li>macOS Sonoma 14 或更新版本。</li><li>Live / AI proctoring 不支援 Chromebook、iPhone/iPad、Android。</li></ul></div>
+  <div class="card"><h3>3. 瀏覽器 / SEB</h3><ul><li>Chrome 或 Edge 最新版。</li><li>只有當考試邀請或指示<strong>明確要求</strong>時才需要 Safe Exam Browser (SEB)。</li><li>若需要 SEB，務必考前先安裝、再跑相容性測試。</li></ul></div>
+  <div class="card"><h3>4. Webcam / Mic / 網路</h3><ul><li>Webcam 必須正常。</li><li>使用內建麥克風；headset microphone 不允許。</li><li>最低下載 5 Mbps、上傳 5 Mbps。</li></ul></div>
+  <div class="card"><h3>5. 公司電腦不是首選</h3><ul><li>可能被 admin 權限、資安軟體、VPN、remote access 工具干擾。</li><li>若有私人 Windows 11 / Mac，通常比公司管控電腦單純。</li></ul></div>
+  <div class="card"><h3>6. 桌面與房間</h3><ul><li>私人、安靜、光線足夠的空間。</li><li>書、紙、筆記、手機、平板、智慧手錶等移走或關閉。</li><li>只能使用一組 mouse、keyboard、monitor/display。</li></ul></div>
+</div>
+<div class="alert warn"><strong>7. 不要最後一刻才測。</strong>Certiverse 官方把 System Compatibility Check 特別標成 CRUCIAL。考試前幾天先完成 webcam、mic、network 與 SEB（若需要）檢查。</div>
+</section>
+
+<section id="checklist">
+<h2>考前 Checklist</h2>
+<p class="muted">勾選狀態會保存在這台瀏覽器的 localStorage；重新整理不會消失。</p>
+<h3>報名後就做</h3>
+<ul class="checklist">
+<li><input id="c1" type="checkbox"><label for="c1"><strong>確認 Certiverse 註冊姓名與護照 / 證件完全一致</strong><small>尤其 First Name / Last Name 順序與拼字。</small></label></li>
+<li><input id="c2" type="checkbox"><label for="c2"><strong>確認考試日期、時間與時區</strong><small>不要只記「星期幾」，把完整日期與時間放進行事曆。</small></label></li>
+<li><input id="c3" type="checkbox"><label for="c3"><strong>確認要使用的電腦符合 OS 要求</strong><small>Windows 11+ 或 macOS Sonoma 14+。</small></label></li>
+<li><input id="c4" type="checkbox"><label for="c4"><strong>閱讀邀請，確認是否要求 SEB</strong><small>不是所有考試都一定要求；以你的考試邀請 / instructions 為準。</small></label></li>
+</ul>
+<h3>考前 2–3 天</h3>
+<ul class="checklist">
+<li><input id="c5" type="checkbox"><label for="c5"><strong>執行 Certiverse System Compatibility Check</strong><small>測 webcam、microphone、瀏覽器與連線。</small></label></li>
+<li><input id="c6" type="checkbox"><label for="c6"><strong>若需要 SEB，完成安裝與 SEB 專用 compatibility check</strong></label></li>
+<li><input id="c7" type="checkbox"><label for="c7"><strong>確認網路至少 5 Mbps download / 5 Mbps upload</strong><small>避免使用不穩定的公共 Wi-Fi。</small></label></li>
+<li><input id="c8" type="checkbox"><label for="c8"><strong>準備有效、未過期的實體照片證件</strong></label></li>
+</ul>
+<h3>考試當天</h3>
+<ul class="checklist">
+<li><input id="c9" type="checkbox"><label for="c9"><strong>拔除 / 關閉第二螢幕</strong></label></li>
+<li><input id="c10" type="checkbox"><label for="c10"><strong>關閉 VPN、remote desktop / screen sharing 與不必要 App</strong></label></li>
+<li><input id="c11" type="checkbox"><label for="c11"><strong>手機、平板、智慧手錶移走或關機</strong></label></li>
+<li><input id="c12" type="checkbox"><label for="c12"><strong>桌面清空：沒有書、紙張、筆記或未授權材料</strong></label></li>
+<li><input id="c13" type="checkbox"><label for="c13"><strong>確認臉部完整在 webcam 畫面內，房間光線足夠</strong></label></li>
+<li><input id="c14" type="checkbox"><label for="c14"><strong>提醒自己：不要喃喃自語、不要唸題目、不要一直看螢幕外</strong></label></li>
+</ul>
+</section>
+
+<section id="day">
+<h2>考試當天：建議節奏</h2>
+<div class="timeline">
+  <div class="step"><b>考前 30–45 分鐘</b><br>重開機、插上電源、確認網路、camera/mic、關閉 VPN 與所有不必要程式。不要到最後 5 分鐘才處理更新或權限問題。</div>
+  <div class="step"><b>Check-in 前</b><br>把護照 / 證件放手邊，桌面清乾淨，第二螢幕拔掉，手機與 smartwatch 移走。</div>
+  <div class="step"><b>前 45 分鐘答題</b><br>50 題 / 60 分鐘，平均 72 秒一題。先拿直接定義題與配對題；卡太久的題目先標記。</div>
+  <div class="step"><b>最後約 15 分鐘</b><br>回頭處理標記題、檢查題幹中的 NOT / BEST / MOST / LEAST / FIRST 等關鍵字。</div>
+</div>
+<div class="alert info"><strong>Associate 題目的核心思路</strong>通常不是找最複雜的技術，而是找「最直接符合題目目標」的 NVIDIA / infrastructure / operations 元件或方法。</div>
+<p class="big-rule">考試期間：安靜、看螢幕、留在鏡頭內、不要使用其他裝置。</p>
+</section>
+
+<section id="policy">
+<h2>改期、取消與 No-show</h2>
+<table>
+<tr><th>情況</th><th>目前 Certiverse 規則</th><th>你應該怎麼做</th></tr>
+<tr><td>距考試 ≥ 24 小時</td><td>可透過 Certiverse 自行 reschedule；Certiverse 不收改期費。</td><td>不要拖，確定時間不行就立即改。</td></tr>
+<tr><td>距考試 &lt; 24 小時</td><td>不能自行 reschedule；需聯絡 Certiverse support 取消 reservation。</td><td>盡快聯絡 support，不要直接 no-show。</td></tr>
+<tr><td>新的考試日期</td><td>不能超過 original booking date 60 天。</td><td>改期時同時檢查 60-day window。</td></tr>
+<tr><td>No-show</td><td>考試費通常不退；需要重新預約，通常代表重新付款。</td><td>即使有突發狀況，也要主動聯絡 support。</td></tr>
+</table>
+<div class="alert good"><strong>記法：</strong>「24 小時」是改期門檻；「60 天」是可移動的最遠範圍。</div>
+</section>
+
+<section>
+<h2>NCA-AIIO 官方考試規格</h2>
+<table>
+<tr><th>項目</th><th>目前官方資訊</th></tr>
+<tr><td>Certification</td><td>NVIDIA-Certified Associate: AI Infrastructure and Operations (NCA-AIIO)</td></tr>
+<tr><td>形式</td><td>Online, remotely proctored</td></tr>
+<tr><td>題數</td><td>50 questions</td></tr>
+<tr><td>時間</td><td>60 minutes</td></tr>
+<tr><td>語言</td><td>English</td></tr>
+<tr><td>費用</td><td>US$125</td></tr>
+<tr><td>效期</td><td>2 years from issuance</td></tr>
+</table>
+</section>
+
+<section id="sources">
+<h2>官方來源</h2>
+<p class="muted">規則可能更新。正式考試前，仍以 NVIDIA 與 Certiverse 當下頁面 / 考試邀請為準。</p>
+<ul class="sources">
+<li><a href="https://www.nvidia.com/en-us/learn/certification/ai-infrastructure-operations-associate/" target="_blank" rel="noopener">NVIDIA — NCA-AIIO Certification</a></li>
+<li><a href="https://success.certiverse.com/hc/en-us/articles/49368370167579-Certiverse-Identification-Requirements" target="_blank" rel="noopener">Certiverse — Identification Requirements</a></li>
+<li><a href="https://success.certiverse.com/hc/en-us/articles/49368408109211-System-Requirements-Live-and-Unproctored-Exams" target="_blank" rel="noopener">Certiverse — System Requirements</a></li>
+<li><a href="https://success.certiverse.com/hc/en-us/articles/49368334758555-Certiverse-Testing-Rules" target="_blank" rel="noopener">Certiverse — Testing Rules</a></li>
+<li><a href="https://success.certiverse.com/hc/en-us/articles/49368395252635-Exam-Rescheduling-and-No-Show-Policies" target="_blank" rel="noopener">Certiverse — Rescheduling and No-Show Policies</a></li>
+</ul>
+<div class="updated">整理日期：2026-08-19。此頁為考前提醒教材，官方規定若有差異，以 NVIDIA / Certiverse 最新公告及你的 exam instructions 為準。</div>
+<a class="backtop" href="#top">↑ 回到頂端</a>
+</section>
+</div>
+</main>
+<script>
+(() => {
+  const prefix = 'nca-aiio-exam-reminder:';
+  document.querySelectorAll('.checklist input[type="checkbox"]').forEach(cb => {
+    cb.checked = localStorage.getItem(prefix + cb.id) === '1';
+    cb.addEventListener('change', () => localStorage.setItem(prefix + cb.id, cb.checked ? '1' : '0'));
+  });
+})();
+</script>
+</body>
+</html>
