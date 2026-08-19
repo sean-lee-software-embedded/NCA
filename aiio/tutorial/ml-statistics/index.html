@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NCA-AIIO 教學：一次分清 Regression、Classification、MAE、R²、F1、Heatmap、Box Plot、Learning Rate、Batch Size、t-test、ANOVA 與 multivariate regression。">
+<title>Regression、F1、Heatmap、Box Plot 一次分清｜NCA-AIIO</title>
+<link rel="stylesheet" href="../../../assets/css/site.css">
+<style>
+:root{--g:#76b900;--n:#18324a;--ink:#182230;--m:#5d6876;--line:#d9e1e8;--soft:#f6f8fa;--good:#edf8e6;--blue:#edf5fb;--warn:#fff6df;--bad:#fff0f0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{color:var(--ink)}
+.lesson{max-width:980px;margin:auto;padding:38px 24px 72px}.lesson h1,.lesson h2,.lesson h3{color:var(--n)}.lesson h2{margin-top:2.4rem;border-bottom:3px solid var(--g);padding-bottom:.3rem}.lead{font-size:1.12rem;color:var(--m);max-width:800px}
+.map{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:24px 0}.step,.card{border:1px solid var(--line);border-radius:12px;background:#fff;padding:15px}.step{text-align:center}.step b{display:block;color:var(--n)}.step small,.muted{color:var(--m)}
+.good{border-left:5px solid var(--g);background:var(--good)}.exam{border-left:5px solid #3977a5;background:var(--blue)}.warn{border-left:5px solid #d89b00;background:var(--warn)}.trap{border-left:5px solid #d54c4c;background:var(--bad)}
+.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0}.box{border:1px solid #b8c4ce;border-radius:8px;padding:9px 12px;background:#fff;font-weight:700}.arr{font-size:1.3rem;color:#5b7f20}.pair{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:var(--n);color:#fff;text-align:left}tr:nth-child(even) td{background:#f9fbfc}
+pre{background:#17212b;color:#eef3f7;border-radius:10px;padding:14px 16px;overflow:auto;line-height:1.5}.rule{background:var(--n);color:#fff;border-radius:12px;padding:15px;text-align:center;font-weight:800;font-size:1.12rem;margin:20px 0}.quiz .q{border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}details{margin-top:8px}summary{cursor:pointer;font-weight:700;color:#315e7d}
+@media(max-width:820px){.map,.pair{grid-template-columns:1fr}.lesson{padding:24px 16px 56px}}
+</style>
+</head>
+<body class="site">
+<header class="site-header"><nav class="site-nav" aria-label="NCA-AIIO 導覽"><a class="brand" href="../../../"><span class="brand-mark">NCA</span>AIIO</a><ul class="nav-links"><li><a href="../../">完整教材</a></li><li><a href="../../weekend/">週末衝刺</a></li><li><a href="../" aria-current="page">技術專題</a></li><li><a href="../../readings/">延伸閱讀</a></li><li><a href="../../mock/">模擬考</a></li></ul></nav></header>
+<main class="lesson">
+<p class="eyebrow">ML / DATA ANALYSIS FUNDAMENTALS</p>
+<h1>Regression、F1、Heatmap、Box Plot 到底差在哪？</h1>
+<p class="lead">不要把它們背成一堆名詞。先判斷題目在問哪一層：<b>預測、訓練、評分、畫圖，還是找原因</b>。層級一分清，很多選項會自動排除。</p>
+<div class="map">
+<div class="step"><b>① Task 任務</b><small>預測什麼？<br>Regression / Classification</small></div>
+<div class="step"><b>② Training 訓練</b><small>模型怎麼學？<br>Learning Rate / Batch Size</small></div>
+<div class="step"><b>③ Metrics 評分</b><small>模型好不好？<br>MAE / R² / F1</small></div>
+<div class="step"><b>④ Visualization</b><small>結果長怎樣？<br>Heatmap / Box Plot</small></div>
+<div class="step"><b>⑤ Statistics</b><small>誰真的有影響？<br>Regression / t-test / ANOVA</small></div>
+</div>
+<div class="rule">考試先問自己：這題到底要我「預測、訓練、評分、畫圖，還是找原因」？</div>
+
+<section><h2>1. Task：先看「答案長什麼樣」</h2>
+<div class="pair"><div class="card good"><h3>Regression：預測數字</h3><div class="flow"><span class="box">GPU / Batch / Model Size</span><span class="arr">→</span><span class="box">72.5 分鐘</span></div><p>輸出是連續數值。例：房價、溫度、功耗、Latency、Training Time。</p></div>
+<div class="card exam"><h3>Classification：預測類別</h3><div class="flow"><span class="box">GPU telemetry</span><span class="arr">→</span><span class="box">Normal / Fault</span></div><p>輸出是 class / label。例：Cat / Dog、Spam / Not Spam、Normal / Error。</p></div></div>
+<div class="card warn"><b>口訣：</b>答案是一個數字 → <b>Regression</b>；答案是在選類別 → <b>Classification</b>。</div></section>
+
+<section><h2>2. Training：Learning Rate / Batch Size 是訓練旋鈕</h2>
+<table><tr><th>名詞</th><th>直覺</th><th>常見影響</th></tr><tr><td><b>Learning Rate</b></td><td>每一步要改多少，像「步伐大小」</td><td>太小學得慢；太大可能跳過最佳點、難收斂</td></tr><tr><td><b>Batch Size</b></td><td>一次拿多少筆資料計算</td><td>大 batch 通常需要更多 GPU memory</td></tr><tr><td><b>Epoch</b></td><td>整份訓練資料看幾遍</td><td>太少可能 underfit；太多可能 overfit</td></tr></table>
+<div class="card trap"><b>陷阱：</b>題目若問「模型最終 performance 的統計指標」，Learning Rate / Batch Size 不是成績，它們是 <b>hyperparameters</b>。</div></section>
+
+<section><h2>3. Metrics：模型的「成績單」</h2>
+<h3>Regression → MAE / RMSE / R²</h3>
+<table><tr><th>實際 Training Time</th><th>預測</th><th>錯多少</th></tr><tr><td>100</td><td>95</td><td>5</td></tr><tr><td>80</td><td>84</td><td>4</td></tr><tr><td>60</td><td>63</td><td>3</td></tr></table>
+<div class="pair"><div class="card good"><h3>MAE</h3><p><b>平均錯多少。</b></p><p>(5 + 4 + 3) / 3 = <b>4 分鐘</b></p><p class="muted">越小通常越好，而且單位和原始目標一樣。</p></div><div class="card exam"><h3>R²</h3><p><b>模型能解釋資料變化到什麼程度。</b></p><p>考試看到 regression model evaluation，R² 是典型選項。</p></div></div>
+<h3>Classification → Accuracy / Precision / Recall / F1</h3>
+<div class="card good"><b>F1 的直覺：</b>綜合 Precision 與 Recall。當你不想只看整體猜對率，而且在意 false positive / false negative 的平衡時，F1 很常用。</div>
+<div class="card warn"><b>Cross-Entropy Loss：</b>常用於 Classification 的訓練 loss。它告訴模型「這次錯得多嚴重」，供 training 更新權重；F1 則常拿來評估分類結果。</div>
+<table><tr><th>題目字眼</th><th>優先想到</th></tr><tr><td>continuous numeric value / regression</td><td><b>MAE、MSE、RMSE、R²</b></td></tr><tr><td>class / label / classification</td><td><b>Accuracy、Precision、Recall、F1</b></td></tr></table></section>
+
+<section><h2>4. Visualization：把資料「畫出來看」</h2>
+<p>圖表幫你看 pattern，但通常不能單靠圖表證明「統計顯著」。</p>
+<h3>Box Plot：看分布、median、outlier</h3>
+<pre>Accuracy
+
+Normalization    ────[=====│=====]────
+                         ↑
+                       median
+
+PCA              ──[===│=======]──────●
+                    ↑                  ↑
+                  median             outlier</pre>
+<div class="card exam"><b>看到：</b>distribution、spread、median、outlier → 優先想到 <b>Box Plot</b>。</div>
+<h3>Heatmap：看很多變數之間的關係</h3>
+<table><tr><th></th><th>GPU</th><th>Batch</th><th>Time</th><th>Power</th></tr><tr><th>GPU</th><td>1.0</td><td>0.1</td><td>-0.8</td><td>0.7</td></tr><tr><th>Batch</th><td>0.1</td><td>1.0</td><td>0.5</td><td>0.3</td></tr><tr><th>Time</th><td>-0.8</td><td>0.5</td><td>1.0</td><td>-0.2</td></tr><tr><th>Power</th><td>0.7</td><td>0.3</td><td>-0.2</td><td>1.0</td></tr></table>
+<p>Correlation heatmap 用顏色把相關係數視覺化。例如 GPU 與 Time 的 -0.8 表示強負相關。</p>
+<table><tr><th>圖</th><th>最好記的用途</th></tr><tr><td><b>Box Plot</b></td><td>分布、median、outlier</td></tr><tr><td><b>Heatmap</b></td><td>很多變數的 correlation / 關係</td></tr><tr><td><b>Line Chart</b></td><td>時間或順序上的趨勢</td></tr><tr><td><b>Scatter Plot</b></td><td>兩個連續變數之間的關係</td></tr></table></section>
+
+<section><h2>5. Statistical Analysis：誰「真的」有影響？</h2>
+<p>看到 <b>significant effect / impact / statistically significant</b>，通常已經不是單純 visualization，而是在問統計分析。</p>
+<div class="flow"><span class="box">Normalization</span><span class="box">Augmentation</span><span class="box">PCA</span><span class="arr">→</span><span class="box">Regression Analysis</span><span class="arr">→</span><span class="box">Accuracy / Training Time</span></div>
+<table><tr><th>Technique</th><th>Accuracy effect</th><th>p-value</th><th>直覺</th></tr><tr><td>Normalization</td><td>+2%</td><td>0.03</td><td>若門檻為 0.05，可視為顯著</td></tr><tr><td>Augmentation</td><td>+5%</td><td>0.002</td><td>顯著，且效果較大</td></tr><tr><td>PCA</td><td>-1%</td><td>0.48</td><td>不足以判定顯著</td></tr></table>
+<div class="pair"><div class="card exam"><h3>t-test</h3><p>典型用途：比較<b>兩組</b>平均值。</p><p>例：有 Normalization vs 沒有 Normalization。</p></div><div class="card exam"><h3>ANOVA</h3><p>典型用途：比較<b>三組以上</b>平均值。</p><p>例：Normalization、PCA、Augmentation 三組。</p></div></div>
+<div class="card good"><b>考試版：</b>兩組平均值 → t-test；3+ 組平均值 → ANOVA；很多因素 X、想知道誰影響 Y → Regression Analysis。</div></section>
+
+<section><h2>6. Multiple vs Multivariate Regression</h2>
+<table><tr><th>名稱</th><th>「多」的是什麼？</th><th>例子</th></tr><tr><td><b>Multiple Regression</b></td><td>多個輸入 X</td><td>Normalization + PCA + Augmentation → Accuracy</td></tr><tr><td><b>Multivariate Regression</b></td><td>多個輸出 Y</td><td>Preprocessing → Accuracy + Training Time</td></tr></table>
+<div class="card warn">題庫用語不一定每次都非常嚴格。作答時先抓真正意圖：是否要分析多個 preprocessing factors 對 Accuracy / Training Time 的影響，而不是只因一個術語卡住。</div></section>
+
+<section><h2>7. 同一個故事全部串起來</h2>
+<table><tr><th>你現在問什麼？</th><th>層級</th><th>答案方向</th></tr><tr><td>Training Time 會是多少分鐘？</td><td>Task</td><td><b>Regression</b></td></tr><tr><td>訓練一次放多少資料？</td><td>Training</td><td><b>Batch Size</b></td></tr><tr><td>預測平均錯幾分鐘？</td><td>Metric</td><td><b>MAE</b></td></tr><tr><td>不同實驗的分布與 outlier？</td><td>Visualization</td><td><b>Box Plot</b></td></tr><tr><td>GPU、Batch、PCA 哪些真的影響 Training Time？</td><td>Statistics</td><td><b>Regression Analysis</b></td></tr></table></section>
+
+<section><h2>8. NCA 類考題秒殺表</h2>
+<table><tr><th>看到題目說...</th><th>先想到...</th></tr><tr><td>predict a continuous numeric value</td><td><b>Regression</b></td></tr><tr><td>predict a class / label</td><td><b>Classification</b></td></tr><tr><td>evaluate a regression model</td><td><b>MAE / RMSE / R²</b></td></tr><tr><td>Precision + Recall balance</td><td><b>F1 Score</b></td></tr><tr><td>distribution / outlier / spread</td><td><b>Box Plot</b></td></tr><tr><td>correlation among many variables</td><td><b>Heatmap</b></td></tr><tr><td>training hyperparameter</td><td><b>Learning Rate / Batch Size</b></td></tr><tr><td>significant effect / impact</td><td><b>Statistical analysis</b></td></tr><tr><td>compare two group means</td><td><b>t-test</b></td></tr><tr><td>compare 3+ group means</td><td><b>ANOVA</b></td></tr><tr><td>multiple factors affect an outcome</td><td><b>Regression Analysis</b></td></tr></table></section>
+
+<section><h2>9. 5 題自我測驗</h2><div class="quiz">
+<div class="q"><b>Q1.</b> 預測 GPU 溫度 67.3°C，是 Regression 還是 Classification？<details><summary>看答案</summary><p><b>Regression。</b>輸出是連續數值。</p></details></div>
+<div class="q"><b>Q2.</b> 判斷 GPU 是否 Fault，最可能使用 MAE 還是 F1？<details><summary>看答案</summary><p><b>F1。</b>Fault / Normal 是分類。</p></details></div>
+<div class="q"><b>Q3.</b> 想找 Accuracy 分布與 outlier，使用 Heatmap 還是 Box Plot？<details><summary>看答案</summary><p><b>Box Plot。</b></p></details></div>
+<div class="q"><b>Q4.</b> 比較 Normalization 與 No Normalization 兩組平均 Accuracy 是否有顯著差異？<details><summary>看答案</summary><p><b>t-test。</b>典型兩組平均值比較。</p></details></div>
+<div class="q"><b>Q5.</b> Normalization、PCA、Augmentation 哪些對 Accuracy 與 Training Time 有顯著影響？<details><summary>看答案</summary><p><b>Regression / multivariate regression analysis。</b>重點是估計多個因素對結果的影響，而不是只畫圖。</p></details></div>
+</div></section>
+
+<section><h2>10. 最後只背這一張</h2>
+<div class="rule">數字 → Regression　｜　類別 → Classification</div>
+<div class="pair"><div class="card good"><b>Regression 成績</b><br>MAE、RMSE、R²</div><div class="card good"><b>Classification 成績</b><br>Accuracy、Precision、Recall、F1</div><div class="card exam"><b>只是畫圖</b><br>Box Plot、Heatmap、Line Chart</div><div class="card exam"><b>訓練設定</b><br>Learning Rate、Batch Size、Epoch</div></div>
+<div class="card warn"><b>看到 significant / impact / effect：</b>往 Regression Analysis、t-test、ANOVA 等統計分析想，而不是只選圖表。</div></section>
+<p class="muted" style="margin-top:34px">本頁為 NCA-AIIO 考試導向教材，重點是建立直覺與題目辨識能力；正式統計分析仍需檢查方法的假設條件與資料特性。</p>
+</main>
+<footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · ML / Statistics Tutorial</p><p><a href="../">回技術專題</a> · <a href="../../">回完整教材</a></p></div></footer>
+</body></html>
