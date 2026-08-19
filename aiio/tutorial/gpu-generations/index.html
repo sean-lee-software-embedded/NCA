@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NCA-AIIO NVIDIA Data Center GPU 世代教學：A100、H100、H200、B200、B300、Rubin，搭配 MIG、NVLink、HBM、AI Infrastructure 與模擬考題。">
+<title>A100 → H100/H200 → B200/B300 → Rubin｜NCA-AIIO</title>
+<link rel="stylesheet" href="../../../assets/css/site.css">
+<style>
+:root{--g:#76b900;--n:#18324a;--ink:#182230;--m:#5d6876;--line:#d9e1e8;--soft:#f6f8fa;--good:#edf8e6;--blue:#edf5fb;--warn:#fff6df;--bad:#fff0f0;--violet:#f3efff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{color:var(--ink)}
+.lesson{max-width:1040px;margin:auto;padding:38px 24px 72px}.lesson h1,.lesson h2,.lesson h3{color:var(--n)}.lesson h2{margin-top:2.5rem;border-bottom:3px solid var(--g);padding-bottom:.3rem}.lead{font-size:1.12rem;color:var(--m);max-width:850px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:13px}.card{border:1px solid var(--line);border-radius:12px;background:#fff;padding:15px}.card h3{margin-top:.1rem}.good{border-left:5px solid var(--g);background:var(--good)}.exam{border-left:5px solid #3977a5;background:var(--blue)}.warn{border-left:5px solid #d89b00;background:var(--warn)}.trap{border-left:5px solid #d54c4c;background:var(--bad)}.next{border-left:5px solid #7b61b2;background:var(--violet)}
+.timeline{display:flex;align-items:stretch;gap:8px;overflow:auto;padding:12px 0 6px}.gen{min-width:145px;flex:1;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;text-align:center}.gen b{display:block;color:var(--n);font-size:1.05rem}.gen small{color:var(--m)}.arrow{align-self:center;font-size:1.5rem;color:#5b7f20;font-weight:900}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:var(--n);color:#fff;text-align:left}tr:nth-child(even) td{background:#f9fbfc}
+pre{background:#17212b;color:#eef3f7;border-radius:10px;padding:14px 16px;overflow:auto;line-height:1.5}.rule{background:var(--n);color:#fff;border-radius:12px;padding:15px;text-align:center;font-weight:800;font-size:1.08rem;margin:20px 0}
+.badge{display:inline-block;background:var(--n);color:#fff;border-radius:999px;padding:3px 9px;font-size:.8rem;font-weight:700;margin-right:5px}.tag{display:inline-block;border:1px solid #b9c4cd;border-radius:999px;padding:2px 8px;margin:2px 3px 2px 0;font-size:.82rem;background:#fff}
+.quiz .q{border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}.quiz details{margin-top:8px}.quiz summary{cursor:pointer;font-weight:700;color:#315e7d}.muted{color:var(--m)}
+.kpi{font-size:1.55rem;font-weight:900;color:var(--n)}.memory-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:14px 0}.memory-flow div{border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center;background:#fff}.memory-flow b{display:block;color:var(--n)}
+.source-list li{margin:.45rem 0}.source-list a{word-break:break-word}
+@media(max-width:860px){.cards,.pair,.memory-flow{grid-template-columns:1fr}.lesson{padding:24px 16px 56px}.arrow{display:none}.timeline{display:grid;grid-template-columns:1fr 1fr}.gen{min-width:0}}
+@media(max-width:520px){.timeline{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="site">
+<header class="site-header"><nav class="site-nav" aria-label="NCA-AIIO 導覽">
+<a class="brand" href="../../../"><span class="brand-mark">NCA</span>AIIO</a>
+<ul class="nav-links">
+<li><a href="../../">完整教材</a></li>
+<li><a href="../../weekend/">週末衝刺</a></li>
+<li><a href="../" aria-current="page">技術專題</a></li>
+<li><a href="../../readings/">延伸閱讀</a></li>
+<li><a href="../../mock/">模擬考</a></li>
+</ul></nav></header>
+
+<main class="lesson">
+<p class="eyebrow">GPU GENERATIONS · AI INFRASTRUCTURE · EXAM FOCUS</p>
+<h1>A100 → H100/H200 → B200/B300 → Rubin</h1>
+<p class="lead">把 NVIDIA Data Center GPU 當成「世代演進」來學，而不是背一堆規格。NCA-AIIO 更重要的是：<b>它屬於哪個架構、解決什麼瓶頸、Memory / Precision / Interconnect 如何演進，以及它在 AI Infrastructure 裡扮演什麼角色。</b></p>
+
+<div class="timeline" aria-label="NVIDIA GPU 世代時間線">
+<div class="gen"><b>A100</b><small>Ampere<br>TF32 · MIG</small></div><div class="arrow">→</div>
+<div class="gen"><b>H100 / H200</b><small>Hopper<br>FP8 · Transformer Engine</small></div><div class="arrow">→</div>
+<div class="gen"><b>B200</b><small>Blackwell<br>FP4 · GenAI</small></div><div class="arrow">→</div>
+<div class="gen"><b>B300</b><small>Blackwell Ultra<br>Reasoning · 288GB</small></div><div class="arrow">→</div>
+<div class="gen"><b>Rubin</b><small>Rubin<br>HBM4 · NVLink 6</small></div>
+</div>
+
+<div class="rule">考試最先記：A100 = Ampere ｜ H100/H200 = Hopper ｜ B200 = Blackwell ｜ B300 = Blackwell Ultra ｜ Rubin = Rubin</div>
+
+<section>
+<h2>1. 一張表先看懂全部</h2>
+<table>
+<tr><th>GPU</th><th>Architecture</th><th>Memory 重點</th><th>世代關鍵字</th><th>NCA-AIIO 記法</th></tr>
+<tr><td><b>A100</b></td><td>Ampere</td><td>40 / 80GB HBM2e</td><td>TF32、MIG、NVLink 3</td><td>「MIG 的重要起點」</td></tr>
+<tr><td><b>H100</b></td><td>Hopper</td><td>80GB HBM3（常見 SXM）</td><td>Transformer Engine、FP8、NVLink 4</td><td>「Transformer / FP8」</td></tr>
+<tr><td><b>H200</b></td><td>Hopper</td><td>141GB HBM3e、4.8TB/s</td><td>更大更快的 HBM</td><td>「同是 Hopper，強化 Memory」</td></tr>
+<tr><td><b>B200</b></td><td>Blackwell</td><td>180GB HBM3e</td><td>FP4、5th Gen Tensor Core、NVLink 5</td><td>「Blackwell / FP4」</td></tr>
+<tr><td><b>B300</b></td><td>Blackwell Ultra</td><td>288GB HBM3e</td><td>Reasoning、Attention、test-time scaling</td><td>「Blackwell Ultra，不是全新架構」</td></tr>
+<tr><td><b>Rubin</b></td><td>Rubin</td><td>288GB HBM4、22TB/s</td><td>Agentic AI、NVLink 6、PCIe Gen6</td><td>「HBM4 / Agentic AI」</td></tr>
+</table>
+<div class="card warn"><b>不要死背所有 CUDA Core / SM / FLOPS。</b> Associate 考試更常用「角色、用途、架構、瓶頸與元件配對」來出情境題。精確產品規格也會隨 SKU 不同而不同。</div>
+</section>
+
+<section>
+<h2>2. A100：Ampere</h2>
+<div class="pair">
+<div class="card good"><h3>最重要：TF32</h3><p>A100 的 Tensor Core 讓 TF32 成為 AI Training 的重要格式之一。考題看到「Ampere」「TF32」時，優先想到 A100。</p></div>
+<div class="card exam"><h3>最重要：MIG</h3><p>A100 已支援 Multi-Instance GPU，可把一張 GPU 隔離成多個 GPU instance。<b>MIG 不是 H100 才出現。</b></p></div>
+</div>
+<pre>A100
+├─ Architecture : Ampere
+├─ HBM          : 40GB / 80GB
+├─ MIG          : Yes
+├─ 最大 MIG      : up to 7 instances
+└─ Exam keyword : TF32 / MIG</pre>
+<div class="card trap"><b>陷阱：</b>A100 = <b>Ampere</b>，不要被 NVIDIA 的 Ada Lovelace 架構名稱干擾。A100 的 A 不是 Ada。</div>
+</section>
+
+<section>
+<h2>3. H100：Hopper</h2>
+<div class="cards">
+<div class="card"><h3>Transformer Engine</h3><p>針對 Transformer workload 動態運用較低精度格式，提高 AI 訓練與推論效率。</p></div>
+<div class="card"><h3>FP8</h3><p>Hopper 世代的代表關鍵字。考試常把 FP8 和 H100 / Transformer Engine 配在一起。</p></div>
+<div class="card"><h3>NVLink 4</h3><p>H100/H200 的高速 GPU-to-GPU scale-up 互連重點。</p></div>
+</div>
+<pre>H100
+├─ Hopper
+├─ 4th Gen Tensor Core
+├─ Transformer Engine
+├─ FP8
+├─ HBM3
+├─ NVLink 4
+└─ MIG</pre>
+<div class="card exam"><b>Infrastructure 思維：</b>H100 不是完整 Server。<b>H100 = GPU；HGX H100 = GPU platform；DGX H100 = NVIDIA 完整系統。</b></div>
+</section>
+
+<section>
+<h2>4. H200：不是新架構，而是 Hopper + 更強 Memory</h2>
+<div class="pair">
+<div class="card good"><span class="kpi">141 GB</span><p><b>HBM3e capacity</b></p></div>
+<div class="card good"><span class="kpi">4.8 TB/s</span><p><b>Memory bandwidth</b></p></div>
+</div>
+<p>H200 最適合用來理解「AI 不只吃算力，也吃記憶體」。LLM inference、KV Cache、long context、memory-bound workload 都會受 Memory capacity 與 bandwidth 影響。</p>
+<pre>H100 → H200
+Compute architecture : Hopper → Hopper
+核心變化             : Memory capacity / bandwidth ↑</pre>
+<div class="card trap"><b>陷阱：</b>看到 H200 不要選「Blackwell」。H100 和 H200 都屬於 <b>Hopper</b>。</div>
+</section>
+
+<section>
+<h2>5. B200：Blackwell</h2>
+<div class="cards">
+<div class="card good"><h3>Blackwell</h3><p>從 Hopper 進入新 GPU architecture 世代。</p></div>
+<div class="card exam"><h3>FP4</h3><p>Blackwell 進一步強化低精度 AI 計算，特別適合高效率 GenAI inference。</p></div>
+<div class="card"><h3>180GB HBM3e</h3><p>更大的 GPU memory，支援更大型模型與更高 inference concurrency。</p></div>
+</div>
+<div class="memory-flow">
+<div><b>A100</b>TF32 / FP16</div><div><b>H100</b>FP8</div><div><b>B200</b>FP4</div><div><b>B300</b>FP4 + Reasoning</div><div><b>Rubin</b>NVFP4 + HBM4</div>
+</div>
+<div class="card warn"><b>低精度 ≠ 永遠比較好。</b> 越低 precision 通常能提高 throughput、降低 memory footprint，但仍要維持可接受的 model accuracy。</div>
+</section>
+
+<section>
+<h2>6. B300：Blackwell Ultra</h2>
+<p>B300 的考點不是「又換了一個完全不同的 architecture」，而是：</p>
+<div class="rule">B300 = Blackwell Ultra = Blackwell 的強化版</div>
+<table>
+<tr><th>比較</th><th>B200</th><th>B300</th></tr>
+<tr><td>Architecture</td><td>Blackwell</td><td><b>Blackwell Ultra</b></td></tr>
+<tr><td>GPU Memory</td><td>180GB HBM3e</td><td><b>288GB HBM3e</b></td></tr>
+<tr><td>主打 workload</td><td>Training + Inference</td><td><b>Reasoning / test-time scaling / inference</b></td></tr>
+<tr><td>Attention</td><td>Baseline</td><td>HGX B300 官方主打約 <b>2× B200</b> attention performance</td></tr>
+</table>
+<div class="card next"><h3>為什麼 288GB 很重要？</h3><p>Reasoning model、long context 與大量 concurrent users 會讓 <b>KV Cache</b> 快速吃掉 GPU memory。B300 的大容量 HBM3e 正是為這類 workload 強化。</p></div>
+<pre>Context length ↑
+Users / Batch ↑
+Reasoning steps ↑
+        │
+        ▼
+KV Cache ↑
+        │
+        ▼
+GPU Memory capacity + bandwidth 變得更重要</pre>
+</section>
+
+<section>
+<h2>7. Rubin：2026 最新主線</h2>
+<p>截至 2026 年 8 月，NVIDIA 官方已宣布 <b>Vera Rubin 正在進入 full production</b>。Rubin 是 Blackwell / Blackwell Ultra 之後的新一代 GPU architecture。</p>
+<table>
+<tr><th>項目</th><th>Rubin 重點</th></tr>
+<tr><td>GPU Architecture</td><td><b>Rubin</b></td></tr>
+<tr><td>Memory</td><td><b>288GB HBM4</b></td></tr>
+<tr><td>Memory Bandwidth</td><td><b>22TB/s</b></td></tr>
+<tr><td>NVLink</td><td><b>6th Generation</b></td></tr>
+<tr><td>PCIe</td><td><b>Gen6 x16</b></td></tr>
+<tr><td>主要定位</td><td>Agentic AI、Reasoning、MoE、long-context AI</td></tr>
+</table>
+<div class="card good"><h3>最值得看的不是容量，而是頻寬</h3><pre>B300 : 288GB HBM3e
+Rubin: 288GB HBM4
+
+容量看起來類似
+但 Rubin memory bandwidth → 22 TB/s</pre><p>這表示新一代 AI workload 的瓶頸不只是「放不放得下」，還包括「資料能不能夠快地餵給運算單元」。</p></div>
+
+<h3>Rubin vs Vera Rubin</h3>
+<pre>Rubin
+= GPU
+
+Vera
+= CPU
+
+Vera Rubin
+= CPU + GPU + NVLink + Networking + DPU
+  的整套 AI platform</pre>
+<div class="card exam"><b>考試觀念：</b>不要把「GPU 名稱」和「完整 Platform/System」混在一起。</div>
+</section>
+
+<section>
+<h2>8. GPU、HGX、DGX、NVL72 不要混</h2>
+<table>
+<tr><th>名稱</th><th>層級</th><th>怎麼理解</th></tr>
+<tr><td>H100 / B200 / B300 / Rubin</td><td><b>GPU</b></td><td>運算晶片 / accelerator</td></tr>
+<tr><td>HGX</td><td><b>Platform</b></td><td>多 GPU + NVSwitch 等基礎硬體平台</td></tr>
+<tr><td>DGX</td><td><b>完整 NVIDIA system</b></td><td>GPU + CPU + Memory + Storage + Networking + software stack</td></tr>
+<tr><td>GB200 / GB300 / Vera Rubin NVL72</td><td><b>Rack-scale system</b></td><td>CPU + GPU + NVLink fabric 的 rack-scale AI computer</td></tr>
+</table>
+<pre>GPU
+ ↓
+HGX platform
+ ↓
+DGX / OEM server
+ ↓
+Rack-scale system
+ ↓
+AI Cluster / AI Factory</pre>
+</section>
+
+<section>
+<h2>9. NVLink、NVSwitch、InfiniBand：Scale-up vs Scale-out</h2>
+<div class="pair">
+<div class="card good"><h3>Scale-up</h3><p><b>GPU ↔ GPU</b> 在單機或 rack-scale fabric 內高速互連。</p><p><span class="tag">NVLink</span><span class="tag">NVSwitch</span></p></div>
+<div class="card exam"><h3>Scale-out</h3><p><b>Server / Node ↔ Server / Node</b> 擴大整個 AI cluster。</p><p><span class="tag">InfiniBand</span><span class="tag">Spectrum-X Ethernet</span></p></div>
+</div>
+<div class="rule">NVLink / NVSwitch → Scale-up ｜ InfiniBand / Ethernet → Scale-out</div>
+<div class="card trap"><b>陷阱：</b>NVLink 不是 InfiniBand。NVLink 是 GPU fabric；InfiniBand / Ethernet 是 cluster networking。</div>
+</section>
+
+<section>
+<h2>10. MIG：考試常見的 GPU Partitioning</h2>
+<p>MIG = <b>Multi-Instance GPU</b>。它讓一張支援 MIG 的實體 GPU 切成多個隔離 instance，讓不同 workload 更容易共享 GPU。</p>
+<pre>Physical GPU
+├─ MIG Instance 0
+├─ MIG Instance 1
+├─ MIG Instance 2
+└─ ...</pre>
+<div class="card warn"><b>指令陷阱：</b><code>sudo nvidia-smi -i 0 -mig 1</code> 的 <code>1</code> 是「Enable」，不是「建立一個 instance」。</div>
+<pre># Enable MIG
+sudo nvidia-smi -i 0 -mig 1
+
+# 例：H100 80GB 建立 5 個 1g.10gb GI 並建立 CI
+sudo nvidia-smi mig -i 0 \
+  -cgi 1g.10gb,1g.10gb,1g.10gb,1g.10gb,1g.10gb \
+  -C
+
+# 確認
+nvidia-smi -L
+sudo nvidia-smi mig -lgi
+sudo nvidia-smi mig -lci</pre>
+<h3>為什麼 H100 1g.10gb 最多是 7 個？</h3>
+<p>快速模型：H100 MIG 可以把 Compute 想成 7 份、Memory 想成 8 份。最大 instance 數看「哪種資源先耗盡」。</p>
+<pre>1g.10gb:
+Compute → floor(7 / 1) = 7
+Memory  → floor(8 / 1) = 8
+Max     → min(7, 8) = 7</pre>
+<div class="card trap"><b>注意：</b>這是理解普通 MIG profile 的快速模型。實際合法配置還要受 NVIDIA 定義的 profile、placement 與額外 engine resource 限制。</div>
+</section>
+
+<section>
+<h2>11. nvidia-smi、DCGM、BMC：管理層級</h2>
+<table>
+<tr><th>工具 / 介面</th><th>典型用途</th><th>層級</th></tr>
+<tr><td><b>nvidia-smi</b></td><td>單機 GPU 狀態、power、temperature、ECC、process、MIG</td><td>In-band CLI</td></tr>
+<tr><td><b>NVML</b></td><td>程式化取得 GPU telemetry / management</td><td>In-band library/API</td></tr>
+<tr><td><b>DCGM</b></td><td>Data center GPU health、telemetry、diagnostics、cluster monitoring</td><td>Operations</td></tr>
+<tr><td><b>SMBPBI</b></td><td>BMC 透過 SMBus 做 NVIDIA GPU OOB management</td><td>Out-of-band</td></tr>
+<tr><td><b>BMC / Redfish</b></td><td>Server power、thermal、inventory、hardware health</td><td>Out-of-band platform management</td></tr>
+</table>
+<pre>Application / CUDA
+       │
+       ▼
+GPU Driver ── NVML / nvidia-smi / DCGM
+       │
+       ▼
+      GPU
+       ▲
+       │ SMBus / SMBPBI
+       │
+      BMC ── Redfish / IPMI</pre>
+</section>
+
+<section>
+<h2>12. NCA-AIIO：真正該把力氣放哪裡？</h2>
+<p>官方 Blueprint 的三大領域：</p>
+<div class="cards">
+<div class="card"><span class="kpi">38%</span><p><b>Essential AI Knowledge</b><br>AI/ML/DL、training/inference、framework、GPU accelerated computing。</p></div>
+<div class="card good"><span class="kpi">40%</span><p><b>AI Infrastructure</b><br>GPU/CPU、DGX/HGX、network、storage、DPU、power/cooling。</p></div>
+<div class="card exam"><span class="kpi">22%</span><p><b>AI Operations</b><br>monitoring、DCGM、Kubernetes、Slurm、MIG、resource scheduling。</p></div>
+</div>
+<div class="card warn"><b>考試策略：</b>硬體規格是用來幫你辨識角色，不是要把每張卡的 transistor / SM / FP64 FLOPS 全背完。</div>
+</section>
+
+<section>
+<h2>13. 一定要會的 10 組配對</h2>
+<table>
+<tr><th>看到這個</th><th>優先想到</th></tr>
+<tr><td>CUDA</td><td>GPU programming / accelerated computing platform</td></tr>
+<tr><td>TensorRT</td><td>Inference optimization</td></tr>
+<tr><td>Triton Inference Server</td><td>Production model serving</td></tr>
+<tr><td>DCGM</td><td>GPU data center monitoring / health / management</td></tr>
+<tr><td>MIG</td><td>GPU partitioning / isolation</td></tr>
+<tr><td>NVLink / NVSwitch</td><td>GPU scale-up fabric</td></tr>
+<tr><td>InfiniBand / Spectrum-X Ethernet</td><td>Cluster scale-out networking</td></tr>
+<tr><td>BlueField</td><td>DPU / infrastructure offload</td></tr>
+<tr><td>Kubernetes</td><td>Container orchestration</td></tr>
+<tr><td>Slurm</td><td>HPC / AI job scheduling</td></tr>
+</table>
+</section>
+
+<section class="quiz">
+<h2>14. NCA-AIIO 模擬題</h2>
+<p class="muted">以下是依官方 Blueprint 設計的練習題，不是正式考題。</p>
+
+<div class="q"><b>Q1. Which GPU is based on NVIDIA Ampere architecture?</b><p>A. H100　B. A100　C. B200　D. Rubin</p><details><summary>看答案</summary><p><b>B. A100。</b> A100 = Ampere。</p></details></div>
+
+<div class="q"><b>Q2. Which feature partitions one physical GPU into isolated GPU instances?</b><p>A. NVLink　B. MIG　C. InfiniBand　D. TensorRT</p><details><summary>看答案</summary><p><b>B. MIG。</b></p></details></div>
+
+<div class="q"><b>Q3. Which statement about H200 is correct?</b><p>A. It is Blackwell.　B. It is Hopper with more/faster HBM than H100.　C. It is a DPU.　D. It replaces CUDA.</p><details><summary>看答案</summary><p><b>B。</b> H100、H200 都是 Hopper。</p></details></div>
+
+<div class="q"><b>Q4. Which GPU family introduced FP8 + Transformer Engine as a major feature?</b><p>A. A100　B. H100　C. B300　D. BlueField</p><details><summary>看答案</summary><p><b>B. H100 / Hopper。</b></p></details></div>
+
+<div class="q"><b>Q5. B300 is best described as:</b><p>A. Hopper Ultra　B. Blackwell Ultra　C. Rubin Ultra　D. Ampere Ultra</p><details><summary>看答案</summary><p><b>B. Blackwell Ultra。</b></p></details></div>
+
+<div class="q"><b>Q6. A reasoning workload uses long context and a large KV cache. Which hardware characteristics become especially important?</b><p>A. Display outputs　B. GPU memory capacity and bandwidth　C. USB ports　D. CPU fan count</p><details><summary>看答案</summary><p><b>B。</b> KV Cache 直接吃 GPU memory，長 context / 高 concurrency 也會增加 memory pressure。</p></details></div>
+
+<div class="q"><b>Q7. Which technology is primarily used for high-bandwidth GPU-to-GPU scale-up communication?</b><p>A. SATA　B. NVLink　C. IPMI　D. USB</p><details><summary>看答案</summary><p><b>B. NVLink。</b></p></details></div>
+
+<div class="q"><b>Q8. Which technology is more associated with node-to-node scale-out networking?</b><p>A. NVLink only　B. InfiniBand / Ethernet　C. HBM　D. MIG</p><details><summary>看答案</summary><p><b>B。</b></p></details></div>
+
+<div class="q"><b>Q9. Which NVIDIA tool is specifically designed for data center GPU monitoring and management?</b><p>A. TensorRT　B. DCGM　C. CUDA compiler　D. NVSwitch</p><details><summary>看答案</summary><p><b>B. DCGM。</b></p></details></div>
+
+<div class="q"><b>Q10. What is BlueField?</b><p>A. GPU architecture　B. DPU　C. HBM technology　D. CUDA library</p><details><summary>看答案</summary><p><b>B. DPU。</b></p></details></div>
+
+<div class="q"><b>Q11. What does <code>nvidia-smi -i 0 -mig 1</code> do?</b><p>A. Creates one MIG instance　B. Enables MIG mode on GPU 0　C. Creates 7 MIG instances　D. Sets GPU index to 1</p><details><summary>看答案</summary><p><b>B。</b> 1 = enable，不是 instance count。</p></details></div>
+
+<div class="q"><b>Q12. Which statement is correct?</b><p>A. B200 is a complete DGX server.　B. DGX B200 and B200 mean exactly the same thing.　C. B200 is a GPU; DGX B200 is a complete NVIDIA system.　D. HGX is a GPU precision format.</p><details><summary>看答案</summary><p><b>C。</b></p></details></div>
+</section>
+
+<section>
+<h2>15. 考前 60 秒速記</h2>
+<pre>A100  = Ampere
+        TF32 / MIG
+
+H100  = Hopper
+        FP8 / Transformer Engine / HBM3
+
+H200  = Hopper
+        141GB HBM3e / memory-heavy LLM
+
+B200  = Blackwell
+        FP4 / 180GB HBM3e
+
+B300  = Blackwell Ultra
+        288GB HBM3e / Reasoning / Attention
+
+Rubin = Rubin
+        HBM4 / NVLink 6 / Agentic AI
+
+MIG      = GPU partitioning
+NVLink   = GPU scale-up
+IB / Eth = Cluster scale-out
+DCGM     = GPU data center monitoring
+BlueField= DPU
+K8s      = Container orchestration
+Slurm    = Job scheduling</pre>
+<div class="card good"><b>最後判斷技巧：</b>看到情境題先分類它在考 <b>Compute、Memory、Scale-up、Scale-out、Operations、還是 Facility</b>。一旦分類對，通常能先刪掉一半以上錯誤選項。</div>
+</section>
+
+<section>
+<h2>16. 官方資料來源</h2>
+<ul class="source-list">
+<li><a href="https://www.nvidia.com/en-us/data-center/a100/" target="_blank" rel="noopener">NVIDIA A100 Tensor Core GPU</a></li>
+<li><a href="https://www.nvidia.com/en-us/data-center/technologies/hopper-architecture/" target="_blank" rel="noopener">NVIDIA Hopper Architecture</a></li>
+<li><a href="https://www.nvidia.com/en-us/data-center/h200/" target="_blank" rel="noopener">NVIDIA H200 Tensor Core GPU</a></li>
+<li><a href="https://www.nvidia.com/en-us/data-center/blackwell/" target="_blank" rel="noopener">NVIDIA Blackwell Architecture</a></li>
+<li><a href="https://www.nvidia.com/en-us/data-center/dgx-b300/" target="_blank" rel="noopener">NVIDIA DGX B300 / Blackwell Ultra</a></li>
+<li><a href="https://nvidianews.nvidia.com/news/nvidia-blackwell-ultra-ai-factory-platform-paves-way-for-age-of-ai-reasoning" target="_blank" rel="noopener">NVIDIA Blackwell Ultra announcement</a></li>
+<li><a href="https://nvidianews.nvidia.com/news/rubin-platform-ai-supercomputer" target="_blank" rel="noopener">NVIDIA Rubin Platform announcement</a></li>
+<li><a href="https://nvidianews.nvidia.com/news/vera-rubin-full-production-agentic-ai-factory" target="_blank" rel="noopener">Vera Rubin full-production update (May 31, 2026)</a></li>
+<li><a href="https://docs.nvidia.com/datacenter/tesla/mig-user-guide/" target="_blank" rel="noopener">NVIDIA MIG User Guide</a></li>
+<li><a href="https://docs.nvidia.com/deploy/nvidia-smi/" target="_blank" rel="noopener">NVIDIA System Management Interface documentation</a></li>
+<li><a href="https://www.nvidia.com/en-us/learn/certification/ai-infrastructure-operations-associate/" target="_blank" rel="noopener">NVIDIA Certified Associate: AI Infrastructure and Operations</a></li>
+</ul>
+<p class="muted">版本：2026-08-19。產品規格與認證 Blueprint 可能更新，正式考試與採購前請以 NVIDIA 當下官方文件為準。</p>
+</section>
+
+</main>
+<footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · NVIDIA GPU 世代與考點</p><p><a href="../">回技術專題</a></p></div></footer>
+</body>
+</html>
