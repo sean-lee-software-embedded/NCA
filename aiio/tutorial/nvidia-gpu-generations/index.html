@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NCA-AIIO NVIDIA GPU 世代教學：A100、H100/H200、B200、B300 Blackwell Ultra、Rubin，以及 MIG、nvidia-smi、PFLOPS、SMBPBI、NVLink 與考試陷阱。">
+  <title>NVIDIA GPU 世代：A100 → H100 → B200 → B300 → Rubin｜NCA-AIIO</title>
+  <link rel="stylesheet" href="../../../assets/css/site.css">
+  <style>
+    :root{--nv:#76b900;--ink:#17212b;--muted:#5c6672;--line:#dbe2e8;--soft:#f5f8fa;--blue:#eaf4fb;--warn:#fff5db;--danger:#fff0f0;--good:#eff8e9}
+    html{scroll-behavior:smooth}
+    .hero-note{max-width:840px;margin:1rem auto 0;padding:1rem 1.2rem;border-left:5px solid var(--nv);background:#f4faee;border-radius:8px}
+    .jump{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1.1rem}.jump a{display:inline-block;padding:.42rem .72rem;border:1px solid var(--line);border-radius:999px;text-decoration:none;background:#fff}
+    .lesson{max-width:1040px;margin:0 auto;padding:0 1.25rem}.lesson section{padding:2.3rem 0;border-top:1px solid var(--line)}
+    .lesson h2{margin-bottom:.8rem}.lesson h3{margin-top:1.5rem}.subtle{color:var(--muted)}
+    .timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:.6rem;margin:1.2rem 0}.era{padding:1rem .65rem;border:1px solid var(--line);border-radius:12px;text-align:center;background:#fff}.era b{display:block;font-size:1.07rem}.era small{display:block;color:var(--muted)}
+    .era.current{border:2px solid var(--nv);box-shadow:0 0 0 3px #76b90018}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .card{border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;background:#fff}.card.key{border-left:5px solid var(--nv);background:var(--good)}.card.exam{border-left:5px solid #3477a7;background:var(--blue)}.card.warn{border-left:5px solid #d69200;background:var(--warn)}.card.trap{border-left:5px solid #c94a4a;background:var(--danger)}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:.66rem .72rem;vertical-align:top}th{background:#1c3142;color:#fff;text-align:left}tbody tr:nth-child(even){background:#fafcfd}.nowrap{white-space:nowrap}
+    pre{background:#17212b;color:#eef4f8;padding:1rem;border-radius:10px;overflow:auto;white-space:pre-wrap}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .flow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:1rem;white-space:pre-wrap;line-height:1.55}
+    .pill{display:inline-block;padding:.15rem .52rem;border-radius:999px;background:#1c3142;color:white;font-size:.78rem;margin:.1rem}.pill.green{background:#568800}
+    .q{border:1px solid var(--line);border-radius:12px;padding:1rem;margin:1rem 0;background:#fff}.q details{margin-top:.65rem}.q summary{cursor:pointer;font-weight:700;color:#315f84}.answer{padding:.75rem;margin-top:.55rem;background:#f4f8fb;border-radius:8px}
+    .big{font-size:1.12rem;font-weight:700}.formula{text-align:center;padding:1rem;border:1px dashed #9aa7b1;border-radius:10px;background:#fbfcfd;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .sources li{margin:.45rem 0}.callout-number{font-size:2rem;font-weight:900;color:var(--nv);line-height:1}
+    @media(max-width:800px){.timeline{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}table{font-size:.84rem}.table-wrap{overflow-x:auto}.lesson{padding:0 .9rem}}
+    @media print{.site-header,.site-footer,.jump{display:none}.lesson{max-width:none}.lesson section{break-inside:auto}.card,.q,table{break-inside:avoid}}
+  </style>
+</head>
+<body class="site">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="NCA-AIIO 導覽">
+      <a class="brand" href="../../../"><span class="brand-mark">NCA</span>AIIO</a>
+      <ul class="nav-links">
+        <li><a href="../../">完整教材</a></li>
+        <li><a href="../../weekend/">週末衝刺</a></li>
+        <li><a href="../" aria-current="page">技術專題</a></li>
+        <li><a href="../../mock/">模擬考</a></li>
+        <li><a href="../../exam-reminder/">考試提醒</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">GPU Generations · NCA-AIIO Tutorial</p>
+      <h1>A100 → H100/H200 → B200 → B300 → Rubin</h1>
+      <p class="page-hero__lead">從 GPU 世代、HBM、Tensor Core、NVLink 一路連到 MIG、nvidia-smi、SMBPBI、DGX/HGX 與 NCA-AIIO 情境題。</p>
+      <div class="hero-note"><b>考試讀法：</b>不要死背 CUDA Core 數量。先記「架構 → 代表技術 → Memory → Interconnect → 主要 workload」，再判斷題目是在考 Compute、Memory、Scale-up、Scale-out、Operations 還是 Facility。</div>
+      <div class="jump">
+        <a href="#overview">世代總覽</a><a href="#specs">規格比較</a><a href="#mig">MIG</a><a href="#smi">nvidia-smi</a><a href="#smbpbi">SMBPBI</a><a href="#flops">PFLOPS</a><a href="#exam">考試題</a><a href="#cheat">速查表</a>
+      </div>
+    </section>
+
+    <div class="lesson">
+      <section id="overview">
+        <h2>1. 先把 NVIDIA Data Center GPU 世代串起來</h2>
+        <div class="timeline">
+          <div class="era"><b>A100</b><small>Ampere</small><span class="pill">TF32</span><span class="pill">MIG</span></div>
+          <div class="era"><b>H100</b><small>Hopper</small><span class="pill">FP8</span><span class="pill">TE</span></div>
+          <div class="era"><b>H200</b><small>Hopper</small><span class="pill">HBM3e</span></div>
+          <div class="era"><b>B200</b><small>Blackwell</small><span class="pill">NVFP4</span></div>
+          <div class="era"><b>B300</b><small>Blackwell Ultra</small><span class="pill">288GB</span></div>
+          <div class="era current"><b>Rubin</b><small>Rubin</small><span class="pill green">HBM4</span><span class="pill green">NVLink 6</span></div>
+        </div>
+        <div class="card key"><b>最短背法：</b><br>A100 = Ampere / TF32 / MIG<br>H100 = Hopper / Transformer Engine / FP8<br>H200 = Hopper / 141GB HBM3e<br>B200 = Blackwell / NVFP4 / 180GB HBM3e<br>B300 = Blackwell Ultra / 288GB HBM3e / reasoning<br>Rubin = HBM4 / 22TB/s / NVLink 6 / agentic AI</div>
+        <div class="card trap"><b>常見陷阱：</b>H200 仍是 Hopper；B300 仍屬 Blackwell 家族（Blackwell Ultra）。Rubin 才是 Blackwell 之後的新架構。</div>
+      </section>
+
+      <section id="specs">
+        <h2>2. 世代規格比較：考試真正值得記什麼</h2>
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th>GPU</th><th>Architecture</th><th>代表 Memory</th><th>Memory BW</th><th>NVLink</th><th>核心辨識點</th></tr></thead>
+          <tbody>
+            <tr><td><b>A100 80GB SXM</b></td><td>Ampere</td><td>80GB HBM2e</td><td>2.039 TB/s</td><td>3rd Gen · 600 GB/s</td><td>TF32、3rd-gen Tensor Core、MIG 最多 7 個</td></tr>
+            <tr><td><b>H100 SXM</b></td><td>Hopper</td><td>80GB HBM3</td><td>3.35 TB/s</td><td>4th Gen · 900 GB/s</td><td>4th-gen Tensor Core、Transformer Engine、FP8</td></tr>
+            <tr><td><b>H200</b></td><td>Hopper</td><td>141GB HBM3e</td><td>4.8 TB/s</td><td>4th Gen</td><td>更大、更快的 HBM，適合 LLM / KV cache / memory-bound workload</td></tr>
+            <tr><td><b>B200</b></td><td>Blackwell</td><td>180GB HBM3e</td><td>約 8 TB/s</td><td>5th Gen · 1.8 TB/s</td><td>5th-gen Tensor Core、NVFP4、GenAI scale-up</td></tr>
+            <tr><td><b>B300</b></td><td>Blackwell Ultra</td><td>最高 288GB HBM3e</td><td>最高約 8 TB/s</td><td>5th Gen · 1.8 TB/s</td><td>更大記憶體、Attention / reasoning / long context</td></tr>
+            <tr><td><b>Rubin</b></td><td>Rubin</td><td>最高 288GB HBM4</td><td>最高 22 TB/s</td><td>6th Gen · 3.6 TB/s</td><td>Agentic AI、long-context、MoE、50 PF NVFP4 inference</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="subtle">註：不同 form factor / SKU 會有不同 TDP、Memory 與 throughput；考試優先記「世代關係與技術定位」，不要把單一卡、DGX、HGX、NVL72 的規格混在一起。</p>
+
+        <h3>A100 — Ampere：TF32 與 MIG</h3>
+        <div class="grid2">
+          <div class="card"><div class="callout-number">A</div><b>A100 = Ampere</b><p>80GB 版本採 HBM2e；A100 把 TF32、第三代 Tensor Core 與 MIG 帶入主流資料中心 GPU 使用情境。</p></div>
+          <div class="card exam"><b>NCA-AIIO 辨識點</b><p>題目看到「把一張 GPU 隔離切給多個 workload」→ MIG。注意 MIG 不是 H100 才有，A100 就已支援。</p></div>
+        </div>
+
+        <h3>H100 / H200 — Hopper：Transformer Engine 與 FP8</h3>
+        <div class="grid2">
+          <div class="card"><b>H100</b><p>Hopper、80GB HBM3、3.35TB/s、第四代 Tensor Core、Transformer Engine、FP8、NVLink 4 900GB/s。</p></div>
+          <div class="card"><b>H200</b><p>仍是 Hopper，但把 HBM 提升到 141GB HBM3e / 4.8TB/s，特別有利於大型模型、KV cache 與 memory-bound inference。</p></div>
+        </div>
+
+        <h3>B200 — Blackwell：NVFP4 與大規模 GenAI</h3>
+        <div class="card key"><b>關鍵不是只看「更快」：</b>Blackwell 強調低精度 AI compute（如 NVFP4）、第五代 NVLink 與 rack-scale AI infrastructure。DGX B200 的 8 顆 GPU 合計 1,440GB HBM3e、64TB/s，因此可快速推得每 GPU 180GB、約 8TB/s。</div>
+
+        <h3>B300 — Blackwell Ultra：把 Memory 與 Attention 再往上推</h3>
+        <div class="grid2">
+          <div class="card"><b>最高 288GB HBM3e</b><p>較大的 on-package memory 可容納更大的模型、更多 KV cache、更長 context 與更高 concurrent users。</p></div>
+          <div class="card"><b>15 PFLOPS dense NVFP4</b><p>Blackwell Ultra 特別強化 attention layer 與 agentic / reasoning 型 inference。不要把 B300 誤背成全新的非 Blackwell 架構。</p></div>
+        </div>
+
+        <h3>Rubin — 最新主線：HBM4 + NVLink 6 + Agentic AI</h3>
+        <div class="grid3">
+          <div class="card"><b>288GB HBM4</b><p>容量支援模型常駐、long context、KV cache 與高 concurrency。</p></div>
+          <div class="card"><b>22 TB/s</b><p>Memory bandwidth 約為 Blackwell / Blackwell Ultra 的 2.8 倍等級，對 decode 階段特別重要。</p></div>
+          <div class="card"><b>NVLink 6</b><p>每 GPU 3.6TB/s scale-up bandwidth，較 Blackwell NVLink 5 再翻倍。</p></div>
+        </div>
+        <div class="card warn"><b>名稱要分清：</b>Rubin = GPU architecture / GPU；Vera = CPU；Vera Rubin = CPU + GPU 平台。Vera Rubin NVL72 則是 rack-scale system，不是一顆 GPU。</div>
+      </section>
+
+      <section id="system">
+        <h2>3. GPU、HGX、DGX、NVL72 不要混</h2>
+        <div class="flow">B200 / Rubin
+= GPU
+
+HGX B200 / HGX Rubin NVL8
+= GPU baseboard / platform
+
+DGX B200 / DGX Rubin NVL8
+= NVIDIA 完整系統
+
+GB200 NVL72 / Vera Rubin NVL72
+= Rack-scale AI system</div>
+        <div class="card exam"><b>答題技巧：</b>題目若問「GPU」就不要選 DGX；題目若問 turnkey / complete NVIDIA AI system，DGX 才比較像答案；題目若強調 72-GPU rack-scale domain，想到 NVL72。</div>
+      </section>
+
+      <section id="mig">
+        <h2>4. MIG：不是「-mig 1 = 切一個」</h2>
+        <div class="card trap"><code>sudo nvidia-smi -i 0 -mig 1</code> 裡的 <code>1</code> 是 <b>Enable</b>，不是 instance 數量。</div>
+        <pre><code># Step 1：開啟 MIG mode
+sudo nvidia-smi -i 0 -mig 1
+
+# Step 2：例：H100 80GB 建 5 個 1g.10gb GPU Instance，並同時建 Compute Instance
+sudo nvidia-smi mig -i 0 \
+  -cgi 1g.10gb,1g.10gb,1g.10gb,1g.10gb,1g.10gb \
+  -C
+
+# 確認
+nvidia-smi -L
+sudo nvidia-smi mig -lgi
+sudo nvidia-smi mig -lci</code></pre>
+        <h3>「最多幾個」怎麼算？</h3>
+        <p>H100 80GB 的一般 MIG profile 可以先用「Compute slices 與 Memory slices 哪個先耗完」理解：</p>
+        <div class="formula">Max instances ≈ min( floor(7 / compute_slices), floor(8 / memory_slices) )</div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Profile</th><th>Compute</th><th>Memory</th><th>Compute 限制</th><th>Memory 限制</th><th>最大數量</th></tr></thead>
+          <tbody>
+            <tr><td>1g.10gb</td><td>1/7</td><td>1/8</td><td>7</td><td>8</td><td><b>7</b></td></tr>
+            <tr><td>1g.20gb</td><td>1/7</td><td>2/8</td><td>7</td><td>4</td><td><b>4</b></td></tr>
+            <tr><td>2g.20gb</td><td>2/7</td><td>2/8</td><td>3</td><td>4</td><td><b>3</b></td></tr>
+            <tr><td>3g.40gb</td><td>3/7</td><td>4/8</td><td>2</td><td>2</td><td><b>2</b></td></tr>
+            <tr><td>4g.40gb</td><td>4/7</td><td>4/8</td><td>1</td><td>2</td><td><b>1</b></td></tr>
+            <tr><td>7g.80gb</td><td>7/7</td><td>8/8</td><td>1</td><td>1</td><td><b>1</b></td></tr>
+          </tbody>
+        </table></div>
+        <div class="card warn"><b>這是理解公式，不是所有 profile 的唯一規則。</b>實際還有 media engine、placement 等硬體限制；正式可用組合仍以 NVIDIA MIG profile / placement 定義為準。</div>
+      </section>
+
+      <section id="smi">
+        <h2>5. nvidia-smi：H100 / AI Server 最基本維運指令</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Command</th><th>用途</th><th>你要看什麼</th></tr></thead>
+          <tbody>
+            <tr><td><code>nvidia-smi</code></td><td>整體狀態</td><td>Temp、Power、Memory、GPU-Util、Process</td></tr>
+            <tr><td><code>nvidia-smi -L</code></td><td>列出 GPU / MIG device</td><td>GPU index、UUID、MIG UUID</td></tr>
+            <tr><td><code>nvidia-smi -q</code></td><td>詳細 query</td><td>PCIe、ECC、Clock、Power、Temperature、MIG</td></tr>
+            <tr><td><code>nvidia-smi -q -d POWER</code></td><td>Power 詳情</td><td>Current / Default Power Limit、Power Draw</td></tr>
+            <tr><td><code>nvidia-smi -q -d ECC</code></td><td>ECC</td><td>Correctable / Uncorrectable error</td></tr>
+            <tr><td><code>nvidia-smi dmon</code></td><td>即時 GPU telemetry</td><td>utilization、power、temperature 等</td></tr>
+            <tr><td><code>nvidia-smi pmon</code></td><td>Process monitor</td><td>哪個 PID 在用哪張 GPU</td></tr>
+            <tr><td><code>nvidia-smi topo -m</code></td><td>Topology</td><td>NVLink / PCIe / NUMA 關係</td></tr>
+            <tr><td><code>sudo nvidia-smi -i 0 -pl 500</code></td><td>Power cap</td><td>把 GPU 0 power limit 設為 500W（必須在允許範圍）</td></tr>
+          </tbody>
+        </table></div>
+        <div class="card key"><b>nvidia-smi vs DCGM：</b>把 nvidia-smi 想成單機 CLI / 基礎管理；DCGM（Data Center GPU Manager）更偏資料中心級 GPU telemetry、health、diagnostics 與 fleet / cluster monitoring。</div>
+      </section>
+
+      <section id="smbpbi">
+        <h2>6. SMBPBI：BMC 怎麼 OOB 管 NVIDIA GPU</h2>
+        <p><b>SMBPBI = SMBus Post-Box Interface</b>。它是 NVIDIA GPU 的 out-of-band 管理介面之一，跑在 SMBus 上，可讓 BMC 在 Host OS / NVIDIA driver 不可用時仍取得部分 GPU telemetry / status，並進行支援的管理操作。</p>
+        <div class="flow">In-band
+Linux → NVIDIA Driver → NVML / nvidia-smi / DCGM → GPU
+
+Out-of-band
+BMC → SMBus → SMBPBI → GPU
+
+對外管理
+BMC → Redfish / IPMI</div>
+        <div class="grid2">
+          <div class="card"><b>SMBus</b><p>Transport / electrical bus。</p></div>
+          <div class="card"><b>SMBPBI</b><p>跑在 SMBus 上的 NVIDIA GPU management interface / protocol。</p></div>
+        </div>
+        <div class="card exam"><b>與其他協定分清：</b>PMBus 常見於 PSU / VR power；MCTP 是 management transport；PLDM 是平台管理資料模型 / command set；SMBPBI 則是 NVIDIA GPU OOB 管理路徑之一。</div>
+      </section>
+
+      <section id="flops">
+        <h2>7. PFLOPS 是什麼？</h2>
+        <p><b>FLOPS = Floating-Point Operations Per Second</b>，表示每秒能做多少次浮點運算。</p>
+        <div class="formula">1 TFLOPS = 10¹² FLOPS<br>1 PFLOPS = 10¹⁵ FLOPS = 1,000 TFLOPS</div>
+        <p>例如 <b>50 PFLOPS NVFP4</b>，代表在該精度與官方定義條件下，理論 peak throughput 可達每秒 50 × 10¹⁵ 次浮點運算。</p>
+        <div class="card trap"><b>不要直接跨 precision 比 FLOPS：</b>50 PFLOPS FP4 不能單純說一定是 5 PFLOPS FP8 的「10 倍實際 AI 效能」。還要看 precision、dense/sparse、模型形態、memory bandwidth、batch、kernel efficiency 等。</div>
+      </section>
+
+      <section id="scale">
+        <h2>8. Scale-up / Scale-out：NVLink 不等於 InfiniBand</h2>
+        <div class="grid2">
+          <div class="card key"><b>Scale-up</b><p>同一個高速 GPU domain 內擴張，重點是 GPU ↔ GPU 低延遲、高頻寬。</p><p><b>關鍵字：</b>NVLink、NVSwitch。</p></div>
+          <div class="card key"><b>Scale-out</b><p>跨 node / rack 擴張，需要高速 data-center network。</p><p><b>關鍵字：</b>InfiniBand、Spectrum-X Ethernet、RDMA。</p></div>
+        </div>
+        <div class="flow">GPU ↔ GPU
+NVLink / NVSwitch
+= scale-up
+
+Node ↔ Node / Rack ↔ Rack
+InfiniBand / Ethernet
+= scale-out</div>
+      </section>
+
+      <section id="exam">
+        <h2>9. NCA-AIIO：考試比重與模擬題</h2>
+        <div class="grid3">
+          <div class="card"><div class="callout-number">38%</div><b>Essential AI Knowledge</b><p>AI/ML/DL、training vs inference、GPU vs CPU、NVIDIA software stack。</p></div>
+          <div class="card"><div class="callout-number">40%</div><b>AI Infrastructure</b><p>GPU scaling、network、DPU、power/cooling、facility、on-prem vs cloud。</p></div>
+          <div class="card"><div class="callout-number">22%</div><b>AI Operations</b><p>Monitoring、orchestration、scheduling、GPU metrics、virtualization。</p></div>
+        </div>
+        <p class="subtle">NVIDIA 官方目前列出：50 題、60 分鐘、US$125、Associate、證照效期 2 年。規則可能更新，報考前仍以官方頁為準。</p>
+
+        <div class="q"><b>Q1. Which GPU is based on the NVIDIA Ampere architecture?</b><br>A. H100　B. A100　C. B200　D. Rubin<details><summary>看答案</summary><div class="answer"><b>B. A100</b>。A100 = Ampere；H100/H200 = Hopper；B200 = Blackwell；B300 = Blackwell Ultra；Rubin = Rubin。</div></details></div>
+
+        <div class="q"><b>Q2. Which technology partitions one physical GPU into isolated GPU instances?</b><br>A. NVLink　B. MIG　C. InfiniBand　D. TensorRT<details><summary>看答案</summary><div class="answer"><b>B. MIG</b>。MIG 是 GPU resource partitioning；NVLink 是 GPU interconnect。</div></details></div>
+
+        <div class="q"><b>Q3. An H100 command uses <code>nvidia-smi -i 0 -mig 1</code>. What does the final 1 mean?</b><br>A. Create one instance　B. Use 1GB memory　C. Enable MIG mode　D. Select GPU 1<details><summary>看答案</summary><div class="answer"><b>C. Enable MIG mode</b>。建立 instance 要另外使用 <code>nvidia-smi mig -cgi ... -C</code>。</div></details></div>
+
+        <div class="q"><b>Q4. Which statement about H200 is correct?</b><br>A. It uses Blackwell　B. It is Hopper with larger/faster HBM than H100　C. It has no Tensor Cores　D. It is a DPU<details><summary>看答案</summary><div class="answer"><b>B</b>。H200 仍是 Hopper，核心差異之一是 141GB HBM3e / 4.8TB/s。</div></details></div>
+
+        <div class="q"><b>Q5. Which statement best distinguishes B300 from B200?</b><br>A. B300 is Hopper　B. B300 removes NVLink　C. B300 is Blackwell Ultra with up to 288GB HBM3e　D. B300 is a CPU<details><summary>看答案</summary><div class="answer"><b>C</b>。B300 / Blackwell Ultra 強化 memory capacity、attention 與 reasoning workload。</div></details></div>
+
+        <div class="q"><b>Q6. Which memory technology is a key Rubin GPU change?</b><br>A. DDR4　B. GDDR5　C. HBM2e　D. HBM4<details><summary>看答案</summary><div class="answer"><b>D. HBM4</b>。Rubin 最高 288GB HBM4、22TB/s。</div></details></div>
+
+        <div class="q"><b>Q7. Which interconnect is primarily used for high-bandwidth GPU-to-GPU scale-up?</b><br>A. SATA　B. NVLink　C. IPMI　D. USB<details><summary>看答案</summary><div class="answer"><b>B. NVLink</b>。跨 node / rack 的 scale-out 則常見 InfiniBand 或高速 Ethernet。</div></details></div>
+
+        <div class="q"><b>Q8. A long-context LLM inference service is bottlenecked by KV cache and token generation. Which hardware characteristics matter most?</b><br>A. Display outputs　B. GPU memory capacity and bandwidth　C. More USB ports　D. BMC flash size<details><summary>看答案</summary><div class="answer"><b>B</b>。Long context 與高 concurrency 會增加 KV cache；decode 也高度依賴 memory bandwidth。</div></details></div>
+
+        <div class="q"><b>Q9. Which NVIDIA tool is intended for data-center GPU monitoring, health, and diagnostics?</b><br>A. DCGM　B. CUDA compiler　C. NVLink　D. NCCL only<details><summary>看答案</summary><div class="answer"><b>A. DCGM</b>。<code>nvidia-smi</code> 適合基本 CLI；DCGM 更偏 data-center operations。</div></details></div>
+
+        <div class="q"><b>Q10. What is SMBPBI used for in an AI server?</b><br>A. Image rendering　B. GPU OOB management over SMBus　C. LLM tokenization　D. Kubernetes scheduling<details><summary>看答案</summary><div class="answer"><b>B</b>。BMC 可透過 SMBus / SMBPBI 取得支援的 GPU OOB telemetry / management information。</div></details></div>
+
+        <div class="q"><b>Q11. Which statement correctly describes Vera Rubin?</b><br>A. Vera is the GPU and Rubin is the NIC　B. Rubin is GPU; Vera is CPU; Vera Rubin is the platform　C. Vera Rubin is only a software library　D. Rubin is an A100 MIG profile<details><summary>看答案</summary><div class="answer"><b>B</b>。另外 Vera Rubin NVL72 是 rack-scale system。</div></details></div>
+
+        <div class="q"><b>Q12. 1 PFLOPS equals:</b><br>A. 10⁶ FLOPS　B. 10⁹ FLOPS　C. 10¹² FLOPS　D. 10¹⁵ FLOPS<details><summary>看答案</summary><div class="answer"><b>D</b>。1 PFLOPS = 1,000 TFLOPS = 10¹⁵ FLOPS。</div></details></div>
+      </section>
+
+      <section id="cheat">
+        <h2>10. 考前 2 分鐘速查</h2>
+        <div class="flow">A100 → Ampere → TF32 / MIG
+H100 → Hopper → FP8 / Transformer Engine
+H200 → Hopper → 141GB HBM3e
+B200 → Blackwell → NVFP4 / 180GB HBM3e
+B300 → Blackwell Ultra → up to 288GB / reasoning
+Rubin → HBM4 / 22TB/s / NVLink 6 / agentic AI
+
+MIG → GPU partitioning
+nvidia-smi → basic GPU CLI management
+DCGM → data-center GPU monitoring / health
+NVLink / NVSwitch → scale-up
+InfiniBand / Spectrum-X → scale-out
+BlueField → DPU
+SMBPBI → NVIDIA GPU OOB management over SMBus
+PFLOPS → 10^15 floating-point operations / second</div>
+        <div class="card exam"><b>最後答題法：</b>先判斷題目要解的是 <b>Compute / Memory / Scale-up / Scale-out / Operations / Facility</b> 哪一層，再挑最直接的 NVIDIA 元件。這比看到「最快」就選最新 GPU 更可靠。</div>
+      </section>
+
+      <section id="sources">
+        <h2>11. NVIDIA 官方來源</h2>
+        <ul class="sources">
+          <li><a href="https://www.nvidia.com/en-us/data-center/a100/">NVIDIA A100 Tensor Core GPU</a></li>
+          <li><a href="https://www.nvidia.com/en-us/data-center/h100/">NVIDIA H100 GPU</a></li>
+          <li><a href="https://developer.nvidia.com/blog/inside-nvidia-blackwell-ultra-the-chip-powering-the-ai-factory-era/">Inside NVIDIA Blackwell Ultra</a></li>
+          <li><a href="https://www.nvidia.com/en-us/data-center/dgx-b200/">NVIDIA DGX B200</a></li>
+          <li><a href="https://developer.nvidia.com/blog/inside-nvidia-rubin-gpu-architecture-powering-the-era-of-agentic-ai/">Inside NVIDIA Rubin GPU Architecture</a></li>
+          <li><a href="https://www.nvidia.com/en-us/data-center/technologies/rubin/">NVIDIA Vera Rubin Platform</a></li>
+          <li><a href="https://www.nvidia.com/en-us/data-center/nvlink/">NVIDIA NVLink / NVLink Switch</a></li>
+          <li><a href="https://docs.nvidia.com/datacenter/tesla/mig-user-guide/">NVIDIA MIG User Guide</a></li>
+          <li><a href="https://docs.nvidia.com/deploy/nvidia-smi/">NVIDIA System Management Interface</a></li>
+          <li><a href="https://www.nvidia.com/en-us/learn/certification/ai-infrastructure-operations-associate/">NCA-AIIO Certification / Exam Blueprint</a></li>
+        </ul>
+        <p class="subtle">版本日期：2026-08-19。Rubin 等新平台的部分規格仍可能由 NVIDIA 更新，實際部署與採購請以當下正式 datasheet 為準。</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · NVIDIA GPU Generations Tutorial</p><p><a href="../">回技術專題</a> · <a href="../../">回完整教材</a></p></div></footer>
+</body>
+</html>
