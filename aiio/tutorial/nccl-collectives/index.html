@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NCA-AIIO 教學：一次分清 CUDA、NCCL、cuDNN，以及 Broadcast、Scatter、Gather、AllGather、Reduce、AllReduce、ReduceScatter。">
+<title>CUDA、NCCL 與 Collective Communication 一次分清｜NCA-AIIO</title>
+<link rel="stylesheet" href="../../../assets/css/site.css">
+<style>
+:root{--g:#76b900;--n:#18324a;--ink:#182230;--m:#5d6876;--line:#d9e1e8;--soft:#f6f8fa;--good:#edf8e6;--blue:#edf5fb;--warn:#fff6df;--bad:#fff0f0;--purple:#f4efff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{color:var(--ink)}
+.lesson{max-width:1040px;margin:auto;padding:38px 24px 72px}.lesson h1,.lesson h2,.lesson h3{color:var(--n)}.lesson h2{margin-top:2.5rem;border-bottom:3px solid var(--g);padding-bottom:.3rem}.lead{font-size:1.12rem;color:var(--m);max-width:860px}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;padding:15px;margin:12px 0}.good{border-left:5px solid var(--g);background:var(--good)}.exam{border-left:5px solid #3977a5;background:var(--blue)}.warn{border-left:5px solid #d89b00;background:var(--warn)}.trap{border-left:5px solid #d54c4c;background:var(--bad)}.purple{border-left:5px solid #7254b8;background:var(--purple)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0}.box{border:1px solid #b8c4ce;border-radius:8px;padding:9px 12px;background:#fff;font-weight:700}.arr{font-size:1.3rem;color:#5b7f20}.rule{background:var(--n);color:#fff;border-radius:12px;padding:15px;text-align:center;font-weight:800;font-size:1.08rem;margin:20px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px}th,td{border:1px solid var(--line);padding:9px 10px;vertical-align:top}th{background:var(--n);color:#fff;text-align:left}tr:nth-child(even) td{background:#f9fbfc}
+pre{background:#17212b;color:#eef3f7;border-radius:10px;padding:14px 16px;overflow:auto;line-height:1.5}.op{font-size:1.04rem}.tag{display:inline-block;border-radius:999px;background:#e9eef3;color:#294256;padding:2px 8px;font-size:.78rem;font-weight:800;margin-right:5px}.quiz .q{border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}details{margin-top:8px}summary{cursor:pointer;font-weight:700;color:#315e7d}.muted{color:var(--m)}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}.lesson{padding:24px 16px 56px}}
+</style>
+</head>
+<body class="site">
+<header class="site-header"><nav class="site-nav" aria-label="NCA-AIIO 導覽"><a class="brand" href="../../../"><span class="brand-mark">NCA</span>AIIO</a><ul class="nav-links"><li><a href="../../">完整教材</a></li><li><a href="../../weekend/">週末衝刺</a></li><li><a href="../" aria-current="page">技術專題</a></li><li><a href="../../readings/">延伸閱讀</a></li><li><a href="../../mock/">模擬考</a></li></ul></nav></header>
+
+<main class="lesson">
+<p class="eyebrow">CUDA / NCCL / DISTRIBUTED TRAINING</p>
+<h1>CUDA、NCCL 與 Collective Communication 一次分清</h1>
+<p class="lead">NCA-AIIO 很容易把 <b>CUDA、cuDNN、NCCL、TensorFlow / PyTorch</b> 放在同一題裡。最有效的方式不是背縮寫，而是先問：這題在考「GPU 怎麼算」、「神經網路怎麼算得快」，還是「GPU 彼此怎麼溝通」？</p>
+
+<div class="rule">CUDA = GPU 怎麼算　｜　cuDNN = Neural Network 怎麼算得快　｜　NCCL = GPU 之間怎麼溝通</div>
+
+<section>
+<h2>1. 先看整個 Software Stack</h2>
+<pre>              TensorFlow / PyTorch
+                     │
+        Deep Learning Framework
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+        cuDNN                  NCCL
+          │                     │
+   Neural Network          Multi-GPU /
+    computation           Multi-node comm.
+          │                     │
+          └──────────┬──────────┘
+                     │
+                    CUDA
+                     │
+        Parallel Computing Platform
+                     │
+                 NVIDIA GPU</pre>
+<div class="grid3">
+<div class="card good"><h3>CUDA</h3><p><b>GPU parallel computing platform / programming model。</b></p><p>看到 parallel computing、GPU programming、multi-GPU execution，先想到 CUDA。</p></div>
+<div class="card exam"><h3>cuDNN</h3><p><b>Deep Neural Network primitives。</b></p><p>Convolution、activation、normalization 等 DNN 運算的高度最佳化函式庫。</p></div>
+<div class="card purple"><h3>NCCL</h3><p><b>Collective Communication。</b></p><p>AllReduce、AllGather、Broadcast、ReduceScatter 等 GPU-to-GPU 通訊。</p></div>
+</div>
+</section>
+
+<section>
+<h2>2. Collective Communication 到底是什麼？</h2>
+<p>Collective Communication 的意思是：<b>不是只有兩個 process / GPU 在傳資料，而是一群 GPU 一起參與同一個通訊操作。</b></p>
+<div class="card good"><b>考試抓法：</b>看到 <code>AllReduce</code>、<code>AllGather</code>、<code>Broadcast</code>、<code>ReduceScatter</code>、gradient synchronization，優先聯想到 <b>NCCL</b>。</div>
+<table>
+<tr><th>Operation</th><th>核心意思</th><th>一句話記法</th></tr>
+<tr><td><b>Broadcast</b></td><td>一個 root GPU 的完整資料傳給所有 GPU</td><td>One → All</td></tr>
+<tr><td><b>Scatter</b></td><td>Root 的完整資料切開後分給大家</td><td>One → Pieces</td></tr>
+<tr><td><b>Gather</b></td><td>大家各自的資料收集到一個 root</td><td>Pieces → One</td></tr>
+<tr><td><b>AllGather</b></td><td>大家各有一份，最後每個人都拿到全部</td><td>Pieces → All</td></tr>
+<tr><td><b>Reduce</b></td><td>大家的資料做 SUM/MAX 等合併，結果只給 root</td><td>Combine → One</td></tr>
+<tr><td><b>AllReduce</b></td><td>大家資料先合併，完整結果再給所有 GPU</td><td>Combine → All</td></tr>
+<tr><td><b>ReduceScatter</b></td><td>大家資料先合併，再把結果切開分給各 GPU</td><td>Combine → Pieces</td></tr>
+</table>
+</section>
+
+<section>
+<h2>3. Broadcast：一個人發給所有人</h2>
+<pre>Before:
+GPU0 : A     ← root
+GPU1 :
+GPU2 :
+GPU3 :
+
+Broadcast
+    ↓
+
+After:
+GPU0 : A
+GPU1 : A
+GPU2 : A
+GPU3 : A</pre>
+<div class="card exam"><span class="tag">KEYWORD</span><b>One → All</b>。例如 root rank 將初始化參數、configuration 或同一份資料發給其他 GPU。</div>
+</section>
+
+<section>
+<h2>4. AllGather：每人一片，最後人人都有完整拼圖</h2>
+<pre>Before:
+GPU0 : A
+GPU1 : B
+GPU2 : C
+GPU3 : D
+
+AllGather
+    ↓
+
+After:
+GPU0 : A B C D
+GPU1 : A B C D
+GPU2 : A B C D
+GPU3 : A B C D</pre>
+<div class="card good"><b>AllGather 沒有做 SUM。</b>它只是把每個 GPU 的不同資料片段「收齊」，然後完整複製給所有 GPU。</div>
+</section>
+
+<section>
+<h2>5. AllReduce：Distributed Training 最常考</h2>
+<p>假設四張 GPU 各自算出不同 gradient：</p>
+<pre>GPU0 gradient = 1
+GPU1 gradient = 2
+GPU2 gradient = 3
+GPU3 gradient = 4
+
+AllReduce(SUM)
+      ↓
+1 + 2 + 3 + 4 = 10
+      ↓
+GPU0 : 10
+GPU1 : 10
+GPU2 : 10
+GPU3 : 10</pre>
+<div class="card good"><b>為什麼 Training 要用？</b> Data Parallel Training 時，每張 GPU 處理不同 batch，因此算出的 gradient 不同；更新 model weights 前需要先同步 gradient。</div>
+<pre>GPU0 → Batch A → gradient A ─┐
+GPU1 → Batch B → gradient B ─┤
+GPU2 → Batch C → gradient C ─┼→ NCCL AllReduce → synchronized gradient → update weights
+GPU3 → Batch D → gradient D ─┘</pre>
+<div class="rule">Gradient synchronization → AllReduce → NCCL</div>
+</section>
+
+<section>
+<h2>6. ReduceScatter：先合併，再分片</h2>
+<pre>GPU0 : [1,    2,    3,    4]
+GPU1 : [10,   20,   30,   40]
+GPU2 : [100,  200,  300,  400]
+GPU3 : [1000, 2000, 3000, 4000]
+
+          Reduce (SUM)
+               ↓
+      [1111, 2222, 3333, 4444]
+               ↓
+             Scatter
+               ↓
+GPU0 : 1111
+GPU1 : 2222
+GPU2 : 3333
+GPU3 : 4444</pre>
+<div class="card warn"><b>最容易跟 AllReduce 混：</b>AllReduce 讓每個 GPU 拿到「完整合併結果」；ReduceScatter 則讓每個 GPU 只拿到「合併結果的一部分」。</div>
+</section>
+
+<section>
+<h2>7. Gather、Scatter、Broadcast 怎麼秒判？</h2>
+<div class="grid2">
+<div class="card"><h3>Gather</h3><pre>GPU0 : A
+GPU1 : B
+GPU2 : C
+GPU3 : D
+      ↓
+Root : A B C D</pre><p><b>Many → One</b></p></div>
+<div class="card"><h3>Scatter</h3><pre>Root : A B C D
+      ↓
+GPU0 : A
+GPU1 : B
+GPU2 : C
+GPU3 : D</pre><p><b>One → Pieces</b></p></div>
+<div class="card"><h3>Broadcast</h3><pre>Root : A
+      ↓
+GPU0 : A
+GPU1 : A
+GPU2 : A
+GPU3 : A</pre><p><b>One → All</b></p></div>
+<div class="card"><h3>AllGather</h3><pre>GPU0 : A
+GPU1 : B
+GPU2 : C
+GPU3 : D
+      ↓
+Everyone : A B C D</pre><p><b>Pieces → All</b></p></div>
+</div>
+</section>
+
+<section>
+<h2>8. Q24：為什麼答案是 CUDA？</h2>
+<div class="card exam"><b>題型：</b>Which parallel computing platform enables programming in popular languages with parallelism extensions?</div>
+<p><b>答案：CUDA。</b>題目問的是「parallel computing platform / programming model」，不是特定資料分析 library。</p>
+<table>
+<tr><th>選項</th><th>定位</th></tr>
+<tr><td><b>CUDA</b></td><td>通用 GPU parallel computing platform / programming model</td></tr>
+<tr><td>cuDF</td><td>GPU DataFrame / tabular processing</td></tr>
+<tr><td>cuML</td><td>GPU-accelerated machine learning</td></tr>
+<tr><td>cuGraph</td><td>GPU-accelerated graph analytics</td></tr>
+</table>
+<div class="card good"><b>記法：</b>CUDA 是「地基」；cuDF / cuML / cuGraph 是建立在 GPU 加速生態上的專用工具。</div>
+</section>
+
+<section>
+<h2>9. Q25：CUDA vs NCCL 為什麼會有歧義？</h2>
+<div class="card exam"><b>題型：</b>Which component of the AI software ecosystem manages the distribution of deep learning model training across multiple GPUs?</div>
+<p>這份題庫的預期答案是 <b>CUDA</b>。它把「training workload 分配到 multiple GPUs」歸類為 CUDA 的 multi-GPU computing / programming 能力。</p>
+<div class="grid2">
+<div class="card good"><h3>選 CUDA 的關鍵字</h3><p>parallel computing platform、GPU programming、multi-GPU execution、distribute computation across GPUs。</p></div>
+<div class="card purple"><h3>選 NCCL 的關鍵字</h3><p>collective communication、GPU-to-GPU communication、AllReduce、AllGather、Broadcast、gradient synchronization。</p></div>
+</div>
+<div class="card trap"><b>重要：</b>若題目明確問「GPU 之間如何同步 gradient / collective communication」，答案應是 NCCL；若像這份題庫使用較廣義的「distribution of training across multiple GPUs」，它把答案定為 CUDA。</div>
+</section>
+
+<section>
+<h2>10. NCA-AIIO 考前秒判表</h2>
+<table>
+<tr><th>題目關鍵字</th><th>優先答案</th></tr>
+<tr><td>Parallel computing platform / GPU programming model</td><td><b>CUDA</b></td></tr>
+<tr><td>Deep neural network primitives / convolution</td><td><b>cuDNN</b></td></tr>
+<tr><td>Multi-GPU communication / collective communication</td><td><b>NCCL</b></td></tr>
+<tr><td>Gradient synchronization</td><td><b>NCCL AllReduce</b></td></tr>
+<tr><td>Root sends same data to everyone</td><td><b>Broadcast</b></td></tr>
+<tr><td>Everyone contributes a piece; everyone gets all pieces</td><td><b>AllGather</b></td></tr>
+<tr><td>Combine everyone’s data; everyone gets full result</td><td><b>AllReduce</b></td></tr>
+<tr><td>Combine everyone’s data; each GPU gets one result shard</td><td><b>ReduceScatter</b></td></tr>
+<tr><td>GPU DataFrame</td><td><b>cuDF</b></td></tr>
+<tr><td>GPU traditional ML</td><td><b>cuML</b></td></tr>
+<tr><td>GPU graph analytics</td><td><b>cuGraph</b></td></tr>
+</table>
+</section>
+
+<section class="quiz">
+<h2>11. 延伸題</h2>
+<div class="q"><b>Q1.</b> A distributed training job needs to synchronize gradients across eight GPUs. Which operation is most relevant?<br>A. Broadcast　B. AllReduce　C. Gather　D. Scatter<details><summary>答案</summary><p><b>B. AllReduce。</b>先合併各 GPU gradient，再讓所有 GPU 得到同步結果。</p></details></div>
+<div class="q"><b>Q2.</b> Which NVIDIA library implements optimized collective communication for multiple GPUs?<br>A. cuDF　B. cuDNN　C. NCCL　D. OpenSM<details><summary>答案</summary><p><b>C. NCCL。</b></p></details></div>
+<div class="q"><b>Q3.</b> GPU0 owns model parameters that must be copied unchanged to every GPU. Which collective is the best match?<br>A. Broadcast　B. ReduceScatter　C. Reduce　D. Gather<details><summary>答案</summary><p><b>A. Broadcast。</b>One → All。</p></details></div>
+<div class="q"><b>Q4.</b> Four GPUs each hold one shard, and every GPU needs the complete set of four shards. Which operation?<br>A. AllGather　B. AllReduce　C. Scatter　D. Reduce<details><summary>答案</summary><p><b>A. AllGather。</b>Pieces → All，而且不需要做 SUM。</p></details></div>
+<div class="q"><b>Q5.</b> Which platform is the foundation for general-purpose NVIDIA GPU parallel programming?<br>A. NCCL　B. CUDA　C. cuGraph　D. Triton<details><summary>答案</summary><p><b>B. CUDA。</b></p></details></div>
+<div class="q"><b>Q6.</b> Which library is most directly associated with convolution and deep-neural-network primitives?<br>A. cuDNN　B. NCCL　C. cuDF　D. OpenSM<details><summary>答案</summary><p><b>A. cuDNN。</b></p></details></div>
+<div class="q"><b>Q7.</b> After a reduction, each GPU should receive only one shard of the combined result. Which operation?<br>A. AllReduce　B. Broadcast　C. ReduceScatter　D. AllGather<details><summary>答案</summary><p><b>C. ReduceScatter。</b></p></details></div>
+<div class="q"><b>Q8.</b> Which phrase most strongly indicates NCCL rather than CUDA?<br>A. Parallel computing platform　B. GPU programming model　C. Collective communication　D. C/C++ extensions<details><summary>答案</summary><p><b>C. Collective communication。</b></p></details></div>
+</section>
+
+<section>
+<h2>12. 最後 30 秒記憶</h2>
+<pre>CUDA        → GPU 怎麼算
+cuDNN       → Neural Network 怎麼算得快
+NCCL        → GPU 之間怎麼溝通
+
+Broadcast   → One → All
+AllGather   → Pieces → All
+AllReduce   → Combine → All
+ReduceScatter → Combine → Pieces
+
+Gradient synchronization
+        ↓
+     AllReduce
+        ↓
+       NCCL</pre>
+<div class="rule">看到「All-」先想：最後是不是每個 GPU 都拿到結果？看到「Reduce」先想：資料是不是要先做 SUM / MAX 等合併？</div>
+</section>
+
+<section>
+<h2>官方延伸閱讀</h2>
+<ul>
+<li><a href="https://docs.nvidia.com/cuda/" target="_blank" rel="noopener">NVIDIA CUDA Documentation</a></li>
+<li><a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/" target="_blank" rel="noopener">NVIDIA NCCL User Guide</a></li>
+<li><a href="https://docs.nvidia.com/deeplearning/cudnn/" target="_blank" rel="noopener">NVIDIA cuDNN Documentation</a></li>
+</ul>
+</section>
+</main>
+
+<footer class="site-footer"><div class="site-footer__inner"><p>NCA-AIIO · CUDA / NCCL 技術專題</p><p><a href="../">回技術專題索引</a> · <a href="../../">回完整教材</a></p></div></footer>
+</body>
+</html>
