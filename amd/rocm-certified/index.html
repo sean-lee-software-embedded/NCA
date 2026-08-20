@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AMD ROCm Certified Associate 週末衝刺中文教材：官方考綱、ROCm/HIP、CUDA 移植、ROCm Libraries、profiling/debugging、hands-on labs 與模擬題。">
+  <title>AMD ROCm Certified Associate｜週末衝刺教材</title>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <style>
+    :root {
+      --nca-green: #e31b23;
+      --nca-green-dark: #a70f15;
+      --nca-soft: #fff5f5;
+      --nca-night: #15171a;
+    }
+    .hero { background: radial-gradient(circle at 82% 20%, #e31b2340 0, transparent 28%), linear-gradient(135deg,#111315,#2a1a1b); }
+    .guide-nav { position: sticky; top: 0; }
+    .guide-nav__links { display:flex; gap:4px; overflow-x:auto; }
+    .study-wrap { width:min(calc(100% - 40px), 1120px); margin:auto; }
+    .study-section { padding: 34px 0; scroll-margin-top: 84px; }
+    .study-section h2 { margin:0 0 12px; font-size:clamp(1.6rem,4vw,2.2rem); }
+    .study-section h3 { margin:28px 0 10px; }
+    .lead-grid, .exam-grid, .lab-grid { display:grid; gap:16px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .exam-grid { grid-template-columns:repeat(5,minmax(0,1fr)); }
+    .lab-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .metric { border:1px solid var(--nca-line); border-radius:14px; background:#fff; padding:20px; }
+    .metric strong { display:block; font-size:1.5rem; color:var(--nca-green-dark); }
+    .metric span { color:var(--nca-muted); font-size:.9rem; }
+    .exam-domain { border-top:4px solid var(--nca-green); }
+    .exam-domain strong { font-size:1rem; color:var(--nca-ink); }
+    .exam-domain p { margin:.45rem 0 0; color:var(--nca-muted); font-size:.9rem; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--nca-line); border-radius:12px; background:#fff; }
+    table { width:100%; border-collapse:collapse; min-width:690px; }
+    th, td { padding:12px 14px; border-bottom:1px solid var(--nca-line); text-align:left; vertical-align:top; }
+    th { background:#f3f5f6; font-size:.88rem; }
+    tr:last-child td { border-bottom:0; }
+    pre { overflow:auto; padding:18px; border-radius:12px; background:#111820; color:#edf3f6; line-height:1.55; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    :not(pre) > code { padding:.12em .38em; border-radius:5px; background:#eef1f3; color:#8c1015; }
+    .callout { padding:18px 20px; border-left:5px solid var(--nca-green); border-radius:0 10px 10px 0; background:#fff1f1; }
+    .callout strong { color:#8d1117; }
+    .mental { display:grid; gap:8px; max-width:760px; margin:20px auto; }
+    .mental div { padding:13px 16px; text-align:center; border:1px solid var(--nca-line); border-radius:10px; background:#fff; font-weight:800; }
+    .arrow { text-align:center; color:var(--nca-green-dark); font-weight:900; }
+    .priority-5 { color:#971118; font-weight:900; }
+    .priority-4 { color:#b93035; font-weight:800; }
+    .priority-3 { color:#67575a; font-weight:700; }
+    .checklist { list-style:none; padding:0; }
+    .checklist li { padding:9px 0 9px 32px; position:relative; border-bottom:1px dashed var(--nca-line); }
+    .checklist li::before { content:"□"; position:absolute; left:4px; color:var(--nca-green-dark); font-weight:900; }
+    details.quiz { margin:10px 0; border:1px solid var(--nca-line); border-radius:10px; background:#fff; }
+    details.quiz summary { cursor:pointer; padding:15px 17px; font-weight:800; }
+    details.quiz div { padding:0 17px 16px; color:var(--nca-muted); }
+    .answer { margin-top:8px; padding:10px 12px; border-radius:8px; background:#f6f7f8; color:var(--nca-ink); }
+    .badge { display:inline-block; padding:5px 10px; border-radius:999px; background:#ffe3e4; color:#981218; font-weight:850; font-size:.78rem; }
+    .weekend td:first-child { white-space:nowrap; font-weight:850; color:var(--nca-green-dark); }
+    .small { font-size:.9rem; color:var(--nca-muted); }
+    .source-list li { margin:.55rem 0; }
+    @media (max-width:900px) { .exam-grid { grid-template-columns:1fr 1fr; } .lab-grid { grid-template-columns:1fr; } }
+    @media (max-width:720px) { .lead-grid,.exam-grid { grid-template-columns:1fr; } .study-wrap { width:min(calc(100% - 28px),1120px); } }
+  </style>
+</head>
+<body class="site">
+  <header class="guide-nav">
+    <div class="guide-nav__inner">
+      <a class="brand" href="../../"><span class="brand-mark">AMD</span>ROCm Certified</a>
+      <div class="guide-nav__links">
+        <a href="#plan">週末計畫</a>
+        <a href="#hip">HIP</a>
+        <a href="#porting">CUDA→HIP</a>
+        <a href="#libraries">Libraries</a>
+        <a href="#tools">Profiling</a>
+        <a href="#labs">Labs</a>
+        <a href="#mock">模擬題</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="eyebrow">AMD ROCm Certified Associate · Weekend Sprint</p>
+        <h1>兩天把 ROCm 從「名詞」變成可以動手做的技能。</h1>
+        <p class="hero__lead">依 AMD 2026 年公開 Associate competency domains 整理：Build & Dependencies、HIP、Porting、ROCm Libraries、Profiling & Debugging。搭配 hands-on labs 與原創模擬題，目標是週末完成準備並具備應考能力。</p>
+        <div class="actions">
+          <a class="button" href="#plan">開始週末衝刺</a>
+          <a class="button button--ghost" href="https://developer.amd.com/rocm-certified/" target="_blank" rel="noopener">AMD 官方認證頁</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="study-wrap study-section" id="scope">
+      <p class="eyebrow">01 · Exam Map</p>
+      <h2>先把考試範圍釘死</h2>
+      <p>AMD 官方把 Associate 定位為 <strong>Core AMD ROCm Software application development</strong>；公開考綱列出五個 competency domains，評量型態為 knowledge-based examination + practical tasks。以下教材以這五項為主，不把 Professional / Expert 的 multi-node 與深度效能調校混進來。</p>
+      <div class="exam-grid">
+        <article class="metric exam-domain"><strong>Build & Dependencies</strong><p>工具鏈、編譯、套件與執行環境。</p></article>
+        <article class="metric exam-domain"><strong>HIP Fundamentals</strong><p>kernel、thread/block/grid、memory、sync。</p></article>
+        <article class="metric exam-domain"><strong>Porting Patterns</strong><p>CUDA API 對應、HIPIFY、人工修正。</p></article>
+        <article class="metric exam-domain"><strong>ROCm Libraries</strong><p>rocBLAS、MIOpen、RCCL 等用途。</p></article>
+        <article class="metric exam-domain"><strong>Profiling & Debugging</strong><p>rocprofv3、ROCgdb、AMD SMI。</p></article>
+      </div>
+
+      <div class="lead-grid" style="margin-top:18px">
+        <div class="metric"><strong>24 months</strong><span>官方 Credential validity</span></div>
+        <div class="metric"><strong>Free to join</strong><span>ROCm Certified Developer Program 加入計畫目前免費；若未來有 evaluation fee，以官方頁面當下公告為準。</span></div>
+      </div>
+
+      <div class="callout" style="margin-top:20px">
+        <strong>考試倫理：</strong>本頁模擬題是依公開考綱自行設計，不是 exam dump。AMD 明確禁止公開、重製或分享非公開 evaluation content。
+      </div>
+    </section>
+
+    <section class="study-wrap study-section" id="plan">
+      <p class="eyebrow">02 · Weekend Plan</p>
+      <h2>週五晚＋週六＋週日：最短可執行路線</h2>
+      <div class="table-wrap">
+        <table class="weekend">
+          <thead><tr><th>時間</th><th>主題</th><th>要做到什麼</th><th>完成條件</th></tr></thead>
+          <tbody>
+            <tr><td>週五 20:30–21:15</td><td>帳號與環境</td><td>加入 AMD AI Developer Program、進 AI Academy、確認 certification course；申請/準備可用 AMD GPU 環境。</td><td>知道課程入口與考試入口，不把週六浪費在註冊。</td></tr>
+            <tr><td>週六 09:00–10:00</td><td>ROCm mental model</td><td>ROCm stack、HIP、compiler、libraries、tools。</td><td>可以用 2 分鐘口頭解釋 ROCm。</td></tr>
+            <tr><td>週六 10:00–12:30</td><td>HIP 核心</td><td>kernel、grid/block/thread、memory allocation/copy、同步。</td><td>看得懂 vector add kernel。</td></tr>
+            <tr><td>週六 13:30–15:00</td><td>CUDA → HIP</td><td>API mapping、HIPIFY、哪些情況要人工修改。</td><td>能把基本 CUDA 程式轉成 HIP。</td></tr>
+            <tr><td>週六 15:00–16:00</td><td>Libraries</td><td>rocBLAS / MIOpen / RCCL / rocFFT / rocRAND / rocSPARSE。</td><td>看到需求能選對 library。</td></tr>
+            <tr><td>週六 16:00–17:00</td><td>Build & PyTorch</td><td>hipcc、CMake 概念、PyTorch ROCm 的 torch.cuda 介面。</td><td>知道 build chain 與 framework integration。</td></tr>
+            <tr><td>週六 17:00–18:30</td><td>Profiling / Debug</td><td>rocminfo、amd-smi、rocprofv3、ROCgdb。</td><td>知道「遇到哪種問題用哪個工具」。</td></tr>
+            <tr><td>週日 09:00–11:00</td><td>Hands-on</td><td>編譯、執行 HIP vector add；觀察 GPU；做一個小型 porting。</td><td>完成 Lab 1 + Lab 2。</td></tr>
+            <tr><td>週日 11:00–12:00</td><td>Profiler drill</td><td>用 profiler 找 kernel / runtime 活動；練 synchronization 判讀。</td><td>完成 Lab 3。</td></tr>
+            <tr><td>週日 13:00–14:30</td><td>模擬題</td><td>做本頁 25 題，錯題回查對應章節。</td><td>≥ 80%，且不是靠猜。</td></tr>
+            <tr><td>週日 14:30–15:30</td><td>最後複習</td><td>背 API、library mapping、tool mapping。</td><td>完成頁尾 checklist。</td></tr>
+            <tr><td>週日後段</td><td>Certification</td><td>依 AI Academy 當下流程進行 evaluation。</td><td>考前不要再開新主題。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="study-wrap study-section" id="mental">
+      <p class="eyebrow">03 · ROCm Mental Model</p>
+      <h2>ROCm 到底是什麼？</h2>
+      <p>把 ROCm 想成 AMD 的 GPU software platform，而 <strong>HIP 是其中最核心的 GPU programming API + kernel language</strong>。框架、數學函式庫、編譯器、runtime、debug/profiling 工具共同構成完整開發環境。</p>
+      <div class="mental">
+        <div>PyTorch / TensorFlow / JAX / Applications</div><div class="arrow">↓</div>
+        <div>MIOpen · rocBLAS · RCCL · rocFFT · rocRAND · rocSPARSE</div><div class="arrow">↓</div>
+        <div>HIP Runtime + HIP Kernel Language</div><div class="arrow">↓</div>
+        <div>hipcc / amdclang++ · ROCr / Driver</div><div class="arrow">↓</div>
+        <div>AMD Instinct / Radeon GPU</div>
+      </div>
+      <div class="callout"><strong>不要背「ROCm = CUDA」就結束。</strong>比較準確的說法是：ROCm 是整個平台；HIP 對應的是 CUDA programming/runtime 層的核心開發體驗。</div>
+    </section>
+
+    <section class="study-wrap study-section" id="build">
+      <p class="eyebrow">04 · Build & Dependency Management</p>
+      <h2>Associate 第一個官方 domain：你至少要懂 build chain</h2>
+      <h3>最小編譯流程</h3>
+      <pre><code># 確認 compiler
+hipcc --version
+
+# 編譯
+hipcc vector_add.cpp -O2 -o vector_add
+
+# 執行
+./vector_add</code></pre>
+      <p><code>hipcc</code> 是常用的 HIP compiler driver。實務上它會把 HIP/C++ 編譯流程導向 ROCm/Clang 工具鏈。</p>
+
+      <h3>CMake mental model</h3>
+      <pre><code>project(my_rocm_app LANGUAGES CXX HIP)
+
+add_executable(vector_add vector_add.cpp)
+set_target_properties(vector_add PROPERTIES
+    HIP_ARCHITECTURES native
+)</code></pre>
+      <p>考 Associate 不需要你變成 CMake 專家；要能判斷問題是 <strong>source code、compiler、library dependency、GPU architecture target、runtime environment</strong> 哪一層。</p>
+
+      <h3>常見 build / environment 故障分類</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>現象</th><th>先想哪一層</th><th>方向</th></tr></thead>
+          <tbody>
+            <tr><td><code>hipcc: command not found</code></td><td>Toolchain / PATH</td><td>ROCm 是否安裝、PATH 是否包含 ROCm bin。</td></tr>
+            <tr><td>找不到 header / library</td><td>Dependency</td><td>include path、link library、套件版本。</td></tr>
+            <tr><td>compile OK，runtime 看不到 GPU</td><td>Driver / device access</td><td><code>rocminfo</code>、<code>amd-smi</code>、容器 device mapping。</td></tr>
+            <tr><td>能跑但在特定 GPU 出錯</td><td>Architecture / compatibility</td><td>target architecture、ROCm support matrix。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="study-wrap study-section" id="hip">
+      <p class="eyebrow">05 · HIP Fundamentals</p>
+      <h2>這是整份教材最重要的一章</h2>
+      <h3>1. Host 與 Device</h3>
+      <p><strong>Host = CPU</strong>，負責配置記憶體、搬資料、launch kernel、同步；<strong>Device = GPU</strong>，大量平行執行 kernel。</p>
+
+      <h3>2. Grid / Block / Thread</h3>
+      <pre><code>Grid
+├─ Block 0
+│  ├─ Thread 0
+│  ├─ Thread 1
+│  └─ ...
+├─ Block 1
+│  ├─ Thread 0
+│  └─ ...
+└─ ...</code></pre>
+      <p>最常見的一維 global index：</p>
+      <pre><code>int i = blockIdx.x * blockDim.x + threadIdx.x;</code></pre>
+      <p>意思不是「第幾個 block」或「thread 數量」，而是：<strong>這個 thread 在整個一維工作範圍中的 global index</strong>。</p>
+
+      <h3>3. 一個完整 vector add</h3>
+      <pre><code>#include &lt;hip/hip_runtime.h&gt;
+#include &lt;iostream&gt;
+
+__global__ void vectorAdd(const float* a,
+                          const float* b,
+                          float* c,
+                          int n)
+{
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i &lt; n) {
+        c[i] = a[i] + b[i];
+    }
+}
+
+int main()
+{
+    const int n = 1024;
+    const size_t bytes = n * sizeof(float);
+
+    float *h_a = new float[n];
+    float *h_b = new float[n];
+    float *h_c = new float[n];
+
+    for (int i = 0; i &lt; n; ++i) {
+        h_a[i] = i;
+        h_b[i] = 2 * i;
+    }
+
+    float *d_a, *d_b, *d_c;
+    hipMalloc(&amp;d_a, bytes);
+    hipMalloc(&amp;d_b, bytes);
+    hipMalloc(&amp;d_c, bytes);
+
+    hipMemcpy(d_a, h_a, bytes, hipMemcpyHostToDevice);
+    hipMemcpy(d_b, h_b, bytes, hipMemcpyHostToDevice);
+
+    const int blockSize = 256;
+    const int gridSize = (n + blockSize - 1) / blockSize;
+
+    hipLaunchKernelGGL(vectorAdd,
+                       dim3(gridSize),
+                       dim3(blockSize),
+                       0, 0,
+                       d_a, d_b, d_c, n);
+
+    hipDeviceSynchronize();
+
+    hipMemcpy(h_c, d_c, bytes, hipMemcpyDeviceToHost);
+
+    std::cout &lt;&lt; h_c[10] &lt;&lt; "\n";
+
+    hipFree(d_a);
+    hipFree(d_b);
+    hipFree(d_c);
+    delete[] h_a;
+    delete[] h_b;
+    delete[] h_c;
+}</code></pre>
+
+      <h3>4. 六個 API 先做到秒答</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>API</th><th>用途</th><th>你要立刻想到</th></tr></thead>
+          <tbody>
+            <tr><td><code>hipMalloc()</code></td><td>配置 device memory</td><td>GPU memory allocation</td></tr>
+            <tr><td><code>hipMemcpy()</code></td><td>host/device 之間拷貝</td><td>方向參數很重要</td></tr>
+            <tr><td><code>hipMemcpyHostToDevice</code></td><td>CPU → GPU</td><td>input upload</td></tr>
+            <tr><td><code>hipMemcpyDeviceToHost</code></td><td>GPU → CPU</td><td>result download</td></tr>
+            <tr><td><code>hipDeviceSynchronize()</code></td><td>等待先前 device work 完成</td><td>kernel launch 通常是 asynchronous</td></tr>
+            <tr><td><code>hipFree()</code></td><td>釋放 device memory</td><td>resource cleanup</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5. 為什麼要 <code>if (i &lt; n)</code>？</h3>
+      <p>grid 通常向上取整。例如 n=1000、blockSize=256，會 launch 1024 個 threads。最後 24 個 thread 如果沒有 boundary check，就可能存取陣列範圍外。</p>
+
+      <div class="callout"><strong>必背流程：</strong> hipMalloc → H2D hipMemcpy → kernel launch → synchronize（需要時）→ D2H hipMemcpy → hipFree。</div>
+    </section>
+
+    <section class="study-wrap study-section" id="porting">
+      <p class="eyebrow">06 · CUDA → HIP Porting</p>
+      <h2>不要只會字串替換，要知道 porting pattern</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>CUDA</th><th>HIP / ROCm</th><th>概念</th></tr></thead>
+          <tbody>
+            <tr><td><code>cudaMalloc</code></td><td><code>hipMalloc</code></td><td>Device allocation</td></tr>
+            <tr><td><code>cudaMemcpy</code></td><td><code>hipMemcpy</code></td><td>Memory copy</td></tr>
+            <tr><td><code>cudaFree</code></td><td><code>hipFree</code></td><td>Free device memory</td></tr>
+            <tr><td><code>cudaDeviceSynchronize</code></td><td><code>hipDeviceSynchronize</code></td><td>Device synchronization</td></tr>
+            <tr><td><code>cudaStream_t</code></td><td><code>hipStream_t</code></td><td>Asynchronous stream</td></tr>
+            <tr><td><code>cudaError_t</code></td><td><code>hipError_t</code></td><td>Error handling</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>HIPIFY 是什麼？</h3>
+      <p>HIPIFY 協助把 CUDA source/API calls 轉成 HIP 對應形式。常見兩種：</p>
+      <ul>
+        <li><strong>hipify-clang：</strong>利用 Clang front-end / AST，語意理解與診斷能力較強。</li>
+        <li><strong>hipify-perl：</strong>較輕量，偏 pattern-based conversion，環境要求低但理解力較弱。</li>
+      </ul>
+      <div class="callout"><strong>陷阱：</strong>HIPIFY ≠ 保證 port 完就自動有最佳效能。沒有對等 library、architecture-specific code、inline PTX、CUDA 特有 feature 等，都可能需要人工修改與重新 profiling。</div>
+
+      <h3>Porting 問題的思考順序</h3>
+      <pre><code>1. API 能不能直接 mapping？
+2. Library 有沒有 ROCm 對應？
+3. CUDA-specific feature 是否需要重寫？
+4. Compile 是否成功？
+5. Correctness 是否一致？
+6. 最後才做 performance tuning。</code></pre>
+    </section>
+
+    <section class="study-wrap study-section" id="libraries">
+      <p class="eyebrow">07 · ROCm Libraries Awareness</p>
+      <h2>看到工作負載，就要能選對 library</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>NVIDIA / CUDA</th><th>ROCm</th><th>主要用途</th><th>記憶法</th></tr></thead>
+          <tbody>
+            <tr><td>cuBLAS</td><td><strong>rocBLAS / hipBLAS</strong></td><td>Dense linear algebra / BLAS</td><td>matrix、GEMM</td></tr>
+            <tr><td>cuDNN</td><td><strong>MIOpen</strong></td><td>Deep-learning primitives</td><td>conv、activation、normalization</td></tr>
+            <tr><td>NCCL</td><td><strong>RCCL</strong></td><td>Multi-GPU collective communication</td><td>all-reduce / collective</td></tr>
+            <tr><td>cuFFT</td><td><strong>rocFFT / hipFFT</strong></td><td>Fast Fourier Transform</td><td>FFT</td></tr>
+            <tr><td>cuRAND</td><td><strong>rocRAND / hipRAND</strong></td><td>Random number generation</td><td>random</td></tr>
+            <tr><td>cuSPARSE</td><td><strong>rocSPARSE / hipSPARSE</strong></td><td>Sparse linear algebra</td><td>sparse matrix</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>為什麼 library awareness 很重要？</h3>
+      <p>如果需求本來就是 GEMM、convolution、FFT、collective communication，通常先用成熟 ROCm library，而不是手寫低階 kernel。Library 會替你處理大量 architecture-specific optimization。</p>
+
+      <h3>PyTorch on ROCm 的超常見陷阱</h3>
+      <pre><code>import torch
+
+print(torch.cuda.is_available())
+print(torch.cuda.get_device_name(0))
+print(torch.version.hip)</code></pre>
+      <p>在 ROCm 版 PyTorch 裡，GPU access 仍大量沿用 <code>torch.cuda</code> namespace。不要看到 AMD GPU 就想當然寫成不存在的 <code>torch.amd</code> 或 <code>torch.rocm.is_available()</code>。</p>
+    </section>
+
+    <section class="study-wrap study-section" id="tools">
+      <p class="eyebrow">08 · Profiling & Debugging</p>
+      <h2>先判斷問題類型，再選工具</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>你想知道什麼</th><th>工具</th><th>第一印象</th></tr></thead>
+          <tbody>
+            <tr><td>ROCm 看到了哪些 GPU / agent / architecture？</td><td><code>rocminfo</code></td><td>System / agent information</td></tr>
+            <tr><td>GPU utilization、power、temperature、memory、狀態？</td><td><code>amd-smi</code></td><td>類似 NVIDIA 世界的 nvidia-smi 角色</td></tr>
+            <tr><td>哪個 kernel / runtime activity 花時間？</td><td><code>rocprofv3</code> / ROCprofiler-SDK</td><td>Tracing / profiling</td></tr>
+            <tr><td>Kernel-level performance counters / bottleneck？</td><td>ROCm Compute Profiler</td><td>更深入效能分析</td></tr>
+            <tr><td>程式 crash、breakpoint、source-level debugging？</td><td><code>rocgdb</code></td><td>GPU-aware debugger</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>基本指令</h3>
+      <pre><code>rocminfo
+amd-smi
+rocprofv3 --help
+rocgdb ./vector_add</code></pre>
+
+      <h3>考題判讀技巧</h3>
+      <ul>
+        <li>問「device inventory / architecture」：先想 <strong>rocminfo</strong>。</li>
+        <li>問「temperature / power / utilization」：先想 <strong>AMD SMI</strong>。</li>
+        <li>問「哪個 kernel 慢、runtime timeline」：先想 <strong>profiler</strong>。</li>
+        <li>問「breakpoint、stack、source debug」：先想 <strong>ROCgdb</strong>。</li>
+      </ul>
+
+      <div class="callout"><strong>版本提醒：</strong>舊教材可能看到 <code>rocprof</code> / <code>rocprofv2</code>。目前 ROCm 文件主推 <code>rocprofv3</code> / ROCprofiler-SDK；考試若出現舊名稱，仍要知道它屬於 profiling 類別。</div>
+    </section>
+
+    <section class="study-wrap study-section" id="performance">
+      <p class="eyebrow">09 · Performance Fundamentals</p>
+      <h2>Associate 不必鑽太深，但 practical task 要有基本效能直覺</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>現象</th><th>先懷疑</th><th>基本方向</th></tr></thead>
+          <tbody>
+            <tr><td>GPU utilization 很低</td><td>工作量太小、launch overhead、occupancy、CPU bottleneck</td><td>看 profiler，不要先猜。</td></tr>
+            <tr><td>一直 H2D / D2H copy</td><td>Transfer overhead</td><td>能留在 device 的資料盡量留在 device。</td></tr>
+            <tr><td>記憶體讀取效率差</td><td>Access pattern</td><td>考慮 coalesced / aligned access。</td></tr>
+            <tr><td>Occupancy 很低</td><td>Registers / LDS / block sizing 等資源限制</td><td>分析限制因子，但不要把 100% occupancy 當唯一目標。</td></tr>
+            <tr><td>AI workload throughput 不佳</td><td>Precision / library / kernel efficiency</td><td>評估 FP16/BF16、optimized libraries，並驗證數值正確性。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>重要陷阱：</strong>Maximum occupancy 不等於 maximum performance。真正 KPI 是 application performance / latency / throughput / correctness。</div>
+    </section>
+
+    <section class="study-wrap study-section" id="labs">
+      <p class="eyebrow">10 · Hands-on Labs</p>
+      <h2>週日一定要動手：三個 lab 就夠建立 Associate 實戰感</h2>
+      <div class="lab-grid">
+        <article class="content-card">
+          <span class="badge">Lab 1 · 45–60 min</span>
+          <h3>HIP Vector Add</h3>
+          <p>目標：從零完成 allocate → copy → launch → synchronize → copy back → verify。</p>
+          <p><strong>完成條件：</strong>可以自己解釋 global index 與 boundary check。</p>
+        </article>
+        <article class="content-card">
+          <span class="badge">Lab 2 · 30–45 min</span>
+          <h3>CUDA → HIP Port</h3>
+          <p>拿一個基本 CUDA sample，先手動 mapping API，再用 HIPIFY 比較差異。</p>
+          <p><strong>完成條件：</strong>知道 HIPIFY 能做什麼、不能保證什麼。</p>
+        </article>
+        <article class="content-card">
+          <span class="badge">Lab 3 · 30–45 min</span>
+          <h3>Observe & Profile</h3>
+          <p>執行程式前後用 rocminfo / amd-smi；再以 rocprofv3 觀察 runtime/kernel activity。</p>
+          <p><strong>完成條件：</strong>能用工具證據回答「GPU 有沒有被用到、哪裡花時間」。</p>
+        </article>
+      </div>
+
+      <h3>Lab 1 操作手冊</h3>
+      <ol>
+        <li>建立 <code>vector_add.cpp</code>，貼上本頁 HIP sample。</li>
+        <li><code>hipcc vector_add.cpp -O2 -o vector_add</code></li>
+        <li><code>./vector_add</code></li>
+        <li>把 <code>n</code> 改成 1000，確認 boundary check 仍正確。</li>
+        <li>故意移除 <code>hipDeviceSynchronize()</code>，思考後續 D2H copy 是否本身會造成需要的同步，以及為什麼 profiling 時仍需理解 async 行為。</li>
+        <li>加入錯誤檢查，觀察 HIP API return code。</li>
+      </ol>
+
+      <h3>Lab 2 操作手冊</h3>
+      <pre><code># 先找工具
+which hipify-clang || which hipify-perl
+
+# 對一個小型 CUDA source 做轉換（依實際安裝工具參數為準）
+hipify-perl sample.cu &gt; sample_hip.cpp
+
+# 比對
+diff -u sample.cu sample_hip.cpp</code></pre>
+
+      <h3>Lab 3 操作手冊</h3>
+      <pre><code>rocminfo | less
+amd-smi
+
+# 先看版本與可用選項
+rocprofv3 --help
+
+# 再依你 ROCm 版本的 CLI 參數對 vector_add 做 tracing/profiling</code></pre>
+      <p class="small">Profiler CLI flags 可能隨 ROCm 版本調整，所以實機以 <code>rocprofv3 --help</code> 與當版文件為準；考試重點是知道 profiler 解決什麼問題。</p>
+    </section>
+
+    <section class="study-wrap study-section" id="mapping">
+      <p class="eyebrow">11 · NVIDIA → AMD Memory Bridge</p>
+      <h2>用你已熟悉的 NVIDIA 世界，快速映射 AMD</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>NVIDIA 世界</th><th>AMD / ROCm 世界</th></tr></thead>
+          <tbody>
+            <tr><td>CUDA platform</td><td>ROCm platform</td></tr>
+            <tr><td>CUDA C++ / Runtime</td><td>HIP C++ / Runtime</td></tr>
+            <tr><td><code>nvcc</code></td><td><code>hipcc</code> / AMD Clang toolchain</td></tr>
+            <tr><td><code>cudaMalloc</code></td><td><code>hipMalloc</code></td></tr>
+            <tr><td><code>cudaMemcpy</code></td><td><code>hipMemcpy</code></td></tr>
+            <tr><td>cuBLAS</td><td>rocBLAS / hipBLAS</td></tr>
+            <tr><td>cuDNN</td><td>MIOpen</td></tr>
+            <tr><td>NCCL</td><td>RCCL</td></tr>
+            <tr><td>cuFFT</td><td>rocFFT / hipFFT</td></tr>
+            <tr><td>cuRAND</td><td>rocRAND / hipRAND</td></tr>
+            <tr><td>cuda-gdb</td><td>ROCgdb</td></tr>
+            <tr><td>nvidia-smi</td><td>AMD SMI</td></tr>
+            <tr><td>CUDA code migration</td><td>HIPIFY-assisted porting</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="study-wrap study-section" id="priority">
+      <p class="eyebrow">12 · Study Priority</p>
+      <h2>只剩 10 小時時，照這個順序</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>優先度</th><th>主題</th><th>原因</th></tr></thead>
+          <tbody>
+            <tr><td class="priority-5">★★★★★</td><td>HIP fundamentals</td><td>核心開發能力，concept + practical 都可能依賴。</td></tr>
+            <tr><td class="priority-5">★★★★★</td><td>CUDA → HIP / HIPIFY</td><td>官方明列 porting patterns。</td></tr>
+            <tr><td class="priority-5">★★★★★</td><td>ROCm library mapping</td><td>官方明列 library awareness，且最好用情境題考。</td></tr>
+            <tr><td class="priority-4">★★★★☆</td><td>Build & dependency management</td><td>官方 domain，容易在 practical task 卡住。</td></tr>
+            <tr><td class="priority-4">★★★★☆</td><td>Profiling / debugging tools</td><td>官方 domain，需會選工具。</td></tr>
+            <tr><td class="priority-3">★★★☆☆</td><td>Performance fundamentals</td><td>有助 practical reasoning，但別深入到 Expert 級。</td></tr>
+            <tr><td class="priority-3">★★★☆☆</td><td>PyTorch ROCm integration</td><td>很實用，且 torch.cuda namespace 容易成陷阱。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="study-wrap study-section" id="mock">
+      <p class="eyebrow">13 · Mock Exam</p>
+      <h2>25 題原創模擬題</h2>
+      <p>先作答再展開答案。目標不是背選項，而是能說出「為什麼其他選項錯」。</p>
+
+      <details class="quiz"><summary>Q1. ROCm Certified Associate 官方 competency domain 不包含下列哪一項？ A. HIP fundamentals B. Porting patterns C. Multi-node architecture-aware scaling D. Profiling/debugging fundamentals</summary><div><div class="answer"><strong>答案 C。</strong>Multi-node、architecture-aware deep tuning 比較接近 Professional / Expert；Associate 公開 domain 是 build/dependency、HIP、porting、libraries、profiling/debugging。</div></div></details>
+      <details class="quiz"><summary>Q2. ROCm stack 中最核心的 C++ GPU programming API + kernel language 是？ A. MIOpen B. HIP C. RCCL D. AMD SMI</summary><div><div class="answer"><strong>答案 B：HIP。</strong></div></div></details>
+      <details class="quiz"><summary>Q3. <code>blockIdx.x * blockDim.x + threadIdx.x</code> 最常代表什麼？ A. GPU id B. global thread index C. block count D. memory size</summary><div><div class="answer"><strong>答案 B。</strong>一維 kernel 中用它把 block 內 thread index 展開成整體 global index。</div></div></details>
+      <details class="quiz"><summary>Q4. 哪個 API 配置 GPU device memory？ A. hipMemcpy B. hipMalloc C. hipFree D. hipDeviceSynchronize</summary><div><div class="answer"><strong>答案 B：hipMalloc。</strong></div></div></details>
+      <details class="quiz"><summary>Q5. <code>hipMemcpyHostToDevice</code> 的方向是？ A. GPU→CPU B. CPU→GPU C. GPU→GPU only D. CPU→CPU</summary><div><div class="answer"><strong>答案 B。</strong></div></div></details>
+      <details class="quiz"><summary>Q6. <code>hipDeviceSynchronize()</code> 最主要的語意？ A. 編譯 kernel B. 等待先前 device work 完成 C. 配置記憶體 D. 查 GPU 溫度</summary><div><div class="answer"><strong>答案 B。</strong>Kernel launch 通常 asynchronous，同步 API 讓 host 等 device work。</div></div></details>
+      <details class="quiz"><summary>Q7. n=1000、blockSize=256 時，為什麼 kernel 常要 <code>if(i&lt;n)</code>？</summary><div><div class="answer"><strong>答案：</strong>grid 向上取整會 launch 1024 threads；最後多出的 threads 必須避免 out-of-bounds access。</div></div></details>
+      <details class="quiz"><summary>Q8. 哪個工具用於協助 CUDA source 移植到 HIP？ A. ROCgdb B. HIPIFY C. MIOpen D. RCCL</summary><div><div class="answer"><strong>答案 B：HIPIFY。</strong></div></div></details>
+      <details class="quiz"><summary>Q9. 關於 HIPIFY，哪個說法正確？ A. 轉完一定最佳化 B. 能保證所有 CUDA feature 1:1 C. 可協助 API/source conversion，但仍可能需人工修正與 tuning D. 只能做 profiling</summary><div><div class="answer"><strong>答案 C。</strong></div></div></details>
+      <details class="quiz"><summary>Q10. CUDA <code>cudaMalloc()</code> 最直接的 HIP 對應？</summary><div><div class="answer"><strong>答案：<code>hipMalloc()</code>。</strong></div></div></details>
+      <details class="quiz"><summary>Q11. cuDNN 對應到 ROCm 哪個 deep-learning primitive library？ A. MIOpen B. RCCL C. rocRAND D. rocFFT</summary><div><div class="answer"><strong>答案 A：MIOpen。</strong></div></div></details>
+      <details class="quiz"><summary>Q12. Multi-GPU collective communication 最應先想到哪個 ROCm library？ A. rocBLAS B. MIOpen C. RCCL D. ROCgdb</summary><div><div class="answer"><strong>答案 C：RCCL。</strong>NCCL ↔ RCCL 是重要 mapping。</div></div></details>
+      <details class="quiz"><summary>Q13. Dense matrix / GEMM workload 最應先想到？ A. rocBLAS B. rocRAND C. ROCgdb D. AMD SMI</summary><div><div class="answer"><strong>答案 A：rocBLAS。</strong></div></div></details>
+      <details class="quiz"><summary>Q14. FFT workload 最相關？ A. rocFFT B. MIOpen C. RCCL D. hipify-clang</summary><div><div class="answer"><strong>答案 A：rocFFT。</strong></div></div></details>
+      <details class="quiz"><summary>Q15. ROCm PyTorch 中常用哪個 API 判斷 GPU 是否可用？ A. torch.rocm.is_available() B. torch.cuda.is_available() C. torch.amd.ready() D. torch.hip.ready()</summary><div><div class="answer"><strong>答案 B。</strong>ROCm 版 PyTorch 仍沿用 <code>torch.cuda</code> namespace 存取 GPU。</div></div></details>
+      <details class="quiz"><summary>Q16. 想查看 AMD GPU agent / architecture / ROCm 可見裝置，先用？ A. rocminfo B. hipify-perl C. MIOpen D. CMake</summary><div><div class="answer"><strong>答案 A：rocminfo。</strong></div></div></details>
+      <details class="quiz"><summary>Q17. 想看 GPU power、temperature、utilization，先用？ A. ROCgdb B. AMD SMI C. rocBLAS D. hipcc</summary><div><div class="answer"><strong>答案 B：AMD SMI。</strong></div></div></details>
+      <details class="quiz"><summary>Q18. 想知道哪個 kernel / runtime activity 花最多時間，最佳工具類型？ A. Profiler B. Linker C. Package manager D. Text editor</summary><div><div class="answer"><strong>答案 A。</strong>ROCm 現行工具可從 rocprofv3 / ROCprofiler-SDK 類別開始。</div></div></details>
+      <details class="quiz"><summary>Q19. 想 source-level breakpoint / stack debugging，先想到？ A. ROCgdb B. RCCL C. amd-smi D. rocRAND</summary><div><div class="answer"><strong>答案 A：ROCgdb。</strong></div></div></details>
+      <details class="quiz"><summary>Q20. 程式 compile 成功但 runtime 完全看不到 GPU。最合理第一步？ A. 重寫 kernel B. 先查 rocminfo / amd-smi 與 device access C. 換成 FFT D. 提高 occupancy</summary><div><div class="answer"><strong>答案 B。</strong>先確認 environment / driver / device visibility，不要直接改演算法。</div></div></details>
+      <details class="quiz"><summary>Q21. 程式頻繁 CPU↔GPU 小量 copy，GPU acceleration 效果不好。第一個改善方向？ A. 增加 printf B. 減少不必要的 host-device transfers C. 換 debugger D. 增加 DNS cache</summary><div><div class="answer"><strong>答案 B。</strong></div></div></details>
+      <details class="quiz"><summary>Q22. 「Occupancy 越高，效能一定越高」是否正確？</summary><div><div class="answer"><strong>不正確。</strong>Occupancy 是重要訊號之一，但 maximum occupancy 並不保證 maximum application performance。</div></div></details>
+      <details class="quiz"><summary>Q23. 已有成熟 rocBLAS 可以做 GEMM，通常何者是較好的第一選擇？ A. 先手寫 assembly kernel B. 優先評估 rocBLAS C. 一律 CPU 計算 D. 一律 HIPIFY</summary><div><div class="answer"><strong>答案 B。</strong>成熟 domain library 通常能提供較好的開發效率與 architecture-adaptive optimization。</div></div></details>
+      <details class="quiz"><summary>Q24. <code>hipcc: command not found</code> 最像哪類問題？ A. Toolchain/PATH B. GPU kernel occupancy C. RCCL collective D. Numerical precision</summary><div><div class="answer"><strong>答案 A。</strong></div></div></details>
+      <details class="quiz"><summary>Q25. Associate 最適合的學習策略？ A. 先鑽 multi-node RCCL tuning B. 先把 HIP/API mapping/library/tools + 1–3 個 lab 做熟 C. 只背 GPU 型號 D. 只做 AI theory</summary><div><div class="answer"><strong>答案 B。</strong>它最貼近官方公開 domain 與 practical-task 方向。</div></div></details>
+    </section>
+
+    <section class="study-wrap study-section" id="final">
+      <p class="eyebrow">14 · Final Checklist</p>
+      <h2>考前 30 分鐘只看這裡</h2>
+      <ul class="checklist">
+        <li>我能用 2 分鐘說出 ROCm、HIP、ROCm libraries、toolchain 的層次。</li>
+        <li>我能解釋 host / device 與 grid / block / thread。</li>
+        <li>我看到 <code>blockIdx.x * blockDim.x + threadIdx.x</code> 能秒答 global thread index。</li>
+        <li>我能寫出 hipMalloc → H2D → kernel → sync → D2H → hipFree。</li>
+        <li>我知道 boundary check 為什麼必要。</li>
+        <li>我知道 HIPIFY 的用途與限制。</li>
+        <li>我能秒答 cuDNN→MIOpen、NCCL→RCCL、cuBLAS→rocBLAS。</li>
+        <li>我知道 rocminfo / AMD SMI / rocprofv3 / ROCgdb 各解什麼問題。</li>
+        <li>我知道 ROCm PyTorch 仍常使用 <code>torch.cuda</code> namespace。</li>
+        <li>我至少實際編譯執行過一個 HIP program。</li>
+        <li>本頁模擬題達 80% 以上，錯題已回查。</li>
+        <li>我沒有在考前最後一小時開新的進階主題。</li>
+      </ul>
+    </section>
+
+    <section class="study-wrap study-section" id="official">
+      <p class="eyebrow">15 · Official Materials</p>
+      <h2>正式資訊與延伸閱讀</h2>
+      <ul class="source-list">
+        <li><a href="https://developer.amd.com/rocm-certified/" target="_blank" rel="noopener"><strong>AMD ROCm Certified</strong></a> — 認證入口、加入方式與 Associate / Professional / Expert 路線。</li>
+        <li><a href="https://developer.amd.com/legal/rocm-certified-developer-program-agreement/" target="_blank" rel="noopener"><strong>ROCm Certified Developer Program Agreement v1.1</strong></a> — Associate scope、五大 competency domains、evaluation format、24 個月效期與考試保密規則。</li>
+        <li><a href="https://developer.amd.com/amd-ai-academy/" target="_blank" rel="noopener"><strong>AMD AI Academy</strong></a> — self-paced learning paths 與 hands-on labs。</li>
+        <li><a href="https://rocm.docs.amd.com/en/develop/reference/hip-programming.html" target="_blank" rel="noopener"><strong>AMD GPU programming on ROCm</strong></a> — HIP、compiler、profiler、debugger、libraries 概觀。</li>
+        <li><a href="https://rocm.docs.amd.com/projects/HIP/en/develop/understand/programming_model.html" target="_blank" rel="noopener"><strong>HIP Programming Model</strong></a> — CPU/GPU、thread hierarchy、memory 與 domain-specific libraries。</li>
+      </ul>
+      <div class="notice">
+        <p><strong>版本基準：</strong>本頁於 2026-08-20 依 AMD 公開資料整理。ROCm release、工具名稱與 certification policies 可能更新；考試前以 AMD 官方頁面與你 AI Academy 帳號中顯示的最新內容為準。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>GPU Certification Study Hub · AMD ROCm Certified Associate 中文衝刺教材</p>
+      <p>非 AMD 官方教材；AMD ROCm™ 為 Advanced Micro Devices, Inc. 的商標。</p>
+    </div>
+  </footer>
+</body>
+</html>
