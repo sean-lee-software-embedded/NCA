@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NVIDIA NCP-AIO AI Operations Professional 中文實作教材：Brev GPU 租用、nvidia-smi、CUDA、NGC、Docker、DCGM、Slurm、Kubernetes、MIG、Base Command Manager 與 troubleshooting。">
+<title>NCP-AIO 實作衝刺教材｜NCA Study Hub</title>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<style>
+:root{--ink:#182230;--muted:#5d6875;--line:#d8e0e7;--paper:#fff;--soft:#f4f7f9;--green:#76b900;--green2:#5b8e00;--navy:#18324a;--blue:#eaf4fb;--warn:#fff6df;--danger:#fff0f0;--good:#eff9e9}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#e9edf1;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;line-height:1.65}
+main{max-width:1080px;margin:0 auto;background:var(--paper);padding:42px 58px 70px;box-shadow:0 2px 18px #0002}
+h1,h2,h3,h4{color:var(--navy);line-height:1.25}h1{font-size:2.8rem}h2{font-size:1.65rem;border-bottom:3px solid var(--green);padding-bottom:.25em;margin-top:2.2em}h3{font-size:1.25rem;margin-top:1.6em}h4{font-size:1.05rem}p{margin:.5em 0 .9em}a{color:#23608e}.muted{color:var(--muted)}
+.hero-ncp{padding:70px 0 48px;border-top:14px solid var(--green)}.hero-ncp .eyebrow{font-weight:800;letter-spacing:.1em;color:var(--green2)}.hero-ncp .lead{font-size:1.22rem;color:var(--muted);max-width:850px}.hero-ncp .meta{margin-top:1.7rem;padding:14px 17px;border-left:5px solid var(--green);background:var(--good)}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px 17px;margin:12px 0;background:#fff}.key{border-left:5px solid var(--green);background:var(--good)}.warn{border-left:5px solid #e4a000;background:var(--warn)}.danger{border-left:5px solid #d64a4a;background:var(--danger)}.info{border-left:5px solid #3d7aa6;background:var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pill{display:inline-block;border-radius:999px;padding:3px 9px;font-size:.78rem;font-weight:800;background:var(--navy);color:#fff;margin-right:5px}.pill.green{background:var(--green2)}
+.toc{columns:2;column-gap:2rem}.toc a{display:block;padding:.18rem 0;border-bottom:1px dotted #ccd4dc;text-decoration:none}
+table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:.93rem}th,td{border:1px solid var(--line);padding:8px 9px;vertical-align:top}th{background:var(--navy);color:#fff;text-align:left}tr:nth-child(even) td{background:#f8fafb}
+pre{background:#17212b;color:#edf3f7;border-radius:9px;padding:13px 15px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:Consolas,Menlo,monospace;font-size:.91rem}code{font-family:Consolas,Menlo,monospace}.cmd{border-left:4px solid var(--green)}
+.diagram{border:1px solid var(--line);background:#f8fafb;border-radius:10px;padding:15px;margin:12px 0;white-space:pre-wrap;font-family:Consolas,Menlo,monospace;line-height:1.45}.check li{margin:.3em 0}.small{font-size:.88rem}.chapter{scroll-margin-top:80px}.source-list li{margin:.45em 0}.kpi{font-size:1.08rem;font-weight:800;color:var(--green2)}
+@media(max-width:760px){main{padding:24px 18px}.grid2,.grid3{grid-template-columns:1fr}.toc{columns:1}h1{font-size:2.15rem}.hero-ncp{padding-top:45px}}
+@media print{body{background:#fff}main{max-width:none;box-shadow:none;padding:0}.screen-only{display:none}.card,table,.diagram,pre{break-inside:avoid}h2,h3{break-after:avoid}}
+</style>
+</head>
+<body>
+<nav class="guide-nav screen-only" aria-label="NCP-AIO 導覽">
+  <div class="guide-nav__inner">
+    <a class="brand" href="../../"><span class="brand-mark">NCA</span>Study Hub</a>
+    <div class="guide-nav__links">
+      <a href="../">NCA-AIIO</a>
+      <a href="./" aria-current="page">NCP-AIO 實作</a>
+      <a href="#weekend">週末衝刺</a>
+      <a href="#labs">Labs</a>
+      <a href="#roadmap">4 週路線</a>
+      <a href="#ready">報考門檻</a>
+    </div>
+  </div>
+</nav>
+<main>
+<section class="hero-ncp">
+  <div class="eyebrow">NVIDIA PROFESSIONAL CERTIFICATION PREP</div>
+  <h1>NCP-AIO AI Operations<br>實作衝刺教材</h1>
+  <p class="lead">從 NCA-AIIO 的「知道元件是什麼」，往 Professional 等級的「能在 Linux CLI 上操作、部署、觀察、排程、故障排除」前進。第一個週末以一台雲端 NVIDIA GPU VM 打底，再用 3 週補齊 BCM、Run:ai、MIG、InfiniBand、BlueField/DOCA、NVLink/NVSwitch、Magnum IO 與 storage troubleshooting。</p>
+  <div class="meta"><b>版本：</b>2026-08-20　｜　<b>第一週末預算：</b>建議 US$15–25 上限　｜　<b>策略：</b>方便與有效學習優先，不為了省幾美元浪費時間。</div>
+</section>
+
+<section class="chapter" id="start">
+<h2>0. 先知道你要考的是什麼</h2>
+<div class="grid2">
+  <div class="card key"><span class="pill green">Official</span><h3>NCP-AIO</h3><p><b>NVIDIA-Certified Professional: AI Operations</b>，定位是 Professional / intermediate，重點是 monitor、troubleshoot、optimize NVIDIA AI infrastructure。</p></div>
+  <div class="card info"><span class="pill">Hands-on</span><h3>不是只背選擇題</h3><p>目前官方頁列出 <b>30 題 multiple choice + 3 個 hands-on labs</b>，總時間 120 分鐘；lab 會在考試開始後自動 provision。</p></div>
+</div>
+<table>
+<tr><th>項目</th><th>目前官方資訊</th><th>對準備方式的含義</th></tr>
+<tr><td>時間</td><td>120 分鐘</td><td>CLI 必須形成肌肉記憶，不能每一步都查文件。</td></tr>
+<tr><td>費用</td><td>US$500</td><td>不要用「讀完教材」當報考標準，要用 hands-on readiness。</td></tr>
+<tr><td>題型</td><td>30 MCQ + 3 hands-on labs</td><td>理論與操作都要練。</td></tr>
+<tr><td>Lab 核心環境</td><td>Linux CLI、Slurm、Kubernetes、Base Command Manager</td><td>這三套至少要能操作、看狀態、查 log、排除常見錯誤。</td></tr>
+<tr><td>建議經驗</td><td>2–3 年 NVIDIA hardware data-center operations</td><td>本教材只能補 lab 與 NVIDIA-specific stack，不能把真實 production 經驗完全壓縮成幾週。</td></tr>
+<tr><td>效期</td><td>2 年</td><td>報考前再次核對官方頁與 study guide。</td></tr>
+</table>
+<div class="card warn"><b>重要：</b>這份教材的目標不是宣稱「一個週末就能通過 NCP-AIO」。第一個週末是把基礎操作打通；後續 3 週才補齊 Professional blueprint 的主要缺口。</div>
+
+<h3>官方 Exam Blueprint → 本教材對應</h3>
+<table>
+<tr><th>Domain</th><th>官方比重</th><th>本教材</th></tr>
+<tr><td>Installation & Deployment</td><td>31%</td><td>BCM、Kubernetes、Slurm、DOCA Services、Run:ai、software image / node management 概念與後續實作。</td></tr>
+<tr><td>Administration</td><td>23%</td><td>Slurm、Kubernetes、Run:ai、MIG、AI data center architecture。</td></tr>
+<tr><td>Workload Management</td><td>23%</td><td>NGC containers、training/inference workload、resource allocation、system tools。</td></tr>
+<tr><td>Troubleshooting & Optimization</td><td>23%</td><td>Docker、NGC、BCM、Fabric Manager、Magnum IO、storage、GPU telemetry。</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="mental-model">
+<h2>1. 先建立 AI Operations 的整體圖</h2>
+<div class="diagram">AI / Training / Inference Workload
+              │
+      ┌───────┴────────┐
+      │                │
+    Slurm          Kubernetes / Run:ai
+      │                │
+      └───────┬────────┘
+              │
+         Container / NGC
+              │
+         CUDA / Libraries
+              │
+       NVIDIA Driver / GPU
+              │
+   ┌──────────┼───────────┐
+   │          │           │
+nvidia-smi   DCGM     Fabric / Storage
+   │          │       NVLink / IB / DPU
+   └──────────┼───────────┘
+              │
+       Monitoring / Troubleshooting
+              │
+              ▼
+      Base Command Manager
+ Provision / Config / Health / Nodes</div>
+<div class="card key"><b>記法：</b>BCM 管 cluster 與 nodes；Slurm / Kubernetes / Run:ai 管 workload 與 resource；NGC 提供 NVIDIA container content；CUDA/driver 連到底層 GPU；DCGM 與 system tools 負責觀察與 diagnostics。</div>
+
+<h3>對 System / Embedded 背景最重要的轉換</h3>
+<table>
+<tr><th>熟悉的系統思維</th><th>AI Infrastructure 對應</th></tr>
+<tr><td>Inventory / FRU / PCIe topology</td><td><code>nvidia-smi -q</code>、GPU UUID、PCI bus、<code>nvidia-smi topo -m</code></td></tr>
+<tr><td>Sensor / telemetry</td><td>GPU util、memory、temperature、power、ECC、DCGM metrics</td></tr>
+<tr><td>Daemon / systemd / log</td><td>Docker、Slurm daemons、K3s/Kubernetes、Fabric Manager、DCGM services</td></tr>
+<tr><td>Resource ownership</td><td>Slurm GRES、Kubernetes device resource、MIG、Run:ai quota</td></tr>
+<tr><td>Fault isolation</td><td>status → describe/inspect → logs → config → underlying resource</td></tr>
+<tr><td>OOB 管理</td><td>BMC/Redfish 管單機硬體；BCM（Base Command Manager）管 cluster provisioning / operations</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="toc">
+<h2>2. 教材目錄</h2>
+<div class="toc">
+<a href="#weekend">3. 第一個週末衝刺時間表</a>
+<a href="#rent">4. NVIDIA Brev 租 GPU 實作環境</a>
+<a href="#lab1">Lab 1：GPU Inventory / nvidia-smi</a>
+<a href="#lab2">Lab 2：製造 GPU workload</a>
+<a href="#lab3">Lab 3：Docker + NVIDIA GPU</a>
+<a href="#lab4">Lab 4：NGC container</a>
+<a href="#lab5">Lab 5：DCGM telemetry / diagnostics</a>
+<a href="#lab6">Lab 6：Slurm GPU scheduling</a>
+<a href="#lab7">Lab 7：Kubernetes troubleshooting</a>
+<a href="#mig">Lab 8：MIG 概念與實機條件</a>
+<a href="#bcm">5. Base Command Manager</a>
+<a href="#troubleshoot">6. Troubleshooting Playbook</a>
+<a href="#roadmap">7. 4 週完整路線</a>
+<a href="#ready">8. 報考 readiness gate</a>
+<a href="#cheat">9. Command cheat sheet</a>
+<a href="#refs">10. 官方文件</a>
+</div>
+</section>
+
+<section class="chapter" id="weekend">
+<h2>3. 第一個週末衝刺</h2>
+<p>這個週末只做「能真的跑、能觀察、能壞掉再修回來」的內容。不要追求把所有 NVIDIA 產品一次看完。</p>
+<table>
+<tr><th>時間</th><th>內容</th><th>Done 的定義</th></tr>
+<tr><td>Fri 20:30–21:30</td><td>Brev / NVIDIA account、安裝 CLI、建立筆記模板</td><td>不租 GPU；帳號與工具準備完成。</td></tr>
+<tr><td>Sat 09:00–10:00</td><td>租 GPU VM、SSH、host inventory</td><td><code>nvidia-smi</code> 正常，知道 GPU / driver / CUDA compatibility display。</td></tr>
+<tr><td>Sat 10:00–12:00</td><td>Lab 1 GPU inventory</td><td>能解釋 power、temp、memory、util、process、PCIe、topology。</td></tr>
+<tr><td>Sat 13:00–14:30</td><td>Lab 2 GPU workload</td><td>能一邊跑 PyTorch，一邊看 util / memory / power 變化。</td></tr>
+<tr><td>Sat 14:30–16:00</td><td>Lab 3 Docker GPU</td><td>知道 container → NVIDIA runtime/toolkit → host driver → GPU。</td></tr>
+<tr><td>Sat 16:00–17:30</td><td>Lab 4 NGC</td><td>能 pull / run NVIDIA container，理解 registry authentication。</td></tr>
+<tr><td>Sat 19:30–21:30</td><td>Lab 5 DCGM</td><td>能讀 Prometheus metrics；有條件則跑 <code>dcgmi diag</code>。</td></tr>
+<tr><td>Sun 09:00–12:00</td><td>Lab 6 Slurm</td><td>能看 node/job/queue、提交 job、故意 drain node 再恢復。</td></tr>
+<tr><td>Sun 13:00–16:00</td><td>Lab 7 Kubernetes</td><td>能 deploy、scale、製造 ImagePullBackOff 並用 describe/events 找原因。</td></tr>
+<tr><td>Sun 16:00–17:00</td><td>MIG + architecture review</td><td>知道何時需要支援 MIG 的 GPU；畫出完整 AI Ops stack。</td></tr>
+<tr><td>Sun 17:00–18:00</td><td>Closed-book drills</td><td>不看筆記完成核心 troubleshooting command sequence。</td></tr>
+</table>
+<div class="card info"><span class="kpi">預算建議：</span>若 GPU 約 US$1/hr，抓 12–14 個 compute hours 約 US$12–14；加上價格波動與 storage，第一週末設定 US$25 hard cap 很合理。學習效率比硬省幾美元重要。</div>
+</section>
+
+<section class="chapter" id="rent">
+<h2>4. 怎麼租：NVIDIA Brev</h2>
+<p>Brev 會從多個 cloud provider 提供 GPU VM。這一階段的重點是少處理 IAM、driver repo、security group 等雜務，快速進入 NVIDIA GPU/Linux 實作。</p>
+
+<h3>4.1 macOS 安裝 CLI</h3>
+<pre class="cmd">brew install brevdev/homebrew-brev/brev
+brev --version
+brev login</pre>
+<p>登入會打開瀏覽器。CLI credential 與 SSH keys 會放在 <code>~/.brev/</code>。</p>
+
+<h3>4.2 選 GPU：學習優先，不追最高階</h3>
+<p>第一週末優先選「價格合理、至少 16–24GB VRAM、一般 CUDA/Docker/DCGM 可用」的 GPU。A10G / L4 / L40S 類型通常已足夠；不要只因為 H100 比較酷就多花錢。</p>
+<div class="card warn"><b>價格不是固定：</b>建立 instance 前，以 Brev Console / CLI 當下顯示為準。不要把教材中的任何 US$/hr 範例當成保證價格。</div>
+
+<h3>4.3 建立與登入</h3>
+<pre class="cmd"># 先在 Brev Console 或 CLI 找當下可用 GPU type
+# 官方 quickstart 的 create 語法示例：
+brev create ncp-aio-lab --gpu "&lt;AVAILABLE_GPU_TYPE&gt;"
+
+# 進入 Linux shell
+brev shell ncp-aio-lab
+
+# 第一個驗證
+nvidia-smi</pre>
+
+<h3>4.4 用完一定 stop</h3>
+<pre class="cmd">exit
+brev stop ncp-aio-lab
+
+# 下次繼續
+brev start ncp-aio-lab
+brev shell ncp-aio-lab</pre>
+<div class="card danger"><b>Cloud GPU 最容易浪費錢的錯誤：</b>忘記 stop。Brev stopped instance 不再收 compute fee，但仍可能有少量 storage 成本；重新啟動也受當下 GPU capacity 影響。重要筆記與 script 建議同步到 Git。</div>
+</section>
+
+<section class="chapter" id="labs">
+<h2>5. Hands-on Labs</h2>
+</section>
+
+<section class="chapter" id="lab1">
+<h2>Lab 1 — GPU Inventory：先不要跑 AI</h2>
+<h3>目標</h3><p>先用 System Engineer 的方式把機器 inventory 完整看一遍，再把 GPU 當成一個受管理的 subsystem。</p>
+<pre class="cmd">hostname
+uname -a
+lscpu
+free -h
+lsblk
+
+nvidia-smi
+nvidia-smi -L
+nvidia-smi -q
+nvidia-smi topo -m</pre>
+<h3>你至少要看懂</h3>
+<ul class="check">
+<li>GPU model / UUID / PCI Bus ID</li><li>Driver version</li><li><code>nvidia-smi</code> 顯示的 CUDA compatibility version 與本機 <code>nvcc</code> toolkit version不是同一件事</li><li>FB memory used/total</li><li>GPU utilization</li><li>Temperature / Power</li><li>ECC / health related fields（依 GPU 支援）</li><li>Processes</li>
+</ul>
+<pre class="cmd">nvidia-smi --query-gpu=name,uuid,pci.bus_id,temperature.gpu,power.draw,utilization.gpu,memory.used,memory.total --format=csv
+
+watch -n 1 nvidia-smi
+
+# Toolkit compiler version（若 image 有 nvcc）
+nvcc --version</pre>
+<div class="card key"><b>驗收：</b>不看文件回答「現在這台機器有幾張 GPU？是哪一型？driver 是什麼？GPU memory 用多少？哪個 process 正在用？temperature/power/utilization 怎麼看？」</div>
+</section>
+
+<section class="chapter" id="lab2">
+<h2>Lab 2 — 製造 GPU Load，再看 telemetry</h2>
+<pre class="cmd">python3 - &lt;&lt;'PY'
+import torch
+print("PyTorch:", torch.__version__)
+print("CUDA available:", torch.cuda.is_available())
+if torch.cuda.is_available():
+    print("GPU:", torch.cuda.get_device_name(0))
+    print("GPU count:", torch.cuda.device_count())
+PY</pre>
+<p>若環境沒有 PyTorch，再依 image / Python 環境安裝。不要因為 package conflict 在第一天浪費太多時間；必要時直接使用 NGC PyTorch container 做下一步。</p>
+<pre class="cmd">cat &gt; ~/workspace/gpu_load.py &lt;&lt;'PY'
+import torch, time
+assert torch.cuda.is_available()
+print("GPU:", torch.cuda.get_device_name(0))
+a = torch.randn(4096, 4096, device="cuda")
+b = torch.randn(4096, 4096, device="cuda")
+end = time.time() + 60
+count = 0
+while time.time() &lt; end:
+    c = torch.matmul(a, b)
+    torch.cuda.synchronize()
+    count += 1
+print("Iterations:", count)
+PY
+
+# Terminal A
+python3 ~/workspace/gpu_load.py
+
+# Terminal B
+nvidia-smi dmon
+# 或
+watch -n 1 nvidia-smi</pre>
+<div class="card key"><b>觀察：</b>GPU util ↑、FB memory ↑、power ↑、temperature 變化、process 出現。把「指標」和「workload 行為」連起來。</div>
+</section>
+
+<section class="chapter" id="lab3">
+<h2>Lab 3 — Docker + NVIDIA GPU</h2>
+<pre class="cmd">docker --version
+docker info
+
+# 驗證 container 能看到 GPU
+docker run --rm --gpus all ubuntu nvidia-smi</pre>
+<div class="diagram">Container
+   │
+NVIDIA Container Runtime / Toolkit
+   │
+Host NVIDIA Driver
+   │
+Physical / Virtual NVIDIA GPU</div>
+<h3>故意犯錯</h3>
+<pre class="cmd"># 忘記 --gpus all，觀察差異
+docker run --rm ubuntu nvidia-smi
+
+# Troubleshooting 常用
+docker ps -a
+docker logs &lt;container&gt;
+docker inspect &lt;container&gt;
+docker info | grep -i runtime
+journalctl -u docker --since "10 minutes ago"</pre>
+<div class="card info"><b>考試思維：</b>不是只會背「NVIDIA Container Toolkit」。要能辨認問題發生在 image、container runtime、GPU exposure、host driver 還是 workload。</div>
+</section>
+
+<section class="chapter" id="lab4">
+<h2>Lab 4 — NVIDIA NGC Container Registry</h2>
+<p>Professional blueprint 直接包含 deploy containers from NGC 與 troubleshoot NGC deployment。</p>
+<h3>Login</h3>
+<pre class="cmd">docker login nvcr.io
+# Username 通常使用：$oauthtoken
+# Password：你的 NGC API key</pre>
+<h3>Pull / Run</h3>
+<pre class="cmd"># Tag 會更新，請到 NGC Catalog 選目前存在的 tag
+export NGC_PYTORCH_IMAGE='nvcr.io/nvidia/pytorch:&lt;CURRENT_TAG&gt;'
+
+docker pull "$NGC_PYTORCH_IMAGE"
+docker run --rm --gpus all "$NGC_PYTORCH_IMAGE" nvidia-smi
+
+docker run --rm --gpus all "$NGC_PYTORCH_IMAGE" \
+  python -c 'import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))'</pre>
+<div class="card warn"><b>不要把舊 tag 背起來：</b>NGC images 會持續更新。你要會的是 registry、authentication、pull、run、GPU exposure 與故障排除流程。</div>
+</section>
+
+<section class="chapter" id="lab5">
+<h2>Lab 5 — DCGM：從 nvidia-smi 進入 Data Center GPU Operations</h2>
+<p>DCGM 提供 data-center accelerator 的 observing、management、validation、diagnostics 與 integration。DCGM Exporter 則把 DCGM fields 暴露成 Prometheus metrics。</p>
+<h3>最省時間：DCGM Exporter container</h3>
+<pre class="cmd">export DCGM_EXPORTER_TAG=latest
+
+docker run -d --rm \
+  --name dcgm-exporter \
+  --gpus all \
+  --cap-add SYS_ADMIN \
+  -p 9400:9400 \
+  nvcr.io/nvidia/k8s/dcgm-exporter:${DCGM_EXPORTER_TAG}
+
+docker ps
+curl --fail http://localhost:9400/metrics | head
+
+curl -s http://localhost:9400/metrics | \
+  grep -E 'DCGM_FI_DEV_GPU_UTIL|DCGM_FI_DEV_FB_USED|DCGM_FI_DEV_POWER_USAGE' | head -30</pre>
+<p>再跑一次 Lab 2 的 workload，看 metrics 如何變化。</p>
+<h3>DCGM Diagnostics（環境有 dcgmi 時）</h3>
+<pre class="cmd">dcgmi discovery --list
+# 查看目前版本支援的 suite / syntax
+dcgmi diag --help
+# 再依文件選擇適合的 diagnostic suite
+dcgmi diag --run 1</pre>
+<div class="card warn"><b>Diagnostics 會消耗資源：</b>正式環境執行 active diagnostic 前必須知道影響。Cloud VM 若缺 <code>dcgmi</code>，第一週末先把 telemetry 跑通，不要為 repo/package issue 卡兩小時。</div>
+</section>
+
+<section class="chapter" id="lab6">
+<h2>Lab 6 — Slurm：GPU 是怎麼被 scheduler 分配的</h2>
+<div class="diagram">slurmctld (controller / scheduler)
+        │
+        ▼
+     slurmd
+        │
+        ▼
+ Compute Node ── GRES: gpu
+        │
+        ▼
+ CUDA_VISIBLE_DEVICES / GPU allocation</div>
+<div class="card info"><b>先說限制：</b>在單一 Brev VM 自建 single-node Slurm 是「練 CLI / state / GRES / troubleshooting」，不是 production multi-node cluster 的替代品。Ubuntu image 與 Slurm package 版本不同，service/config 細節可能需要依實機調整。</div>
+
+<h3>基本安裝與偵測</h3>
+<pre class="cmd">sudo apt update
+sudo apt install -y munge slurm-wlm
+sudo systemctl enable --now munge
+systemctl status munge --no-pager
+
+# 讓 slurmd 告訴你本機正確硬體參數
+slurmd -C</pre>
+<p>建立 <code>slurm.conf</code> 時，不要亂抄 CPU / memory 數字；使用 <code>slurmd -C</code> 的輸出，再加入你的 controller、partition、GRES 設定。</p>
+<h3>GPU GRES 核心概念</h3>
+<pre class="cmd"># 概念示意，實際 NodeName/CPU/Memory 以你的 VM 為準
+GresTypes=gpu
+NodeName=&lt;HOST&gt; ... Gres=gpu:1
+PartitionName=gpu Nodes=&lt;HOST&gt; Default=YES State=UP
+
+# gres.conf 可使用 NVML 自動偵測（依 Slurm build / plugin）
+AutoDetect=nvml
+Name=gpu File=/dev/nvidia0</pre>
+<h3>一定要熟的 CLI</h3>
+<pre class="cmd">sinfo
+sinfo -R
+squeue
+scontrol show node
+scontrol show job &lt;JOB_ID&gt;
+
+srun --gres=gpu:1 nvidia-smi -L
+sbatch --gres=gpu:1 --wrap='nvidia-smi'
+</pre>
+<h3>故意 Drain，再修回來</h3>
+<pre class="cmd">HOST=$(hostname -s)
+sudo scontrol update NodeName=$HOST State=DRAIN Reason="NCP-AIO practice"
+
+sinfo
+sinfo -R
+sbatch --gres=gpu:1 --wrap='nvidia-smi'
+squeue
+
+sudo scontrol update NodeName=$HOST State=RESUME
+sinfo
+squeue</pre>
+<div class="card key"><b>驗收：</b>看到 Pending job 時，不是只知道「沒跑」。你會先看 <code>squeue</code> reason、<code>sinfo -R</code>、node state、GRES 與 daemon/log。</div>
+</section>
+
+<section class="chapter" id="lab7">
+<h2>Lab 7 — Kubernetes：先練操作與故障排除</h2>
+<p>第一週末不用為了「一定要在 K8s 裡跑 GPU」把時間全部花在 GPU Operator。先把 Kubernetes workload lifecycle 與 troubleshooting 練熟；GPU Operator / device plugin 排到 Week 2。</p>
+<h3>K3s 單機快速環境</h3>
+<pre class="cmd">curl -sfL https://get.k3s.io | sh -
+sudo k3s kubectl get nodes
+
+sudo k3s kubectl create deployment web --image=nginx:alpine
+sudo k3s kubectl get deployments
+sudo k3s kubectl get pods -o wide
+
+sudo k3s kubectl scale deployment web --replicas=3
+sudo k3s kubectl get pods</pre>
+<h3>故意做出 ImagePullBackOff</h3>
+<pre class="cmd">sudo k3s kubectl create deployment broken --image=nginx:this-tag-does-not-exist
+sudo k3s kubectl get pods
+
+# 找到 broken pod 後
+sudo k3s kubectl describe pod &lt;POD&gt;
+sudo k3s kubectl logs &lt;POD&gt;
+sudo k3s kubectl get events --sort-by=.lastTimestamp</pre>
+<div class="diagram">kubectl get
+    ↓
+kubectl describe
+    ↓
+kubectl logs
+    ↓
+kubectl get events
+    ↓
+Config / Image / Resource / Node / Runtime</div>
+<div class="card key"><b>肌肉記憶：</b><code>get → describe → logs → events</code>。先用 observable evidence 定位，不要第一秒就 Google error string。</div>
+</section>
+
+<section class="chapter" id="mig">
+<h2>Lab 8 — MIG：第一週末先確認，不強求實機</h2>
+<p>MIG 可把支援的 NVIDIA GPU 分割成隔離的 GPU instances。是否能在 cloud VM 實際 configure，取決於 GPU 型號與 cloud provider 權限。</p>
+<pre class="cmd">nvidia-smi --query-gpu=name,mig.mode.current --format=csv
+nvidia-smi -L</pre>
+<div class="diagram">Physical GPU
+   ↓ Enable MIG
+GPU Instance (GI)
+   ↓
+Compute Instance (CI)
+   ↓
+CUDA workload / scheduler resource</div>
+<p>真正租到支援 MIG 且 provider 允許管理的 GPU 後，再依 NVIDIA MIG User Guide 操作 <code>nvidia-smi -mig</code> 與 <code>nvidia-smi mig</code>。不要在不支援的 VM 上把權限限制誤判成自己 command 不會下。</p>
+</section>
+
+<section class="chapter" id="bcm">
+<h2>6. Base Command Manager（BCM）— Professional 等級的核心</h2>
+<div class="card danger"><b>不要混淆：</b>這裡的 BCM = <b>Base Command Manager</b>，不是 BMC = Baseboard Management Controller。</div>
+<div class="diagram">Base Command Manager
+      │
+      ├─ Provision / software images
+      ├─ Node categories / configuration
+      ├─ Cluster health / monitoring / reports
+      ├─ Users / roles / permissions
+      ├─ Network / DPU / switch settings
+      ├─ Slurm / Kubernetes integration
+      └─ Troubleshooting
+             │
+     ┌───────┴────────┐
+     ▼                ▼
+ Compute Nodes     GPU Nodes
+     │                │
+   BMC/OOB          nvidia-smi / DCGM</div>
+<p>BCM 11 可用於 cluster provisioning、workload management 與 infrastructure monitoring；官方目前提供 free-license option（每 system 最多 8 accelerators，cluster node 數不限，free license 不含 enterprise support，申請需符合官方資格）。</p>
+<h3>Week 2 的 BCM 目標</h3>
+<ul class="check">
+<li>完成官方 Base Command Manager Administration 課程。</li>
+<li>理解 head node、software image、node category、compute node、Base View、<code>cmsh</code>。</li>
+<li>能在 <code>cmsh</code> 查 device / node 狀態與設定。</li>
+<li>理解 BCM 如何 install / integrate Slurm、Kubernetes。</li>
+<li>練「add node → provision → verify → scheduler 看得到」的完整流程；若自己的 cloud 環境無法重現，使用 NVIDIA 官方 lab / course environment 補足。</li>
+</ul>
+<div class="card info"><b>為什麼不能只學 Slurm：</b>Slurm 重點是 job scheduling；BCM 的 scope 是整個 cluster lifecycle。NCP-AIO blueprint 對 BCM 的要求包含 monitoring、resource/node health、patch/firmware/software image、users/roles、network、node categories、Kubernetes/Slurm 安裝與 cluster troubleshooting。</div>
+</section>
+
+<section class="chapter" id="troubleshoot">
+<h2>7. Troubleshooting Playbook</h2>
+<h3>7.1 共通框架</h3>
+<div class="diagram">1. What is the expected state?
+        ↓
+2. What is the observed state?
+        ↓
+3. Status / inventory
+        ↓
+4. Describe / inspect
+        ↓
+5. Logs / events
+        ↓
+6. Configuration
+        ↓
+7. Underlying resource / dependency
+        ↓
+8. Fix → re-verify → document</div>
+
+<h3>7.2 GPU / DCGM</h3>
+<pre class="cmd">nvidia-smi
+nvidia-smi -q
+nvidia-smi -L
+nvidia-smi topo -m
+nvidia-smi dmon
+
+dcgmi discovery --list
+dcgmi diag --help
+curl http://localhost:9400/metrics</pre>
+
+<h3>7.3 Docker / NGC</h3>
+<pre class="cmd">docker ps -a
+docker logs &lt;container&gt;
+docker inspect &lt;container&gt;
+docker info
+journalctl -u docker
+
+# Registry / image
+# 1) authentication
+# 2) image/tag exists
+# 3) pull succeeds
+# 4) GPU exposed (--gpus all)
+# 5) host driver/runtime compatibility</pre>
+
+<h3>7.4 Slurm</h3>
+<pre class="cmd">sinfo
+sinfo -R
+squeue
+scontrol show node
+scontrol show job &lt;id&gt;
+scontrol show partition
+systemctl status slurmd slurmctld
+journalctl -u slurmd
+journalctl -u slurmctld</pre>
+
+<h3>7.5 Kubernetes</h3>
+<pre class="cmd">kubectl get nodes
+kubectl get pods -A
+kubectl describe node &lt;node&gt;
+kubectl describe pod &lt;pod&gt;
+kubectl logs &lt;pod&gt;
+kubectl get events --sort-by=.lastTimestamp</pre>
+
+<h3>7.6 看到 Performance 問題時</h3>
+<table>
+<tr><th>現象</th><th>先問什麼</th><th>可能層級</th></tr>
+<tr><td>GPU util 低</td><td>GPU 在等 CPU、data、network、storage，還是 job 根本沒拿到 GPU？</td><td>workload / CPU / I/O / scheduler / container</td></tr>
+<tr><td>training scale 不上去</td><td>單 GPU 快、multi-GPU 慢？跨 node 才慢？</td><td>NCCL / network / topology / storage / sync</td></tr>
+<tr><td>job Pending</td><td>Reason 是什麼？resource、node state、quota、image？</td><td>Slurm / K8s / Run:ai</td></tr>
+<tr><td>container 看不到 GPU</td><td>host 看得到嗎？runtime/toolkit 有嗎？resource 有 expose 嗎？</td><td>driver / runtime / container config</td></tr>
+<tr><td>node unhealthy</td><td>硬體、driver、daemon、network、software image、scheduler state 哪層先壞？</td><td>BCM / OS / GPU / network</td></tr>
+</table>
+</section>
+
+<section class="chapter" id="roadmap">
+<h2>8. 4 週完整衝刺路線</h2>
+<table>
+<tr><th>週次</th><th>主題</th><th>Hands-on 成果</th></tr>
+<tr><td><b>Weekend #1</b></td><td>Brev、nvidia-smi、CUDA/PyTorch、Docker、NGC、DCGM、Slurm、Kubernetes</td><td>單機 GPU operations 基礎 + 兩套 scheduler/orchestrator CLI troubleshooting。</td></tr>
+<tr><td><b>Week 2</b></td><td>BCM、GPU Operator、MIG、Run:ai</td><td>BCM course + lab；K8s GPU scheduling；MIG profile/resource；Run:ai resource model。</td></tr>
+<tr><td><b>Week 3</b></td><td>Networking / DPU / Fabric / Storage</td><td>InfiniBand concepts、BlueField/DOCA、NVLink/NVSwitch、Fabric Manager、Magnum IO、storage performance troubleshooting。</td></tr>
+<tr><td><b>Week 4</b></td><td>故障演練 + timed practice</td><td>每次只給 symptom，不看教學，自己在 10–15 分鐘內找 evidence、定位、修復與驗證。</td></tr>
+</table>
+
+<h3>Week 2 Checklist</h3>
+<ul class="check">
+<li>BCM：Base View、cmsh、node/category/image、monitoring、scheduler integration。</li>
+<li>Kubernetes GPU：NVIDIA device plugin / GPU Operator 的角色；能確認 allocatable GPU 與 pod resource request。</li>
+<li>MIG：GI/CI、profile、scheduler visibility、何時用 MIG。</li>
+<li>Run:ai：project/team/quota/resource allocation 基本模型，知道與 Slurm/Kubernetes 的關係。</li>
+</ul>
+
+<h3>Week 3 Checklist</h3>
+<ul class="check">
+<li>InfiniBand vs Ethernet：AI cluster 為何需要 high bandwidth / low latency / RDMA。</li>
+<li>BlueField DPU / DOCA：DPU 做什麼、host/DPU Arm 分工、DOCA Services 基本概念。</li>
+<li>NVLink / NVSwitch / Fabric Manager：scale-up fabric 與 service troubleshooting。</li>
+<li>Magnum IO：把 network/storage/I/O stack 和 distributed workload performance 連起來。</li>
+<li>Storage：training data pipeline、throughput、latency、metadata、local vs shared storage、I/O bottleneck。</li>
+</ul>
+
+<h3>Week 4 Drill 範例</h3>
+<div class="grid2">
+<div class="card"><b>Slurm</b><br>Node 被 drain、GRES 數不對、job pending。要求：10 分鐘內找到 reason，修復並讓 job 跑起來。</div>
+<div class="card"><b>Kubernetes</b><br>ImagePullBackOff、resource request 無法滿足、node NotReady。要求：用 get/describe/logs/events 找 evidence。</div>
+<div class="card"><b>NGC/Docker</b><br>Pull 失敗、GPU 不可見、container 啟動即退出。要求：判斷 registry/image/runtime/driver/workload 哪層。</div>
+<div class="card"><b>BCM</b><br>新 node 沒 provision 或 scheduler 看不到。要求：從 node state、image/category、network、scheduler integration 查。</div>
+</div>
+</section>
+
+<section class="chapter" id="ready">
+<h2>9. 什麼時候才值得付 US$500 報考？</h2>
+<p>用下面 readiness gate，不要用「教材看完了」判斷。</p>
+<table>
+<tr><th>能力</th><th>最低標準</th></tr>
+<tr><td>Linux CLI</td><td>systemd、journalctl、network/process/filesystem 基本排錯不需要查 cheat sheet。</td></tr>
+<tr><td>GPU</td><td>看到 <code>nvidia-smi</code> / <code>-q</code> / topology 能快速判讀 inventory、usage、power/temp、process。</td></tr>
+<tr><td>Docker / NGC</td><td>能從「container 失敗」快速定位 image、auth、runtime、GPU exposure、host driver。</td></tr>
+<tr><td>DCGM</td><td>知道 DCGM vs exporter；能讀 metrics，知道 diagnostics 的目的與風險。</td></tr>
+<tr><td>Slurm</td><td>不看資料會 <code>sinfo</code>、<code>squeue</code>、<code>scontrol</code>、GPU GRES、job reason、drain/resume。</td></tr>
+<tr><td>Kubernetes</td><td>不看資料會 get/describe/logs/events；理解 node/pod/deployment/resource request。</td></tr>
+<tr><td>BCM</td><td>能操作 Base View / cmsh；理解 node/category/image/provisioning；完成至少一次 add/provision/verify flow。</td></tr>
+<tr><td>MIG / Run:ai</td><td>能解釋 resource partition/allocation 並完成至少一個 lab 或官方 guided exercise。</td></tr>
+<tr><td>Fabric / Storage</td><td>能把低 GPU util / distributed training slowdown 往 network、NVLink/NVSwitch、storage、Magnum IO 做系統性定位。</td></tr>
+<tr><td>Timed practice</td><td>在 120 分鐘壓力下完成混合 MCQ + 3 個 lab-style scenarios，不靠 Google 才能走完核心流程。</td></tr>
+</table>
+<div class="card key"><b>Go / No-Go：</b>BCM、Slurm、Kubernetes 三個只要有一個還停留在「我知道它是什麼，但 command 不熟」，就先不要報。</div>
+</section>
+
+<section class="chapter" id="cheat">
+<h2>10. 最終 Command Cheat Sheet</h2>
+<div class="grid2">
+<div>
+<h3>GPU</h3><pre>nvidia-smi
+nvidia-smi -L
+nvidia-smi -q
+nvidia-smi topo -m
+nvidia-smi dmon
+nvcc --version</pre>
+<h3>DCGM</h3><pre>dcgmi discovery --list
+dcgmi diag --help
+curl localhost:9400/metrics</pre>
+<h3>Docker</h3><pre>docker ps -a
+docker logs &lt;id&gt;
+docker inspect &lt;id&gt;
+docker info
+journalctl -u docker</pre>
+</div>
+<div>
+<h3>Slurm</h3><pre>sinfo
+sinfo -R
+squeue
+scontrol show node
+scontrol show job &lt;id&gt;
+srun --gres=gpu:1 ...
+sbatch --gres=gpu:1 ...</pre>
+<h3>Kubernetes</h3><pre>kubectl get nodes
+kubectl get pods -A
+kubectl describe pod &lt;pod&gt;
+kubectl logs &lt;pod&gt;
+kubectl get events</pre>
+<h3>BCM</h3><pre>cmsh
+# 進入 device / category / softwareimage 等模式
+# 實際 command 以 BCM 版本與官方 course/manual 為準</pre>
+</div>
+</div>
+</section>
+
+<section class="chapter" id="refs">
+<h2>11. 官方文件與建議閱讀</h2>
+<ul class="source-list">
+<li><a href="https://www.nvidia.com/en-us/learn/certification/ai-operations-professional/">NVIDIA — AI Operations Professional Certification</a>：考試細節、candidate audience、blueprint、study guide 入口。</li>
+<li><a href="https://docs.nvidia.com/brev/getting-started/quickstart">NVIDIA Brev Quickstart</a>：安裝 CLI、login、create、shell、nvidia-smi。</li>
+<li><a href="https://docs.nvidia.com/brev/concepts/gpu-instances">NVIDIA Brev GPU Instances</a>：running/stopped lifecycle、billing 與 persistence。</li>
+<li><a href="https://docs.nvidia.com/datacenter/dcgm/latest/">NVIDIA DCGM Documentation</a>：GPU management、health、diagnostics、telemetry。</li>
+<li><a href="https://docs.nvidia.com/datacenter/dcgm/latest/installation/install-dcgm-exporter.html">DCGM Exporter Installation</a>：container / package 與 port 9400 metrics。</li>
+<li><a href="https://slurm.schedmd.com/gres.html">Slurm GRES</a>、<a href="https://slurm.schedmd.com/gres.conf.html">gres.conf</a>：GPU resource scheduling。</li>
+<li><a href="https://www.nvidia.com/en-us/data-center/base-command-manager/">NVIDIA Base Command Manager</a>：BCM 11、Base View、course、license options。</li>
+<li><a href="https://docs.nvidia.com/base-command-manager/">NVIDIA BCM Documentation</a>：Administrator / Installation manuals。</li>
+<li><a href="https://www.nvidia.com/en-us/data-center/base-command-manager/support/">BCM Free License</a>：目前 free-license scope 與限制。</li>
+<li><a href="https://docs.nvidia.com/datacenter/tesla/mig-user-guide/">NVIDIA MIG User Guide</a>：MIG supported devices、profiles、configuration。</li>
+<li><a href="https://catalog.ngc.nvidia.com/">NVIDIA NGC Catalog</a>：實際 container image 與 current tags。</li>
+</ul>
+<div class="card warn small"><b>版本提醒：</b>NVIDIA certification blueprint、Brev GPU availability/price、NGC tags、BCM / DCGM / Slurm / Kubernetes 版本都會變。這份教材固定教「操作思路與驗證方法」，真正執行前仍要以當下官方文件為準。</div>
+</section>
+
+<footer class="footer-note">
+<p><b>NCA Study Hub · NCP-AIO Hands-on Guide</b></p>
+<p>獨立整理的學習教材，非 NVIDIA 官方教材。Certification 名稱、考試規格與產品名稱屬各自權利人所有。</p>
+</footer>
+</main>
+</body>
+</html>
