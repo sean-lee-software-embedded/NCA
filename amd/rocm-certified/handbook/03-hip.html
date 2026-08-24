@@ -1,0 +1,70 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter 3｜HIP Programming Fundamentals</title><link rel="stylesheet" href="style.css"></head><body><header class="topbar"><div class="topbar__inner"><a class="brand" href="index.html"><span>AMD</span>ROCm Handbook</a><nav class="nav"><a href="02-gpu-model.html">上一章</a><a href="index.html">目錄</a><a href="04-memory.html">下一章</a></nav></div></header><main class="wrap"><section class="chapter-head"><p class="eyebrow">Pages 21–30</p><h1>Chapter 3 · HIP Programming Fundamentals</h1><p>把「會認 API」提升成「能自己完成最小 HIP 程式」。</p></section><section class="study-page"><div class="page-kicker"><span>Page 21 / 100</span><span>HIP</span></div><h2>HIP 的角色：portable C++ GPU programming</h2><p>HIP（Heterogeneous-compute Interface for Portability）提供 C++ kernel language 與 runtime API。它的設計讓大量 CUDA-style code 能以相近概念在 AMD ROCm 環境使用，並支援 portability。</p><p>HIP 程式通常同時包含 host code 與 device kernel。Host 負責配置/傳輸 memory、launch kernel、處理結果；device kernel 則由 GPU threads 平行執行。</p><div class="mini-diagram">Host C++
+  hipMalloc → hipMemcpy → kernel launch → synchronize → hipMemcpy back → hipFree
+                              ↓
+                         Device kernel</div><div class="exam">如果題目問 HIP 的主要目的，答「GPU programming model / portability」，而不是 profiler 或 deep learning library。</div></section><section class="study-page"><div class="page-kicker"><span>Page 22 / 100</span><span>Hello HIP</span></div><h2>第一支 HIP 程式：先會 compile/run</h2><pre>#include &lt;hip/hip_runtime.h&gt;
+#include &lt;cstdio&gt;
+
+__global__ void hello() {
+    printf("Hello from GPU thread %d\n", threadIdx.x);
+}
+
+int main() {
+    hipLaunchKernelGGL(hello, dim3(1), dim3(4), 0, 0);
+    hipDeviceSynchronize();
+    return 0;
+}</pre><p>編譯：</p><pre>hipcc hello.cpp -o hello
+./hello</pre><p><span class="inline">__global__</span> 表示這是一個由 host launch、在 device 上執行的 kernel。這裡建立 1 block、4 threads。</p><div class="pitfall"><strong>GPU printf 是 debug/demo 用途。</strong>正式效能程式大量 printf 會嚴重拖慢執行。</div></section><section class="study-page"><div class="page-kicker"><span>Page 23 / 100</span><span>Kernel Launch</span></div><h2>看懂 hipLaunchKernelGGL 的每個參數</h2><pre>hipLaunchKernelGGL(
+    vectorAdd,
+    dim3(blocks),        // grid dimensions
+    dim3(threads),       // block dimensions
+    0,                   // dynamic shared memory bytes
+    0,                   // stream (default stream)
+    d_a, d_b, d_c, N);   // kernel arguments</pre><p>前兩個 dim3 決定平行工作量；第三個參數是 dynamic shared memory；第四個是 stream。初學多用 0 代表沒有額外 dynamic shared memory、使用 default stream。</p><div class="exam">Launch configuration 是 host-side 行為。Kernel 裡讀取 <span class="inline">blockIdx</span> / <span class="inline">threadIdx</span>，host 則決定 grid/block dimension。</div><div class="practice"><strong>練習：</strong>N=1000，threads=256，blocks 應為 4。</div></section><section class="study-page"><div class="page-kicker"><span>Page 24 / 100</span><span>Memory API</span></div><h2>hipMalloc / hipMemcpy / hipFree 是必會三件組</h2><pre>float *d_a = nullptr;
+size_t bytes = N * sizeof(float);
+hipMalloc(&d_a, bytes);
+hipMemcpy(d_a, h_a, bytes, hipMemcpyHostToDevice);
+...
+hipMemcpy(h_a, d_a, bytes, hipMemcpyDeviceToHost);
+hipFree(d_a);</pre><p>命名中的 d_ 常用來表示 device pointer，h_ 表示 host pointer；這不是 API 規定，但非常適合閱讀 code。</p><div class="table-wrap"><table><tr><th>方向</th><th>Kind</th></tr><tr><td>CPU → GPU</td><td>hipMemcpyHostToDevice</td></tr><tr><td>GPU → CPU</td><td>hipMemcpyDeviceToHost</td></tr><tr><td>GPU → GPU</td><td>hipMemcpyDeviceToDevice</td></tr></table></div><div class="pitfall"><strong>Pointer 所在 memory space 要搞清楚。</strong>把 host pointer 當 device pointer 傳給只接受 device memory 的 code 會造成 runtime error 或 invalid access。</div></section><section class="study-page"><div class="page-kicker"><span>Page 25 / 100</span><span>Vector Add</span></div><h2>完整 Vector Add：Associate 必做一次</h2><pre>#include &lt;hip/hip_runtime.h&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+__global__ void add(const float* a,const float* b,float* c,int n){
+    int i=blockIdx.x*blockDim.x+threadIdx.x;
+    if(i&lt;n) c[i]=a[i]+b[i];
+}
+
+int main(){
+    const int N=1024;
+    size_t bytes=N*sizeof(float);
+    std::vector&lt;float&gt; a(N,1.0f),b(N,2.0f),c(N);
+    float *da,*db,*dc;
+    hipMalloc(&da,bytes); hipMalloc(&db,bytes); hipMalloc(&dc,bytes);
+    hipMemcpy(da,a.data(),bytes,hipMemcpyHostToDevice);
+    hipMemcpy(db,b.data(),bytes,hipMemcpyHostToDevice);
+    int t=256,bk=(N+t-1)/t;
+    hipLaunchKernelGGL(add,dim3(bk),dim3(t),0,0,da,db,dc,N);
+    hipDeviceSynchronize();
+    hipMemcpy(c.data(),dc,bytes,hipMemcpyDeviceToHost);
+    std::cout&lt;&lt;c[0]&lt;&lt;"\n";
+    hipFree(da);hipFree(db);hipFree(dc);
+}</pre><div class="practice"><strong>實作：</strong>把 N 改成 1003，確認仍正確。這可以驗證你真的理解 ceiling division + bounds check。</div></section><section class="study-page"><div class="page-kicker"><span>Page 26 / 100</span><span>Synchronization</span></div><h2>hipDeviceSynchronize 與 __syncthreads 不一樣</h2><p><span class="inline">hipDeviceSynchronize()</span> 是 host API，讓 host 等待此前 device work 完成。<span class="inline">__syncthreads()</span> 是 device-side block barrier，只同步同一 block 的 threads。</p><div class="table-wrap"><table><tr><th>API</th><th>在哪裡呼叫</th><th>Scope</th></tr><tr><td>hipDeviceSynchronize()</td><td>Host</td><td>Device work completion</td></tr><tr><td>__syncthreads()</td><td>Kernel</td><td>同一 block threads</td></tr></table></div><p>同步太多會降低 concurrency，因此正確性先做對，再決定是否能改成 asynchronous workflow。</p><div class="exam">題目若問「host 要確保 kernel 完成後才讀結果」，可想到 device sync 或具同步語意的 copy；若問「block 內共享資料載入完才能計算」，想到 __syncthreads。</div></section><section class="study-page"><div class="page-kicker"><span>Page 27 / 100</span><span>Error Handling</span></div><h2>不要忽略 HIP runtime error</h2><pre>#define HIP_CHECK(call) do { \
+  hipError_t e=(call); \
+  if(e!=hipSuccess){ \
+    fprintf(stderr,"HIP error: %s\n",hipGetErrorString(e)); \
+    exit(1); \
+  } \
+} while(0)
+
+HIP_CHECK(hipMalloc(&d, bytes));</pre><p>Kernel launch 本身可能是 asynchronous，launch configuration error 可用 <span class="inline">hipGetLastError()</span> 檢查；真正執行期間的 illegal memory access 常在後續 synchronize 才浮現。</p><pre>hipLaunchKernelGGL(...);
+HIP_CHECK(hipGetLastError());
+HIP_CHECK(hipDeviceSynchronize());</pre><div class="pitfall"><strong>「程式沒有 crash」不等於沒有 GPU error。</strong>實作題應養成每個重要 runtime call 都檢查 error 的習慣。</div></section><section class="study-page"><div class="page-kicker"><span>Page 28 / 100</span><span>Device Query</span></div><h2>用 HIP API 查 device，而不只靠 shell 工具</h2><pre>int count=0;
+hipGetDeviceCount(&count);
+for(int i=0;i&lt;count;i++){
+    hipDeviceProp_t p{};
+    hipGetDeviceProperties(&p,i);
+    printf("%d: %s\n",i,p.name);
+}</pre><p>這類 API 可以讓應用程式依 device capability 決定行為。實務上若多 GPU，也可透過 <span class="inline">hipSetDevice()</span> 選擇目前 thread 使用的 device。</p><div class="exam">Shell-side <span class="inline">rocminfo</span> 與 programmatic <span class="inline">hipGetDeviceProperties</span> 都能取得裝置資訊，但使用情境不同。</div><div class="practice"><strong>Lab：</strong>印出 device name、totalGlobalMem、warpSize、maxThreadsPerBlock，並跟 rocminfo 對照。</div></section><section class="study-page"><div class="page-kicker"><span>Page 29 / 100</span><span>Kernel Parameters</span></div><h2>Kernel argument 與 pointer lifetime</h2><p>Kernel arguments 可以是 scalar、struct value、device pointer 等。最常見錯誤是 pointer 指向的 memory 已被 free，或 host-side object 的 lifetime 已結束。</p><pre>__global__ void saxpy(int n,float a,const float* x,float* y){
+    int i=blockIdx.x*blockDim.x+threadIdx.x;
+    if(i&lt;n) y[i]=a*x[i]+y[i];
+}</pre><p>這裡 <span class="inline">a</span> 是 scalar value，x/y 則是指向 device memory 的 pointers。Host launch 時把 pointer 值當 argument 傳入。</p><div class="pitfall"><strong>不要在 kernel 完成前 hipFree 它正在使用的 buffer。</strong>Asynchronous execution 下 lifetime 特別重要。</div></section><section class="study-page"><div class="page-kicker"><span>Page 30 / 100</span><span>Chapter Drill</span></div><h2>HIP Fundamentals 最小能力清單</h2><ol><li>知道 <span class="inline">__global__</span> kernel 在 device 執行。</li><li>會算 global index。</li><li>會算 blocks = ceil(N / threads)。</li><li>會 hipMalloc / hipMemcpy / hipFree。</li><li>會 launch kernel。</li><li>知道 host-side 與 block-side synchronization 差異。</li><li>會做 runtime error check。</li><li>能用 hipcc compile 一支小程式。</li></ol><div class="practice"><strong>本章作業：</strong>不複製 Page 25，自己從空白檔案寫出 vectorAdd；把輸出用 CPU reference 驗證 1024 個元素。如果能完成，HIP fundamentals 已達 Associate 應考基礎。</div></section><nav class="chapter-nav"><a href="02-gpu-model.html">← Chapter 2</a><a href="04-memory.html">Chapter 4 →</a></nav></main><footer class="footer"><div class="footer__inner"><p>Pages 21–30 · HIP Programming Fundamentals</p></div></footer></body></html>
