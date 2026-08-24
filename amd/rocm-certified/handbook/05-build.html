@@ -1,0 +1,41 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter 5｜Build & Dependency Management</title><link rel="stylesheet" href="style.css"></head><body><header class="topbar"><div class="topbar__inner"><a class="brand" href="index.html"><span>AMD</span>ROCm Handbook</a><nav class="nav"><a href="04-memory.html">上一章</a><a href="index.html">目錄</a><a href="06-porting.html">下一章</a></nav></div></header><main class="wrap"><section class="chapter-head"><p class="eyebrow">Pages 41–50</p><h1>Chapter 5 · Build & Dependency Management</h1><p>這是官方 Associate 明列的 competency domain。實作中最常見的失敗，往往不是 kernel 邏輯，而是 toolchain、path、library 與版本。</p></section><section class="study-page"><div class="page-kicker"><span>Page 41 / 100</span><span>Toolchain</span></div><h2>hipcc 是什麼？</h2><p><span class="inline">hipcc</span> 是 HIP compiler driver，幫你以適當的 compiler flags/toolchain 處理 HIP source。它通常是最簡單的入門編譯方式。</p><pre>hipcc vector_add.cpp -o vector_add
+./vector_add</pre><p>在較底層環境你也可能看到 <span class="inline">amdclang++</span>。考試重點不是背每個 compiler internal，而是知道 compiler driver、target architecture、include/library path 會影響 build。</p><div class="exam">若 <span class="inline">hipcc: command not found</span>，先查安裝與 PATH，而不是改 kernel。</div></section><section class="study-page"><div class="page-kicker"><span>Page 42 / 100</span><span>ROCm Path</span></div><h2>/opt/rocm 與 PATH / LD_LIBRARY_PATH</h2><p>很多 Linux ROCm installation 會把軟體放在 <span class="inline">/opt/rocm</span> 或版本化路徑下。常見工具位於 bin，libraries 位於 lib。</p><pre>ls /opt/rocm
+which hipcc
+hipcc --version
+echo $PATH
+echo $LD_LIBRARY_PATH</pre><p>若 executable 找不到，通常是 PATH；若 compile 成功但 runtime 說 shared library not found，則要檢查 dynamic linker path / rpath / library installation。</p><div class="pitfall"><strong>Build error 與 runtime loader error 要分開。</strong>前者常見 include/link 問題，後者則是執行時找不到 .so。</div></section><section class="study-page"><div class="page-kicker"><span>Page 43 / 100</span><span>Compile vs Link</span></div><h2>Compile error 與 Link error 怎麼看？</h2><p>Compile error 常見語法錯、header 不存在、type/API 未宣告。Link error 則常見 undefined reference，表示宣告看到了，但實作所在 library 沒有被正確連結。</p><pre>// compile-stage style error
+fatal error: some_header.h: No such file or directory
+
+// link-stage style error
+undefined reference to `some_library_function'</pre><div class="exam">看到 missing header → include path/development package；看到 undefined reference → link library / library order / version compatibility。</div><div class="practice"><strong>Debug checklist：</strong><pre>hipcc -v source.cpp -o app
+ldd ./app
+readelf -d ./app | grep NEEDED</pre>不必把這些全部背成考題，但要會用工具把 build 問題分類。</div></section><section class="study-page"><div class="page-kicker"><span>Page 44 / 100</span><span>CMake</span></div><h2>用 CMake 管理較大的 HIP 專案</h2><p>單檔案用 hipcc 很快，但實務專案通常需要 CMake。核心觀念是：宣告 project/language、target、source、include、libraries、architecture options。</p><pre>cmake_minimum_required(VERSION 3.21)
+project(hipdemo LANGUAGES CXX HIP)
+add_executable(vector_add vector_add.cpp)
+set_property(TARGET vector_add PROPERTY HIP_ARCHITECTURES gfx942)</pre><p>不同 ROCm / CMake 版本的最佳寫法可能不同，因此 practical 環境應先看現有專案與官方範例，不要硬套網路上的舊指令。</p><div class="pitfall"><strong>架構字串要匹配 target GPU。</strong>錯誤 architecture target 可能造成 compile 不支援或 binary 無法在該 GPU 執行。</div></section><section class="study-page"><div class="page-kicker"><span>Page 45 / 100</span><span>Libraries</span></div><h2>Header、library、runtime 三件事都要對</h2><p>使用 rocBLAS 等 library 時，通常至少需要：header 讓 compiler 知道 API；link library 讓 linker 找到 symbol；runtime shared library 讓 loader 在執行時載入。</p><div class="mini-diagram">source.cpp
+  ↓ include
+header (.h/.hpp)
+  ↓ link
+library (.so/.a)
+  ↓ runtime loader
+shared object available</div><p>版本不一致時可能出現 ABI / API mismatch。Container 的價值之一，就是把這些 dependencies 綁在可重現的 image 裡。</p><div class="exam">Dependency management 不只是 apt install；也包含 version pinning、include/link path、runtime loading 與相容性。</div></section><section class="study-page"><div class="page-kicker"><span>Page 46 / 100</span><span>Version Compatibility</span></div><h2>ROCm、driver、framework 版本相容性</h2><p>ROCm ecosystem 會演進，PyTorch image、ROCm release、GPU architecture 之間都有支援矩陣。遇到問題時要先確認「這個 framework build 是否為對應 ROCm version」、「這顆 GPU 是否在支援範圍」。</p><p>最危險做法是看到最新版就全部升級。Production/reproducible lab 應記錄：</p><pre>rocminfo | head
+hipcc --version
+python -c "import torch; print(torch.__version__); print(torch.version.hip)"
+docker image inspect ...</pre><div class="pitfall"><strong>考試情境：</strong>某程式昨天可跑，換了 library version 後失敗；先檢查 dependency/version change，而不是先懷疑硬體壞掉。</div></section><section class="study-page"><div class="page-kicker"><span>Page 47 / 100</span><span>Docker</span></div><h2>Container：降低環境差異，不等於內含 kernel driver</h2><p>ROCm / framework container 能封裝 user-space libraries、Python packages 與工具版本。Host 仍需提供適當的 GPU device access 與 driver-related components。</p><div class="mini-diagram">Host Linux
+  ├─ AMD GPU driver / device nodes
+  └─ Container runtime
+       ↓
+ROCm/PyTorch container
+  ├─ ROCm user-space libraries
+  ├─ Python framework
+  └─ application</div><p>實際啟動 options 依平台與官方 image 文件而定。不要背一條永遠不變的 docker run；理解「container 要取得 GPU device access」才是重點。</p><div class="exam">Container 主要解 dependency/reproducibility，不會神奇修好不相容的 host driver 或 unsupported GPU。</div></section><section class="study-page"><div class="page-kicker"><span>Page 48 / 100</span><span>Architecture</span></div><h2>gfx* target：為什麼 compiler 要知道 GPU architecture？</h2><p>AMD GPU 會以 architecture identifier（常見 gfx*）表示 ISA target。Compiler 需要針對目標架構產生 device code。若 binary 缺少目前 GPU 可執行的 target，可能出現「no kernel image」類問題。</p><pre>rocminfo | grep -i gfx
+# compare with build target / CMake HIP_ARCHITECTURES</pre><p>Portable distribution 可包含多個 target，但會增加 build time / binary size。考試不必背所有 gfx 對應哪顆 GPU，重點是知道 target mismatch 是 build/deployment 問題。</p><div class="practice"><strong>故障分類：</strong>Compiler 可執行、host code 啟動，但 launch 時說找不到合適 device image → 檢查 architecture target。</div></section><section class="study-page"><div class="page-kicker"><span>Page 49 / 100</span><span>Troubleshooting</span></div><h2>Build failure 的六步排查法</h2><ol><li><strong>Tool：</strong><span class="inline">which hipcc</span>、version。</li><li><strong>Header：</strong>missing include？package/path？</li><li><strong>Compile：</strong>syntax/type/API 是否版本正確？</li><li><strong>Link：</strong>undefined reference？library 是否加上？</li><li><strong>Runtime load：</strong><span class="inline">ldd</span> 是否有 not found？</li><li><strong>GPU target：</strong>architecture 是否匹配？</li></ol><div class="mini-diagram">command not found → environment
+header not found → include/dependency
+undefined reference → linker
+.so not found → runtime loader
+kernel image issue → architecture target</div><div class="exam">這種「看到錯誤先分類」的能力，非常適合 practical task。</div></section><section class="study-page"><div class="page-kicker"><span>Page 50 / 100</span><span>Build Lab</span></div><h2>Lab：從空目錄建立可重現 HIP project</h2><p>建立目錄：</p><pre>mkdir hip-lab && cd hip-lab
+cat &gt; vector_add.cpp &lt;&lt;'EOF'
+// paste your working vectorAdd implementation
+EOF
+hipcc vector_add.cpp -O2 -o vector_add
+./vector_add</pre><p>接著建立 CMakeLists.txt，用 CMake 重新 build。再刻意製造三種錯誤：拿掉 header、寫錯 library、指定錯誤 architecture。你的目標不是「永遠不犯錯」，而是 5 分鐘內判斷錯在哪一層。</p><div class="practice"><strong>本章完成標準：</strong>看到 command not found、header not found、undefined reference、shared library not found、architecture mismatch，你能立刻指出應檢查的位置。</div></section><nav class="chapter-nav"><a href="04-memory.html">← Chapter 4</a><a href="06-porting.html">Chapter 6 →</a></nav></main><footer class="footer"><div class="footer__inner"><p>Pages 41–50 · Build & Dependency Management</p></div></footer></body></html>
