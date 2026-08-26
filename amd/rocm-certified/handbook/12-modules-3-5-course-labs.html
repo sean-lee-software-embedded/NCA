@@ -1,0 +1,215 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AMD ROCm Certified Associate Module 3 到 Module 5 中文上課筆記與 Lab 3、Lab 4、Lab 5-1 實作：ROCm libraries、PyTorch、HIP programming、HIPIFY、reduction、Roofline、LDS transpose、workgroup sweep、mixed precision。"><title>Chapter 12｜Modules 3–5 Course Notes & Hands-on Labs</title><link rel="stylesheet" href="style.css"></head><body><header class="topbar"><div class="topbar__inner"><a class="brand" href="index.html"><span>AMD</span>ROCm Handbook</a><nav class="nav"><a href="11-official-modules-deep-dive.html">上一章</a><a href="index.html">目錄</a><a href="#lab3">Lab 3</a><a href="#lab4">Lab 4</a><a href="#lab5">Lab 5-1</a></nav></div></header><main class="wrap"><section class="chapter-head"><p class="eyebrow">Pages 121–150 · 2026-08-26 Course & Lab Notes</p><h1>Chapter 12 · Module 3 → Module 5 上課內容與實作全集</h1><p>這一章把本日 AMD Academy ROCm Certification Program Level 1 的 Module 3、Module 4、Module 5 Part I，以及 Lab 3、Lab 4、Lab 5-1 全部重新整理成可讀、可操作、可考前複習的版本。重點不是複製投影片，而是把每個 API、效能現象與實測結果串成 mental model。</p><div class="callout"><strong>總主線：</strong>Module 3 學會使用 ROCm libraries / PyTorch；Module 4 開始自己寫 HIP kernel 與 CUDA→HIP porting；Module 5 學會先 profile bottleneck，再針對 memory、workgroup 與 precision 做實驗式最佳化。</div></section>
+<section class="study-page" id="lab3"><div class="page-kicker"><span>Page 121 / 150</span><span>Module 3 · Library Map</span></div><h2>Module 3：先知道「什麼工作該交給哪個 library」</h2><div class="table-wrap"><table><tr><th>Library / Framework</th><th>主要工作</th><th>第一反應</th></tr><tr><td>rocBLAS / hipBLASLt</td><td>Dense linear algebra / GEMM</td><td>矩陣乘法、BLAS 1/2/3</td></tr><tr><td>MIOpen</td><td>Deep learning primitives</td><td>Conv、BatchNorm、Pooling、Activation</td></tr><tr><td>rocFFT</td><td>FFT</td><td>time↔frequency domain</td></tr><tr><td>rocSOLVER</td><td>Decomposition / solver</td><td>LU、QR、Cholesky、SVD</td></tr><tr><td>rocRAND</td><td>Random numbers</td><td>PRNG / QRNG</td></tr><tr><td>rocSPARSE</td><td>Sparse linear algebra</td><td>CSR / CSC / COO / BSR</td></tr><tr><td>rocPRIM / hipCUB</td><td>Parallel primitives</td><td>reduce / scan / sort / select</td></tr><tr><td>RCCL</td><td>Multi-GPU collectives</td><td>All-Reduce / All-Gather / All-to-All</td></tr><tr><td>Triton</td><td>Python custom/fused kernels</td><td>介於 high-level framework 與 HIP 之間</td></tr><tr><td>PyTorch ROCm</td><td>High-level AI framework</td><td>仍使用 torch.cuda namespace</td></tr></table></div><div class="exam"><strong>★★★★★：</strong>標準運算先找 optimized library；custom/fused kernel 想兼顧開發效率可看 Triton；需要最低層控制再用 HIP。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 122 / 150</span><span>Lab 3 · rocBLAS GEMM</span></div><h2>Exercise 1：直接用 rocBLAS 跑 SGEMM</h2><p>rocBLAS 的核心實驗是 FP32 GEMM：</p><pre>C = α × op(A) × op(B) + β × C
+
+rocblas_sgemm(handle, transA, transB,
+              M, N, K,
+              &alpha,
+              d_A, lda,
+              d_B, ldb,
+              &beta,
+              d_C, ldc);</pre><p>Lab 使用 M=N=K=1024，workload 為：</p><pre>FLOPs = 2 × M × N × K
+      = 2,147,483,648 FLOPs
+      ≈ 2.15 GFLOP</pre><p>GPU timing 要用 HIP events 或在 CPU timer 前後同步，因為 kernel/library call 是 asynchronous。</p><div class="pitfall"><strong>Lab code review：</strong>初始化 C 時若寫 <span class="inline">for (i=0; i&lt;K*N; i++)</span>，通用寫法應為 <span class="inline">M*N</span>。這次 M=K 所以看不出錯。另外 β=0.1 且重複 benchmark 會讓 C 每次都累積；效能測試可以，但 correctness test 建議 β=0 或每次 reset C。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 123 / 150</span><span>GFLOPS · Peak</span></div><h2>GFLOP 是工作量，GFLOPS 才是吞吐量</h2><pre>GFLOPS = FLOPs / seconds / 1e9
+Efficiency = measured throughput / matching theoretical peak × 100%</pre><p>比較 theoretical peak 時 datatype 必須一致：FP32 SGEMM 就比較 FP32 peak，不能拿 FP8 peak。小矩陣也未必能把大型 Instinct GPU 吃滿，因此 1024³ 的結果不能直接解讀成 GPU 只用了某個固定比例的「全部能力」。</p><div class="table-wrap"><table><tr><th>本次 Lab 3 實測</th><th>結果</th></tr><tr><td>rocBLAS SGEMM</td><td>66202.9 GFLOPS ≈ 66.20 TFLOPS</td></tr><tr><td>以完整 MI300X FP32 163.4 TFLOPS 作課程 baseline</td><td>約 40.52%</td></tr></table></div><div class="pitfall">實驗 device 顯示 AMD Instinct MI300X VF；若 VF 有資源切分，完整 MI300X theoretical peak 只能當 teaching baseline，不是 VF 的嚴格硬體效率。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 124 / 150</span><span>Lab 3 · MIOpen</span></div><h2>Exercise 2：PyTorch Conv2D → MIOpen backend</h2><p>實驗 tensor：</p><pre>Input   x: [32, 64, 224, 224]
+Weight  w: [128, 64, 3, 3]
+padding=1, stride=1
+Output    : [32, 128, 224, 224]</pre><p>心智模型：</p><div class="mini-diagram">torch.nn.functional.conv2d
+        ↓
+PyTorch ROCm backend
+        ↓
+MIOpen solver / kernel
+        ↓
+HIP
+        ↓
+AMD GPU</div><p>第一次呼叫可能包含 runtime 初始化、solver selection、cache lookup / search、kernel preparation，因此 first call 常比後續慢；但 cache 已存在時差距可能很小。</p><div class="table-wrap"><table><tr><th>本次實測</th><th>Time</th></tr><tr><td>First run</td><td>3.3 ms</td></tr><tr><td>Cached / steady run</td><td>3.1 ms</td></tr></table></div><div class="exam">FindDb = 選 solution；PerfDb = solution 的 tuning data；Kernel Cache = compiled kernel reuse。把 0.2 ms 全叫「autotune overhead」過度簡化，較準確叫 first-call overhead。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 125 / 150</span><span>Lab 3 · rocFFT</span></div><h2>Exercise 3：FFT → IFFT round-trip 驗證數值正確性</h2><pre>N = 8192
+signal = torch.randn(N, dtype=torch.float32, device='cuda')
+spectrum = torch.fft.fft(signal)
+recovered = torch.fft.ifft(spectrum).real
+error = max(abs(signal - recovered))</pre><p>FFT 把 time-domain 轉 frequency-domain；IFFT 再轉回去。浮點運算有 round-off，所以正確關係是 <strong>ifft(fft(x)) ≈ x</strong>，不是 bit-identical。</p><div class="table-wrap"><table><tr><th>本次實測</th><th>結果</th></tr><tr><td>Max round-trip error</td><td>8.34e-07</td></tr><tr><td>Threshold</td><td>&lt; 1e-5</td></tr><tr><td>Status</td><td>PASS</td></tr></table></div><div class="exam">FP32 machine epsilon 約 1.19e-7，但 FFT 多階段 arithmetic 會累積誤差，因此 1e-5 tolerance 對這個 lab 是合理的。correctness 不必額外 synchronize，因為 <span class="inline">.item()</span> 取回 host scalar 時會等待所需 GPU work；timing 則仍要 sync/event。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 126 / 150</span><span>Lab 3 · PyTorch Training</span></div><h2>Exercise 4：ResNet-18 on CIFAR-10 驗證完整 training stack</h2><div class="mini-diagram">CIFAR-10 → DataLoader → H2D → ResNet-18
+→ CrossEntropyLoss → loss.backward()
+→ SGD optimizer.step() → ROCm / HIP → AMD GPU</div><pre>optimizer.zero_grad()
+outputs = model(inputs)
+loss = criterion(outputs, labels)
+loss.backward()
+optimizer.step()</pre><p>這五步要能不看答案寫出來。<span class="inline">model.train()</span> 是切 training mode，影響 BatchNorm / Dropout，不是「開始迴圈」的命令。</p><div class="table-wrap"><table><tr><th>設定</th><th>意義</th></tr><tr><td>batch_size=128</td><td>50,000 training images 約 391 batches/epoch</td></tr><tr><td>shuffle=True</td><td>每 epoch 打亂資料順序</td></tr><tr><td>num_workers=2</td><td>CPU 平行準備資料</td></tr><tr><td>pin_memory=True</td><td>有利 H2D；搭配 non_blocking=True 更能發揮</td></tr></table></div><div class="pitfall"><span class="inline">loss.item()</span> 每 batch 會把 scalar 拉回 CPU，可能造成 host/device synchronization，因此這個 Lab 適合 end-to-end 功能驗證，不是極致 throughput benchmark。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 127 / 150</span><span>Lab 3 · Debugging</span></div><h2>Exercise 5：ROCm + PyTorch 分層 troubleshooting</h2><div class="mini-diagram">amd-smi
+  ↓ hardware / driver visibility
+rocminfo
+  ↓ ROCm / HSA visibility
+torch.version.hip
+  ↓ correct ROCm PyTorch build
+torch.cuda.is_available()
+  ↓ PyTorch device visibility
+torch.mm(...)
+  ↓ actual GPU compute</div><div class="table-wrap"><table><tr><th>Symptom</th><th>先懷疑</th><th>Fix direction</th></tr><tr><td>HIP_VISIBLE_DEVICES=99</td><td>invalid device filter</td><td>設有效 ID 或 unset</td></tr><tr><td>torch.version.hip is None</td><td>wrong PyTorch build</td><td>安裝 ROCm wheel/image</td></tr><tr><td>Host 可見 GPU、container 不可見</td><td>/dev/kfd / /dev/dri mapping</td><td>重新 launch container</td></tr><tr><td>custom kernel image mismatch</td><td>architecture build target</td><td>檢查 PYTORCH_ROCM_ARCH / gfx target</td></tr></table></div><p>本次環境：<strong>AMD Instinct MI300X VF</strong>，<span class="inline">torch.cuda.is_available() == True</span>，compute test PASS。</p><div class="exam">torch.version.hip 回答「這是不是 HIP/ROCm build」；torch.cuda.is_available 回答「現在能不能用 GPU」。兩者不是同一問題。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 128 / 150</span><span>Lab 3 · Submission</span></div><h2>Lab 3 的五題其實是一條完整 software stack</h2><div class="mini-diagram">rocBLAS → GEMM / throughput
+MIOpen  → convolution / first-call cache
+rocFFT  → numerical transform correctness
+PyTorch → end-to-end training
+Debugging → 找出是哪一層先壞掉</div><div class="table-wrap"><table><tr><th>Submission item</th><th>本次已確認</th></tr><tr><td>rocBLAS GEMM</td><td>66202.9 GFLOPS</td></tr><tr><td>MIOpen</td><td>3.3 ms first / 3.1 ms cached</td></tr><tr><td>rocFFT</td><td>8.34e-07, PASS</td></tr><tr><td>PyTorch training</td><td>2 epochs completed；final batch loss 以 notebook 最後變數為準</td></tr><tr><td>Debugging</td><td>Environment healthy; compute PASS</td></tr></table></div><div class="practice"><strong>Practical mindset：</strong>Library call 能跑 ≠ 整個 AI stack 能跑；training loop PASS 又比單純 is_available=True 更強，因為它真的走過 allocation、kernel execution、autograd、backward、optimizer。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 129 / 150</span><span>Module 3 · Drill</span></div><h2>Module 3 高優先度情境題</h2><div class="table-wrap"><table><tr><th>題目</th><th>第一反應</th></tr><tr><td>Dense GEMM</td><td>rocBLAS / hipBLASLt</td></tr><tr><td>Conv / pooling / activation</td><td>MIOpen</td></tr><tr><td>FFT / signal processing</td><td>rocFFT</td></tr><tr><td>Multi-GPU gradient aggregation</td><td>RCCL All-Reduce</td></tr><tr><td>Custom Python fused kernel</td><td>Triton</td></tr><tr><td>High-throughput LLM serving</td><td>vLLM / continuous batching / KV cache</td></tr><tr><td>PyTorch ROCm device namespace</td><td>仍使用 torch.cuda</td></tr></table></div><div class="exam">標準 op 優先用 optimized library；只有在 library 無法表達工作時才往 Triton/HIP 下沉。這通常比手寫所有 kernel 更可維護。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 130 / 150</span><span>Lab 3 · Checklist</span></div><h2>Lab 3 實作檢查清單</h2><pre>☑ torch.version.hip 不是 None
+☑ torch.cuda.is_available() == True
+☑ GPU name / memory 可讀
+☑ rocBLAS build/link/run 成功
+☑ GPU timing 有 event / synchronize
+☑ MIOpen first-call 與 steady-state 分開看
+☑ FFT correctness 用 tolerance，不用 ==
+☑ Training: zero_grad → forward → loss → backward → step
+☑ Debugging: hardware → ROCm → PyTorch → compute
+☑ 對 benchmark 結果知道「測的是什麼」</pre></section>
+<section class="study-page" id="lab4"><div class="page-kicker"><span>Page 131 / 150</span><span>Module 4 · HIP Model</span></div><h2>Module 4：從 library user 變成 GPU kernel programmer</h2><p>HIP programmer 直接建立 Grid / Block / Thread；hardware 再把 threads 組成 wavefront 並映到 SIMD execution。</p><pre>int i = blockIdx.x * blockDim.x + threadIdx.x;
+int blocks = (N + threads - 1) / threads;
+kernel&lt;&lt;&lt;blocks, threads&gt;&gt;&gt;(...);</pre><div class="mini-diagram">Host: allocate → H2D → launch → check → D2H → verify
+                         ↓
+Device:             parallel kernel</div><div class="exam"><strong>★★★★★：</strong>global index、ceiling division、bounds check <span class="inline">if (i&lt;N)</span>、asynchronous launch 是 HIP 最基本四件事。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 132 / 150</span><span>Lab 4 · Vector Add</span></div><h2>Part 1：Vector Add from Scratch</h2><pre>__global__ void vec_add(const float* A,
+                        const float* B,
+                        float* C, int N) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i &lt; N) C[i] = A[i] + B[i];
+}
+
+vec_add&lt;&lt;&lt;(N+255)/256, 256&gt;&gt;&gt;(d_A,d_B,d_C,N);</pre><p>N=2²⁰=1,048,576，256 threads/block，因此 4096 blocks；每個 float 4 bytes，一個 vector 為 4 MiB。</p><div class="mini-diagram">new[] host → hipMalloc device → hipMemcpy H2D
+→ vec_add kernel → hipMemcpy D2H → verify → hipFree/delete[]</div><div class="exam"><span class="inline">new[]</span> 對 <span class="inline">delete[]</span>；<span class="inline">hipMalloc</span> 對 <span class="inline">hipFree</span>，不能混用。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 133 / 150</span><span>HIP Errors · Async</span></div><h2>Kernel launch error 與 execution error 要分開抓</h2><pre>kernel&lt;&lt;&lt;grid, block&gt;&gt;&gt;(...);
+HIP_CHECK(hipGetLastError());
+HIP_CHECK(hipDeviceSynchronize());</pre><div class="table-wrap"><table><tr><th>API</th><th>主要用途</th></tr><tr><td>hipGetLastError()</td><td>取得並清除 last runtime error；常用來抓 immediate launch/config error</td></tr><tr><td>hipDeviceSynchronize()</td><td>等先前 GPU work 完成，讓 asynchronous execution error surface</td></tr><tr><td>hipMemcpy D2H</td><td>同步 copy 會等待必要 work，但錯誤可能延後到這裡才看到</td></tr></table></div><p>Debug 時可積極 synchronize，正式 performance code 則避免在每個 kernel 後都強制 host 停住。</p><div class="exam">看到「kernel launch 是 asynchronous」就要想到：CPU 下一行不代表 GPU 已做完；timing、debugging 與 dependency 都要考慮 synchronization / stream ordering。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 134 / 150</span><span>CUDA → HIP</span></div><h2>Part 2：HIPIFY 做 mechanical conversion，人做 semantic review</h2><div class="table-wrap"><table><tr><th>CUDA</th><th>HIP</th></tr><tr><td>cuda_runtime.h</td><td>hip/hip_runtime.h</td></tr><tr><td>cudaMalloc</td><td>hipMalloc</td></tr><tr><td>cudaMemcpy</td><td>hipMemcpy</td></tr><tr><td>cudaMemset</td><td>hipMemset</td></tr><tr><td>cudaFree</td><td>hipFree</td></tr><tr><td>cudaDeviceSynchronize</td><td>hipDeviceSynchronize</td></tr><tr><td>cudaError_t / cudaSuccess</td><td>hipError_t / hipSuccess</td></tr></table></div><div class="mini-diagram">CUDA source → hipify-perl / hipify-clang → HIP source
+→ manual review → build → correctness test → profile → tune</div><p><strong>hipify-perl</strong> 適合較簡單 runtime API / kernel code；<strong>hipify-clang</strong> 透過 Clang AST，更適合 templates、namespaces、複雜 C++。</p><div class="pitfall">HIPIFY 能換 API 名稱，卻不知道自訂 macro <span class="inline">CUDA_CHECK</span> 是否應改名，也不保證 CUDA-specific hardware assumptions 正確。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 135 / 150</span><span>Histogram · LDS · Atomic</span></div><h2>Porting Lab 的 histogram 同時教了三個 parallel pattern</h2><pre>__shared__ int local_bins[256];
+
+for (int i=threadIdx.x; i&lt;256; i+=blockDim.x)
+    local_bins[i]=0;
+__syncthreads();
+
+int idx = blockIdx.x*blockDim.x + threadIdx.x;
+int stride = blockDim.x*gridDim.x;
+for (int i=idx; i&lt;N; i+=stride)
+    atomicAdd(&local_bins[data[i]], 1);
+__syncthreads();
+
+for (int i=threadIdx.x; i&lt;256; i+=blockDim.x)
+    atomicAdd(&bins[i], local_bins[i]);</pre><div class="table-wrap"><table><tr><th>Pattern</th><th>目的</th></tr><tr><td>Per-block shared histogram</td><td>先在 LDS privatize，降低直接打 global bins 的 contention</td></tr><tr><td>grid-stride loop</td><td>同一 thread 可處理 idx + total_threads × k</td></tr><tr><td>atomicAdd</td><td>多 threads / blocks 同時更新相同 bin 時避免 race</td></tr></table></div><div class="exam">Shared memory 很快 ≠ 不需要 atomic。Atomic 解決的是 correctness / race，不是 memory latency。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 136 / 150</span><span>Portability Trap</span></div><h2>為什麼不能把 blockDim.x 偷換成硬寫 32？</h2><p>Histogram 裡的 stride 是「整個 block / grid 有多少 threads」，不是 warp size：</p><pre>for (...; i += blockDim.x) ...
+stride = blockDim.x * gridDim.x;</pre><p>若 blockDim.x=256 卻硬寫 32，threads 會重疊處理相同 indices，甚至重複 merge histogram。</p><div class="mini-diagram">blockDim.x = threads per block
+warp / wavefront = hardware execution group
+兩者不是同一件事</div><p>另外 CUDA 常見 warp=32；課程 CDNA3/4 mental model 是 Wave64。硬寫 32 的 algorithm 若真的依賴完整 warp semantics，移植時更要人工 review。</p><div class="exam">Source portability ≠ performance portability。HIPIFY 可以轉 API，但無法保證 hardcoded architecture assumptions 正確。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 137 / 150</span><span>Lab 4 · Reduction</span></div><h2>Part 3：Block Reduction = many values → one partial sum</h2><pre>__shared__ float sdata[256];
+int tid = threadIdx.x;
+int gid = blockIdx.x*blockDim.x + tid;
+sdata[tid] = (gid &lt; N) ? input[gid] : 0.0f;
+__syncthreads();
+
+for (int s=blockDim.x/2; s&gt;0; s&gt;&gt;=1) {
+    if (tid &lt; s) sdata[tid] += sdata[tid+s];
+    __syncthreads();
+}
+if (tid==0) output[blockIdx.x]=sdata[0];</pre><div class="mini-diagram">256 values → 128 → 64 → 32 → 16 → 8 → 4 → 2 → 1</div><p>0.0f 是 sum 的 identity：有效資料不足一整個 block 時，其餘 threads 填 0 仍不改變總和。</p><div class="exam">__syncthreads() 是 block-level barrier。每一 stage 都要等前一 stage 的 sdata 更新完成，否則下一輪可能讀到舊值。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 138 / 150</span><span>Multi-pass Reduction</span></div><h2>1,048,576 → 4096 → 16 → 1，只需要三個 passes</h2><pre>current_size = N;
+src = d_in;
+dst = d_tmp1;
+while (current_size &gt; 1) {
+    grid = (current_size + block - 1) / block;
+    reduce_sum&lt;&lt;&lt;grid, block&gt;&gt;&gt;(src,dst,current_size);
+    hipGetLastError();
+    std::swap(src,dst);
+    current_size = grid;
+}</pre><div class="mini-diagram">Pass 1: 1,048,576 → 4,096 partial sums
+Pass 2: 4,096 → 16
+Pass 3: 16 → 1 final sum</div><p>同一 default stream 的 kernels 具有 ordering，因此每輪不必 host-side hipDeviceSynchronize。最後同步 D2H copy 會等 final result 完成。</p><div class="pitfall">原 Lab 配置了 d_tmp2 但實際未使用；真正 ping-pong 是 d_in ↔ d_tmp1。使用 std::swap 時較正規應 include &lt;utility&gt;。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 139 / 150</span><span>Wavefront-aware</span></div><h2>Lab 的 reduction 是正確 baseline，但還不算充分 wavefront-optimized</h2><p>目前 kernel 從 256 一直降到 1，每輪都透過 LDS + <span class="inline">__syncthreads()</span>。這是易懂、正確的 block reduction baseline。</p><p>當剩下一個 wavefront 時，更進階版本可使用 wave shuffle / wave-level primitives 減少 LDS traffic 與 barrier overhead。</p><div class="mini-diagram">Block-wide stage: LDS + barrier
+        ↓
+最後一個 wavefront
+        ↓
+wave-level reduction / shuffle
+        ↓
+partial sum</div><div class="pitfall">不要把 CUDA 最後 32 threads 的寫法原封不動搬到 CDNA Wave64。先確認 API / architecture semantics，再做 optimization。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 140 / 150</span><span>Module 4 · Practical Drill</span></div><h2>Module 4 考前只看這一頁也要能寫</h2><pre>int i = blockIdx.x * blockDim.x + threadIdx.x;
+int blocks = (N + threads - 1) / threads;
+
+HIP_CHECK(hipMalloc(&d, bytes));
+HIP_CHECK(hipMemcpy(d, h, bytes, hipMemcpyHostToDevice));
+kernel&lt;&lt;&lt;blocks, threads&gt;&gt;&gt;(...);
+HIP_CHECK(hipGetLastError());
+HIP_CHECK(hipDeviceSynchronize());
+HIP_CHECK(hipMemcpy(h, d, bytes, hipMemcpyDeviceToHost));
+HIP_CHECK(hipFree(d));</pre><div class="table-wrap"><table><tr><th>看到</th><th>想到</th></tr><tr><td>hardcoded 32</td><td>檢查 warp/wavefront assumption</td></tr><tr><td>shared data between block threads</td><td>可能需要 __syncthreads()</td></tr><tr><td>same location updated by many threads</td><td>atomic / race</td></tr><tr><td>CUDA source migration</td><td>HIPIFY → review → build → test → tune</td></tr></table></div></section>
+<section class="study-page" id="lab5"><div class="page-kicker"><span>Page 141 / 150</span><span>Module 5 · Roofline</span></div><h2>Module 5：先判斷瓶頸，再決定優化手段</h2><pre>Arithmetic Intensity = FLOPs / bytes transferred</pre><div class="mini-diagram">Performance
+   ^             ______ compute ceiling
+   |            /
+   |           /
+   |          /
+   |_________/______________> Arithmetic Intensity
+     memory roof   ridge point</div><p>Ridge 左側通常 memory-bound；右側通常 compute-bound。但 Roofline 不一定直接揭露 launch / synchronization overhead，因此仍要搭配 profiler。</p><div class="exam">SAXPY：2 FLOPs / 12 bytes ≈ 0.17 FLOP/byte → memory-bound。GEMM 有高 data reuse，AI 高，通常更偏 compute-bound。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 142 / 150</span><span>Profiling Workflow</span></div><h2>先找 hot kernel，再收對應 counters</h2><pre>rocprofv3 --kernel-trace --stats --output-format csv -- ./app
+
+# 形成 hypothesis 後，再選 counters
+rocprofv3 --pmc &lt;selected counters&gt; --output-format csv -- ./app</pre><div class="table-wrap"><table><tr><th>欄位</th><th>意義</th></tr><tr><td>AverageNs</td><td>每次 kernel 平均時間</td></tr><tr><td>Calls</td><td>launch 次數</td></tr><tr><td>TotalDurationNs</td><td>總時間貢獻</td></tr></table></div><div class="mini-diagram">Many short kernels / gaps → overhead-dominated → fuse/batch/fewer sync
+Memory ceiling → coalesce / reuse / fewer bytes
+Compute ceiling → optimized math / reduced precision</div><div class="exam">No single counter proves the bottleneck。Timing + related counters + Roofline 才是 diagnosis。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 143 / 150</span><span>Transpose · Baseline</span></div><h2>為什麼 Matrix Transpose baseline 是「read 好、write 壞」？</h2><pre>out[x * H + y] = in[y * W + x];</pre><p>C/C++ row-major 中，同一 row 的 columns 在 memory 連續。假設相鄰 threads x=0,1,2,3 且 y 固定：</p><pre>Read:  in[y*W+0], in[y*W+1], in[y*W+2], in[y*W+3]
+       → contiguous / coalesced
+
+Write: out[0*H+y], out[1*H+y], out[2*H+y], out[3*H+y]
+       → 每次跨 H elements / strided</pre><p>Transpose 的數學要求是 <strong>B[col][row] = A[row][col]</strong>。原本同一 row 的連續資料在輸出變成同一 column，因此 direct global-memory implementation 天生容易一邊 coalesced、一邊 strided。</p><div class="exam">Copy 是 B[row][col]=A[row][col]；Transpose 必須交換 row/col。這個數學重新排列正是 strided write 的來源。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 144 / 150</span><span>LDS Tiled Transpose</span></div><h2>改善原理：把「轉方向」放到便宜的 LDS 裡</h2><pre>__shared__ float tile[TILE][TILE+1];
+
+tile[threadIdx.y][threadIdx.x] = in[yIn*W + xIn];
+__syncthreads();
+out[yOut*H + xOut] = tile[threadIdx.x][threadIdx.y];</pre><div class="mini-diagram">HBM input
+  ↓ coalesced horizontal read
+LDS tile[y][x]
+  ↓ __syncthreads()
+LDS read tile[x][y]   ← 在 on-chip memory 裡換方向
+  ↓ remap output block x/y
+HBM output
+  ↓ coalesced horizontal write</div><p>關鍵不是「用了 shared memory 所以快」，而是 LDS 當 staging/reordering area，讓昂貴的 global read/write 都變成較規則、可 coalesce 的 pattern。</p><div class="exam">Baseline = 橫著讀、直著寫；Tiled = 橫著讀進 LDS、LDS 裡轉方向、再橫著寫出去。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 145 / 150</span><span>LDS Bank Conflicts</span></div><h2>為什麼 tile 是 [TILE][TILE+1]？</h2><p><span class="inline">tile[16][17]</span> 的第 17 格不是有效 matrix 資料，而是 padding。目的不是 global coalescing，而是改變 LDS row stride，降低 transposed column-like access 落到相同 bank 的規律。</p><div class="mini-diagram">Coalescing → global/HBM transaction efficiency
+Bank conflict → LDS internal parallel access efficiency
+兩者是不同層的問題</div><p>Threads 在 load phase 寫 <span class="inline">tile[y][x]</span>，store phase 讀 <span class="inline">tile[x][y]</span>，所以一定要在兩者中間放 block-wide <span class="inline">__syncthreads()</span>。</p><div class="pitfall">Barrier 要放在 bounds-check if 外面，避免 edge block 中只有部分 threads 抵達 barrier。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 146 / 150</span><span>Lab 5-1 · Transpose Result</span></div><h2>Part 1 實測：LDS tiling 真的把 bandwidth 拉高</h2><div class="table-wrap"><table><tr><th>Version</th><th>Time</th><th>Effective BW</th></tr><tr><td>Naive (uncoalesced)</td><td>1.435 ms</td><td>1496.8 GB/s</td></tr><tr><td>Tiled (LDS)</td><td>0.927 ms</td><td>2316.3 GB/s</td></tr></table></div><pre>Speedup = 1.435 / 0.927 ≈ 1.55×
+Time reduction ≈ 35.4%
+Effective bandwidth improvement ≈ 54.8%</pre><p>Effective bandwidth 公式：</p><pre>BW = 2 × W × H × sizeof(float) / seconds</pre><p>前面的 2 代表每 element 一次 useful read + 一次 useful write。這是 useful/effective bandwidth，不等於 profiler 量到的 physical HBM bytes；uncoalesced access 可能產生額外 transactions。</p><div class="pitfall">原 benchmark 只量 performance，沒有 D2H correctness comparison。完整 optimize workflow 應該是 measure → optimize → validate。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 147 / 150</span><span>Lab 5-1 · Workgroup Sweep</span></div><h2>Part 2：SAXPY block size 不是越大越快</h2><pre>y[i] = a*x[i] + y[i]
+AI ≈ 2 FLOPs / 12 bytes ≈ 0.17 FLOP/byte</pre><p>在 MI300X / CDNA3 課程模型下，64 threads = 1 wavefront；128=2；256=4；512=8；1024=16。改 block size 不改演算法、不改 Arithmetic Intensity，而是影響 scheduling、resident waves/blocks、resource use、latency hiding。</p><div class="table-wrap"><table><tr><th>本次最佳</th><th>結果</th></tr><tr><td>128 threads/block</td><td>0.066 ms</td></tr><tr><td>Effective bandwidth</td><td>3032.7 GB/s</td></tr><tr><td>vs 64-thread case</td><td>約 2.03× faster</td></tr></table></div><p>128 與 256 已接近 bandwidth plateau；512/1024 沒有因為 wavefronts/block 更多就必然更快。</p><div class="pitfall"><span class="inline">hipMemset(ptr,1,bytes)</span> 是把每個 byte 設 0x01，不等於 float 1.0f。這個 lab 只看 performance 所以影響不大，但 correctness code 不要犯這個錯。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 148 / 150</span><span>Lab 5-1 · Mixed Precision</span></div><h2>Part 3：FP32 vs FP16 vs BF16，不只看速度也要看誤差</h2><div class="table-wrap"><table><tr><th>Format</th><th>Exponent</th><th>Fraction</th><th>核心特性</th></tr><tr><td>FP32</td><td>8</td><td>23</td><td>高 precision、大 range</td></tr><tr><td>FP16</td><td>5</td><td>10</td><td>比 BF16 多 fraction bits，precision 較好</td></tr><tr><td>BF16</td><td>8</td><td>7</td><td>跟 FP32 相同 exponent width，dynamic range 大</td></tr></table></div><p>GEMM 的工作量：</p><pre>FLOPs = 2 × M × N × K
+M=N=K=2048 → 17.18 GFLOP / GEMM</pre><p>Reduced precision 常能使用更高吞吐的 matrix execution path；常見 mixed-precision concept 是低精度 operands 搭配較高精度 accumulation，以降低長 reduction 的累積誤差。</p><div class="exam">BF16 range 較好 ≠ BF16 precision 較好。FP16 fraction bits 較多；BF16 的主要優勢是 exponent range。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 149 / 150</span><span>Lab 5-1 · Measured GEMM</span></div><h2>本次 GEMM：FP16 / BF16 throughput 約為 FP32 的 3.5×</h2><div class="table-wrap"><table><tr><th>dtype</th><th>Time</th><th>Throughput</th><th>vs FP32</th></tr><tr><td>FP32</td><td>0.177 ms</td><td>97079.2 GFLOPS ≈ 97.08 TFLOPS</td><td>baseline</td></tr><tr><td>FP16</td><td>0.050 ms</td><td>340775.4 GFLOPS ≈ 340.78 TFLOPS</td><td>3.51×</td></tr><tr><td>BF16</td><td>0.050 ms</td><td>345619.0 GFLOPS ≈ 345.62 TFLOPS</td><td>3.56×</td></tr></table></div><p>目前 Lab code 每個 dtype 重新產生 random A/B，因此可以比較同 shape 的 throughput，但<strong>不能公平比較 numerical error</strong>。若要完成 accuracy tradeoff，應先建立同一組 FP32 source matrices，再 cast：</p><pre>A32 = torch.randn(..., dtype=torch.float32)
+B32 = torch.randn(..., dtype=torch.float32)
+Cref = A32 @ B32
+C16  = A32.half() @ B32.half()
+Cbf  = A32.bfloat16() @ B32.bfloat16()
+relative_error = norm(C_low.float()-Cref) / norm(Cref)</pre><div class="exam">真正的 reduced-precision decision：在 accuracy tolerance 可接受前提下，選 throughput 更好的 format。</div></section>
+<section class="study-page"><div class="page-kicker"><span>Page 150 / 150</span><span>Modules 3–5 Master Checklist</span></div><h2>考前 10 分鐘：Modules 3–5 一頁總複習</h2><pre>MODULE 3
+☑ rocBLAS → GEMM
+☑ MIOpen → DL primitives / solver cache
+☑ rocFFT → FFT/IFFT + tolerance
+☑ PyTorch → zero_grad → forward → loss → backward → step
+☑ Debugging → amd-smi → rocminfo → torch.version.hip → is_available → compute
+
+MODULE 4
+☑ global index = blockIdx*blockDim + threadIdx
+☑ blocks = ceil(N/threads)
+☑ launch async → hipGetLastError + sync for execution errors
+☑ HIPIFY → review → build → test → tune
+☑ __shared__ / __syncthreads / atomic / grid-stride loop
+☑ reduction = many → partial sums → one
+
+MODULE 5
+☑ AI = FLOPs / bytes
+☑ memory-bound vs compute-bound vs overhead-dominated
+☑ profiler first, optimize second
+☑ coalescing = neighboring threads → neighboring addresses
+☑ transpose: baseline read good / write strided
+☑ LDS staging: horizontal read → transpose in LDS → horizontal write
+☑ TILE+1 → reduce LDS bank conflicts
+☑ block size must be measured, not guessed
+☑ FP16 precision > BF16; BF16 range > FP16
+☑ speed + correctness / numerical error 都要 validate</pre><div class="callout"><strong>最終 mental model：</strong>Module 3 學「用對現成工具」；Module 4 學「自己控制 GPU threads / memory / errors」；Module 5 學「不要憑感覺優化，先用數據找 dominant limit，再做對應實驗並驗證結果」。</div></section>
+<section class="sources"><h2>延伸公開文件</h2><ul><li><a href="https://rocm.docs.amd.com/">ROCm Documentation</a></li><li><a href="https://rocm.docs.amd.com/projects/HIP/en/develop/">HIP Documentation</a></li><li><a href="https://rocm.docs.amd.com/projects/HIPIFY/en/latest/">HIPIFY Documentation</a></li><li><a href="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/">rocprofiler-sdk / rocprofv3</a></li><li><a href="https://developer.amd.com/amd-ai-academy/">AMD AI Academy</a></li></ul><div class="callout"><strong>Scope note：</strong>此章以學習者本日課程、自己執行的 lab code 與實測結果做原創重整。實際考試規則、私有題目與 scoring 不在本教材範圍；硬體 peak、工具參數與 architecture 行為應以當下 AMD 官方文件為準。</div></section></main><footer class="footer"><div class="footer__inner"><p>Independent study guide · 非 AMD 官方教材／非考題外洩內容</p><p>Modules 3–5 course & lab notes · 2026-08-26</p></div></footer></body></html>
