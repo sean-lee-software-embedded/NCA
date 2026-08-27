@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AMD ROCm Certified Associate 最後三個 Hands On Labs 中文整理：Module 3 Libraries/PyTorch、Module 4 HIP/Porting、Module 5 Profiling/Performance Optimization。">
+  <title>Chapter 13｜Final Hands-On Labs Review</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .lab-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}
+    .lab-card{border:1px solid #d7dde2;border-radius:14px;padding:20px;background:#fff}
+    .lab-card h3{margin:.35rem 0}.lab-card p{margin:.4rem 0;color:#5e6b78}
+    .flow{white-space:pre-wrap;background:#111820;color:#eef3f6;border-radius:12px;padding:18px;overflow:auto}
+    .key{font-weight:850;color:#9c141a}.quick td:first-child{font-weight:850;white-space:nowrap}
+    @media(max-width:900px){.lab-map{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="index.html"><span>AMD</span>ROCm Handbook</a>
+    <nav class="nav">
+      <a href="12-modules-3-5-course-labs.html">上一章</a>
+      <a href="index.html">目錄</a>
+      <a href="#lab1">Lab 1</a>
+      <a href="#lab2">Lab 2</a>
+      <a href="#lab3">Lab 3</a>
+      <a href="#final">Final Review</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<section class="chapter-head">
+  <p class="eyebrow">Post-course Consolidation · 2026-08-27</p>
+  <h1>Chapter 13 · Final Hands-On Lab 1 / 2 / 3</h1>
+  <p>這一章專門把 AMD AI Academy 課程畫面最後三個實作重新對齊：<strong>Module 3 = Hands On Lab 1、Module 4 = Hands On Lab 2、Module 5 = Hands On Lab 3</strong>。Chapter 12 保留完整上課筆記與實測；這一章則變成考後可快速重做、面試前可快速回想的實作版。</p>
+  <div class="callout"><strong>核心主線：</strong>Lab 1 學會「用對 ROCm library / framework」；Lab 2 學會「自己寫與移植 HIP kernel」；Lab 3 學會「先 profile，再針對 dominant bottleneck 做優化」。</div>
+</section>
+
+<section class="study-page">
+  <div class="page-kicker"><span>Course Map</span><span>Modules 3–5</span></div>
+  <h2>三個 Lab 到底各自在練什麼？</h2>
+  <div class="lab-map">
+    <article class="lab-card"><span class="eyebrow">Module 3 · Hands On Lab 1</span><h3>ROCm Libraries & PyTorch</h3><p>rocBLAS GEMM、MIOpen Conv2D、rocFFT round-trip、PyTorch training、ROCm/PyTorch troubleshooting。</p></article>
+    <article class="lab-card"><span class="eyebrow">Module 4 · Hands On Lab 2</span><h3>HIP Programming & Porting</h3><p>Vector Add、launch/error handling、CUDA→HIP、HIPIFY、histogram、atomic、grid-stride loop、parallel reduction。</p></article>
+    <article class="lab-card"><span class="eyebrow">Module 5 · Hands On Lab 3</span><h3>Profiling & Performance</h3><p>Roofline、memory hierarchy、coalescing、LDS tiled transpose、bank conflict、workgroup sweep、FP32/FP16/BF16。</p></article>
+  </div>
+</section>
+
+<section class="study-page" id="lab1">
+  <div class="page-kicker"><span>Hands On Lab 1</span><span>Module 3</span></div>
+  <h2>Lab 1：ROCm Libraries + PyTorch，先學會不要重造輪子</h2>
+  <p>這個 Lab 的 mental model 是：<strong>常見數學與 AI primitive，優先交給 AMD 已最佳化的 library；framework 再把這些 library 串成完整 workload。</strong></p>
+  <div class="table-wrap"><table class="quick"><tr><th>需求</th><th>第一個想到的元件</th><th>用途</th></tr>
+  <tr><td>GEMM / dense BLAS</td><td>rocBLAS / hipBLASLt</td><td>矩陣乘法、BLAS 1/2/3</td></tr>
+  <tr><td>Conv / DL primitives</td><td>MIOpen</td><td>Convolution、pooling、activation、normalization 等</td></tr>
+  <tr><td>FFT</td><td>rocFFT</td><td>time-domain ↔ frequency-domain</td></tr>
+  <tr><td>LU / QR / Cholesky / SVD</td><td>rocSOLVER</td><td>線性系統、decomposition、PCA/SVD 類工作</td></tr>
+  <tr><td>Multi-GPU collectives</td><td>RCCL</td><td>All-Reduce、All-Gather、Broadcast 等</td></tr>
+  <tr><td>High-level training</td><td>PyTorch ROCm</td><td>autograd、optimizer、framework integration</td></tr></table></div>
+
+  <h3>Exercise A · rocBLAS SGEMM</h3>
+  <pre>C = α × op(A) × op(B) + β × C
+FLOPs ≈ 2 × M × N × K
+GFLOPS = FLOPs / seconds / 1e9</pre>
+  <p><span class="key">考點：</span>GEMM 是 general matrix multiplication；GFLOP 是工作量，GFLOPS / TFLOPS 才是 throughput。比較 theoretical peak 時要對齊 datatype，例如 FP32 workload 不要拿 FP8 peak 當 denominator。</p>
+
+  <h3>Exercise B · PyTorch Conv2D → MIOpen</h3>
+  <div class="flow">torch.nn.functional.conv2d
+        ↓
+PyTorch ROCm backend
+        ↓
+MIOpen solver / kernel
+        ↓
+HIP runtime
+        ↓
+AMD GPU</div>
+  <p>第一次執行可能含 runtime 初始化、solver selection、cache lookup 或 kernel preparation，所以 first-call time 常比 steady-state 慢。</p>
+  <div class="exam"><strong>考點：</strong>MIOpen 對應 NVIDIA 世界最接近 cuDNN；它處理 convolution 與其他 deep-learning primitives。</div>
+
+  <h3>Exercise C · rocFFT round-trip</h3>
+  <pre>signal = torch.randn(N, device='cuda')
+spectrum = torch.fft.fft(signal)
+recovered = torch.fft.ifft(spectrum).real
+error = (signal - recovered).abs().max()</pre>
+  <p>正確性是 <strong>ifft(fft(x)) ≈ x</strong>，不是 bit-identical。浮點 round-off 會累積，因此要用合理 tolerance 驗證。</p>
+
+  <h3>Exercise D · PyTorch training loop</h3>
+  <pre>optimizer.zero_grad()
+outputs = model(inputs)
+loss = criterion(outputs, labels)
+loss.backward()
+optimizer.step()</pre>
+  <p>這五步要能不看答案解釋。<code>model.train()</code> 只是切 training mode；真正 parameter update 是 <code>optimizer.step()</code>。</p>
+  <div class="exam"><strong>ROCm 易錯點：</strong>PyTorch on ROCm 仍使用 <code>torch.cuda</code> namespace，例如 <code>torch.cuda.is_available()</code>。</div>
+
+  <h3>Exercise E · Troubleshooting ladder</h3>
+  <div class="flow">amd-smi
+  ↓ hardware / driver visibility
+rocminfo
+  ↓ HSA / ROCm visibility
+python: torch.version.hip
+  ↓ correct ROCm PyTorch build?
+torch.cuda.is_available()
+  ↓ framework sees GPU?
+torch.mm(...)
+  ↓ real compute succeeds?</div>
+  <p><span class="key">Debug 原則：</span>先找「最底下哪一層開始壞」，不要一看到 PyTorch error 就直接重裝整套環境。</p>
+</section>
+
+<section class="study-page" id="lab2">
+  <div class="page-kicker"><span>Hands On Lab 2</span><span>Module 4</span></div>
+  <h2>Lab 2：HIP Programming + CUDA Porting</h2>
+  <p>這個 Lab 從「library user」切換成「GPU kernel programmer」。最重要的是 thread indexing、bounds check、memory lifecycle、asynchronous execution 與 parallel correctness。</p>
+
+  <h3>Exercise A · Vector Add from scratch</h3>
+  <pre>__global__ void vec_add(const float* A,
+                        const float* B,
+                        float* C, int N) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < N) C[i] = A[i] + B[i];
+}
+
+int threads = 256;
+int blocks = (N + threads - 1) / threads;
+vec_add<<<blocks, threads>>>(d_A, d_B, d_C, N);</pre>
+  <div class="table-wrap"><table><tr><th>Expression</th><th>意思</th></tr>
+  <tr><td><code>threadIdx.x</code></td><td>thread 在 block 內的 index</td></tr>
+  <tr><td><code>blockIdx.x</code></td><td>block 在 grid 內的 index</td></tr>
+  <tr><td><code>blockDim.x</code></td><td>每個 block 的 threads 數</td></tr>
+  <tr><td><code>blockIdx.x*blockDim.x+threadIdx.x</code></td><td>global thread index</td></tr></table></div>
+
+  <h3>Exercise B · asynchronous error handling</h3>
+  <pre>kernel<<<grid, block>>>(...);
+HIP_CHECK(hipGetLastError());
+HIP_CHECK(hipDeviceSynchronize());</pre>
+  <p><code>hipGetLastError()</code> 常用來抓 immediate launch/config error；<code>hipDeviceSynchronize()</code> 讓 asynchronous execution error 有機會回到 host。</p>
+  <div class="pitfall">Debug 時多同步可以讓錯誤靠近真正出錯的位置；performance code 則不要習慣性在每個 kernel 後都同步，否則會破壞 overlap / concurrency。</div>
+
+  <h3>Exercise C · CUDA → HIP / HIPIFY</h3>
+  <div class="table-wrap"><table><tr><th>CUDA</th><th>HIP</th></tr>
+  <tr><td>cudaMalloc</td><td>hipMalloc</td></tr><tr><td>cudaMemcpy</td><td>hipMemcpy</td></tr>
+  <tr><td>cudaMemset</td><td>hipMemset</td></tr><tr><td>cudaFree</td><td>hipFree</td></tr>
+  <tr><td>cudaDeviceSynchronize</td><td>hipDeviceSynchronize</td></tr>
+  <tr><td>cudaError_t</td><td>hipError_t</td></tr></table></div>
+  <div class="flow">CUDA source
+   ↓
+hipify-perl / hipify-clang
+   ↓
+HIP source
+   ↓
+manual semantic review
+   ↓
+build → correctness test → profile → tune</div>
+  <p><span class="key">考點：</span>HIPIFY 做 mechanical conversion，不會自動理解每個自訂 macro、CUDA-only library 或硬體假設。<strong>Source portability ≠ performance portability。</strong></p>
+
+  <h3>Exercise D · Histogram：shared memory + atomic + grid-stride</h3>
+  <pre>__shared__ int local_bins[256];
+
+for (int i = threadIdx.x; i < 256; i += blockDim.x)
+    local_bins[i] = 0;
+__syncthreads();
+
+for (int i = global_id; i < N; i += blockDim.x * gridDim.x)
+    atomicAdd(&local_bins[data[i]], 1);
+__syncthreads();
+
+for (int i = threadIdx.x; i < 256; i += blockDim.x)
+    atomicAdd(&bins[i], local_bins[i]);</pre>
+  <p>shared/LDS privatization 降低 global contention；atomic 解決 race/correctness；grid-stride loop 讓 thread 可以處理多個 index。三個概念不要混成同一件事。</p>
+
+  <h3>Exercise E · Parallel Reduction</h3>
+  <pre>__shared__ float sdata[256];
+sdata[threadIdx.x] = (gid < N) ? input[gid] : 0.0f;
+__syncthreads();
+
+for (unsigned s = blockDim.x/2; s > 0; s >>= 1) {
+    if (threadIdx.x < s)
+        sdata[threadIdx.x] += sdata[threadIdx.x + s];
+    __syncthreads();
+}</pre>
+  <p>Reduction 的 mental model：<strong>many values → per-block partial sum → final sum</strong>。shared data 被同一 block 的多 threads 讀寫時，barrier placement 直接影響 correctness。</p>
+</section>
+
+<section class="study-page" id="lab3">
+  <div class="page-kicker"><span>Hands On Lab 3</span><span>Module 5</span></div>
+  <h2>Lab 3：Performance Optimization & Profiling</h2>
+  <p>這個 Lab 最重要的不是記某個 benchmark 數字，而是建立一個固定流程：</p>
+  <div class="flow">Measure baseline
+   ↓
+Profile
+   ↓
+Classify bottleneck
+   ↓
+Apply targeted optimization
+   ↓
+Validate correctness
+   ↓
+Re-measure</div>
+
+  <h3>Exercise A · Roofline：先問 memory-bound 還是 compute-bound</h3>
+  <pre>Arithmetic Intensity = FLOPs / bytes transferred</pre>
+  <p>低 Arithmetic Intensity 通常偏 memory-bound；高 AI 才比較可能逼近 compute ceiling。對 memory-bound kernel，增加 occupancy 的主要價值是<strong>幫忙 hide memory latency</strong>，但不能把速度推過 memory-bandwidth roof。</p>
+
+  <h3>Exercise B · Memory hierarchy</h3>
+  <div class="table-wrap"><table><tr><th>大致順序</th><th>特性</th></tr>
+  <tr><td>Registers</td><td>最快、最小、per-thread</td></tr>
+  <tr><td>LDS / shared memory</td><td>on-chip、per-workgroup、可重用資料</td></tr>
+  <tr><td>Cache</td><td>硬體管理、介於 on-chip 與 HBM</td></tr>
+  <tr><td>HBM / global memory</td><td>容量大但 latency 高，效能高度依賴 access pattern</td></tr>
+  <tr><td>Host memory</td><td>通常需要經 PCIe / interconnect，最不適合頻繁來回搬</td></tr></table></div>
+
+  <h3>Exercise C · Naive Transpose → LDS Tiled Transpose</h3>
+  <div class="flow">Naive:
+HBM contiguous read → HBM strided/uncoalesced write
+
+Tiled:
+HBM coalesced read → LDS tile → synchronize
+→ read transposed from LDS → HBM coalesced write</div>
+  <pre>#define TILE 16
+__shared__ float tile[TILE][TILE + 1];
+
+// load coalesced
+tile[ty][tx] = input[srcY * width + srcX];
+__syncthreads();
+
+// swap axes and store coalesced
+output[dstY * height + dstX] = tile[tx][ty];</pre>
+  <p><code>TILE+1</code> 的 padding 主要用來改變 LDS row stride、降低 bank-conflict pattern。<strong>Coalescing 是 global/HBM transaction 問題；bank conflict 是 LDS 內部問題。</strong></p>
+  <div class="pitfall">所有 threads 都必須一致抵達 block-wide barrier；不要把必要的 <code>__syncthreads()</code> 放進只有部分 edge threads 會進入的條件式。</div>
+
+  <h3>Exercise D · Workgroup / block-size sweep</h3>
+  <pre>64 → 128 → 256 → 512 → 1024 threads/block
+measure each configuration</pre>
+  <p>Block size 影響 resident waves、resource pressure、latency hiding 與 scheduling；<strong>不是越大越快，也不是 occupancy 越高越快。</strong>最可靠方法就是 sweep + profile + verify。</p>
+
+  <h3>Exercise E · FP32 / FP16 / BF16</h3>
+  <div class="table-wrap"><table><tr><th>Format</th><th>Exponent</th><th>Fraction</th><th>直覺</th></tr>
+  <tr><td>FP32</td><td>8</td><td>23</td><td>最高 precision baseline</td></tr>
+  <tr><td>FP16</td><td>5</td><td>10</td><td>fraction 較多，precision 通常優於 BF16</td></tr>
+  <tr><td>BF16</td><td>8</td><td>7</td><td>與 FP32 同 exponent width，dynamic range 較大</td></tr></table></div>
+  <p>Reduced precision 的 decision 不能只看 throughput。正確流程是：同一組 FP32 source data → cast → 執行低精度版本 → 比較 speed + numerical error。</p>
+
+  <h3>Profiler / monitor 工具對照</h3>
+  <div class="table-wrap"><table><tr><th>問題</th><th>工具</th></tr>
+  <tr><td>GPU utilization / temperature / power</td><td><code>amd-smi</code></td></tr>
+  <tr><td>GPU/HSA agent、CU、wavefront 等硬體資訊</td><td><code>rocminfo</code></td></tr>
+  <tr><td>kernel/API timing、counters、trace</td><td><code>rocprofv3</code> / ROCProfiler-SDK</td></tr>
+  <tr><td>source-level GPU debugging</td><td>ROCgdb</td></tr></table></div>
+  <pre>amd-smi monitor
+rocminfo | grep -E "Compute Unit|Wavefront Size|SIMD"
+rocprofv3 --stats -- ./your_app</pre>
+
+  <div class="callout"><strong>MI300X / VF 注意：</strong>完整 MI300X 實體 GPU 官方規格是 304 active CUs（8 個 XCD × 每 XCD 38 active CUs）。但在 virtualization / partitioned lab 環境，請以實際 <code>rocminfo</code> 暴露的資源為準，不要看到「MI300X VF」就直接拿完整實體卡的所有資源假設套上去。</div>
+</section>
+
+<section class="study-page" id="final">
+  <div class="page-kicker"><span>Final Review</span><span>One-page Mental Model</span></div>
+  <h2>最後把三個 Lab 串成一條工程流程</h2>
+  <div class="flow">1. Standard primitive?
+   ├─ GEMM → rocBLAS / hipBLASLt
+   ├─ Conv/DL → MIOpen
+   ├─ FFT → rocFFT
+   └─ Solver → rocSOLVER
+
+2. Need custom kernel?
+   └─ HIP: grid/block/thread + memory + sync + errors
+
+3. Port CUDA code?
+   └─ HIPIFY → manual review → correctness → profile
+
+4. Slow?
+   └─ rocprofv3 / amd-smi / rocminfo
+       ↓
+       memory-bound or compute-bound?
+       ↓
+       coalescing / LDS / workgroup / precision
+       ↓
+       validate + re-measure</div>
+
+  <h3>高機率考點快速表</h3>
+  <div class="table-wrap"><table class="quick"><tr><th>看到題目</th><th>應該立刻想到</th></tr>
+  <tr><td>PyTorch conv2d on AMD</td><td>PyTorch ROCm backend → MIOpen</td></tr>
+  <tr><td>CUDA source migration</td><td>HIPIFY，但 complex semantics / hardware assumptions 要人工修</td></tr>
+  <tr><td>LU / SVD / PCA</td><td>rocSOLVER</td></tr>
+  <tr><td>GEMM</td><td>C = αAB + βC；rocBLAS / hipBLASLt</td></tr>
+  <tr><td>monitor utilization/temp/power</td><td>amd-smi</td></tr>
+  <tr><td>memory-bound + occupancy</td><td>hide latency；bandwidth roof 才是上限</td></tr>
+  <tr><td>transpose tiled vs naive</td><td>coalescing + LDS staging + bank-conflict padding</td></tr>
+  <tr><td>FP16 vs BF16</td><td>FP16 fraction 多；BF16 exponent/range 大</td></tr>
+  <tr><td>ROCm PyTorch GPU API</td><td>仍是 torch.cuda namespace</td></tr>
+  <tr><td>GPU resources</td><td>rocminfo；virtualized environment 不要只背實體卡規格</td></tr></table></div>
+
+  <div class="practice"><strong>這三個 Lab 真正值得留下的能力：</strong>不是背 benchmark 數字，而是知道什麼時候該用 library、什麼時候該自己寫 kernel、怎麼安全移植 CUDA、怎麼用 profile data 決定下一個 optimization，而不是靠猜。</div>
+</section>
+
+<section class="sources">
+  <h2>公開延伸資料</h2>
+  <ul>
+    <li><a href="https://rocm.docs.amd.com/">ROCm Documentation</a></li>
+    <li><a href="https://rocm.docs.amd.com/projects/HIP/en/latest/">HIP Documentation</a></li>
+    <li><a href="https://rocm.docs.amd.com/projects/HIPIFY/en/latest/">HIPIFY Documentation</a></li>
+    <li><a href="https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/">ROCProfiler-SDK / rocprofv3</a></li>
+    <li><a href="https://rocm.docs.amd.com/en/develop/how-to/rocm-for-ai/inference-optimization/workload.html">MI300X Workload Optimization</a></li>
+    <li><a href="https://github.com/AMD/HPCTrainingExamples/tree/main/HIP/transpose">AMD HPCTrainingExamples · HIP Transpose</a></li>
+  </ul>
+  <div class="callout"><strong>Scope note：</strong>這是依實際學習內容重新整理的個人技術筆記，不重製 Academy 私有教材或考題。版本、CLI 參數與硬體行為若日後改版，以 AMD 當下官方文件為準。</div>
+</section>
+</main>
+<footer class="footer"><div class="footer__inner"><p>Independent study guide · 非 AMD 官方教材／非考題外洩內容</p><p>Final Hands-On Labs · Modules 3–5</p></div></footer>
+</body>
+</html>
