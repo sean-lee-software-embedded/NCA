@@ -15,7 +15,7 @@ NCA/
 │   ├── index.html             # Full NCA-AIIO guide
 │   ├── weekend/
 │   │   ├── index.html         # Weekend sprint and downloads
-│   │   └── materials/         # Versioned HTML and DOCX source materials
+│   │   └── materials/         # Versioned HTML source materials
 │   ├── tutorial/index.html    # Technical topic index
 │   ├── readings/index.html    # Suggested readings
 │   └── mock/index.html        # Mock exam entry
