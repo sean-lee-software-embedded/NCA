@@ -1,1 +1,96 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Kubernetes KCNA 與 CKA 中文認證教材：100 頁白話 KCNA、60 題模擬考、Mac mini + kind、50 個 CKA hands-on labs。"><title>Kubernetes Certification Track｜KCNA + CKA</title><link rel="stylesheet" href="../assets/css/site.css"><link rel="stylesheet" href="assets/k8s.css"></head><body class="site k8s-theme"><header class="site-header"><nav class="site-nav"><a class="brand" href="../"><span class="brand-mark">K8s</span>Certification Track</a><ul class="nav-links"><li><a href="../">Hub</a></li><li><a href="./" aria-current="page">Kubernetes</a></li><li><a href="kcna/">KCNA 100</a></li><li><a href="kcna/mock/">KCNA Mock</a></li><li><a href="cka/">CKA 50 Labs</a></li></ul></nav></header><main><section class="hero"><div class="hero__inner"><p class="eyebrow">Kubernetes · Certification Grade · Mac mini</p><h1>先把 KCNA「真的學懂」，再把 CKA 練成兩小時能做完的手感。</h1><p class="hero__lead">延續 NCA-AIIO / ROCm 的中文教學風格，但加入更嚴格的 readiness gate：白話心智模型、Mac mini 驗證、主題化情境題、60 題 mock、官方 competency coverage 與 50 個 CKA Labs。</p><div class="actions"><a class="button" href="kcna/">開始 KCNA 100 頁</a><a class="button button--ghost" href="kcna/mock/">60 題 KCNA Mock</a><a class="button button--ghost" href="cka/">CKA 50 Labs</a></div></div></section><section class="page-section"><div class="section-heading"><p class="eyebrow">Learning Path</p><h2>不是「看完就算」：每一段都有過關標準</h2><p>KCNA 是知識地圖；CKA 是 command-line performance exam。Mac mini 先用 kind 建多節點 cluster；kubeadm/systemd/HA 類真機題再用 Linux VM 或官方 simulator 補。</p></div><div class="card-grid card-grid--three"><article class="route-card"><span class="tag">100 lessons</span><h2>KCNA Weekend 100</h2><p>每頁：白話比喻、正式概念、常見陷阱、Mac mini mini lab、概念題、不同情境題、Teach-back、CKA 橋接。</p><span class="route-card__cta">進入 100 頁教材 →</span><a class="route-card__link" href="kcna/"></a></article><article class="route-card"><span class="tag">60 original questions</span><h2>KCNA Readiness Mock</h2><p>26 / 17 / 10 / 7 題約對齊官方 44 / 28 / 16 / 12。第一次 ≥80%，錯題重做 ≥90% 才建議往下一階段。</p><span class="route-card__cta">開始 60 題 →</span><a class="route-card__link" href="kcna/mock/"></a></article><article class="route-card"><span class="tag">50 hands-on labs</span><h2>CKA Practice 50</h2><p>依 CKA v1.35 competency review：RBAC、Helm/Kustomize、CRD/Operator、Gateway API、Storage、Troubleshooting，另標出 kubeadm/HA/systemd 必補。</p><span class="route-card__cta">開始 50 個實作 →</span><a class="route-card__link" href="cka/"></a></article></div><div class="notice"><p><strong>Mac mini 環境：</strong>Docker Desktop + kubectl + kind。Apple Silicon / Intel 都可；kind 很適合大多數 API/workload/network/storage/RBAC 題，但不假裝等同真正 systemd Linux node 或 production HA control plane。</p></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>Kubernetes Certification Track · 自編學習資源</p><p>正式考試資訊以 Linux Foundation / CNCF 當下公告為準。</p></div></footer></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Kubernetes KCNA 與 CKA 中文認證教材：100 頁白話 KCNA、60 題模擬考、CKA 100 頁週末衝刺、Mac mini + kind、50 個 CKA hands-on labs。">
+  <title>Kubernetes Certification Track｜KCNA + CKA</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="assets/k8s.css">
+</head>
+<body class="site k8s-theme">
+  <header class="site-header">
+    <nav class="site-nav">
+      <a class="brand" href="../"><span class="brand-mark">K8s</span>Certification Track</a>
+      <ul class="nav-links">
+        <li><a href="../">Hub</a></li>
+        <li><a href="./" aria-current="page">Kubernetes</a></li>
+        <li><a href="kcna/">KCNA 100</a></li>
+        <li><a href="kcna/mock/">KCNA Mock</a></li>
+        <li><a href="cka-weekend-100/">CKA Weekend 100</a></li>
+        <li><a href="cka/">CKA 50 Labs</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="eyebrow">Kubernetes · Certification Grade · Mac mini</p>
+        <h1>先把 KCNA「真的學懂」，再把 CKA 練成兩小時能做完的手感。</h1>
+        <p class="hero__lead">延續 NCA-AIIO / ROCm 的中文教學風格，但加入更嚴格的 readiness gate：白話心智模型、Mac mini 驗證、主題化情境題、60 題 mock、CKA 100 頁週末衝刺、官方 competency coverage 與 50 個 CKA Labs。</p>
+        <div class="actions">
+          <a class="button" href="cka-weekend-100/">開始 CKA Weekend 100</a>
+          <a class="button button--ghost" href="kcna/">KCNA 100 頁</a>
+          <a class="button button--ghost" href="kcna/mock/">60 題 KCNA Mock</a>
+          <a class="button button--ghost" href="cka/">CKA 50 Labs</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="section-heading">
+        <p class="eyebrow">Learning Path</p>
+        <h2>不是「看完就算」：每一段都有過關標準</h2>
+        <p>KCNA 是知識地圖；CKA 是 command-line performance exam。建議先走 CKA Weekend 100，再用 CKA 50 Labs 做第二輪強化。Mac mini 先用 kind 建多節點 cluster；kubeadm/systemd/HA 類真機題再用 Linux VM 或官方 simulator 補。</p>
+      </div>
+
+      <div class="card-grid card-grid--three">
+        <article class="route-card">
+          <span class="tag">100 lessons</span>
+          <h2>KCNA Weekend 100</h2>
+          <p>每頁：白話比喻、正式概念、常見陷阱、Mac mini mini lab、概念題、不同情境題、Teach-back、CKA 橋接。</p>
+          <span class="route-card__cta">進入 100 頁教材 →</span>
+          <a class="route-card__link" href="kcna/" aria-label="進入 KCNA 100 頁教材"></a>
+        </article>
+
+        <article class="route-card">
+          <span class="tag">60 original questions</span>
+          <h2>KCNA Readiness Mock</h2>
+          <p>26 / 17 / 10 / 7 題約對齊官方 44 / 28 / 16 / 12。第一次 ≥80%，錯題重做 ≥90% 才建議往下一階段。</p>
+          <span class="route-card__cta">開始 60 題 →</span>
+          <a class="route-card__link" href="kcna/mock/" aria-label="開始 KCNA 60 題模擬考"></a>
+        </article>
+
+        <article class="route-card">
+          <span class="tag">Primary CKA Sprint · 100 pages</span>
+          <h2>CKA Weekend 100</h2>
+          <p>依 CKA v1.35 五大 domain 權重切成 25 / 15 / 20 / 10 / 30 頁。每頁都有 command path、hands-on drill、verification、失分陷阱與官方文件搜尋詞。</p>
+          <span class="route-card__cta">開始 CKA 100 頁週末衝刺 →</span>
+          <a class="route-card__link" href="cka-weekend-100/" aria-label="開始 CKA Weekend 100"></a>
+        </article>
+
+        <article class="route-card">
+          <span class="tag">Stage 2 · 50 hands-on labs</span>
+          <h2>CKA Practice 50</h2>
+          <p>第二階段實作強化：RBAC、Helm/Kustomize、CRD/Operator、Gateway API、Storage、Troubleshooting，另標出 kubeadm/HA/systemd 必補。</p>
+          <span class="route-card__cta">開始 50 個實作 →</span>
+          <a class="route-card__link" href="cka/" aria-label="開始 CKA 50 個實作"></a>
+        </article>
+      </div>
+
+      <div class="notice">
+        <p><strong>建議 CKA 路徑：</strong>CKA Weekend 100 → CKA Practice 50 → Killer.sh / Linux VM 真機補強 → 正式考試。</p>
+        <p><strong>Mac mini 環境：</strong>Docker Desktop + kubectl + kind。Apple Silicon / Intel 都可；kind 很適合大多數 API/workload/network/storage/RBAC 題，但不假裝等同真正 systemd Linux node 或 production HA control plane。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>Kubernetes Certification Track · 自編學習資源</p>
+      <p>正式考試資訊以 Linux Foundation / CNCF 當下公告為準。</p>
+    </div>
+  </footer>
+</body>
+</html>
