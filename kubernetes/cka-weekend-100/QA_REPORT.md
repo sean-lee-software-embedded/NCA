@@ -1,6 +1,6 @@
 # CKA v1.35 — 100-page Weekend Sprint QA
 
-Review date: 2026-09-07
+Review date: 2026-09-14
 
 ## Automated checks
 
@@ -41,6 +41,11 @@ Review date: 2026-09-07
 - No confidential/remembered exam questions are reproduced. Labs are self-authored from public competencies and docs.
 - Exam price/version/rules are marked as re-check-before-scheduling facts.
 - 100 independent printable lesson sections are present; screen UI includes progress persistence and navigation.
+
+## Review Round 6 — KodeKloud cross-map and short-sprint routing
+- Reviewed the public KodeKloud CKA repository snapshot `506b5418` dated 2026-09-01: 17 course sections and 198 Markdown resources.
+- Added a chapter-to-page map, four-phase 48-hour route, priority labels, mock-exam gate, and explicit `kind` versus real-Linux practice boundaries.
+- Linked to the upstream repository rather than reproducing its notes verbatim; current official competencies remain the source of truth.
 
 ## Readiness gate
 - 100/100 hands-on pages completed.
