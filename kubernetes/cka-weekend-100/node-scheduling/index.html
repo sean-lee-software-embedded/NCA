@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="CKA Node Scheduling 實戰筆記：labels、taints、tolerations、nodeSelector、Node Affinity、kubectl explain、apply 與 replace。">
+  <title>CKA Node Scheduling 實戰筆記</title>
+  <link rel="stylesheet" href="../../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/k8s.css">
+  <style>
+    html{scroll-behavior:smooth}.mini-nav{position:sticky;top:0;z-index:20;background:#0d1b2ff2;border-bottom:1px solid #ffffff1f;backdrop-filter:blur(12px)}
+    .mini-nav__inner{width:min(calc(100% - 32px),1120px);margin:auto;display:flex;align-items:center;gap:18px;min-height:58px}.mini-nav a{color:#dce9ff;text-decoration:none;font-weight:750}.mini-nav a:first-child{margin-right:auto}.mini-nav__links{display:flex;gap:14px;overflow:auto;white-space:nowrap;font-size:.88rem}
+    .hero-note{background:radial-gradient(circle at 85% 20%,#326ce555,transparent 28%),linear-gradient(135deg,#0c1728,#17315b);color:#fff;padding:72px 0 58px}.hero-note h1{font-size:clamp(2rem,6vw,4.2rem);line-height:1.04;margin:.2em 0}.hero-note p{max-width:780px;color:#d6e4f9;font-size:1.08rem}.hero-note .badge{margin-right:6px}
+    .toc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0}.toc a{display:block;padding:12px 14px;border:1px solid var(--nca-line);border-radius:10px;background:#fff;color:#174ea6;text-decoration:none;font-weight:800}
+    .compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.panel{border:1px solid var(--nca-line);border-radius:14px;background:#fff;padding:20px}.panel h3{margin-top:0}.syntax{font-size:clamp(.85rem,2vw,1rem)}
+    .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.flow div{padding:16px;border-radius:12px;background:#eef4ff;border-top:4px solid #326ce5}.flow strong{display:block;color:#174ea6;margin-bottom:5px}
+    .good{color:#23733a}.bad{color:#b4233b}.checklist{list-style:none;padding:0}.checklist li{display:flex;gap:10px;margin:10px 0}.checklist input{width:19px;height:19px;accent-color:#326ce5}.footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+    @media(max-width:760px){.toc,.compare,.flow{grid-template-columns:1fr}.mini-nav__links{display:none}.hero-note{padding-top:50px}}
+    @media print{.mini-nav,.copy,.footer-actions{display:none!important}.hero-note{padding:20px 0;background:#fff;color:#000}.hero-note p{color:#333}.study-section{break-inside:avoid}.panel,pre,.table-wrap{break-inside:avoid}}
+  </style>
+</head>
+<body class="site k8s-theme">
+  <nav class="mini-nav" aria-label="頁面導覽"><div class="mini-nav__inner">
+    <a href="../../">← Kubernetes Track</a>
+    <div class="mini-nav__links"><a href="#taint">Taint</a><a href="#selection">選節點</a><a href="#affinity">Affinity</a><a href="#explain">查 API</a><a href="#yaml">除錯</a><a href="#replace">更新</a></div>
+  </div></nav>
+
+  <header class="hero-note"><div class="study-wrap">
+    <p class="eyebrow">CKA · Scheduling · Hands-on Notes</p>
+    <h1>Node Scheduling<br>實戰筆記</h1>
+    <p>從 <code>node-role.kubernetes.io/control-plane</code> 的空 value，到 Taint/Toleration、Node Affinity、YAML 縮排、<code>kubectl explain</code> 與 <code>apply / replace</code>。把剛剛容易混淆的點整理成考場可直接查用的版本。</p>
+    <span class="badge">繁體中文</span><span class="badge">可列印</span><span class="badge">附驗證命令</span>
+  </div></header>
+
+  <main class="study-wrap">
+    <section class="study-section" id="map">
+      <p class="eyebrow">01 · Mental Model</p><h2>先分清楚：誰拒絕誰、誰選擇誰</h2>
+      <div class="flow">
+        <div><strong>Label</strong>Node 身上的特徵，例如 <code>color=blue</code>。</div>
+        <div><strong>選擇機制</strong><code>nodeSelector</code> 或 Node Affinity 要求／偏好某些 Node。</div>
+        <div><strong>排斥機制</strong>Taint 讓 Node 拒絕沒有相符 Toleration 的 Pod。</div>
+      </div>
+      <div class="callout"><strong>一句話：</strong>Node Affinity 是 Pod 說「我要去哪裡」；Taint 是 Node 說「誰不能進來」；Toleration 只是取得進入資格，不保證一定排到該 Node。</div>
+      <div class="toc">
+        <a href="#taint">Taint 語法與空 value</a><a href="#selection">nodeSelector 與 Toleration</a><a href="#affinity">Required / Preferred</a>
+        <a href="#operator">Operator 速查</a><a href="#explain">kubectl explain</a><a href="#yaml">YAML 除錯</a>
+        <a href="#replace">apply / replace / force</a><a href="#workflow">考場工作流</a><a href="#commands">命令速查</a>
+      </div>
+    </section>
+
+    <section class="study-section" id="taint">
+      <p class="eyebrow">02 · Taints</p><h2><code>key[=value]:effect</code> 到底怎麼讀？</h2>
+      <pre class="syntax"><code>spray=mosquito:NoSchedule
+└ key ┘ └ value ┘ └ effect ┘
+
+node-role.kubernetes.io/control-plane:NoSchedule
+└──────────────── key ───────────────┘ └ effect ┘
+                     value 為空</code></pre>
+      <div class="compare">
+        <article class="panel"><h3>有 value</h3><pre><code>kubectl taint node node01 \
+  spray=mosquito:NoSchedule</code></pre><p>YAML 會包含 <code>key</code>、<code>value</code>、<code>effect</code>。</p></article>
+        <article class="panel"><h3>沒有 value</h3><pre><code>kubectl taint node controlplane \
+  node-role.kubernetes.io/control-plane:NoSchedule</code></pre><p>YAML 只有 <code>key</code> 與 <code>effect</code>；省略的 value 是空字串。</p></article>
+      </div>
+      <div class="trapbox"><strong>常見錯誤：</strong><code>key=node-role.kubernetes.io/control-plane:NoSchedule-</code> 不是「指定 key」。它會把字面上的 <code>key</code> 當作 taint key，把後面內容當 value。</div>
+      <pre><code># 精確移除 control-plane 的 NoSchedule taint
+kubectl taint node controlplane node-role.kubernetes.io/control-plane:NoSchedule-
+
+# 最後的 - 代表刪除，不是 value 的一部分
+kubectl describe node controlplane | grep -i Taints</code></pre>
+    </section>
+
+    <section class="study-section" id="selection">
+      <p class="eyebrow">03 · Labels & Node Selection</p><h2>空 label value 仍然是合法 label</h2>
+      <pre><code>metadata:
+  labels:
+    node-role.kubernetes.io/control-plane: ""</code></pre>
+      <p>整段 <code>node-role.kubernetes.io/control-plane</code> 是 key；其 value 通常為空字串。查看與篩選：</p>
+      <pre><code>kubectl get nodes --show-labels
+kubectl get node controlplane -o jsonpath='{.metadata.labels}{"\n"}'
+kubectl get nodes -l node-role.kubernetes.io/control-plane</code></pre>
+      <div class="trapbox"><strong>Flag 易錯：</strong>JSONPath 必須透過輸出選項：<code>-o jsonpath='...'</code>，不存在獨立的 <code>--jsonpath</code> flag。</div>
+      <h3>使用 nodeSelector</h3>
+      <pre><code>spec:
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""</code></pre>
+      <p><code>kubectl create deployment</code> 沒有 <code>--labelselector</code>。先產生 Deployment YAML，再把 <code>nodeSelector</code> 放進 <code>spec.template.spec</code>。</p>
+      <h3>Control Plane 還有 Taint 時</h3>
+      <pre><code>spec:
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule</code></pre>
+      <div class="callout"><strong>兩者缺一不可：</strong><code>nodeSelector</code> 選中 Control Plane；<code>toleration</code> 通過它的 <code>NoSchedule</code> 門禁。</div>
+    </section>
+
+    <section class="study-section" id="affinity">
+      <p class="eyebrow">04 · Node Affinity</p><h2>Required 與 Preferred 的 YAML 結構不同</h2>
+      <div class="compare">
+        <article class="panel"><span class="badge badge--warn">硬性條件</span><h3>Required</h3><pre><code>affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: color
+          operator: In
+          values:
+          - blue</code></pre><p>不符合就不能排程。</p></article>
+        <article class="panel"><span class="badge badge--green">軟性偏好</span><h3>Preferred</h3><pre><code>affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      preference:
+        matchExpressions:
+        - key: color
+          operator: In
+          values:
+          - blue</code></pre><p>優先選符合者，但必要時可選其他 Node。</p></article>
+      </div>
+      <div class="callout"><strong>為什麼 Preferred 查不到 <code>nodeSelectorTerms</code>？</strong>因為它根本沒有這層。Required 是 <code>nodeSelectorTerms[]</code>；Preferred 的每一項是 <code>weight + preference</code>，而 <code>preference</code> 本身就是一個 <code>NodeSelectorTerm</code>。</div>
+      <h3>空值的 Control Plane label：用 Exists 最清楚</h3>
+      <pre><code>affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists</code></pre>
+    </section>
+
+    <section class="study-section" id="operator">
+      <p class="eyebrow">05 · Operators</p><h2>Node Affinity Operator 速查</h2>
+      <div class="table-wrap"><table><thead><tr><th>Operator</th><th>意義</th><th><code>values</code></th><th>典型用途</th></tr></thead><tbody>
+        <tr><td><code>In</code></td><td>value 在清單內</td><td>必須提供</td><td><code>color ∈ [blue, green]</code></td></tr>
+        <tr><td><code>NotIn</code></td><td>value 不在清單內</td><td>必須提供</td><td>排除 test 節點</td></tr>
+        <tr><td><code>Exists</code></td><td>key 存在即可</td><td>不可提供</td><td>空 value 的角色 label</td></tr>
+        <tr><td><code>DoesNotExist</code></td><td>key 不存在</td><td>不可提供</td><td>排除具有某角色的 Node</td></tr>
+        <tr><td><code>Gt</code></td><td>數值大於指定值</td><td>一個整數字串</td><td>自訂數值 label</td></tr>
+        <tr><td><code>Lt</code></td><td>數值小於指定值</td><td>一個整數字串</td><td>自訂數值 label</td></tr>
+      </tbody></table></div>
+      <div class="trapbox"><strong>沒有 <code>Equal</code>：</strong>Node Affinity 不支援 <code>operator: Equal</code>。精確比對請用 <code>In</code> 加單一 value；只檢查 key 則用 <code>Exists</code>。</div>
+    </section>
+
+    <section class="study-section" id="explain">
+      <p class="eyebrow">06 · API Discovery</p><h2>忘記欄位時，沿著 FIELDS 一層層查</h2>
+      <pre><code># Required：經過 nodeSelectorTerms
+kubectl explain pod.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution
+kubectl explain pod.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms
+kubectl explain pod.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms.matchExpressions.operator
+
+# Preferred：經過 preference，不經過 nodeSelectorTerms
+kubectl explain pod.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution
+kubectl explain pod.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference
+kubectl explain pod.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.operator</code></pre>
+      <p>看到 <code>&lt;[]PreferredSchedulingTerm&gt;</code> 代表它是陣列，但 explain 路徑不需要填 <code>[0]</code>。直接從輸出的 <code>FIELDS</code> 選下一個欄位名稱。</p>
+      <pre><code># 一次展開整個子樹
+kubectl explain pod.spec.affinity.nodeAffinity --recursive</code></pre>
+    </section>
+
+    <section class="study-section" id="yaml">
+      <p class="eyebrow">07 · YAML Debugging</p><h2>解析錯誤通常先看縮排，不要先懷疑 Kubernetes</h2>
+      <div class="compare">
+        <article class="panel"><h3 class="bad">錯誤</h3><pre><code>template:
+  spec:
+      affinity:       # 縮排過深
+        ...
+    containers:       # 同層卻不一致</code></pre><p>常見錯誤：<code>did not find expected key</code>。</p></article>
+        <article class="panel"><h3 class="good">正確</h3><pre><code>template:
+  spec:
+    affinity:
+      ...
+    containers:
+    - name: nginx</code></pre><p><code>affinity</code> 與 <code>containers</code> 都是 Pod spec 的直接子欄位。</p></article>
+      </div>
+      <ul class="task-list">
+        <li><code>affinity</code> 必須放在 <code>spec.template.spec.affinity</code>，不是 Deployment 的最外層 <code>spec.affinity</code>。</li>
+        <li>空字串明確寫成 <code>""</code>；只留下冒號會解析成 YAML <code>null</code>。</li>
+        <li><code>nodeSelector</code> 與 required Node Affinity 若表達相同條件，保留一種即可。</li>
+        <li><code>operator: Exists</code> 不要加 <code>values</code>。</li>
+      </ul>
+      <pre><code># 第一關：本機解析與基本結構
+kubectl apply -f red.yaml --dry-run=client
+
+# 第二關：交給 API Server 驗證，但不保存
+kubectl apply -f red.yaml --dry-run=server
+
+# 顯示行號，快速定位錯誤
+nl -ba red.yaml | sed -n '25,45p'</code></pre>
+    </section>
+
+    <section class="study-section" id="replace">
+      <p class="eyebrow">08 · Updating Resources</p><h2><code>apply</code>、<code>replace</code>、<code>replace --force</code></h2>
+      <div class="table-wrap"><table><thead><tr><th>命令</th><th>核心行為</th><th>是否刪除重建</th><th>常見輸出</th></tr></thead><tbody>
+        <tr><td><code>kubectl apply -f blue.yaml</code></td><td>宣告式合併期望狀態</td><td>否</td><td><code>configured</code> / <code>unchanged</code></td></tr>
+        <tr><td><code>kubectl replace -f blue.yaml</code></td><td>以檔案提供完整規格進行更新</td><td>否</td><td><code>replaced</code></td></tr>
+        <tr><td><code>kubectl replace --force -f blue.yaml</code></td><td>先 DELETE，再 CREATE 同名資源</td><td>是</td><td><code>deleted</code> + <code>replaced</code></td></tr>
+      </tbody></table></div>
+      <div class="trapbox"><strong>語法錯誤：</strong>使用 <code>-f</code> 時，不要再加入 resource argument。正確是 <code>kubectl replace -f blue.yaml</code>，不是 <code>kubectl replace deploy -f blue.yaml</code>。</div>
+      <p>對 Deployment，實務上 <code>replace</code> 可能在輸入 YAML 沒有 <code>resourceVersion</code> 時仍成功，代表伺服器接受該次無條件更新；不要因此把它當成所有資源都保證相同。若 YAML 來自 <code>kubectl get ... -o yaml</code>，帶著目前的 <code>resourceVersion</code> 可提供 optimistic concurrency 檢查。</p>
+      <pre><code># 產生「新建模板」：沒有 live resourceVersion
+kubectl create deploy blue --image=nginx --replicas=3 \
+  --dry-run=client -o yaml &gt; blue.yaml
+
+# 匯出目前 live object：通常包含 resourceVersion
+kubectl get deploy blue -o yaml &gt; blue.yaml</code></pre>
+    </section>
+
+    <section class="study-section" id="workflow">
+      <p class="eyebrow">09 · Exam Workflow</p><h2>考場可靠流程：生成、編輯、驗證、套用、查結果</h2>
+      <ol class="task-list">
+        <li>先看 Node label 與 taint：<code>kubectl get nodes --show-labels</code>、<code>kubectl describe node ...</code>。</li>
+        <li>用 imperative command 生成骨架：<code>kubectl create deployment ... --dry-run=client -o yaml</code>。</li>
+        <li>把 affinity / nodeSelector / tolerations 放到 <code>spec.template.spec</code>。</li>
+        <li>不確定 schema 就用 <code>kubectl explain</code>，不要憑印象創造欄位或 operator。</li>
+        <li>先跑 client dry-run，再跑 server dry-run。</li>
+        <li>正式套用後，以實際 Pod 所在 Node 驗收。</li>
+      </ol>
+      <pre><code>kubectl apply -f red.yaml --dry-run=client
+kubectl apply -f red.yaml --dry-run=server
+kubectl apply -f red.yaml
+kubectl rollout status deploy/red
+kubectl get pods -l app=red -o wide
+kubectl describe pod &lt;pod-name&gt; | sed -n '/Events:/,$p'</code></pre>
+    </section>
+
+    <section class="study-section" id="commands">
+      <p class="eyebrow">10 · Quick Reference</p><h2>最後 60 秒速查</h2>
+      <pre><code># 加 label
+kubectl label node node01 color=blue --overwrite
+
+# 加／移除 taint
+kubectl taint node node01 spray=mosquito:NoSchedule
+kubectl taint node node01 spray=mosquito:NoSchedule-
+
+# 找有 control-plane label 的 Node
+kubectl get nodes -l node-role.kubernetes.io/control-plane
+
+# 看 Pod 排到哪裡
+kubectl get pods -o wide
+
+# 忘記 Node Affinity schema
+kubectl explain pod.spec.affinity.nodeAffinity --recursive
+
+# 安全驗證 manifest
+kubectl apply -f manifest.yaml --dry-run=server</code></pre>
+      <h3>完成檢查</h3>
+      <ul class="checklist">
+        <li><input type="checkbox">我能指出 taint 的 key、value、effect。</li>
+        <li><input type="checkbox">我知道最後的 <code>-</code> 是移除 taint。</li>
+        <li><input type="checkbox">我能解釋 Affinity 與 Toleration 的角色差異。</li>
+        <li><input type="checkbox">我記得 Required 走 <code>nodeSelectorTerms</code>，Preferred 走 <code>weight + preference</code>。</li>
+        <li><input type="checkbox">我會用 <code>kubectl explain</code> 找 operator。</li>
+        <li><input type="checkbox">我知道 <code>replace --force</code> 是 delete + create。</li>
+      </ul>
+      <div class="footer-actions"><a class="button" href="../">回到 CKA Weekend 100</a><a class="button button--ghost" href="../../">回 Kubernetes Track</a></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="site-footer__inner"><p>CKA Node Scheduling 實戰筆記 · 自編學習資源</p><p>命令與 API 欄位請以考場 Kubernetes 版本的 <code>kubectl explain</code> 為準。</p></div></footer>
+  <script>
+    document.querySelectorAll('pre').forEach((pre)=>{const b=document.createElement('button');b.className='copy';b.type='button';b.textContent='Copy';b.addEventListener('click',async()=>{await navigator.clipboard.writeText(pre.innerText.replace(/^Copy\n/,''));b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200)});pre.appendChild(b)});
+    document.querySelectorAll('.checklist input').forEach((box,i)=>{const k='cka-node-scheduling-'+i;box.checked=localStorage.getItem(k)==='1';box.addEventListener('change',()=>localStorage.setItem(k,box.checked?'1':'0'))});
+  </script>
+</body>
+</html>
+
