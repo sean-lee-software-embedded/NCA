@@ -1,6 +1,6 @@
 # CKA v1.35 — 100-page Weekend Sprint QA
 
-Review date: 2026-09-14
+Review date: 2026-09-17
 
 ## Automated checks
 
@@ -46,6 +46,13 @@ Review date: 2026-09-14
 - Reviewed the public KodeKloud CKA repository snapshot `506b5418` dated 2026-09-01: 17 course sections and 198 Markdown resources.
 - Added a chapter-to-page map, four-phase 48-hour route, priority labels, mock-exam gate, and explicit `kind` versus real-Linux practice boundaries.
 - Linked to the upstream repository rather than reproducing its notes verbatim; current official competencies remain the source of truth.
+
+## Review Round 7 — Pod lifecycle, controllers, Static Pods, and Admission
+- Added a Traditional Chinese printable module covering Pod update restrictions, owner-aware replacement, ReplicaSet versus DaemonSet, Static versus regular Pods, mirror Pods, and kubelet-local diagnosis.
+- Diagnosed the supplied `static-busybox.yaml`: removed API-managed metadata/status and ServiceAccount projected volume, and corrected `command: ["sleep"]` with `args: ["1000"]`.
+- Added the Admission request order, mutating versus validating behavior, built-in plugins versus webhooks/policies, inspection commands, and the connection between admission defaults and an exported regular Pod manifest.
+- Cross-linked the module from lessons 6, 26, 30, 31, and 40 while preserving the exact 100-page domain allocation.
+- Rechecked nuanced claims against current upstream Kubernetes documentation; version-sensitive behavior is explicitly routed to `kubectl explain`, server-side dry-run, and task-version docs.
 
 ## Readiness gate
 - 100/100 hands-on pages completed.
